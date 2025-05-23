@@ -24,3 +24,12 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+  input {
+    @apply w-full border-2 border-gray-200 p-2 rounded-md outline-none;
+  }
+  button {
+    @apply w-full text-center p-2 rounded-md border-2 border-gray-200 cursor-pointer;
+  }
+}
