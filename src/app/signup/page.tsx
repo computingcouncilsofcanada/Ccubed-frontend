@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "@/services/useApiAuth";
 import { useRouter } from "next/navigation";
+import { useCsrf } from "@/context/CsrfContext";
 
 type FormFields = {
   username: string;
@@ -16,28 +17,31 @@ type FormFields = {
 const Signup = () => {
   const router = useRouter();
   const form = useForm<FormFields>();
+  const { setCsrfToken } = useCsrf();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = form;
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       const res = await login(data.email, data.password);
-
-      // if (res.data.data.user.is_verified) {
-      //   router.push("/login");
-      // }
-      console.log("Signup success:", res.data);
-      // localStorage.setItem("csrf_token", res.data.data.csrfToken);
-      alert("Signup successful! Check your email to verify.");
-      // if (res.data.data.user.is_verified) {
-      //   router.push("/login");
-      // }
+      setIsLoading(true);
+      if (res.status === 201) {
+        console.log("Signup success:", res.data);
+        alert("Signup successful! Check your email to verify.");
+        if (res.data.csrfToken) {
+          setCsrfToken(res.data.csrfToken);
+        }
+        router.push("/login");
+        setIsLoading(false);
+      }
     } catch (err: any) {
       console.error("Signup failed:", err.response?.data || err.message);
       alert(err.response?.data?.detail || "Signup failed");
+      setIsLoading(false);
     }
   };
   return (
@@ -155,8 +159,8 @@ const Signup = () => {
             <div className="text-red-600">{errors.confirmPassword.message}</div>
           )}
         </label>
-        <button disabled={isSubmitting} type="submit">
-          {isSubmitting ? "Submitting..." : "Submit"}
+        <button disabled={isSubmitting || isLoading} type="submit">
+          {isSubmitting || isLoading ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>
@@ -164,10 +168,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-function getCookie(name: string): string | undefined {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift();
-  return undefined;
-}
