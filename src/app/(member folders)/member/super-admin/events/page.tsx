@@ -1,0 +1,579 @@
+/**
+ * Events Management Page
+ *
+ * This page provides a comprehensive interface for managing events in the system.
+ * It includes functionality for creating, updating, and deleting events, with
+ * features for image uploads and pagination.
+ *
+ * Key Features:
+ * - Event listing with pagination
+ * - Create new events with image upload
+ * - Update existing events
+ * - Delete events
+ * - Role-based access control
+ * - Form validation
+ * - Modal-based interactions
+ */
+
+"use client";
+
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import {
+  getAllEvents,
+  createEvent,
+  updateEvent,
+  deleteEvent,
+} from "@/services/useApiAuth";
+import Modal from "@/components/Modal";
+import { useForm } from "react-hook-form";
+
+/**
+ * Event Type Definition
+ * Represents the structure of an event in the system
+ */
+type Event = {
+  id: string;
+  name: string;
+  description: string;
+  start_at: string;
+  end_at: string;
+  location: string;
+  images: string | null;
+  created_at: string;
+  created_by: string;
+  updated_at: string | null;
+  updated_by: string | null;
+  pending_action: string;
+};
+
+/**
+ * Event Form Type Definition
+ * Represents the structure of the event creation/update form
+ */
+type EventForm = {
+  name: string;
+  description: string;
+  start_at: string;
+  end_at: string;
+  location: string;
+  images?: FileList;
+};
+
+/**
+ * EventsPage Component
+ * Main component for managing events
+ */
+function EventsPage() {
+  // State management for user context and authentication
+  const { user, isLoading } = useUser();
+  const [events, setEvents] = useState<Event[]>([]);
+  const [error, setError] = useState<string>("");
+
+  // Modal state management
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const router = useRouter();
+
+  // Form handling for create and update operations
+  const {
+    register: registerCreate,
+    handleSubmit: handleCreateSubmit,
+    reset: resetCreate,
+    formState: { errors: createErrors },
+  } = useForm<EventForm>();
+
+  const {
+    register: registerUpdate,
+    handleSubmit: handleUpdateSubmit,
+    reset: resetUpdate,
+    formState: { errors: updateErrors },
+  } = useForm<EventForm>();
+
+  /**
+   * Fetches events with pagination
+   * Retrieves events from the API based on current page and limit
+   */
+  const fetchEvents = async () => {
+    try {
+      const offset = (page - 1) * limit;
+      const res = await getAllEvents(limit, offset);
+      setEvents(res.data);
+    } catch (error: any) {
+      setError(error.message);
+      console.log(error);
+    }
+  };
+
+  // Fetch events when page changes
+  useEffect(() => {
+    fetchEvents();
+  }, [page]);
+
+  /**
+   * Handles event creation
+   * Processes form data and creates a new event
+   */
+  const handleCreateEvent = async (data: EventForm) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("start_at", data.start_at);
+      formData.append("end_at", data.end_at);
+      formData.append("location", data.location);
+      if (data.images?.[0]) {
+        formData.append("file", data.images[0]);
+      }
+
+      const res = await createEvent(formData);
+      setIsCreateModalOpen(false);
+      resetCreate();
+      if (res.status === 201) {
+        alert(res.message);
+        await fetchEvents();
+      }
+    } catch (error: any) {
+      console.error("Error creating event:", error);
+      alert(error?.response?.data?.message);
+    }
+  };
+
+  /**
+   * Handles event updates
+   * Updates an existing event with new information
+   */
+  const handleUpdateEvent = async (data: EventForm) => {
+    if (!selectedEvent) return;
+
+    try {
+      const res = await updateEvent(selectedEvent.id, {
+        name: data.name,
+        description: data.description,
+        start_at: data.start_at,
+        end_at: data.end_at,
+        location: data.location,
+      });
+      setIsUpdateModalOpen(false);
+      resetUpdate();
+      if (res.status === 200) {
+        alert(res.message);
+        await fetchEvents();
+      }
+    } catch (error: any) {
+      console.error("Error updating event:", error);
+      alert(error?.response?.data?.message);
+    }
+  };
+
+  /**
+   * Handles event deletion
+   * Removes an event from the system
+   */
+  const handleDeleteEvent = async () => {
+    if (!selectedEvent) return;
+
+    try {
+      const res = await deleteEvent(selectedEvent.id);
+      if (res.status === 200) {
+        alert(res.message);
+        await fetchEvents();
+      }
+    } catch (error: any) {
+      console.error("Error deleting event:", error);
+      alert(error?.response?.data?.message);
+    }
+  };
+
+  /**
+   * Modal Management
+   * Handles opening different types of modals (create, update, delete)
+   */
+  const openModal = (
+    event: Event | null,
+    type: "create" | "update" | "delete"
+  ) => {
+    setSelectedEvent(event);
+    switch (type) {
+      case "create":
+        setIsCreateModalOpen(true);
+        break;
+      case "update":
+        setIsUpdateModalOpen(true);
+        break;
+      case "delete":
+        setIsDeleteModalOpen(true);
+        break;
+    }
+  };
+
+  return (
+    <div className="flex mt-10 gap-3 flex-col">
+      {/* Page Title */}
+      <h1 className="text-3xl text-center w-full">Events</h1>
+
+      {/* Create Event Button */}
+      <div className="flex justify-end px-5">
+        <button
+          onClick={() => openModal(null, "create")}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Create New Event
+        </button>
+      </div>
+
+      {/* Events Grid Display */}
+      <div className="grid grid-cols-3 gap-5 p-5">
+        {events.map((event) => (
+          <div key={event.id} className="border-2 border-blue-200 p-4">
+            {/* Event Details */}
+            <h1 className="font-bold">Event Name: {event.name}</h1>
+            <h1>Description: {event.description}</h1>
+            <h1>
+              Start: {new Date(parseInt(event.start_at)).toLocaleString()}
+            </h1>
+            <h1>End: {new Date(parseInt(event.end_at)).toLocaleString()}</h1>
+            <h1>Location: {event.location}</h1>
+            <h1>Pending action: {event.pending_action}</h1>
+            <h1>
+              Created At:{" "}
+              {new Date(parseInt(event.created_at)).toLocaleDateString()}
+            </h1>
+            <h1>Created By: {event.created_by}</h1>
+            {event.updated_at && (
+              <h1>
+                Last Updated:{" "}
+                {new Date(parseInt(event.updated_at)).toLocaleDateString()}
+              </h1>
+            )}
+            {/* Event Image Display */}
+            {event.images && (
+              <div className="mt-2">
+                <img
+                  src={event.images}
+                  alt={`${event.name} image`}
+                  className="w-20 h-20 object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            )}
+            {/* Event Action Buttons */}
+            <div className="flex flex-col gap-2 mt-2">
+              <button
+                className="border-2 border-blue-600 px-2 py-1 w-30"
+                onClick={() => openModal(event, "update")}
+              >
+                Update Event
+              </button>
+              <button
+                className="border-2 border-red-600 px-2 py-1 w-30"
+                onClick={() => openModal(event, "delete")}
+              >
+                Delete Event
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center gap-2 mt-4">
+        <button
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+          className="border-2 border-gray-300 px-4 py-1 rounded disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span className="px-4 py-1">Page {page}</span>
+        <button
+          onClick={() => setPage((p) => p + 1)}
+          disabled={events.length < limit}
+          className="border-2 border-gray-300 px-4 py-1 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
+
+      {/* Create Event Modal */}
+      <Modal
+        isOpen={isCreateModalOpen}
+        onClose={() => {
+          setIsCreateModalOpen(false);
+          resetCreate();
+        }}
+        title="Create New Event"
+      >
+        <form onSubmit={handleCreateSubmit(handleCreateEvent)}>
+          <div className="flex flex-col gap-4">
+            {/* Event Name Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Event Name
+              </label>
+              <input
+                type="text"
+                {...registerCreate("name", { required: "Name is required" })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {createErrors.name && (
+                <p className="text-red-500 text-sm">
+                  {createErrors.name.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event Description Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Description
+              </label>
+              <textarea
+                {...registerCreate("description", {
+                  required: "Description is required",
+                })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {createErrors.description && (
+                <p className="text-red-500 text-sm">
+                  {createErrors.description.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event Start Time Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Start Time
+              </label>
+              <input
+                type="datetime-local"
+                {...registerCreate("start_at", {
+                  required: "Start time is required",
+                })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {createErrors.start_at && (
+                <p className="text-red-500 text-sm">
+                  {createErrors.start_at.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event End Time Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                End Time
+              </label>
+              <input
+                type="datetime-local"
+                {...registerCreate("end_at", {
+                  required: "End time is required",
+                })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {createErrors.end_at && (
+                <p className="text-red-500 text-sm">
+                  {createErrors.end_at.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event Location Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Location
+              </label>
+              <input
+                type="text"
+                {...registerCreate("location", {
+                  required: "Location is required",
+                })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {createErrors.location && (
+                <p className="text-red-500 text-sm">
+                  {createErrors.location.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event Image Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Event Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                {...registerCreate("images")}
+                className="mt-1 block w-full"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Create Event
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Update Event Modal */}
+      <Modal
+        isOpen={isUpdateModalOpen}
+        onClose={() => {
+          setIsUpdateModalOpen(false);
+          resetUpdate();
+        }}
+        title="Update Event"
+      >
+        <form onSubmit={handleUpdateSubmit(handleUpdateEvent)}>
+          <div className="flex flex-col gap-4">
+            {/* Event Name Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Event Name
+              </label>
+              <input
+                type="text"
+                defaultValue={selectedEvent?.name}
+                {...registerUpdate("name", { required: "Name is required" })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {updateErrors.name && (
+                <p className="text-red-500 text-sm">
+                  {updateErrors.name.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event Description Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Description
+              </label>
+              <textarea
+                defaultValue={selectedEvent?.description}
+                {...registerUpdate("description", {
+                  required: "Description is required",
+                })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {updateErrors.description && (
+                <p className="text-red-500 text-sm">
+                  {updateErrors.description.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event Start Time Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Start Time
+              </label>
+              <input
+                type="datetime-local"
+                defaultValue={selectedEvent?.start_at}
+                {...registerUpdate("start_at", {
+                  required: "Start time is required",
+                })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {updateErrors.start_at && (
+                <p className="text-red-500 text-sm">
+                  {updateErrors.start_at.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event End Time Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                End Time
+              </label>
+              <input
+                type="datetime-local"
+                defaultValue={selectedEvent?.end_at}
+                {...registerUpdate("end_at", {
+                  required: "End time is required",
+                })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {updateErrors.end_at && (
+                <p className="text-red-500 text-sm">
+                  {updateErrors.end_at.message}
+                </p>
+              )}
+            </div>
+
+            {/* Event Location Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Location
+              </label>
+              <input
+                type="text"
+                defaultValue={selectedEvent?.location}
+                {...registerUpdate("location", {
+                  required: "Location is required",
+                })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              {updateErrors.location && (
+                <p className="text-red-500 text-sm">
+                  {updateErrors.location.message}
+                </p>
+              )}
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Update Event
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Delete Event Confirmation Modal */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title="Delete Event"
+      >
+        <div className="flex flex-col gap-4">
+          <p>Are you sure you want to delete this event?</p>
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="border-2 border-gray-300 px-4 py-2 rounded hover:bg-gray-100"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDeleteEvent}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+}
+
+export default EventsPage;
