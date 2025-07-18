@@ -37,16 +37,17 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUserState] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isInitialLogin, setIsInitialLogin] = useState(true);
   const [shouldVerifySession, setShouldVerifySession] = useState(false);
   const router = useRouter();
-  // Handle hydration
+
+
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
-      setUserState(JSON.parse(savedUser));
+      setUser(JSON.parse(savedUser));
       setIsInitialLogin(false);
       // Only verify session for saved users after a delay
       setTimeout(() => {
@@ -55,7 +56,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Update sessionStorage when user changes
+  // Update localStorage when user changes
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
@@ -65,7 +66,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   const handleInitialLogin = (newUser: User) => {
-    setUserState(newUser);
+    setUser(newUser);
     setIsInitialLogin(false);
     // Don't verify session immediately after login
     setShouldVerifySession(false);
@@ -100,7 +101,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       }
 
       // No token in response, clear user
-      setUserState(null);
+      setUser(null);
     } catch (error: any) {
       console.error("Session verification failed:", error);
       // Only clear user on specific error types
@@ -109,11 +110,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
         error.response?.status === 403 ||
         error.response?.status === 400
       ) {
-        alert("Sesstion expired please login again");
-        setUserState(null);
+        alert("Session expired please login again");
+        setUser(null);
+        localStorage.removeItem("user");
+        setIsInitialLogin(true);
+        setShouldVerifySession(false);
       }
     } finally {
       setIsLoading(false);
+   
     }
   };
 
@@ -124,7 +129,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       console.error("Logout failed:", error);
     } finally {
       // Clear user state and session storage regardless of API response
-      setUserState(null);
+      setUser(null);
       localStorage.removeItem("user");
       setIsInitialLogin(true);
       setShouldVerifySession(false);
@@ -145,7 +150,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     <UserContext.Provider
       value={{
         user,
-        setUser: setUserState,
+        setUser: setUser,
         verifySession,
         logout,
         isLoading,

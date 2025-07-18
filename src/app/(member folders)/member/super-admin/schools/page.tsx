@@ -1,20 +1,3 @@
-/**
- * Schools Management Page
- *
- * This page provides a comprehensive interface for managing schools in the system.
- * It includes functionality for creating, updating, and deleting schools with their details.
- * Access is restricted to super admin users only.
- *
- * Key Features:
- * - School listing
- * - Create new schools with logo upload
- * - Update existing schools
- * - Delete schools
- * - Role-based access control
- * - Form validation
- * - Modal-based interactions
- */
-
 "use client";
 
 // This is the schools Page
@@ -28,13 +11,10 @@ import {
   updateSchool,
   deleteSchool,
 } from "@/services/useApiAuth";
-import Modal from "@/components/Modal";
+import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
 
-/**
- * School Type Definition
- * Represents the structure of a school in the system
- */
+
 type School = {
   id: string;
   code: string;
@@ -49,10 +29,7 @@ type School = {
   updated_by: string | null;
 };
 
-/**
- * School Form Type Definition
- * Represents the structure of the school creation/update form
- */
+
 type SchoolForm = {
   code: string;
   name: string;
@@ -62,12 +39,7 @@ type SchoolForm = {
   logo?: FileList;
 };
 
-/**
- * SchoolsPage Component
- * Main component for managing schools
- */
 function SchoolsPage() {
-  // State management for user context and authentication
   const { user, isLoading } = useUser();
   const [schools, setSchools] = useState<School[]>([]);
   const [error, setError] = useState<string>("");
@@ -94,10 +66,6 @@ function SchoolsPage() {
     formState: { errors: updateErrors },
   } = useForm<SchoolForm>();
 
-  /**
-   * Fetches all schools from the API
-   * Updates the schools state with the fetched data
-   */
   const fetchSchools = async () => {
     try {
       const res = await getAllSchools();
@@ -108,10 +76,6 @@ function SchoolsPage() {
     }
   };
 
-  /**
-   * Handles school creation
-   * Creates a new school with optional logo upload
-   */
   const handleCreateSchool = async (data: SchoolForm) => {
     try {
       const formData = new FormData();
@@ -137,10 +101,6 @@ function SchoolsPage() {
     }
   };
 
-  /**
-   * Handles school updates
-   * Updates an existing school with optional logo upload
-   */
   const handleUpdateSchool = async (data: SchoolForm) => {
     if (!selectedSchool) return;
     try {
@@ -167,10 +127,6 @@ function SchoolsPage() {
     }
   };
 
-  /**
-   * Handles school deletion
-   * Removes a school from the system
-   */
   const handleDeleteSchool = async () => {
     if (!selectedSchool) return;
     try {
@@ -186,10 +142,6 @@ function SchoolsPage() {
     }
   };
 
-  /**
-   * Modal Management
-   * Handles opening different types of modals (create, update, delete)
-   */
   const openModal = (
     school: School | null,
     modalType: "create" | "update" | "delete"
@@ -248,7 +200,6 @@ function SchoolsPage() {
       <div className="grid grid-cols-3 gap-5 p-5">
         {schools.map((school) => (
           <div key={school.id} className="border-2 border-blue-200 p-4">
-            {/* School Details */}
             <h1 className="font-bold">School Name: {school.name}</h1>
             <h1>School Code: {school.code}</h1>
             <h1>

@@ -1,15 +1,3 @@
-/**
- * Super Admin Profile Page Component
- *
- * This page displays and manages the profile information for super admin users.
- * Features:
- * - Display user information and account details
- * - Change password functionality
- * - Error handling and user feedback
- * - Responsive layout for profile information
- * - Strict role-based access control
- */
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
@@ -17,23 +5,6 @@ import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
-/**
- * UserData Type Definition
- *
- * @property {string | null} school_id - User's school identification number
- * @property {number | null} year_of_study - User's current year of study
- * @property {string | null} department - User's department
- * @property {string} email - User's email address
- * @property {string} username - User's username
- * @property {string} role - User's role in the system
- * @property {number} status - User's account status (1 for active, 0 for banned)
- * @property {string} created_at - Account creation timestamp
- * @property {string} updated_at - Last update timestamp
- * @property {boolean} is_verified - Email verification status
- * @property {string} verify_token - Email verification token
- * @property {number} number_of_login_failed - Count of failed login attempts
- * @property {string} id - Unique user identifier
- */
 type UserData = {
   school_id: string | null;
   year_of_study: number | null;
@@ -50,28 +21,11 @@ type UserData = {
   id: string;
 };
 
-/**
- * ChangePasswordForm Type Definition
- *
- * @property {string} oldPassword - Current password
- * @property {string} newPassword - New password to be set
- */
 type ChangePasswordForm = {
   oldPassword: string;
   newPassword: string;
 };
 
-/**
- * Super Admin Profile Page Component
- *
- * This component:
- * 1. Implements strict role-based access control for super admin users
- * 2. Displays user profile information
- * 3. Handles password change functionality
- * 4. Manages user data fetching and updates
- * 5. Provides error handling and user feedback
- * 6. Implements form validation for password changes
- */
 const page = () => {
   // User context and state management
   const { user, setUser, isLoading } = useUser();
@@ -79,13 +33,37 @@ const page = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [error, setError] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError: setFormError,
+    formState: { errors },
+  } = useForm<ChangePasswordForm>();
+
+  const fetchUserData = async () => {
+    try {
+      const response = await privateAxios.get("/users/me");
+      if (response.data.result) {
+        setUserData(response.data.data);
+        setUser(response.data.data);
+      }
+    } catch (error: any) {
+      console.error("Error fetching user data:", error);
+      setError(error.response?.data?.message || "Error fetching user data");
+    }
+  };
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
 
   // Role-based access control check
   useEffect(() => {
     if (!isLoading) {
       // Redirect to home if user is not authenticated
       if (!user) {
-        router.push("/");
+        router.push("/login");
       }
       // Redirect to member page if user is not a super admin
       else if (user.role !== "SUPER_ADMIN") {
@@ -99,20 +77,7 @@ const page = () => {
     return null;
   }
 
-  // Form handling with react-hook-form
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setError: setFormError,
-    formState: { errors },
-  } = useForm<ChangePasswordForm>();
 
-  /**
-   * Format timestamp to readable date string
-   * @param {string | null | undefined} timestamp - Timestamp to format
-   * @returns {string} Formatted date string or "Not available"
-   */
   const formatDate = (timestamp: string | null | undefined) => {
     if (!timestamp) return "Not available";
     const date = new Date(parseInt(timestamp));
@@ -125,27 +90,7 @@ const page = () => {
     });
   };
 
-  /**
-   * Fetch user data from the API
-   * Updates both local state and user context
-   */
-  const fetchUserData = async () => {
-    try {
-      const response = await privateAxios.get("/users/me");
-      if (response.data.result) {
-        setUserData(response.data.data);
-        setUser(response.data.data);
-      }
-    } catch (error: any) {
-      console.error("Error fetching user data:", error);
-      setError(error.response?.data?.message || "Error fetching user data");
-    }
-  };
-
-  /**
-   * Handle password change submission
-   * @param {ChangePasswordForm} data - Form data containing old and new passwords
-   */
+ 
   const handleChangePassword = async (data: ChangePasswordForm) => {
     try {
       const response = await privateAxios.patch(
@@ -176,10 +121,6 @@ const page = () => {
     }
   };
 
-  // Fetch user data on component mount
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6">

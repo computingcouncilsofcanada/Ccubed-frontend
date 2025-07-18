@@ -3,11 +3,10 @@ import axios from "axios";
 const API_BASE = process.env.NEXT_PUBLIC_BACKEND_BASE;
 const API_BASE_LOCAL = process.env.NEXT_PUBLIC_API_BASE;
 
-// Initialize CSRF token in memory
 let csrfToken: string = "";
 
-// Set CSRF Token
-export const setAxiosCsrfToken = (token: any) => {
+
+export const setAxiosCsrfToken = (token: any): void => {
   if (!token) {
     return;
   }
@@ -22,7 +21,6 @@ export const getAxiosCsrfToken = () => {
   return csrfToken;
 };
 
-//Public Axios Local Instance
 export const publicAxiosLocal = axios.create({
   baseURL: API_BASE_LOCAL,
   withCredentials: true,
@@ -50,10 +48,7 @@ privateAxios.interceptors.request.use(async (config) => {
       }
     }
 
-    // Ensure headers object exists
     config.headers = config.headers || {};
-
-    // Set the CSRF token in the header
     if (csrfToken) {
       config.headers["x-csrf-token"] = csrfToken;
     }

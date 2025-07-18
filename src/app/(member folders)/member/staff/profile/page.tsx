@@ -1,16 +1,3 @@
-/**
- * Staff Profile Page
- *
- * This page provides a comprehensive interface for staff members to view and manage their profile information.
- * It includes functionality for viewing profile details and changing passwords.
- *
- * Key Features:
- * - Display of user profile information
- * - Password change functionality
- * - Form validation
- * - Error handling
- * - Responsive layout
- */
 
 "use client";
 import React, { useEffect, useState } from "react";
@@ -18,10 +5,7 @@ import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
 
-/**
- * UserData Type Definition
- * Represents the structure of user data in the system
- */
+
 type UserData = {
   school_id: string | null;
   year_of_study: number | null;
@@ -38,27 +22,17 @@ type UserData = {
   id: string;
 };
 
-/**
- * ChangePasswordForm Type Definition
- * Represents the structure of the password change form
- */
 type ChangePasswordForm = {
   oldPassword: string;
   newPassword: string;
 };
 
-/**
- * Staff Profile Page Component
- * Main component for displaying and managing staff profile information
- */
 const page = () => {
-  // State management for user context and profile data
   const { user, setUser } = useUser();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [error, setError] = useState<string>("");
 
-  // Form handling for password change
   const {
     register,
     handleSubmit,
@@ -67,11 +41,7 @@ const page = () => {
     formState: { errors },
   } = useForm<ChangePasswordForm>();
 
-  /**
-   * Formats a timestamp into a readable date string
-   * @param timestamp - The timestamp to format
-   * @returns Formatted date string or "Not available" if timestamp is null/undefined
-   */
+
   const formatDate = (timestamp: string | null | undefined) => {
     if (!timestamp) return "Not available";
     const date = new Date(parseInt(timestamp));
@@ -84,10 +54,6 @@ const page = () => {
     });
   };
 
-  /**
-   * Fetches user profile data from the API
-   * Updates both local state and user context
-   */
   const fetchUserData = async () => {
     try {
       const response = await privateAxios.get("/users/me");
@@ -101,10 +67,10 @@ const page = () => {
     }
   };
 
-  /**
-   * Handles password change submission
-   * Validates old password and updates to new password
-   */
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+  
   const handleChangePassword = async (data: ChangePasswordForm) => {
     try {
       const response = await privateAxios.patch(
@@ -135,11 +101,6 @@ const page = () => {
     }
   };
 
-  // Fetch user data on component mount
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6">
       {/* Profile Information Card */}
@@ -157,14 +118,12 @@ const page = () => {
           </button>
         </div>
 
-        {/* Error Display */}
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             {error}
           </div>
         )}
 
-        {/* Profile Information Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left Column - Basic Information */}
           <div className="space-y-4">

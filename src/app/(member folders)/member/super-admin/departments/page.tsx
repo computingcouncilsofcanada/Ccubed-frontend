@@ -1,20 +1,3 @@
-/**
- * Departments Management Page
- *
- * This page provides a comprehensive interface for managing departments in the system.
- * It includes functionality for creating, updating, and deleting departments.
- * Access is restricted to super admin users only.
- *
- * Key Features:
- * - Department listing
- * - Create new departments
- * - Update existing departments
- * - Delete departments
- * - Role-based access control
- * - Form validation
- * - Modal-based interactions
- */
-
 "use client";
 
 import { useUser } from "@/context/UserContext";
@@ -26,13 +9,9 @@ import {
   updateDepartment,
   deleteDepartment,
 } from "@/services/useApiAuth";
-import Modal from "@/components/Modal";
+import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
 
-/**
- * Department Type Definition
- * Represents the structure of a department in the system
- */
 type Department = {
   id: string;
   name: string;
@@ -42,25 +21,15 @@ type Department = {
   updated_by: string | null;
 };
 
-/**
- * Department Form Type Definition
- * Represents the structure of the department creation/update form
- */
 type DepartmentForm = {
   name: string;
 };
 
-/**
- * DepartmentsPage Component
- * Main component for managing departments
- */
 function DepartmentsPage() {
-  // State management for user context and authentication
   const { user, isLoading } = useUser();
   const [departments, setDepartments] = useState<Department[]>([]);
   const [error, setError] = useState<string>("");
 
-  // Modal state management
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -68,7 +37,6 @@ function DepartmentsPage() {
     useState<Department | null>(null);
   const router = useRouter();
 
-  // Form handling for create and update operations
   const {
     register: registerCreate,
     handleSubmit: handleCreateSubmit,
@@ -83,10 +51,6 @@ function DepartmentsPage() {
     formState: { errors: updateErrors },
   } = useForm<DepartmentForm>();
 
-  /**
-   * Fetches all departments from the API
-   * Updates the departments state with the fetched data
-   */
   const fetchDepartments = async () => {
     try {
       const res = await getAllDepartments();
@@ -97,10 +61,6 @@ function DepartmentsPage() {
     }
   };
 
-  /**
-   * Handles department creation
-   * Creates a new department and refreshes the list
-   */
   const handleCreateDepartment = async (data: DepartmentForm) => {
     try {
       const res = await createDepartment(data.name);
@@ -116,10 +76,6 @@ function DepartmentsPage() {
     }
   };
 
-  /**
-   * Handles department updates
-   * Updates an existing department and refreshes the list
-   */
   const handleUpdateDepartment = async (data: DepartmentForm) => {
     if (!selectedDepartment) return;
     try {
@@ -136,10 +92,6 @@ function DepartmentsPage() {
     }
   };
 
-  /**
-   * Handles department deletion
-   * Deletes a department and refreshes the list
-   */
   const handleDeleteDepartment = async () => {
     if (!selectedDepartment) return;
     try {
@@ -155,10 +107,6 @@ function DepartmentsPage() {
     }
   };
 
-  /**
-   * Modal Management
-   * Handles opening different types of modals (create, update, delete)
-   */
   const openModal = (
     department: Department | null,
     modalType: "create" | "update" | "delete"
@@ -177,7 +125,6 @@ function DepartmentsPage() {
     }
   };
 
-  // Role-based access control
   useEffect(() => {
     if (!isLoading) {
       if (!user) {
@@ -188,7 +135,6 @@ function DepartmentsPage() {
     }
   }, [user, isLoading, router]);
 
-  // Fetch departments on component mount
   useEffect(() => {
     fetchDepartments();
   }, []);

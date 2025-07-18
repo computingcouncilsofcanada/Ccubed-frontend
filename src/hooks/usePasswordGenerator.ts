@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useCallback } from "react";
 
 interface PasswordOptions {
@@ -25,7 +27,6 @@ export const usePasswordGenerator = () => {
     const numberChars = "0123456789";
     const specialChars = "@$!%*?&";
 
-    // Ensure at least one character from each required type
     let generatedPassword = "";
     generatedPassword +=
       uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)];
@@ -36,7 +37,7 @@ export const usePasswordGenerator = () => {
     generatedPassword +=
       specialChars[Math.floor(Math.random() * specialChars.length)];
 
-    // Fill the rest of the password with random characters
+
     const allChars =
       uppercaseChars + lowercaseChars + numberChars + specialChars;
     for (let i = generatedPassword.length; i < length; i++) {
@@ -44,7 +45,6 @@ export const usePasswordGenerator = () => {
       generatedPassword += allChars[randomIndex];
     }
 
-    // Shuffle the password
     generatedPassword = generatedPassword
       .split("")
       .sort(() => Math.random() - 0.5)

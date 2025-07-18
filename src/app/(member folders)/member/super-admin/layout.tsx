@@ -1,6 +1,5 @@
 "use client";
-import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext"; 
 import Link from "next/link";
 
 export default function SuperAdminLayout({
@@ -12,7 +11,7 @@ export default function SuperAdminLayout({
 
   return (
     <div>
-      <div className="border-2 border-blue-200 flex justify-between p-3">
+      <div className="border-2 border-blue-200 flex justify-between p-3 bg-linear-to-r  from-[#0B161E] to-[#306184]">
         <h1>CCUBED Super Admin</h1>
         <div className="flex items-center gap-3">
           <span>Welcome, {user?.username}</span>
@@ -23,8 +22,8 @@ export default function SuperAdminLayout({
           >
             Logout
           </Link>
-          <Link href="/events" className="underline cursor-pointer">
-            Events
+          <Link href="/" className="underline cursor-pointer">
+            Home
           </Link>
           <Link
             href="/member/super-admin/register-user"
@@ -58,6 +57,12 @@ export default function SuperAdminLayout({
             className="underline cursor-pointer"
           >
             Departments
+          </Link>
+          <Link
+            href="/member/super-admin/roles"
+            className="underline cursor-pointer"
+          >
+            Manage Roles
           </Link>
           <Link
             href="/member/super-admin/events"
