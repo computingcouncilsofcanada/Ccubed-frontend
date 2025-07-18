@@ -1,17 +1,17 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { setAxiosCsrfToken } from "@/lib/axios";
 
 interface CsrfContextType {
-  csrfToken: string;
+  csrfTokenState: string;
   setCsrfToken: (token: string) => void;
 }
 
 const CsrfContext = createContext<CsrfContextType | undefined>(undefined);
 
 export function CsrfProvider({ children }: { children: ReactNode }) {
-  const [csrfToken, setCsrfTokenState] = useState<string>("");
+  const [csrfTokenState, setCsrfTokenState] = useState<string>("");
 
   const setCsrfToken = (token: string) => {
     setCsrfTokenState(token);
@@ -19,7 +19,7 @@ export function CsrfProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <CsrfContext.Provider value={{ csrfToken, setCsrfToken }}>
+    <CsrfContext.Provider value={{ csrfTokenState, setCsrfToken }}>
       {children}
     </CsrfContext.Provider>
   );
