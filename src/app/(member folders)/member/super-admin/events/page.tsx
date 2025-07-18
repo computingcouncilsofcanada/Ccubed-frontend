@@ -1,20 +1,3 @@
-/**
- * Events Management Page
- *
- * This page provides a comprehensive interface for managing events in the system.
- * It includes functionality for creating, updating, and deleting events, with
- * features for image uploads and pagination.
- *
- * Key Features:
- * - Event listing with pagination
- * - Create new events with image upload
- * - Update existing events
- * - Delete events
- * - Role-based access control
- * - Form validation
- * - Modal-based interactions
- */
-
 "use client";
 
 import { useUser } from "@/context/UserContext";
@@ -25,14 +8,14 @@ import {
   createEvent,
   updateEvent,
   deleteEvent,
+  approveCreateEvent,
+  rejectCreateEvent,
+  approveUpdateEvent,
+  rejectUpdateEvent,
 } from "@/services/useApiAuth";
-import Modal from "@/components/Modal";
+import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
 
-/**
- * Event Type Definition
- * Represents the structure of an event in the system
- */
 type Event = {
   id: string;
   name: string;
@@ -48,10 +31,6 @@ type Event = {
   pending_action: string;
 };
 
-/**
- * Event Form Type Definition
- * Represents the structure of the event creation/update form
- */
 type EventForm = {
   name: string;
   description: string;
@@ -61,28 +40,25 @@ type EventForm = {
   images?: FileList;
 };
 
-/**
- * EventsPage Component
- * Main component for managing events
- */
 function EventsPage() {
-  // State management for user context and authentication
   const { user, isLoading } = useUser();
   const [events, setEvents] = useState<Event[]>([]);
   const [error, setError] = useState<string>("");
 
-  // Modal state management
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
-  // Pagination state
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+  const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [rejectType, setRejectType] = useState<"create" | "update">("create");
+
   const [page, setPage] = useState(1);
   const limit = 10;
   const router = useRouter();
 
-  // Form handling for create and update operations
   const {
     register: registerCreate,
     handleSubmit: handleCreateSubmit,
@@ -97,10 +73,6 @@ function EventsPage() {
     formState: { errors: updateErrors },
   } = useForm<EventForm>();
 
-  /**
-   * Fetches events with pagination
-   * Retrieves events from the API based on current page and limit
-   */
   const fetchEvents = async () => {
     try {
       const offset = (page - 1) * limit;
@@ -112,15 +84,10 @@ function EventsPage() {
     }
   };
 
-  // Fetch events when page changes
   useEffect(() => {
     fetchEvents();
   }, [page]);
 
-  /**
-   * Handles event creation
-   * Processes form data and creates a new event
-   */
   const handleCreateEvent = async (data: EventForm) => {
     try {
       const formData = new FormData();
@@ -146,10 +113,6 @@ function EventsPage() {
     }
   };
 
-  /**
-   * Handles event updates
-   * Updates an existing event with new information
-   */
   const handleUpdateEvent = async (data: EventForm) => {
     if (!selectedEvent) return;
 
@@ -173,10 +136,6 @@ function EventsPage() {
     }
   };
 
-  /**
-   * Handles event deletion
-   * Removes an event from the system
-   */
   const handleDeleteEvent = async () => {
     if (!selectedEvent) return;
 
@@ -184,6 +143,7 @@ function EventsPage() {
       const res = await deleteEvent(selectedEvent.id);
       if (res.status === 200) {
         alert(res.message);
+        setIsDeleteModalOpen(false);
         await fetchEvents();
       }
     } catch (error: any) {
@@ -192,13 +152,75 @@ function EventsPage() {
     }
   };
 
-  /**
-   * Modal Management
-   * Handles opening different types of modals (create, update, delete)
-   */
+  // Approve/Reject handlers
+  const handleApproveCreateEvent = async () => {
+    if (!selectedEvent) return;
+    try {
+      const res = await approveCreateEvent(selectedEvent.id);
+      if (res.status === 200) {
+        alert(res.message);
+        setIsApproveModalOpen(false);
+        await fetchEvents();
+      }
+    } catch (error: any) {
+      console.error("Error approving event creation:", error);
+      alert(error?.response?.data?.message);
+    }
+  };
+  const handleRejectCreateEvent = async () => {
+    if (!selectedEvent || !rejectReason.trim()) return;
+    try {
+      const res = await rejectCreateEvent(selectedEvent.id, rejectReason);
+      if (res.status === 200) {
+        alert(res.message);
+        setIsRejectModalOpen(false);
+        setRejectReason("");
+        await fetchEvents();
+      }
+    } catch (error: any) {
+      console.error("Error rejecting event creation:", error);
+      alert(error?.response?.data?.message);
+    }
+  };
+  const handleApproveUpdateEvent = async () => {
+    if (!selectedEvent) return;
+    try {
+      const res = await approveUpdateEvent(selectedEvent.id);
+      if (res.status === 200) {
+        alert(res.message);
+        await fetchEvents();
+      }
+    } catch (error: any) {
+      console.error("Error approving event update:", error);
+      alert(error?.response?.data?.message);
+    }
+  };
+  const handleRejectUpdateEvent = async () => {
+    if (!selectedEvent || !rejectReason.trim()) return;
+    try {
+      const res = await rejectUpdateEvent(selectedEvent.id, rejectReason);
+      if (res.status === 200) {
+        alert(res.message);
+        setIsRejectModalOpen(false);
+        setRejectReason("");
+        await fetchEvents();
+      }
+    } catch (error: any) {
+      console.error("Error rejecting event update:", error);
+      alert(error?.response?.data?.message);
+    }
+  };
+
   const openModal = (
     event: Event | null,
-    type: "create" | "update" | "delete"
+    type:
+      | "create"
+      | "update"
+      | "delete"
+      | "approve-create"
+      | "reject-create"
+      | "approve-update"
+      | "reject-update"
   ) => {
     setSelectedEvent(event);
     switch (type) {
@@ -210,6 +232,20 @@ function EventsPage() {
         break;
       case "delete":
         setIsDeleteModalOpen(true);
+        break;
+      case "approve-create":
+        setIsApproveModalOpen(true);
+        break;
+      case "reject-create":
+        setRejectType("create");
+        setIsRejectModalOpen(true);
+        break;
+      case "approve-update":
+        handleApproveUpdateEvent();
+        break;
+      case "reject-update":
+        setRejectType("update");
+        setIsRejectModalOpen(true);
         break;
     }
   };
@@ -267,17 +303,50 @@ function EventsPage() {
             {/* Event Action Buttons */}
             <div className="flex flex-col gap-2 mt-2">
               <button
-                className="border-2 border-blue-600 px-2 py-1 w-30"
+                className="border-2 border-blue-400 px-2 py-1 w-auto text-blue-300 hover:bg-blue-900 hover:text-blue-100 rounded"
                 onClick={() => openModal(event, "update")}
               >
                 Update Event
               </button>
               <button
-                className="border-2 border-red-600 px-2 py-1 w-30"
+                className="border-2 border-red-400 px-2 py-1 w-auto text-red-300 hover:bg-red-900 hover:text-red-100 rounded"
                 onClick={() => openModal(event, "delete")}
               >
                 Delete Event
               </button>
+              {/* Approval/Rejection buttons based on pending_action */}
+              {event.pending_action === "create" && (
+                <>
+                  <button
+                    className="border-2 border-green-400 px-2 py-1 w-auto bg-green-900 text-green-300 hover:bg-green-800 hover:text-green-100 rounded"
+                    onClick={() => openModal(event, "approve-create")}
+                  >
+                    Approve Creation
+                  </button>
+                  <button
+                    className="border-2 border-orange-400 px-2 py-1 w-auto bg-orange-900 text-orange-300 hover:bg-orange-800 hover:text-orange-100 rounded"
+                    onClick={() => openModal(event, "reject-create")}
+                  >
+                    Reject Creation
+                  </button>
+                </>
+              )}
+              {event.pending_action === "update" && (
+                <>
+                  <button
+                    className="border-2 border-green-400 px-2 py-1 w-auto bg-green-900 text-green-300 hover:bg-green-800 hover:text-green-100 rounded"
+                    onClick={() => openModal(event, "approve-update")}
+                  >
+                    Approve Update
+                  </button>
+                  <button
+                    className="border-2 border-orange-400 px-2 py-1 w-auto bg-orange-900 text-orange-300 hover:bg-orange-800 hover:text-orange-100 rounded"
+                    onClick={() => openModal(event, "reject-update")}
+                  >
+                    Reject Update
+                  </button>
+                </>
+              )}
             </div>
           </div>
         ))}
@@ -568,6 +637,83 @@ function EventsPage() {
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
             >
               Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Reject Event Modal */}
+      <Modal
+        isOpen={isRejectModalOpen}
+        onClose={() => {
+          setIsRejectModalOpen(false);
+          setRejectReason("");
+        }}
+        title={`Reject Event ${
+          rejectType === "create" ? "Creation" : "Update"
+        }`}
+      >
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Rejection Reason *
+            </label>
+            <textarea
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              placeholder="Please provide a reason for rejection..."
+              className="w-full rounded-md border-gray-300 bg-gray-100 shadow-sm focus:border-red-500 focus:ring-red-500 text-black px-2"
+              rows={4}
+              required
+            />
+          </div>
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => {
+                setIsRejectModalOpen(false);
+                setRejectReason("");
+              }}
+              className="border-2 border-gray-300 px-4 py-2 rounded hover:bg-gray-100"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={
+                rejectType === "create"
+                  ? handleRejectCreateEvent
+                  : handleRejectUpdateEvent
+              }
+              disabled={!rejectReason.trim()}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Reject
+            </button>
+          </div>
+        </div>
+      </Modal>
+      {/* Approve Creation Modal */}
+      <Modal
+        isOpen={isApproveModalOpen}
+        onClose={() => setIsApproveModalOpen(false)}
+        title="Approve Event Creation"
+      >
+        <div className="flex flex-col gap-4">
+          <p>Are you sure you want to approve this event creation?</p>
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => setIsApproveModalOpen(false)}
+              className="border-2 border-gray-300 px-4 py-2 rounded hover:bg-gray-100"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={async () => {
+                setIsApproveModalOpen(false);
+                await handleApproveCreateEvent();
+              }}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            >
+              Approve
             </button>
           </div>
         </div>

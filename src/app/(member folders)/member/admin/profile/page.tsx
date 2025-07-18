@@ -1,37 +1,9 @@
-/**
- * Admin Profile Page Component
- *
- * This page displays and manages the profile information for admin users.
- * Features:
- * - Display user information and account details
- * - Change password functionality
- * - Error handling and user feedback
- * - Responsive layout for profile information
- */
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
 
-/**
- * UserData Type Definition
- *
- * @property {string | null} school_id - User's school identification number
- * @property {number | null} year_of_study - User's current year of study
- * @property {string | null} department - User's department
- * @property {string} email - User's email address
- * @property {string} username - User's username
- * @property {string} role - User's role in the system
- * @property {number} status - User's account status (1 for active, 0 for banned)
- * @property {string} created_at - Account creation timestamp
- * @property {string} updated_at - Last update timestamp
- * @property {boolean} is_verified - Email verification status
- * @property {string} verify_token - Email verification token
- * @property {number} number_of_login_failed - Count of failed login attempts
- * @property {string} id - Unique user identifier
- */
 type UserData = {
   school_id: string | null;
   year_of_study: number | null;
@@ -48,35 +20,17 @@ type UserData = {
   id: string;
 };
 
-/**
- * ChangePasswordForm Type Definition
- *
- * @property {string} oldPassword - Current password
- * @property {string} newPassword - New password to be set
- */
 type ChangePasswordForm = {
   oldPassword: string;
   newPassword: string;
 };
 
-/**
- * Profile Page Component
- *
- * This component:
- * 1. Displays user profile information
- * 2. Handles password change functionality
- * 3. Manages user data fetching and updates
- * 4. Provides error handling and user feedback
- * 5. Implements form validation for password changes
- */
 const page = () => {
-  // User context and state management
   const { user, setUser } = useUser();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [error, setError] = useState<string>("");
 
-  // Form handling with react-hook-form
   const {
     register,
     handleSubmit,
@@ -85,11 +39,6 @@ const page = () => {
     formState: { errors },
   } = useForm<ChangePasswordForm>();
 
-  /**
-   * Format timestamp to readable date string
-   * @param {string | null | undefined} timestamp - Timestamp to format
-   * @returns {string} Formatted date string or "Not available"
-   */
   const formatDate = (timestamp: string | null | undefined) => {
     if (!timestamp) return "Not available";
     const date = new Date(parseInt(timestamp));
@@ -102,10 +51,6 @@ const page = () => {
     });
   };
 
-  /**
-   * Fetch user data from the API
-   * Updates both local state and user context
-   */
   const fetchUserData = async () => {
     try {
       const response = await privateAxios.get("/users/me");
@@ -118,11 +63,10 @@ const page = () => {
       setError(error.response?.data?.message || "Error fetching user data");
     }
   };
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
-  /**
-   * Handle password change submission
-   * @param {ChangePasswordForm} data - Form data containing old and new passwords
-   */
   const handleChangePassword = async (data: ChangePasswordForm) => {
     try {
       const response = await privateAxios.patch(
@@ -153,10 +97,6 @@ const page = () => {
     }
   };
 
-  // Fetch user data on component mount
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6">

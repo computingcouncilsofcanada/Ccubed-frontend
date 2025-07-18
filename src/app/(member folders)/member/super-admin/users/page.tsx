@@ -13,7 +13,7 @@ import {
   changeRole,
   changePassword,
 } from "@/services/useApiAuth";
-import Modal from "@/components/Modal";
+import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
 import { usePasswordGenerator } from "@/hooks/usePasswordGenerator";
 
@@ -184,7 +184,7 @@ function UsersPage() {
   return (
     <div className="flex mt-10 gap-3 flex-col">
       <h1 className="text-3xl text-center w-full">Users Page</h1>
-      <div className="grid grid-cols-3 gap-5 p-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5">
         {allUsers.map((user) => (
           <div key={user.id} className="border-2 border-blue-200 p-4">
             <h1>UserName: {user.username}</h1>

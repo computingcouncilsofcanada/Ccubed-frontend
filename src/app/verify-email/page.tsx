@@ -1,46 +1,23 @@
-/**
- * Email Verification Page Component
- *
- * This page handles the email verification process for new user registrations.
- * It processes verification tokens from URL parameters and displays appropriate
- * status messages to the user based on the verification result.
- */
-
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { verifyUserRoute } from "@/services/useApiAuth";
 
-/**
- * VerifyEmailPage Component
- *
- * This component:
- * 1. Extracts email and token from URL parameters
- * 2. Manages verification states (loading, success, error)
- * 3. Handles the verification process through API call
- * 4. Provides user feedback during the verification process
- * 5. Automatically redirects to login page after successful verification
- */
 const VerifyEmailPage = () => {
-  // Get URL search parameters and router for navigation
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // State for tracking verification process
   const [verificationStatus, setVerificationStatus] = useState<
     "loading" | "success" | "error"
   >("loading");
   const [message, setMessage] = useState("");
 
-  // Effect hook to handle email verification on component mount
   useEffect(() => {
     const verifyEmail = async () => {
-      // Extract email and token from URL parameters
       const email = searchParams?.get("email");
       const token = searchParams?.get("token");
 
-      // Validate required parameters
       if (!email || !token) {
         setVerificationStatus("error");
         setMessage("Invalid verification link");
@@ -48,17 +25,13 @@ const VerifyEmailPage = () => {
       }
 
       try {
-        // Attempt to verify the email through API
         const response = await verifyUserRoute(email, token);
         setVerificationStatus("success");
         setMessage(response.message || "Email verified successfully!");
-
-        // Redirect to login page after successful verification
         setTimeout(() => {
           router.push("/login");
         }, 3000);
       } catch (error: any) {
-        // Handle verification errors
         setVerificationStatus("error");
         setMessage(
           error.response?.data?.message ||

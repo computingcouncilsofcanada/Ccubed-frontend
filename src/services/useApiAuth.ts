@@ -149,3 +149,48 @@ export const deleteEvent = async (id: string) => {
   const res = await privateAxios.delete(`/events/${id}`);
   return res.data;
 };
+
+// Approval and rejection functions for events
+export const approveCreateEvent = async (id: string) => {
+  const res = await privateAxios.patch(`/events/approve-create/${id}`);
+  return res.data;
+};
+
+export const rejectCreateEvent = async (id: string, reject_reason: string) => {
+  const res = await privateAxios.patch(`/events/reject-create/${id}`, {
+    reject_reason,
+  });
+  return res.data;
+};
+
+export const approveUpdateEvent = async (id: string) => {
+  const res = await privateAxios.patch(`/events/approve-update/${id}`);
+  return res.data;
+};
+
+export const rejectUpdateEvent = async (id: string, reject_reason: string) => {
+  const res = await privateAxios.patch(`/events/reject-update/${id}`, {
+    reject_reason,
+  });
+  return res.data;
+};
+
+export const getAllPermissions = async () => {
+  const res = await privateAxios.get("/permission");
+  return res.data;
+};
+
+export const getAllRolePermissions = async () => {
+  const res = await privateAxios.get("/role-permission");
+  return res.data;
+};
+
+export const getPermissionsByRoleId = async (role_id: string) => {
+  const res = await privateAxios.get(`/role-permission/by-role/${role_id}`);
+  return res.data;
+};
+
+export const getAllRoles = async () => {
+  const res = await privateAxios.get("/role");
+  return res.data;
+};
