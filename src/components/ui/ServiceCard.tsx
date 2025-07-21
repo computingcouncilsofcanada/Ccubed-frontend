@@ -8,7 +8,6 @@ type ServiceCardProps = {
   id: number;
   title: string;
   description: string;
-  imageSrc: string;
   serviceType?: 'map' | 'resume'; // Add map and resume service types
 };
 
@@ -16,7 +15,6 @@ export default function ServiceCard({
   id,
   title,
   description,
-  imageSrc,
   serviceType,
 }: ServiceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -36,8 +34,10 @@ export default function ServiceCard({
       onClick={handleClick}
     >
       <motion.div
-        className="w-[373px] px-4 py-6 bg-[#D4D4D4]/10 rounded-xl relative overflow-hidden opacity-[0.99]"
+        className="w-[373px] px-4 py-6 rounded-xl relative overflow-hidden border border-white/10 backdrop-blur-sm"
         style={{
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
           filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))'
         }}
         animate={{
@@ -69,7 +69,7 @@ export default function ServiceCard({
           />
         )}
         {/* Icon Container Area - Always Visible */}
-        <div className="relative w-[341px] h-[141px] flex justify-center items-center bg-[#D4D4D4]/10 rounded-xl opacity-[0.99]">
+        <div className="relative w-[341px] h-[141px] flex justify-center items-center rounded-xl backdrop-blur-sm border border-white/10">
           {/* Gradient border overlay */}
           <div 
             className="absolute inset-0 rounded-xl pointer-events-none"

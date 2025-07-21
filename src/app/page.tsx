@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import EventCard from "@/components/ui/EventCard";
 import ServiceCard from "@/components/ui/ServiceCard";
-import { privateAxios } from "@/lib/axios";
+// import { privateAxios } from "@/lib/axios";
 import { mockEvents } from "@/data/mockEvents";
 
 type FileObject = {
@@ -61,7 +61,7 @@ const cards: Card[] = [
 export default function Home() {
   const [eventType, setEventType] = useState<string>("all");
   const [events, setEvents] = useState<Events[]>([]);
-  const [error, setError] = useState<string>("");
+  // const [error, setError] = useState<string>("");
 
   useEffect(() => {
     // Using mock data instead of API call for testing
@@ -172,7 +172,7 @@ export default function Home() {
             className="three-boxes grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"
             style={{ minHeight: "320px" }}
           >
-            {cards.map(({ id, imgSrc, description, title }) => (
+            {cards.map(({ id, description, title }) => (
               <div
                 key={id}
                 className="flex justify-center items-start h-[320px]"
@@ -181,7 +181,6 @@ export default function Home() {
                   id={id}
                   title={title}
                   description={description}
-                  imageSrc={imgSrc}
                   serviceType={
                     id === 2 ? "map" : id === 3 ? "resume" : undefined
                   }
@@ -206,8 +205,8 @@ export default function Home() {
           </div>
           <p className="text-white font-thin w-full text-center px-50">
             Join us for a variety of indoor and outdoor events that bring
-            computing students together beyond the screen. Whether it's a casual
-            meetup or a collaborative workshop, there's always a way to connect
+            computing students together beyond the screen. Whether it&apos;s a casual
+            meetup or a collaborative workshop, there&apos;s always a way to connect
             and grow.
           </p>
           <div
@@ -263,7 +262,7 @@ export default function Home() {
               </label>
             ))}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-8 justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-2 justify-items-center">
             {events.filter((event: Events) => event.status !== 0).length ===
               0 && (
               <p className="text-2xl font-bold text-center col-span-full">
@@ -309,6 +308,69 @@ export default function Home() {
                   description={event.description}
                 />
               ))}
+          </div>
+          
+          {/* See More Button */}
+          <div className="flex justify-center">
+            <button
+              className="border border-white rounded-lg"
+              style={{
+                width: "110px",
+                height: "44px",
+                borderRadius: "8px",
+                borderWidth: "1px",
+                borderColor: "#FFFFFF",
+                backgroundColor: "transparent",
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: "400",
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "1%",
+                color: "#FFFFFF"
+              }}
+            >
+              See more
+            </button>
+          </div>
+        </section>
+        
+        <section className="key-benefits relative z-10">
+          <div 
+            className="flex gap-3 items-end justify-center"
+            style={{
+              width: "706px",
+              height: "214px",
+              margin: "0 auto"
+            }}
+          >
+            <h1 className="text-white text-4xl font-extrabold">Key Benefits of Our System</h1>
+            <motion.div className="relative" style={{ marginLeft: "-40px" }}>
+              <Image
+                src="/FigmaFiles/mainPageAssets/small-breathe-logo.svg"
+                alt="Breathe Logo"
+                width={143}
+                height={210}
+                priority
+              />
+              <motion.div
+                className="absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <Image
+                  src="/FigmaFiles/mainPageAssets/small-breathe-logo-2.svg"
+                  alt="Breathe Logo Animated"
+                  width={143}
+                  height={210}
+                  priority
+                />
+              </motion.div>
+            </motion.div>
           </div>
         </section>
       </div>{" "}

@@ -52,9 +52,8 @@ export default function EventCard({
       onClick={handleClick}
     >
       <motion.div
-        className="relative overflow-hidden rounded-xl border border-white/10 backdrop-blur-sm bg-gradient-to-br from-slate-800/40 to-slate-900/60 hover:from-slate-700/50 hover:to-slate-800/70"
+        className="relative overflow-hidden rounded-xl border border-white/10 backdrop-blur-sm"
         style={{
-          background: "rgba(30, 41, 59, 0.4)",
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
           width: "276px",
