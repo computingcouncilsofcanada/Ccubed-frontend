@@ -37,7 +37,7 @@ export default function ServiceCard({
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <motion.div
-        className="w-[373px] px-4 py-6 bg-[#D4D4D4]/10 rounded-xl border border-white/100 transition-all duration-300 relative overflow-hidden opacity-[0.99]"
+        className="w-[373px] px-4 py-6 bg-[#D4D4D4]/10 rounded-xl transition-all duration-300 relative overflow-hidden opacity-[0.99]"
         style={{
           filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))'
         }}
@@ -46,6 +46,25 @@ export default function ServiceCard({
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
+        {/* Service Card Gradient Border - When expanded or hovered */}
+        {shouldShowExpanded && (
+          <div 
+            className="absolute inset-0 rounded-xl pointer-events-none"
+            style={{
+              background: 
+                serviceType === 'map' 
+                  ? 'radial-gradient(ellipse 120% 80% at 100% 0%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.2) 60%, transparent 100%)'
+                  : serviceType === 'resume'
+                  ? 'linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.2) 60%, transparent 100%)'
+                  : 'radial-gradient(ellipse 120% 80% at 100% 100%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.2) 60%, transparent 100%)',
+              mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              maskComposite: 'xor',
+              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMaskComposite: 'xor',
+              padding: '1px'
+            }}
+          />
+        )}
         {/* Icon Container Area - Always Visible */}
         <div className="relative w-[341px] h-[141px] flex justify-center items-center bg-[#D4D4D4]/10 rounded-xl opacity-[0.99]">
           {/* Gradient border overlay */}
@@ -53,7 +72,7 @@ export default function ServiceCard({
             className="absolute inset-0 rounded-xl pointer-events-none"
             style={{
               background: `
-                radial-gradient(ellipse 120% 80% at 20% 100%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.1) 60%, transparent 100%)
+                radial-gradient(ellipse 120% 80% at 20% 100%, rgba(212,212,212,0.4) 0%, rgba(212,212,212,0.25) 30%, rgba(212,212,212,0.1) 60%, transparent 100%)
               `,
               mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
               maskComposite: 'xor',
