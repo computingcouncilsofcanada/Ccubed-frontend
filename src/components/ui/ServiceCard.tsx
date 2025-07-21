@@ -47,7 +47,21 @@ export default function ServiceCard({
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         {/* Icon Container Area - Always Visible */}
-        <div className="relative w-[341px] h-[141px] flex justify-center items-center bg-[#D4D4D4]/10 border border-white/40 rounded-xl opacity-[0.99]">
+        <div className="relative w-[341px] h-[141px] flex justify-center items-center bg-[#D4D4D4]/10 rounded-xl opacity-[0.99]">
+          {/* Gradient border overlay */}
+          <div 
+            className="absolute inset-0 rounded-xl pointer-events-none"
+            style={{
+              background: `
+                radial-gradient(ellipse 120% 80% at 20% 100%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.1) 60%, transparent 100%)
+              `,
+              mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              maskComposite: 'xor',
+              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMaskComposite: 'xor',
+              padding: '1px'
+            }}
+          />
           {/* Background grid - visible when card is expanded with radial fade effect */}
           <div 
             className={`absolute inset-0 transition-opacity duration-300 ${
