@@ -17,7 +17,7 @@ export default function AdminLayout({
     <div>
       {/* Navigation Header - Hidden for Super Admin pages */}
       {!isSuperAdmin && (
-        <div className="border-2 border-blue-200 flex justify-between p-3 bg-linear-to-r  from-[#0B161E] to-[#306184]">
+        <div className="border-2 border-blue-200 flex justify-between p-3  text-white">
           <h1>CCUBED {user?.role}</h1>
 
           <div className="flex items-center gap-3">
