@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 type ServiceCardProps = {
@@ -236,17 +236,19 @@ export default function ServiceCard({
         </div>
 
         {/* Expanded Content */}
-        {shouldShowExpanded && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ 
-              duration: 0.8, 
-              ease: "easeOut",
-              delay: 0.4
-            }}
-            className="flex flex-col px-2 mt-2"
-          >
+        <AnimatePresence>
+          {shouldShowExpanded && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ 
+                duration: 0.8, 
+                ease: "easeOut",
+                delay: 0.4
+              }}
+              className="flex flex-col px-2 mt-2"
+            >
             <h1 className="text-white font-bold text-2xl mb-1">{title}</h1>
             <p 
               className="text-white text-sm"
@@ -260,6 +262,7 @@ export default function ServiceCard({
             >{description}</p>
           </motion.div>
         )}
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   );

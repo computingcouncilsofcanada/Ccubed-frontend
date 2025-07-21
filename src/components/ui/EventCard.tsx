@@ -40,10 +40,9 @@ export default function EventCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <motion.div
-        className="relative overflow-hidden rounded-xl border border-white/10 backdrop-blur-sm bg-gradient-to-br from-slate-800/40 to-slate-900/60 hover:from-slate-700/50 hover:to-slate-800/70 transition-all duration-300"
+        className="relative overflow-hidden rounded-xl border border-white/10 backdrop-blur-sm bg-gradient-to-br from-slate-800/40 to-slate-900/60 hover:from-slate-700/50 hover:to-slate-800/70"
         style={{
           background: "rgba(30, 41, 59, 0.4)",
           backdropFilter: "blur(10px)",
@@ -53,7 +52,11 @@ export default function EventCard({
         animate={{
           height: shouldShowExpanded ? "451px" : "320px",
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ 
+          duration: 0.8, 
+          ease: [0.25, 0.1, 0.25, 1],
+          type: "tween"
+        }}
       >
 
 
@@ -113,13 +116,19 @@ export default function EventCard({
             </div>
 
             {/* Expanded Content */}
-            {shouldShowExpanded && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="flex-1 flex flex-col"
-            >
+            <AnimatePresence>
+              {shouldShowExpanded && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ 
+                    duration: 0.8, 
+                    ease: "easeOut",
+                    delay: 0.4
+                  }}
+                  className="flex-1 flex flex-col"
+                >
                 {/* Description - Fixed Height */}
                 <div className="h-22 mb-2 overflow-hidden">
                   <p 
@@ -182,7 +191,8 @@ export default function EventCard({
                     </button>
                 </div>
                 </motion.div>
-            )}
+              )}
+            </AnimatePresence>
           </div>
         </div>
 

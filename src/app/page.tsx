@@ -156,51 +156,89 @@ export default function Home() {
             events and shared experiences. Our goal is to support student groups
             and foster a strong, inclusive tech community.
           </p>
-          <div className="three-boxes grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5" style={{ minHeight: '320px' }}>
+          <div
+            className="three-boxes grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"
+            style={{ minHeight: "320px" }}
+          >
             {cards.map(({ id, imgSrc, description, title }) => (
-              <div key={id} className="flex justify-center items-start h-[320px]">
+              <div
+                key={id}
+                className="flex justify-center items-start h-[320px]"
+              >
                 <ServiceCard
                   id={id}
                   title={title}
                   description={description}
                   imageSrc={imgSrc}
-                  serviceType={id === 2 ? 'map' : id === 3 ? 'resume' : undefined}
+                  serviceType={
+                    id === 2 ? "map" : id === 3 ? "resume" : undefined
+                  }
                 />
               </div>
             ))}
           </div>
         </section>
         <section className="events flex flex-col gap-5 mt-20 relative z-10">
-          <div className="flex gap-3 items-center justify-center">
+                    <div className="flex gap-3 items-center justify-center">
             <h1 className="text-white text-4xl font-extrabold">Events</h1>
 
-            <Image
-              src="/FigmaFiles/ccubed-icon.svg"
-              alt="CCubed Logo"
-              width={45}
-              height={45}
-              priority
-            />
+            <div className="relative">
+              <Image
+                src="/FigmaFiles/ccubed-icon.svg"
+                alt="CCubed Logo"
+                width={45}
+                height={45}
+                priority
+              />
+            </div>
           </div>
-          <p className="text-white font-thin w-full text-center px-30">
+          <p className="text-white font-thin w-full text-center px-50">
             Join us for a variety of indoor and outdoor events that bring
             computing students together beyond the screen. Whether it's a casual
             meetup or a collaborative workshop, there's always a way to connect
             and grow.
           </p>
-          <div className="flex gap-1 rounded-lg p-1 w-fit bg-[#0B161E] ">
+          <div
+            className="flex gap-1 rounded-lg p-1 bg-[#0B161E]"
+            style={{ width: "352px", height: "56px" }}
+          >
             {[
               { label: "All Events", value: "all" },
-              { label: "In person", value: "inperson" },
+              { label: "In Person", value: "inperson" },
               { label: "Hybrid", value: "hybrid" },
               { label: "Online", value: "online" },
             ].map((option) => (
               <label
                 key={option.value}
-                className={`px-5 py-3 rounded-lg text-xl cursor-pointer transition-colors duration-150 text-white
-            ${eventType === option.value ? "bg-[#132836] " : " "}
+                className={`flex items-center justify-center flex-1 rounded-lg cursor-pointer transition-colors duration-150 text-white relative overflow-hidden
           `}
+                style={{
+                  fontFamily: "Roboto, sans-serif",
+                  fontSize: "16px",
+                  fontWeight: eventType === option.value ? "400" : "300",
+                  letterSpacing: "1%",
+                  backgroundColor:
+                    eventType === option.value
+                      ? "rgba(19, 40, 54, 0.6)"
+                      : "transparent",
+                }}
               >
+                {/* Gradient border for selected state */}
+                {eventType === option.value && (
+                  <div
+                    className="absolute inset-0 rounded-lg pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(61, 131, 178, 1) 0%, rgba(26, 56, 76, 0) 100%)",
+                      mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                      maskComposite: "xor",
+                      WebkitMask:
+                        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                      WebkitMaskComposite: "xor",
+                      padding: "1.5px",
+                    }}
+                  />
+                )}
                 <input
                   type="radio"
                   name="eventType"
@@ -209,7 +247,7 @@ export default function Home() {
                   onChange={() => setEventType(option.value)}
                   className="hidden"
                 />
-                {option.label}
+                <span className="relative z-10">{option.label}</span>
               </label>
             ))}
           </div>
