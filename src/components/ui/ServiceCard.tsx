@@ -34,17 +34,20 @@ export default function ServiceCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <motion.div
-        className="w-[373px] px-4 py-6 bg-[#D4D4D4]/10 rounded-xl transition-all duration-300 relative overflow-hidden opacity-[0.99]"
+        className="w-[373px] px-4 py-6 bg-[#D4D4D4]/10 rounded-xl relative overflow-hidden opacity-[0.99]"
         style={{
           filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))'
         }}
         animate={{
           height: shouldShowExpanded ? "304px" : "189px",
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ 
+          duration: 0.8, 
+          ease: [0.25, 0.1, 0.25, 1],
+          type: "tween"
+        }}
       >
         {/* Service Card Gradient Border - When expanded or hovered */}
         {shouldShowExpanded && (
@@ -82,10 +85,15 @@ export default function ServiceCard({
             }}
           />
           {/* Background grid - visible when card is expanded with radial fade effect */}
-          <div 
-            className={`absolute inset-0 transition-opacity duration-300 ${
-              shouldShowExpanded ? 'opacity-100' : 'opacity-0'
-            }`}
+          <motion.div 
+            className="absolute inset-0"
+            animate={{
+              opacity: shouldShowExpanded ? 1 : 0
+            }}
+            transition={{ 
+              duration: 0.6, 
+              ease: [0.25, 0.1, 0.25, 1]
+            }}
             style={{
               backgroundImage: `
                 linear-gradient(to right, rgba(255,255,255,0.3) 1px, transparent 1px),
@@ -95,7 +103,7 @@ export default function ServiceCard({
               maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 70%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 70%)'
             }}
-          />
+          ></motion.div>
           
           {/* Service Icon - Discord default, Map service, or Resume service */}
           {serviceType === 'map' ? (
@@ -232,7 +240,11 @@ export default function ServiceCard({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ 
+              duration: 0.8, 
+              ease: "easeOut",
+              delay: 0.4
+            }}
             className="flex flex-col px-2 mt-2"
           >
             <h1 className="text-white font-bold text-2xl mb-1">{title}</h1>

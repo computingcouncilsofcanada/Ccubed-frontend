@@ -151,7 +151,7 @@ export default function Home() {
               priority
             />
           </div>
-          <p className="text-white font-thin w-7/10">
+          <p className="text-white font-thin">
             We connect computing students across Canada through meaningful
             events and shared experiences. Our goal is to support student groups
             and foster a strong, inclusive tech community.
