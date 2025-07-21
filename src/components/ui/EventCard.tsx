@@ -33,10 +33,20 @@ export default function EventCard({
 
   const shouldShowExpanded = isExpanded || isHovered;
 
+  // Format date from "2025-08-10" to "Aug 10, 2025"
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
   return (
     <motion.div
       className="relative group cursor-pointer"
-      style={{ width: "274px", height: "451px" }}
+      style={{ width: "276px", height: "451px" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
@@ -47,7 +57,7 @@ export default function EventCard({
           background: "rgba(30, 41, 59, 0.4)",
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
-          width: "274px",
+          width: "276px",
         }}
         animate={{
           height: shouldShowExpanded ? "451px" : "320px",
@@ -78,7 +88,7 @@ export default function EventCard({
         <div className="p-2 h-full flex flex-col">
           {/* Event Image */}
           <div
-            className="bg-slate-700/30 rounded-lg mb-2 border border-white/5"
+            className="bg-slate-700/30 rounded-xl mb-2"
             style={{ width: "258px", height: "176px" }}
           >
             <img
@@ -89,7 +99,7 @@ export default function EventCard({
           </div>
           <div className="px-2">
             {/* Event Title - Always Visible */}
-                          <h3
+              <h3
                  className="text-white text-left mb-2 overflow-hidden w-full h-14"
                  style={{
                  fontFamily: "Roboto, sans-serif",
@@ -107,12 +117,39 @@ export default function EventCard({
             </h3>
 
             {/* Basic Info - Always Visible */}
-            <div className="mb-3">
-                <div className="flex items-center gap-2 text-white mb-1">
-                <span className="text-xs">{time}</span>
-                <span className="text-xs">{date}</span>
+            <div className="mb-2 space-y-1">
+                {/* Time and Date in same row */}
+                <div className="flex items-center gap-2 text-white">
+                  <div className="flex items-center gap-1">
+                    <img src="/FigmaFiles/eventsAssets/clock-2.svg" alt="Time" width={20} height={20} />
+                    <span style={{ 
+                      fontSize: '10px',
+                      fontFamily: 'Roboto, sans-serif',
+                      fontWeight: '400',
+                      letterSpacing: '0%'
+                    }}>{time}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <img src="/FigmaFiles/eventsAssets/calendar.svg" alt="Date" width={20} height={20} />
+                    <span style={{ 
+                      fontSize: '10px',
+                      fontFamily: 'Roboto, sans-serif',
+                      fontWeight: '400',
+                      letterSpacing: '0%'
+                    }}>{formatDate(date)}</span>
+                  </div>
                 </div>
-                <div className="text-white text-xs">{location}</div>
+                
+                {/* Location in second row */}
+                <div className="flex items-center gap-1 text-white">
+                  <img src="/FigmaFiles/eventsAssets/place.svg" alt="Location" width={20} height={20} />
+                  <span style={{ 
+                    fontSize: '10px',
+                    fontFamily: 'Roboto, sans-serif',
+                    fontWeight: '400',
+                    letterSpacing: '0%'
+                  }}>{location}</span>
+                </div>
             </div>
 
             {/* Expanded Content */}
@@ -130,7 +167,7 @@ export default function EventCard({
                   className="flex-1 flex flex-col"
                 >
                 {/* Description - Fixed Height */}
-                <div className="h-22 mb-2 overflow-hidden">
+                <div className="h-20 mb-2 overflow-hidden">
                   <p 
                     className="text-white h-full overflow-hidden"
                     style={{

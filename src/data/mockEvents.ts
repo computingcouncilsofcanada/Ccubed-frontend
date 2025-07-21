@@ -20,7 +20,7 @@ export const mockEvents = [
   },
   {
     id: 2,
-    name: "Beginner Coding Bootcamp: Web Development",
+    name: "Beginner Coding Bootcamp: Web Dev",
     description: "Perfect for beginners! Learn the fundamentals of web development in this hands-on bootcamp.",
     status: 1,
     date: "2025-08-29",
