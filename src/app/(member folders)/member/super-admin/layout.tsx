@@ -11,7 +11,7 @@ export default function SuperAdminLayout({
 
   return (
     <div>
-      <div className="border-2 border-blue-200 flex justify-between p-3 bg-linear-to-r  from-[#0B161E] to-[#306184]">
+      <div className="border-2 border-blue-200 flex justify-between p-3 text-white">
         <h1>CCUBED Super Admin</h1>
         <div className="flex items-center gap-3">
           <span>Welcome, {user?.username}</span>
