@@ -9,7 +9,7 @@ type EventCardProps = {
   time: string;
   date: string;
   location: string;
-  type: "Online" | "In Person";
+  type: "Online" | "In Person" | "Hybrid";
   imageSrc: string;
   description: string;
 };
@@ -55,8 +55,7 @@ export default function EventCard({
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        {/* Gradient Border Effect */}
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
 
         {/* Event Type Badge */}
         <div className="absolute top-4 right-4 z-10">
@@ -64,7 +63,9 @@ export default function EventCard({
             className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
               type === "Online"
                 ? "bg-blue-500/20 text-blue-300 border border-blue-400/30"
-                : "bg-green-500/20 text-green-300 border border-green-400/30"
+                : type === "In Person"
+                ? "bg-green-500/20 text-green-300 border border-green-400/30"  
+                : "bg-purple-500/20 text-purple-300 border border-purple-400/30"
             }`}
           >
             {type}
@@ -117,25 +118,30 @@ export default function EventCard({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="flex-1 flex flex-col justify-between"
+              className="flex-1 flex flex-col"
             >
-                {/* Description */}
-                <p 
-                  className="text-white mb-2"
-                  style={{
-                    fontFamily: "Roboto, sans-serif",
-                    fontWeight: "300",
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    letterSpacing: "-0.02em",
-                    color: "#FFFFFF",
-                  }}
-                >
-                    {description}
-                </p>
+                {/* Description - Fixed Height */}
+                <div className="h-22 mb-2 overflow-hidden">
+                  <p 
+                    className="text-white h-full overflow-hidden"
+                    style={{
+                      fontFamily: "Roboto, sans-serif",
+                      fontWeight: "300",
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                      letterSpacing: "-0.02em",
+                      color: "#FFFFFF",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 4,
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                      {description}
+                  </p>
+                </div>
 
                 {/* Action Buttons - Side by Side - Fixed at bottom */}
-                <div className="flex gap-2 mb-4 justify-center">
+                <div className="flex gap-2 mb-4 justify-center mt-auto">
                     <button
                     className="text-white text-xs font-medium rounded-lg transition-all duration-200"
                     style={{
