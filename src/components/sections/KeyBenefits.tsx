@@ -93,7 +93,7 @@ export default function KeyBenefits() {
               delay: index * 0.3,
               ease: "easeOut" 
             }}
-            whileHover={{ scale: 1.02 }}
+
             className={`group absolute rounded-2xl px-6 py-4 cursor-pointer overflow-hidden`}
             style={{
               width: "640px",
@@ -116,9 +116,9 @@ export default function KeyBenefits() {
               }}
             >
               {/* Left Top: Number */}
-              <div className="justify-self-start self-baseline">
+              <div className="justify-self-start self-baseline relative">
                 <span 
-                  className="font-bold block"
+                  className="font-bold block transition-all duration-300"
                   style={{
                     fontFamily: "Roboto, sans-serif",
                     fontSize: "96px",
@@ -129,12 +129,35 @@ export default function KeyBenefits() {
                 >
                   {benefit.number}.
                 </span>
+                {/* Gradient overlay for hover effect */}
+                <span 
+                  className="font-bold block absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    fontFamily: "Roboto, sans-serif",
+                    fontSize: "96px",
+                    letterSpacing: "0.5%",
+                    lineHeight: "1",
+                    background: benefit.id === 1 ? 
+                      'linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(173, 216, 230, 0.8) 100%)' :
+                      benefit.id === 2 ?
+                      'linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 215, 0, 0.8) 100%)' :
+                      benefit.id === 3 ?
+                      'linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(220, 20, 60, 0.8) 100%)' :
+                      'linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(70, 130, 180, 0.8) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    color: 'transparent'
+                  }}
+                >
+                  {benefit.number}.
+                </span>
               </div>
               
               {/* Right Top: Title */}
-              <div className="justify-self-start self-baseline">
+              <div className="justify-self-start self-baseline relative">
                 <h3 
-                  className="font-bold"
+                  className="font-bold transition-all duration-300"
                   style={{
                     fontFamily: "Roboto, sans-serif",
                     fontSize: "40px",
@@ -146,6 +169,30 @@ export default function KeyBenefits() {
                 >
                   {benefit.title}
                 </h3>
+                {/* Gradient overlay for hover effect */}
+                <h3 
+                  className="font-bold absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    fontFamily: "Roboto, sans-serif",
+                    fontSize: "40px",
+                    letterSpacing: "0.5%",
+                    lineHeight: "1",
+                    whiteSpace: "nowrap",
+                    background: benefit.id === 1 ? 
+                      'linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(173, 216, 230, 0.8) 100%)' :
+                      benefit.id === 2 ?
+                      'linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 215, 0, 0.8) 100%)' :
+                      benefit.id === 3 ?
+                      'linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(220, 20, 60, 0.8) 100%)' :
+                      'linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(70, 130, 180, 0.8) 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    color: 'transparent'
+                  }}
+                >
+                  {benefit.title}
+                </h3>
               </div>
               
               {/* Left Bottom: Empty */}
@@ -153,7 +200,7 @@ export default function KeyBenefits() {
               
               {/* Right Bottom: Description (Only on Hover) */}
               <div className="justify-self-start self-start">
-                                  <div className="hidden group-hover:block">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-out delay-300">
                     <p 
                       className="text-white/90 text-left"
                       style={{
@@ -174,7 +221,7 @@ export default function KeyBenefits() {
 
             {/* Hover Border Effect */}
             <div 
-              className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transform -translate-y-5 group-hover:translate-y-0 transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
               style={{
                 background: `radial-gradient(${
                   benefit.id === 1 ? 'ellipse at top left' :
@@ -182,9 +229,13 @@ export default function KeyBenefits() {
                   benefit.id === 3 ? 'ellipse at top left' :
                   'ellipse at bottom right'
                 }, ${
+                  benefit.id === 1 ? 
+                  'rgba(173, 216, 230, 0.8) 0%, rgba(240, 248, 255, 0.6) 30%, rgba(173, 216, 230, 0.3) 50%, transparent 70%' :
                   benefit.id === 2 ? 
-                  'rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 40%, rgba(255, 255, 255, 0.2) 60%, transparent 85%' :
-                  'rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 30%, transparent 70%'
+                  'rgba(255, 215, 0, 0.8) 0%, rgba(255, 223, 0, 0.6) 30%, rgba(255, 193, 7, 0.4) 50%, transparent 70%' :
+                  benefit.id === 3 ? 
+                  'rgba(220, 20, 60, 0.8) 0%, rgba(255, 69, 0, 0.6) 30%, rgba(178, 34, 34, 0.4) 50%, transparent 70%' :
+                  'rgba(70, 130, 180, 0.8) 0%, rgba(100, 149, 237, 0.6) 30%, rgba(65, 105, 225, 0.4) 50%, transparent 70%'
                 })`,
                 mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
                 maskComposite: 'xor',
