@@ -31,13 +31,16 @@ const Navbar = () => {
       > */}
       <div className="flex justify-between p-3 mx-auto items-center max-w-6xl">
         <div className="left flex gap-6 items-center">
-          <Image
-            src="/FigmaFiles/ccubed-icon.svg"
-            alt="CCubed Logo"
-            width={40}
-            height={40}
-            priority
-          />
+          <Link href="/">
+            <Image
+              src="/FigmaFiles/ccubed-icon.svg"
+              alt="CCubed Logo"
+              width={40}
+              height={40}
+              priority
+              className="cursor-pointer"
+            />
+          </Link>
           <div className="desktop hidden sm:block z-50">
             <ul className="flex justify-between gap-10 ">
               {filteredNavLinks.map(({ id, href, name }) => (
