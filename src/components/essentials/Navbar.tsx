@@ -24,7 +24,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="w-full bg-[#0B161E]">
+    <div className="w-full bg-transparent relative z-50">
       {/* <div
         className="flex justify-between p-3 mx-auto items-center px-4"
         style={{ maxWidth: "1200px" }}
