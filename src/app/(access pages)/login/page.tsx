@@ -22,15 +22,36 @@ const Login = () => {
                 height={100}
               />
               <h1 className="text-white font-bold text-4xl">CCUBED</h1>
-              <p className="text-white text-center text-lg ">
+                            <p 
+                className="text-center max-sm:text-sm max-sm:leading-tight max-sm:px-2 mx-auto"
+                style={{
+                  fontFamily: "Roboto, sans-serif",
+                  fontWeight: "300",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  letterSpacing: "0%",
+                  color: "#FFFFFF",
+                  opacity: "100%",
+                  maxWidth: "460px"
+                }}
+              >
                 To connect and support students through engaging events while
-                building community amongst Canadian computing student groups. 
+                building community amongst Canadian computing student groups. 
               </p>
             </div>
             <LoginForm />
           </div>
           <div className="footer  flex justify-between py-4 items-center">
-            <h1 className="text-white font-bold">
+            <h1 
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                fontWeight: "600",
+                fontSize: "20px",
+                letterSpacing: "0%",
+                color: "#FFFFFF",
+                opacity: "40%"
+              }}
+            >
               COMPUTING COUNCILS OF CANADA
             </h1>
             <div className="social-icons  flex items-center gap-4">

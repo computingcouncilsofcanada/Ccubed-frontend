@@ -64,7 +64,7 @@ const LoginForm = () => {
         }
       }
     } catch (err: any) {
-      setFormError(err.response.data.message || err.message);
+      setFormError(err.response?.data?.message || err.message);
     }
   };
   return (
@@ -163,7 +163,7 @@ const LoginForm = () => {
               })}
               type={showPassword ? "text" : "password"}
               placeholder="password"
-              className={`font-normal text-background rounded-full pl-12 pr-2 password-asterisk w-full border-none bg-white py-4 ${
+              className={`font-normal text-gray-900 rounded-full pl-12 pr-2 password-asterisk w-full border-none bg-white py-4 ${
                 form.watch("password")
                   ? "placeholder-gray-900"
                   : "placeholder-gray-400"
@@ -205,7 +205,18 @@ const LoginForm = () => {
         >
           {isSubmitting ? "Login in..." : "Login"}
         </button>
-        <p className="text-center text-white mt-2">Forgot Password ?</p>
+        <p 
+          className="text-center mt-2"
+          style={{
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: "400",
+            fontSize: "14px",
+            color: "#FFFFFF",
+            opacity: "100%"
+          }}
+        >
+          Forgot Password ?
+        </p>
       </form>
     </>
   );
