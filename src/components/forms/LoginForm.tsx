@@ -63,8 +63,15 @@ const LoginForm = () => {
           }
         }
       }
-    } catch (err: any) {
-      setFormError(err.response?.data?.message || err.message);
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosError = err as { response?: { data?: { message?: string } }; message?: string };
+        setFormError(axiosError.response?.data?.message || axiosError.message || 'An error occurred');
+      } else if (err instanceof Error) {
+        setFormError(err.message);
+      } else {
+        setFormError('An unknown error occurred');
+      }
     }
   };
   return (

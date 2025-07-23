@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 // Hero Section Component
 export default function Hero() {
@@ -29,8 +30,8 @@ export default function Hero() {
         
         {/* Call to Action Buttons */}
         <div className="flex items-center gap-x-6">
-          <a
-            href=""
+          <Link
+            href="/"
             className="flex items-center justify-center rounded-lg"
             style={{
               width: "125px",
@@ -46,9 +47,9 @@ export default function Hero() {
             }}
           >
             Get Started
-          </a>
-          <a
-            href=""
+          </Link>
+          <Link
+            href="/"
             className="flex items-center justify-center rounded-lg"
             style={{
               width: "125px",
@@ -65,7 +66,7 @@ export default function Hero() {
             }}
           >
             Learn More
-          </a>
+          </Link>
         </div>
       </div>
 
