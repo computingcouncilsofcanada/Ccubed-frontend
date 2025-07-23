@@ -92,13 +92,25 @@ function EventCard({
         {/* Event Type Badge */}
         <div className="absolute top-4 right-4 z-10">
           <span
-            className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
-              type === "Online"
-                ? "bg-blue-500/20 text-blue-300 border border-blue-400/30"
-                : type === "In Person"
-                ? "bg-green-500/20 text-green-300 border border-green-400/30"  
-                : "bg-purple-500/20 text-purple-300 border border-purple-400/30"
-            }`}
+            className="flex items-center justify-center"
+            style={{
+              height: "28px",
+              paddingLeft: "12px",
+              paddingRight: "12px",
+              borderRadius: "20px",
+              backgroundColor: "rgba(212, 212, 212, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+              opacity: "0.99",
+              color: "#FFFFFF",
+              fontFamily: "Roboto, sans-serif",
+              fontWeight: "400",
+              fontSize: "10px",
+              lineHeight: "auto",
+              letterSpacing: "0%",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))"
+            }}
           >
             {type}
           </span>
@@ -312,7 +324,7 @@ export default function Events({ events }: EventsSectionProps) {
 
       <div className="flex flex-col gap-5">
         {/* Description */}
-        <p className="text-white font-thin w-full text-center px-50">
+        <p className="text-white font-light w-full text-center px-50">
           Join us for a variety of indoor and outdoor events that bring
           computing students together beyond the screen. Whether it&apos;s a
           casual meetup or a collaborative workshop, there&apos;s always a

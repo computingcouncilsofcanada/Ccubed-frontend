@@ -22,7 +22,7 @@ const Login = () => {
                 height={100}
               />
               <h1 className="text-white font-bold text-4xl">CCUBED</h1>
-              <p className="text-white text-center text-lg font-thin">
+              <p className="text-white text-center text-lg ">
                 To connect and support students through engaging events while
                 building community amongst Canadian computing student groups. 
               </p>

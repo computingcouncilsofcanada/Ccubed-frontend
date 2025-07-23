@@ -351,7 +351,7 @@ export default function Services() {
 
       <div className="flex flex-col gap-5">
         {/* Description */}
-        <p className="text-white font-thin">
+        <p className="text-white font-light">
           We connect computing students across Canada through meaningful
           events and shared experiences. Our goal is to support student
           groups and foster a strong, inclusive tech community.
