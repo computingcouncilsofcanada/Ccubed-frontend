@@ -81,7 +81,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-[#1e1e1e]">
+    <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden">
       {/* Background text pattern for glassmorphism testing */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="text-white text-8xl font-bold transform rotate-12 absolute top-20 left-10">
@@ -137,7 +137,7 @@ export default function Home() {
           <div className="image w-full md:w-1/2 relative">
             <motion.div className="relative w-full h-auto">
               <Image
-                src="/FigmaFiles/mainPageAssets/hero-img.png"
+                src="/FigmaFiles/mainPageAssets/hero-img.svg"
                 alt="Hero Image"
                 width={500}
                 height={500}
@@ -155,7 +155,7 @@ export default function Home() {
                 }}
               >
                 <Image
-                  src="/FigmaFiles/mainPageAssets/hero-img-2.png"
+                  src="/FigmaFiles/mainPageAssets/hero-img-2.svg"
                   alt="Hero Image with Texture"
                   width={500}
                   height={500}
