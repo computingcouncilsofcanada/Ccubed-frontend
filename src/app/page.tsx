@@ -82,30 +82,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden">
-      {/* Background text pattern for glassmorphism testing */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="text-white text-8xl font-bold transform rotate-12 absolute top-20 left-10">
-          CCubed
-        </div>
-        <div className="text-white text-8xl font-light transform -rotate-6 absolute top-40 right-20">
-          Computing
-        </div>
-        <div className="text-white text-8xl font-bold transform rotate-45 absolute bottom-40 left-1/4">
-          Community
-        </div>
-        <div className="text-white text-8xl transform -rotate-12 absolute bottom-20 right-1/3">
-          Events
-        </div>
-        <div className="text-white text-9xl font-bold transform rotate-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          C³
-        </div>
-        <div className="text-white text-8xl font-medium transform rotate-24 absolute top-32 left-1/3">
-          Canada
-        </div>
-        <div className="text-white text-8xl font-light transform -rotate-18 absolute bottom-32 right-10">
-          Students
-        </div>
-      </div>
       <BgBoxMainPage />
       {/* Page Container - unified width control */}
       <div className="container mx-auto max-w-6xl">
