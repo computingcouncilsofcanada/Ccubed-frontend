@@ -1,17 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 
+// Service Card types
 type ServiceCardProps = {
   id: number;
   title: string;
   description: string;
-  serviceType?: 'map' | 'resume'; // Add map and resume service types
+  serviceType?: 'map' | 'resume';
 };
 
-export default function ServiceCard({
+// ServiceCard component - integrated into this section
+function ServiceCard({
   id,
   title,
   description,
@@ -68,6 +70,7 @@ export default function ServiceCard({
             }}
           />
         )}
+
         {/* Icon Container Area - Always Visible */}
         <div className="relative w-[341px] h-[141px] flex justify-center items-center rounded-xl backdrop-blur-sm border border-white/10">
           {/* Gradient border overlay */}
@@ -84,6 +87,7 @@ export default function ServiceCard({
               padding: '1px'
             }}
           />
+
           {/* Background grid - visible when card is expanded with radial fade effect */}
           <motion.div 
             className="absolute inset-0"
@@ -265,5 +269,114 @@ export default function ServiceCard({
         </AnimatePresence>
       </motion.div>
     </motion.div>
+  );
+}
+
+// Service card data
+type ServiceData = {
+  id: number;
+  title: string;
+  description: string;
+  serviceType?: 'map' | 'resume';
+};
+
+const servicesData: ServiceData[] = [
+  {
+    id: 1,
+    title: "Discord Events",
+    description:
+      "Join our Discord to stay updated on upcoming events, meet fellow computing students, and be part of the conversation. From casual chats to national collabs — it all starts here.",
+  },
+  {
+    id: 2,
+    title: "Online Events",
+    description:
+      "Connect from anywhere and join our online events — workshops, panels, game nights, and more! Learn, network, and have fun with computing students across Canada.",
+    serviceType: "map"
+  },
+  {
+    id: 3,
+    title: "Resume Review",
+    description:
+      "Get personalized feedback on your resume from industry professionals and experienced peers. Boost your chances and stand out in your next application.",
+    serviceType: "resume"
+  },
+];
+
+// Main Services Section Component
+export default function Services() {
+  return (
+    <section
+      className="service relative z-10"
+      style={{ marginTop: "-60px" }}
+    >
+      {/* Header with title and logo */}
+      <div
+        className="flex gap-3 items-end justify-start mb-4"
+        style={{
+          width: "706px",
+          height: "214px",
+          marginLeft: "0",
+        }}
+      >
+        <h1 className="text-white text-4xl font-extrabold">Services</h1>
+        <motion.div className="relative" style={{ marginLeft: "-40px" }}>
+          <Image
+            src="/FigmaFiles/mainPageAssets/small-breathe-logo.svg"
+            alt="Breathe Logo"
+            width={143}
+            height={210}
+            priority
+          />
+          <motion.div
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <Image
+              src="/FigmaFiles/mainPageAssets/small-breathe-logo-2.svg"
+              alt="Breathe Logo Animated"
+              width={143}
+              height={210}
+              priority
+            />
+          </motion.div>
+        </motion.div>
+      </div>
+
+      <div className="flex flex-col gap-5">
+        {/* Description */}
+        <p className="text-white font-thin">
+          We connect computing students across Canada through meaningful
+          events and shared experiences. Our goal is to support student
+          groups and foster a strong, inclusive tech community.
+        </p>
+
+        {/* Services Grid */}
+        <div
+          className="three-boxes grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"
+          style={{ minHeight: "320px" }}
+        >
+          {servicesData.map((service) => (
+            <div
+              key={service.id}
+              className="flex justify-center items-start h-[320px]"
+            >
+              <ServiceCard
+                id={service.id}
+                title={service.title}
+                description={service.description}
+                serviceType={service.serviceType}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 } 
