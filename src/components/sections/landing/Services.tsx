@@ -14,7 +14,7 @@ type ServiceCardProps = {
 
 // ServiceCard component - integrated into this section
 function ServiceCard({
-  id,
+  // id,
   title,
   description,
   serviceType,

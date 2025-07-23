@@ -37,7 +37,7 @@ type EventCardProps = {
 
 // EventCard component - integrated into this section
 function EventCard({
-  id,
+  // id,
   title,
   time,
   date,
