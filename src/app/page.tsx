@@ -7,6 +7,7 @@ import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import EventCard from "@/components/ui/EventCard";
 import ServiceCard from "@/components/ui/ServiceCard";
 import KeyBenefits from "@/components/sections/KeyBenefits";
+import JoinOurTeam from "@/components/sections/JoinOurTeam";
 // import { privateAxios } from "@/lib/axios";
 import { mockEvents } from "@/data/mockEvents";
 
@@ -408,6 +409,8 @@ export default function Home() {
         </section>
 
         <KeyBenefits />
+        
+        <JoinOurTeam />
       </div>{" "}
       {/* End of page container */}
     </div>
