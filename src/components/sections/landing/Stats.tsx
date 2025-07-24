@@ -105,7 +105,7 @@ export default function Stats() {
             
             {/* Label */}
             <div 
-              className="text-white font-light px-1"
+              className="text-white font-light px-1.5"
               style={{
                 fontFamily: "Roboto, sans-serif",
                 fontSize: "20px",
