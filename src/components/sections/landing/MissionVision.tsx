@@ -1,8 +1,62 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function MissionVision() {
+  const cardVariants = {
+    initial: {},
+    hover: {}
+  };
+
+  const titleVariants = {
+    initial: { fontWeight: "400" },
+    hover: { fontWeight: "700" }
+  };
+
+  const descriptionVariants = {
+    initial: { fontWeight: "300" },
+    hover: { fontWeight: "400" }
+  };
+
+  const hoverElementVariants = {
+    initial: { opacity: 0 },
+    hover: { opacity: 1 }
+  };
+
+  const glowVariants90 = {
+    initial: { opacity: 0 },
+    hover: { opacity: 0.9 }
+  };
+
+  const glowVariants80 = {
+    initial: { opacity: 0 },
+    hover: { opacity: 0.8 }
+  };
+
+  const glowVariants75 = {
+    initial: { opacity: 0 },
+    hover: { opacity: 0.75 }
+  };
+
+  const glowVariants70 = {
+    initial: { opacity: 0 },
+    hover: { opacity: 0.7 }
+  };
+
+  const glowVariants45 = {
+    initial: { opacity: 0 },
+    hover: { opacity: 0.45 }
+  };
+
+  const transition = {
+    duration: 0.8
+  };
+
+  const glowTransition = {
+    duration: 0.6
+  };
+
   return (
     <section className="mission-vision py-16 px-4 max-w-6xl mx-auto">
       {/* Section Header */}
@@ -32,13 +86,16 @@ export default function MissionVision() {
       {/* Mission & Vision Cards */}
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center">
         {/* Our Mission Card */}
-        <div
+        <motion.div
           className="mission-card relative group cursor-pointer"
           style={{ width: "566px", height: "431px" }}
+          variants={cardVariants}
+          initial="initial"
+          whileHover="hover"
         >
           {/* Hover Rectangle */}
-          <div
-            className="absolute bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+          <motion.div
+            className="absolute bottom-0 left-0 z-0"
             style={{
               width: "566px",
               height: "335px",
@@ -46,6 +103,8 @@ export default function MissionVision() {
                 "linear-gradient(to right, rgba(212, 212, 212, 0.05) 0%, transparent 100%)",
               borderRadius: "12px",
             }}
+            variants={hoverElementVariants}
+            transition={transition}
           >
             {/* Gradient border overlay - right to left */}
             <div
@@ -61,7 +120,7 @@ export default function MissionVision() {
                 padding: "3px",
               }}
             />
-          </div>
+          </motion.div>
 
           {/* Bear Image - Positioned at top of card */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-15">
@@ -81,43 +140,51 @@ export default function MissionVision() {
               {/* Badge Icon */}
               <div className="relative">
                 {/* Orange glow effect - bottom left */}
-                <div
-                  className="absolute -bottom-4 -left-4 w-24 h-24 opacity-0 group-hover:opacity-90 transition-opacity duration-300 z-0"
+                <motion.div
+                  className="absolute -bottom-4 -left-4 w-24 h-24 z-0"
                   style={{
                     background:
                       "radial-gradient(ellipse 100% 70% at center, rgba(207, 132, 25, 0.7) 0%, rgba(207, 132, 25, 0.4) 30%, transparent 60%)",
                     filter: "blur(8px)",
                   }}
+                  variants={glowVariants90}
+                  transition={glowTransition}
                 />
 
                 {/* Orange glow effect - left side */}
-                <div
-                  className="absolute top-1/2 -translate-y-1/2 -left-5 w-20 h-20 opacity-0 group-hover:opacity-70 transition-opacity duration-300 z-0"
+                <motion.div
+                  className="absolute top-1/2 -translate-y-1/2 -left-5 w-20 h-20 z-0"
                   style={{
                     background:
                       "radial-gradient(ellipse 100% 70% at center, rgba(207, 132, 25, 0.6) 0%, rgba(207, 132, 25, 0.3) 30%, transparent 60%)",
                     filter: "blur(8px)",
                   }}
+                  variants={glowVariants70}
+                  transition={glowTransition}
                 />
 
                 {/* White glow effect - top right */}
-                <div
-                  className="absolute -top-4 -right-4 w-24 h-24 opacity-0 group-hover:opacity-80 transition-opacity duration-300 z-0"
+                <motion.div
+                  className="absolute -top-4 -right-4 w-24 h-24 z-0"
                   style={{
                     background:
                       "radial-gradient(ellipse 100% 70% at center, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.3) 30%, transparent 60%)",
                     filter: "blur(8px)",
                   }}
+                  variants={glowVariants80}
+                  transition={glowTransition}
                 />
 
                 {/* White glow effect - top side */}
-                <div
-                  className="absolute left-1/2 -translate-x-1/2 -top-5 w-20 h-20 opacity-0 group-hover:opacity-75 transition-opacity duration-300 z-0"
+                <motion.div
+                  className="absolute left-1/2 -translate-x-1/2 -top-5 w-20 h-20 z-0"
                   style={{
                     background:
                       "radial-gradient(ellipse 100% 70% at center, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.25) 30%, transparent 60%)",
                     filter: "blur(8px)",
                   }}
+                  variants={glowVariants75}
+                  transition={glowTransition}
                 />
 
                 <Image
@@ -130,8 +197,8 @@ export default function MissionVision() {
               </div>
 
               {/* Mission Title */}
-              <div
-                className="flex items-center justify-center text-white font-normal text-2xl rounded-lg mt-[-16px] relative overflow-hidden backdrop-blur-sm"
+              <motion.div
+                className="flex items-center justify-center text-white text-2xl rounded-lg mt-[-16px] relative overflow-hidden backdrop-blur-sm"
                 style={{
                   width: "233px",
                   height: "64px",
@@ -140,6 +207,8 @@ export default function MissionVision() {
                   backdropFilter: "blur(10px)",
                   WebkitBackdropFilter: "blur(10px)",
                 }}
+                variants={titleVariants}
+                transition={transition}
               >
                 {/* Gradient border overlay */}
                 <div
@@ -174,32 +243,37 @@ export default function MissionVision() {
                   }}
                 />
                 <span className="relative z-10">Our Mission</span>
-              </div>
+              </motion.div>
             </div>
 
             {/* Mission Description */}
             <div className="text-center max-w-lg">
-              <p
-                className="text-white font-light text-lg leading-[21px] tracking-[0.01em] max-w-[460px]"
+              <motion.p
+                className="text-white text-lg leading-[21px] tracking-[0.01em] max-w-[460px]"
                 style={{
                   fontFamily: "Roboto, sans-serif",
                 }}
+                variants={descriptionVariants}
+                transition={transition}
               >
                 To connect and support students through engaging events while
                 building community amongst Canadian computing student groups.
-              </p>
+              </motion.p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Our Vision Card */}
-        <div
+        <motion.div
           className="vision-card relative group cursor-pointer"
           style={{ width: "566px", height: "431px" }}
+          variants={cardVariants}
+          initial="initial"
+          whileHover="hover"
         >
           {/* Hover Rectangle */}
-          <div
-            className="absolute bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+          <motion.div
+            className="absolute bottom-0 left-0 z-0"
             style={{
               width: "566px",
               height: "335px",
@@ -207,6 +281,8 @@ export default function MissionVision() {
                 "linear-gradient(to left, rgba(212, 212, 212, 0.05) 0%, transparent 100%)",
               borderRadius: "12px",
             }}
+            variants={hoverElementVariants}
+            transition={transition}
           >
             {/* Gradient border overlay - left to right */}
             <div
@@ -222,7 +298,7 @@ export default function MissionVision() {
                 padding: "3px",
               }}
             />
-          </div>
+          </motion.div>
 
           {/* Bear Image - Positioned at top of card */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-15">
@@ -242,43 +318,51 @@ export default function MissionVision() {
               {/* Badge Icon */}
               <div className="relative">
                 {/* Cyan glow effect - left side */}
-                <div
-                  className="absolute top-1/2 -translate-y-1/2 -left-5 w-20 h-20 opacity-0 group-hover:opacity-70 transition-opacity duration-300 z-0"
+                <motion.div
+                  className="absolute top-1/2 -translate-y-1/2 -left-5 w-20 h-20 z-0"
                   style={{
                     background:
                       "radial-gradient(ellipse 100% 70% at center, rgba(50, 184, 195, 0.6) 0%, rgba(50, 184, 195, 0.3) 30%, transparent 60%)",
                     filter: "blur(8px)",
                   }}
+                  variants={glowVariants70}
+                  transition={glowTransition}
                 />
 
                 {/* Cyan glow effect - bottom left */}
-                <div
-                  className="absolute -bottom-4 -left-4 w-24 h-24 opacity-0 group-hover:opacity-90 transition-opacity duration-300 z-0"
+                <motion.div
+                  className="absolute -bottom-4 -left-4 w-24 h-24 z-0"
                   style={{
                     background:
                       "radial-gradient(ellipse 100% 70% at center, rgba(50, 184, 195, 0.7) 0%, rgba(50, 184, 195, 0.4) 30%, transparent 60%)",
                     filter: "blur(8px)",
                   }}
+                  variants={glowVariants90}
+                  transition={glowTransition}
                 />
 
                 {/* Cyan glow effect - bottom side */}
-                <div
-                  className="absolute left-1/2 -translate-x-1/2 -bottom-5 w-20 h-20 opacity-0 group-hover:opacity-75 transition-opacity duration-300 z-0"
+                <motion.div
+                  className="absolute left-1/2 -translate-x-1/2 -bottom-5 w-20 h-20 z-0"
                   style={{
                     background:
                       "radial-gradient(ellipse 100% 70% at center, rgba(50, 184, 195, 0.4) 0%, rgba(50, 184, 195, 0.25) 30%, transparent 60%)",
                     filter: "blur(8px)",
                   }}
+                  variants={glowVariants75}
+                  transition={glowTransition}
                 />
 
                 {/* Cyan glow effect - bottom right */}
-                <div
-                  className="absolute -bottom-4 -right-4 w-24 h-24 opacity-0 group-hover:opacity-45 transition-opacity duration-300 z-0"
+                <motion.div
+                  className="absolute -bottom-4 -right-4 w-24 h-24 z-0"
                   style={{
                     background:
                       "radial-gradient(ellipse 100% 70% at center, rgba(50, 184, 195, 0.3) 0%, rgba(50, 184, 195, 0.15) 30%, transparent 60%)",
                     filter: "blur(8px)",
                   }}
+                  variants={glowVariants45}
+                  transition={glowTransition}
                 />
 
                 <Image
@@ -291,8 +375,8 @@ export default function MissionVision() {
               </div>
 
               {/* Vision Title */}
-              <div
-                className="flex items-center justify-center text-white font-normal text-2xl rounded-lg mt-[-16px] relative overflow-hidden backdrop-blur-sm"
+              <motion.div
+                className="flex items-center justify-center text-white text-2xl rounded-lg mt-[-16px] relative overflow-hidden backdrop-blur-sm"
                 style={{
                   width: "233px",
                   height: "64px",
@@ -301,6 +385,8 @@ export default function MissionVision() {
                   backdropFilter: "blur(10px)",
                   WebkitBackdropFilter: "blur(10px)",
                 }}
+                variants={titleVariants}
+                transition={transition}
               >
                 {/* Gradient border overlay */}
                 <div
@@ -335,16 +421,18 @@ export default function MissionVision() {
                   }}
                 />
                 <span className="relative z-10">Our Vision</span>
-              </div>
+              </motion.div>
             </div>
 
             {/* Vision Description */}
             <div className="text-center max-w-lg">
-              <p
-                className="text-white font-light text-lg leading-[21px] tracking-[0.01em] max-w-[460px]"
+              <motion.p
+                className="text-white text-lg leading-[21px] tracking-[0.01em] max-w-[460px]"
                 style={{
                   fontFamily: "Roboto, sans-serif",
                 }}
+                variants={descriptionVariants}
+                transition={transition}
               >
                 To create a welcoming space where students can share their
                 experiences and computing student groups can share their
@@ -353,10 +441,10 @@ export default function MissionVision() {
                 simpler, advice is easy to come by, and computing students
                 don&apos;t have to feel alone in an increasingly virtual
                 industry.
-              </p>
+              </motion.p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
