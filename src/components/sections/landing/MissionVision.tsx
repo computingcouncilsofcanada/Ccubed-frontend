@@ -143,19 +143,33 @@ export default function MissionVision() {
         </div>
 
         {/* Our Vision Card */}
-        <div className="vision-card relative group cursor-pointer w-full max-w-md">
+        <div className="vision-card relative group cursor-pointer" style={{ width: '566px', height: '431px' }}>
           {/* Hover Rectangle */}
           <div 
-            className="absolute inset-x-0 bottom-0 h-4/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
             style={{
-              backgroundColor: "rgba(212, 212, 212, 0.1)",
-              borderRadius: "12px",
-              border: "3px solid rgba(212, 212, 212, 0.3)"
+              width: '566px',
+              height: '335px',
+              background: "linear-gradient(to left, rgba(212, 212, 212, 0.05) 0%, transparent 100%)",
+              borderRadius: "12px"
             }}
-          />
+          >
+            {/* Gradient border overlay - left to right */}
+            <div 
+              className="absolute inset-0 rounded-xl pointer-events-none"
+              style={{
+                background: 'linear-gradient(to right, #FFF 0%, rgba(255, 255, 255, 0.4) 25%, rgba(255, 255, 255, 0.1) 50%, transparent 60%)',
+                mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                maskComposite: 'xor',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                padding: '3px'
+              }}
+            />
+          </div>
           
           {/* Bear Image - Positioned at top of card */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-15">
             <Image
               src="/FigmaFiles/mainPageAssets/bear_earth.svg"
               alt="Bear with Earth"
@@ -166,44 +180,73 @@ export default function MissionVision() {
           </div>
           
           {/* Card Content */}
-          <div className="flex flex-col items-center py-8 px-4">
+          <div className="flex flex-col items-center px-4 pt-[59px] relative z-10">
             {/* Badge and Title Container */}
-            <div className="flex flex-col items-center mb-8 mt-8">
+            <div className="flex flex-col items-center mb-8">
               {/* Badge Icon */}
-              <div className="mb-4">
+              <div className="">
                 <Image
-                  src="/FigmaFiles/mainPageAssets/orange_badge.svg"
-                  alt="Orange Badge"
+                  src="/FigmaFiles/mainPageAssets/green_badge.svg"
+                  alt="Green Badge"
                   width={127}
                   height={113}
-                  className="w-24 h-20 md:w-32 md:h-28 object-contain"
                 />
               </div>
               
               {/* Vision Title */}
               <div 
-                className="flex items-center justify-center text-white font-semibold text-xl bg-gray-800 bg-opacity-70 rounded-lg py-3 px-6"
+                className="flex items-center justify-center text-white font-semibold text-xl rounded-lg mt-[-16px] relative overflow-hidden backdrop-blur-sm"
                 style={{
+                  width: '233px',
+                  height: '64px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   fontFamily: "Poppins, sans-serif",
                   fontWeight: "600",
                   fontSize: "24px",
-                  lineHeight: "32px"
+                  lineHeight: "32px",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)"
                 }}
               >
-                Our Vision
+                {/* Gradient border overlay */}
+                <div 
+                  className="absolute inset-0 rounded-lg pointer-events-none"
+                  style={{
+                    background: `
+                      radial-gradient(ellipse 120% 80% at 20% 100%, rgba(212,212,212,0.4) 0%, rgba(212,212,212,0.25) 30%, rgba(212,212,212,0.1) 60%, transparent 100%)
+                    `,
+                    mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    maskComposite: 'xor',
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    padding: '1px'
+                  }}
+                />
+
+                {/* Background grid - visible by default */}
+                <div 
+                  className="absolute inset-0 opacity-100 transition-opacity duration-600"
+                  style={{
+                    backgroundImage: `
+                      linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '7.28px 4px',
+                    maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 70%)',
+                    WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 70%)',
+                    borderRadius: "8px"
+                  }}
+                />
+                <span className="relative z-10">Our Vision</span>
               </div>
             </div>
             
             {/* Vision Description */}
             <div className="text-center max-w-lg">
               <p 
-                className="text-white"
+                className="text-white font-light text-lg leading-[21px] tracking-[0.01em] max-w-[460px]"
                 style={{
-                  fontFamily: "Roboto, sans-serif",
-                  fontWeight: "300",
-                  fontSize: "16px",
-                  lineHeight: "24px",
-                  letterSpacing: "0%"
+                  fontFamily: "Roboto, sans-serif"
                 }}
               >
                 To create a welcoming space where students can share their experiences and computing student groups can share their resources and knowledge to contribute to the success of the community as a whole. We envision a future where networking is simpler, advice is easy to come by, and computing students don&apos;t have to feel alone in an increasingly virtual industry.
