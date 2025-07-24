@@ -51,7 +51,7 @@ export default function Hero() {
               <div 
                 className="w-full h-full rounded-lg"
                 style={{
-                  backgroundColor: "#FAA336",
+              backgroundColor: "#FAA336",
                   borderRadius: "6px"
                 }}
               />
@@ -61,16 +61,16 @@ export default function Hero() {
               href="/"
               className="absolute inset-0 flex items-center justify-center rounded-lg z-10"
               style={{
-                color: "#0E1E29",
-                fontFamily: "Poppins, sans-serif",
-                fontWeight: "400",
-                fontSize: "16px",
-                lineHeight: "24px",
-                letterSpacing: "1%"
-              }}
-            >
-              Get Started
-            </Link>
+              color: "#0E1E29",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: "400",
+              fontSize: "16px",
+              lineHeight: "24px",
+              letterSpacing: "1%"
+            }}
+          >
+            Get Started
+          </Link>
           </div>
           <Link
             href="/"

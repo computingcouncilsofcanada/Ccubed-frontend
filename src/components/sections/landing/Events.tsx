@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { IconCalendar } from "@tabler/icons-react";
 
 // Event types
 type FileObject = {
@@ -283,6 +284,9 @@ type EventsSectionProps = {
 
 export default function Events({ events }: EventsSectionProps) {
   const [eventType, setEventType] = useState<string>("all");
+  
+  // Show actual events instead of empty state
+  const showEmptyState = false;
 
   return (
     <section className="events relative z-10">
@@ -392,14 +396,76 @@ export default function Events({ events }: EventsSectionProps) {
         </div>
 
         {/* Events Grid */}
-        <div className="flex gap-3 mb-2 justify-start overflow-x-auto">
-          {events.filter((event: Events) => event.status !== 0).length ===
-            0 && (
-            <p className="text-2xl font-bold text-center col-span-full">
-              No events at this time
-            </p>
+        <div className={`flex gap-3 mb-2 ${showEmptyState ? 'justify-center items-center min-h-[400px]' : 'justify-start overflow-x-auto'}`}>
+          {showEmptyState && (
+            <motion.div 
+              className="flex flex-col items-center justify-center py-16 px-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <div className="relative">
+                {/* Background decoration - subtle glow */}
+                <div 
+                  className="absolute rounded-full"
+                  style={{
+                    top: "-8px",
+                    left: "-8px",
+                    width: "80px",
+                    height: "80px",
+                    background: "radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 80%)",
+                    filter: "blur(1px)",
+                  }}
+                />
+                
+                {/* Icon */}
+                <div className="relative z-10 mb-6">
+                  <div 
+                    className="w-16 h-16 rounded-full flex items-center justify-center"
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.12)",
+                      border: "1px solid rgba(255, 255, 255, 0.25)",
+                      boxShadow: "0 4px 12px rgba(255, 255, 255, 0.1)",
+                    }}
+                  >
+                    <IconCalendar 
+                      size={32} 
+                      stroke={1.5} 
+                      color="rgba(255, 255, 255, 0.7)" 
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Text */}
+              <h3 
+                className="text-white text-center mb-2"
+                style={{
+                  fontFamily: "Roboto, sans-serif",
+                  fontWeight: "600",
+                  fontSize: "24px",
+                  lineHeight: "32px",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                No Events Available
+              </h3>
+              <p 
+                className="text-white text-center opacity-70"
+                style={{
+                  fontFamily: "Roboto, sans-serif",
+                  fontWeight: "300",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  letterSpacing: "0%",
+                  maxWidth: "300px",
+                }}
+              >
+                Check back soon for exciting upcoming events and workshops!
+              </p>
+            </motion.div>
           )}
-          {events
+          {!showEmptyState && events
             .filter((event: Events) => event.status !== 0)
             .filter((event: Events) => {
               if (eventType === "all") return true;
