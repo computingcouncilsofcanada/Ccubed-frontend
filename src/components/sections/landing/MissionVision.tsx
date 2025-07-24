@@ -129,7 +129,9 @@ export default function MissionVision() {
               alt="Bear with Speaker"
               width={165}
               height={165}
-              className="w-32 h-32 md:w-40 md:h-40 object-contain"
+              className="w-32 h-32 md:w-40 md:h-40 object-contain select-none"
+              draggable={false}
+              style={{ userSelect: "none" }}
             />
           </div>
 
@@ -192,7 +194,9 @@ export default function MissionVision() {
                   alt="Orange Badge"
                   width={127}
                   height={113}
-                  className="relative z-10"
+                  className="relative z-10 select-none"
+                  draggable={false}
+                  style={{ userSelect: "none" }}
                 />
               </div>
 
@@ -307,7 +311,9 @@ export default function MissionVision() {
               alt="Bear with Earth"
               width={165}
               height={165}
-              className="w-32 h-32 md:w-40 md:h-40 object-contain"
+              className="w-32 h-32 md:w-40 md:h-40 object-contain select-none"
+              draggable={false}
+              style={{ userSelect: "none" }}
             />
           </div>
 
@@ -370,7 +376,9 @@ export default function MissionVision() {
                   alt="Green Badge"
                   width={127}
                   height={113}
-                  className="relative z-10"
+                  className="relative z-10 select-none"
+                  draggable={false}
+                  style={{ userSelect: "none" }}
                 />
               </div>
 

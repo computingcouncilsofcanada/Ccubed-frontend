@@ -103,8 +103,10 @@ export default function Hero() {
             alt="Hero Image"
             width={505}
             height={505}
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain select-none"
             priority
+            draggable={false}
+            style={{ userSelect: "none" }}
           />
           
           {/* Animated Overlay Image */}
@@ -123,8 +125,10 @@ export default function Hero() {
               alt="Hero Image with Texture"
               width={505}
               height={505}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain select-none"
               priority
+              draggable={false}
+              style={{ userSelect: "none" }}
             />
           </motion.div>
         </motion.div>

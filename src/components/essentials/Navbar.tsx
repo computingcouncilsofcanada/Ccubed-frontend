@@ -38,7 +38,9 @@ const Navbar = () => {
               width={48}
               height={48}
               priority
-              className="cursor-pointer"
+              className="cursor-pointer select-none"
+              draggable={false}
+              style={{ userSelect: "none" }}
             />
           </Link>
           <div className="desktop hidden sm:block z-50">

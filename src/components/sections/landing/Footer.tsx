@@ -64,6 +64,9 @@ export default function Footer() {
                   width={60}
                   height={60}
                   priority
+                  className="select-none"
+                  draggable={false}
+                  style={{ userSelect: "none" }}
                 />
                 <h2
                   className="text-white font-extrabold"
@@ -174,9 +177,12 @@ export default function Footer() {
               alt="Bear Greeting"
               width={278}
               height={346}
+              className="select-none"
+              draggable={false}
               style={{
                 transform: "scale(1.55)",
-                transformOrigin: "bottom center"
+                transformOrigin: "bottom center",
+                userSelect: "none"
               }}
             />
           </div>

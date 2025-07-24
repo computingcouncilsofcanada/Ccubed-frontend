@@ -123,10 +123,14 @@ function EventCard({
             className="bg-slate-700/30 rounded-xl mb-2"
             style={{ width: "258px", height: "176px" }}
           >
-            <img
+            <Image
               src={imageSrc}
               alt={title}
-              className="w-full h-full object-cover opacity-80 rounded-xl"
+              width={258}
+              height={176}
+              className="w-full h-full object-cover opacity-80 rounded-xl select-none"
+              draggable={false}
+              style={{ userSelect: "none" }}
             />
           </div>
           <div className="px-2">
@@ -153,7 +157,7 @@ function EventCard({
                 {/* Time and Date in same row */}
                 <div className="flex items-center gap-2 text-white">
                   <div className="flex items-center gap-1">
-                    <img src="/FigmaFiles/eventsAssets/clock-2.svg" alt="Time" width={20} height={20} />
+                    <Image src="/FigmaFiles/eventsAssets/clock-2.svg" alt="Time" width={20} height={20} className="select-none" draggable={false} style={{ userSelect: "none" }} />
                     <span style={{ 
                       fontSize: '10px',
                       fontFamily: 'Roboto, sans-serif',
@@ -162,7 +166,7 @@ function EventCard({
                     }}>{time}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <img src="/FigmaFiles/eventsAssets/calendar.svg" alt="Date" width={20} height={20} />
+                                          <Image src="/FigmaFiles/eventsAssets/calendar.svg" alt="Date" width={20} height={20} className="select-none" draggable={false} style={{ userSelect: "none" }} />
                     <span style={{ 
                       fontSize: '10px',
                       fontFamily: 'Roboto, sans-serif',
@@ -174,7 +178,7 @@ function EventCard({
                 
                 {/* Location in second row */}
                 <div className="flex items-center gap-1 text-white">
-                  <img src="/FigmaFiles/eventsAssets/place.svg" alt="Location" width={20} height={20} />
+                  <Image src="/FigmaFiles/eventsAssets/place.svg" alt="Location" width={20} height={20} className="select-none" draggable={false} style={{ userSelect: "none" }} />
                   <span style={{ 
                     fontSize: '10px',
                     fontFamily: 'Roboto, sans-serif',
@@ -294,10 +298,12 @@ export default function Events({ events }: EventsSectionProps) {
         <Image
           src="/FigmaFiles/mainPageAssets/bear_ccube.svg"
           alt="CCubed Bear Logo Animated"
-          className="mb-[-20px]"
+          className="mb-[-20px] select-none"
           width={143}
           height={160}
           priority
+          draggable={false}
+          style={{ userSelect: "none" }}
         />
       </div>
 

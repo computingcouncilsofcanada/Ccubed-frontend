@@ -108,7 +108,7 @@ const BgBoxMainPage = () => {
         return (
           <motion.div
             key={idx}
-            className={isTopLeftBox ? "group" : ""}
+            className={isTopLeftBox ? "group select-none" : "select-none"}
             style={{
               position: "absolute",
               zIndex: 3,
@@ -116,6 +116,8 @@ const BgBoxMainPage = () => {
               height: img.height,
               maxWidth: img.maxWidth,
               maxHeight: img.maxHeight,
+              userSelect: "none",
+              pointerEvents: "auto",
               ...img.style,
             }}
             initial={{ rotate: 0 }}
@@ -126,6 +128,7 @@ const BgBoxMainPage = () => {
                 ease: "linear",
               },
             }}
+            onDragStart={(e) => e.preventDefault()}
           >
             {/* White breathing glow effect - only for top left box (index 1) */}
             {isTopLeftBox && (
@@ -150,12 +153,14 @@ const BgBoxMainPage = () => {
             <img
               src={img.src}
               alt={img.alt}
+              draggable={false}
               style={{
                 width: "100%",
                 height: "100%",
                 objectFit: "contain",
                 position: "relative",
                 zIndex: 2,
+                userSelect: "none",
               }}
             />
           </motion.div>

@@ -58,6 +58,9 @@ export default function ValueSystem() {
             width={143}
             height={210}
             priority
+            className="select-none"
+            draggable={false}
+            style={{ userSelect: "none" }}
           />
           <motion.div
             className="absolute inset-0"
@@ -75,6 +78,9 @@ export default function ValueSystem() {
               width={143}
               height={210}
               priority
+              className="select-none"
+              draggable={false}
+              style={{ userSelect: "none" }}
             />
           </motion.div>
         </motion.div>
