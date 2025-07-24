@@ -61,7 +61,7 @@ export default function Home() {
         <MissionVision />
 
         {/* Services Section */}
-        <Services />
+        {/* <Services /> */}
 
         {/* Events Section */}
         <Events events={events} />

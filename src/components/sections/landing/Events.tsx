@@ -280,46 +280,24 @@ export default function Events({ events }: EventsSectionProps) {
   const [eventType, setEventType] = useState<string>("all");
 
   return (
-    <section
-      className="events relative z-10"
-      style={{ marginTop: "-40px" }}
-    >
+    <section className="events relative z-10">
       {/* Header with title and logo */}
       <div
-        className="flex gap-3 items-end justify-center mb-4 mx-auto"
+        className="flex items-end justify-center mb-4 mx-auto"
         style={{
           width: "706px",
           height: "214px",
         }}
       >
         <h1 className="text-white text-4xl font-extrabold">Events</h1>
-        <motion.div className="relative" style={{ marginLeft: "-40px" }}>
-          <Image
-            src="/FigmaFiles/mainPageAssets/small-breathe-logo.svg"
-            alt="Breathe Logo"
-            width={143}
-            height={210}
-            priority
-          />
-          <motion.div
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 0] }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <Image
-              src="/FigmaFiles/mainPageAssets/small-breathe-logo-2.svg"
-              alt="Breathe Logo Animated"
-              width={143}
-              height={210}
-              priority
-            />
-          </motion.div>
-        </motion.div>
+        <Image
+          src="/FigmaFiles/mainPageAssets/bear_ccube.svg"
+          alt="CCubed Bear Logo Animated"
+          className="mb-[-20px]"
+          width={143}
+          height={160}
+          priority
+        />
       </div>
 
       <div className="flex flex-col gap-5">
@@ -327,8 +305,8 @@ export default function Events({ events }: EventsSectionProps) {
         <p className="text-white font-light w-full text-center px-50">
           Join us for a variety of indoor and outdoor events that bring
           computing students together beyond the screen. Whether it&apos;s a
-          casual meetup or a collaborative workshop, there&apos;s always a
-          way to connect and grow.
+          casual meetup or a collaborative workshop, there&apos;s always a way
+          to connect and grow.
         </p>
 
         {/* Event Type Filter */}
@@ -386,8 +364,9 @@ export default function Events({ events }: EventsSectionProps) {
         </div>
 
         {/* Events Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-2 justify-items-center">
-          {events.filter((event: Events) => event.status !== 0).length === 0 && (
+        <div className="flex gap-3 mb-2 justify-start overflow-x-auto">
+          {events.filter((event: Events) => event.status !== 0).length ===
+            0 && (
             <p className="text-2xl font-bold text-center col-span-full">
               No events at this time
             </p>
@@ -405,6 +384,7 @@ export default function Events({ events }: EventsSectionProps) {
                 (eventType === "online" && eventTypeValue === "online")
               );
             })
+            .slice(0, 4)
             .map((event) => (
               <EventCard
                 key={event.id}
