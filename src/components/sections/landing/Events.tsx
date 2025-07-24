@@ -318,45 +318,66 @@ export default function Events({ events }: EventsSectionProps) {
 
         {/* Event Type Filter */}
         <div
-          className="flex gap-1 rounded-lg p-1 bg-[#0B161E]"
+          className="flex gap-1 rounded-lg p-1 bg-[#0B161E] relative"
           style={{ width: "352px", height: "56px" }}
         >
+          {/* Sliding Background Indicator */}
+          <motion.div
+            className="absolute top-1 rounded-lg"
+            style={{
+              height: "48px",
+              width: "84px", // (352-8-3)/4 = width per option
+              backgroundColor: "rgba(19, 40, 54, 0.8)",
+            }}
+            animate={{
+              x: ["all", "inperson", "hybrid", "online"].indexOf(eventType) * 87, // 84px width + 3px gap
+            }}
+            transition={{
+              duration: 0.5,
+              ease: [0.4, 0, 0.2, 1]
+            }}
+          />
+
+          {/* Sliding Gradient Border */}
+          <motion.div
+            className="absolute top-1 rounded-lg pointer-events-none"
+            style={{
+              height: "48px",
+              width: "84px",
+              background: "linear-gradient(to top, rgba(61, 131, 178, 1) 0%, rgba(26, 56, 76, 0) 100%)",
+              mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              maskComposite: "xor",
+              WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "xor",
+              padding: "1.5px",
+            }}
+            animate={{
+              x: ["all", "inperson", "hybrid", "online"].indexOf(eventType) * 87,
+            }}
+            transition={{
+              duration: 0.5,
+              ease: [0.4, 0, 0.2, 1]
+            }}
+          />
+
           {[
             { label: "All Events", value: "all" },
             { label: "In Person", value: "inperson" },
             { label: "Hybrid", value: "hybrid" },
             { label: "Online", value: "online" },
           ].map((option) => (
-            <label
+            <motion.label
               key={option.value}
-              className={`flex items-center justify-center flex-1 rounded-lg cursor-pointer transition-colors duration-150 text-white relative overflow-hidden`}
+              className={`flex items-center justify-center flex-1 rounded-lg cursor-pointer text-white relative z-10`}
               style={{
                 fontFamily: "Roboto, sans-serif",
                 fontSize: "16px",
                 fontWeight: eventType === option.value ? "400" : "300",
                 letterSpacing: "1%",
-                backgroundColor:
-                  eventType === option.value
-                    ? "rgba(19, 40, 54, 0.6)"
-                    : "transparent",
               }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              {/* Gradient border for selected state */}
-              {eventType === option.value && (
-                <div
-                  className="absolute inset-0 rounded-lg pointer-events-none"
-                  style={{
-                    background:
-                      "linear-gradient(to top, rgba(61, 131, 178, 1) 0%, rgba(26, 56, 76, 0) 100%)",
-                    mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                    maskComposite: "xor",
-                    WebkitMask:
-                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                    WebkitMaskComposite: "xor",
-                    padding: "1.5px",
-                  }}
-                />
-              )}
               <input
                 type="radio"
                 name="eventType"
@@ -366,7 +387,7 @@ export default function Events({ events }: EventsSectionProps) {
                 className="hidden"
               />
               <span className="relative z-10">{option.label}</span>
-            </label>
+            </motion.label>
           ))}
         </div>
 
