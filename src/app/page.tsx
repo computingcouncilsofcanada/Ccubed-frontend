@@ -50,7 +50,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#0B161E] to-[#10212E] -mt-20 pt-20">
+    <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
       <BgBoxMainPage />
       {/* Page Container - unified width control */}
       <div className="container mx-auto max-w-6xl">

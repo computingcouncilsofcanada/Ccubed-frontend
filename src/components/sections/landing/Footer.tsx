@@ -29,25 +29,29 @@ export default function Footer() {
   return (
     <section className="footer-section relative z-10 flex justify-center">
       {/* Main Footer Container with specified dimensions and gradient border */}
-      <div
+      <div 
         className="footer-container relative"
         style={{
           width: "1150px",
           height: "298px",
-          background:
-            "linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 60%, transparent 80%)",
           borderRadius: "30px",
-          padding: "4px",
         }}
       >
-        {/* Inner container with solid background */}
-        <div
-          className="footer-inner h-full w-full px-8 pt-12"
+        {/* Gradient Border Effect */}
+        <div 
+          className="absolute inset-0 rounded-[30px] pointer-events-none"
           style={{
-            borderRadius: "26px",
-            background: "linear-gradient(to bottom, #0B161E, #10212E)",
+            background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 45%, transparent 90%)",
+            mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            maskComposite: 'xor',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            padding: '4px'
           }}
-        >
+        />
+        
+        {/* Content Container */}
+        <div className="relative px-8 pt-12 h-full">
           {/* Footer Content Grid */}
           <div className="h-full flex items-start gap-[100px]">
             {/* Left Section - Logo and Description */}

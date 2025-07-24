@@ -376,7 +376,7 @@ export default function MissionVision() {
 
               {/* Vision Title */}
               <motion.div
-                className="flex items-center justify-center text-white text-2xl rounded-lg mt-[-16px] relative overflow-hidden backdrop-blur-sm"
+                className="flex items-center justify-center text-white text-2xl rounded-lg mt-[-17px] relative overflow-hidden backdrop-blur-sm"
                 style={{
                   width: "233px",
                   height: "64px",
