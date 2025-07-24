@@ -6,7 +6,8 @@ import Hero from "@/components/sections/landing/Hero";
 import Events from "@/components/sections/landing/Events";
 import Services from "@/components/sections/landing/Services";
 import KeyBenefits from "@/components/sections/landing/KeyBenefits";
-import JoinOurTeam from "@/components/sections/landing/JoinOurTeam";
+import JoinOurTeam from "@/components/sections/landing/JoinOurTeam"
+import MissionVision from "@/components/sections/landing/MissionVision";
 // import { privateAxios } from "@/lib/axios";
 import { mockEvents } from "@/data/mockEvents";
 
@@ -55,6 +56,9 @@ export default function Home() {
       <div className="container mx-auto max-w-6xl">
         {/* Hero Section */}
         <Hero />
+
+        {/* Mission Vision Section */}
+        <MissionVision />
 
         {/* Services Section */}
         <Services />
