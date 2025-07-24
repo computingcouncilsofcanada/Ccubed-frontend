@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Hero from "@/components/sections/landing/Hero";
 import Events from "@/components/sections/landing/Events";
-// import Services from "@/components/sections/landing/Services";
 import ValueSystem from "@/components/sections/landing/ValueSystem";
-// import JoinOurTeam from "@/components/sections/landing/JoinOurTeam"
 import MissionVision from "@/components/sections/landing/MissionVision";
 import Stats from "@/components/sections/landing/Stats";
 import Footer from "@/components/sections/landing/Footer";
@@ -62,9 +60,6 @@ export default function Home() {
         {/* Mission Vision Section */}
         <MissionVision />
 
-        {/* Services Section */}
-        {/* <Services /> */}
-
         {/* Events Section */}
         <Events events={events} />
 
@@ -74,8 +69,6 @@ export default function Home() {
         {/* Value System Section */}
         <ValueSystem />
 
-        {/* Join Our Team Section */}
-        {/* <JoinOurTeam /> */}
       </div>
       
       {/* Footer Section - Outside container for custom width */}
