@@ -30,24 +30,48 @@ export default function Hero() {
         
         {/* Call to Action Buttons */}
         <div className="flex items-center gap-x-6">
-          <Link
-            href="/"
-            className="flex items-center justify-center rounded-lg"
+          <div 
+            className="relative group transition-all duration-300"
             style={{
               width: "125px",
               height: "44px",
               borderRadius: "8px",
-              backgroundColor: "#FAA336",
-              color: "#0E1E29",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "400",
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "1%"
+              background: "#FAA336"
             }}
           >
-            Get Started
-          </Link>
+            {/* Hover gradient border effect */}
+            <div 
+              className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{
+                background: "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(102, 102, 102, 0) 100%)",
+                padding: "2px",
+                borderRadius: "8px"
+              }}
+            >
+              <div 
+                className="w-full h-full rounded-lg"
+                style={{
+                  backgroundColor: "#FAA336",
+                  borderRadius: "6px"
+                }}
+              />
+            </div>
+            
+            <Link
+              href="/"
+              className="absolute inset-0 flex items-center justify-center rounded-lg z-10"
+              style={{
+                color: "#0E1E29",
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: "400",
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "1%"
+              }}
+            >
+              Get Started
+            </Link>
+          </div>
           <Link
             href="/"
             className="flex items-center justify-center rounded-lg"
