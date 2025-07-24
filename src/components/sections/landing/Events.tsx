@@ -298,7 +298,7 @@ export default function Events({ events }: EventsSectionProps) {
           height: "214px",
         }}
       >
-        <h1 className="text-white text-4xl font-extrabold">Events</h1>
+        <h1 className="text-white text-[40px] font-extrabold">Events</h1>
         <Image
           src="/FigmaFiles/mainPageAssets/bear_ccube.svg"
           alt="CCubed Bear Logo Animated"
