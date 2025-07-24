@@ -35,7 +35,7 @@ const benefits = [
   },
 ];
 
-export default function KeyBenefits() {
+export default function ValueSystem() {
   return (
     <section
       className="key-benefits relative z-10"

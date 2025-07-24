@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Hero from "@/components/sections/landing/Hero";
 import Events from "@/components/sections/landing/Events";
-import Services from "@/components/sections/landing/Services";
-import KeyBenefits from "@/components/sections/landing/KeyBenefits";
-import JoinOurTeam from "@/components/sections/landing/JoinOurTeam"
+// import Services from "@/components/sections/landing/Services";
+import ValueSystem from "@/components/sections/landing/ValueSystem";
+// import JoinOurTeam from "@/components/sections/landing/JoinOurTeam"
 import MissionVision from "@/components/sections/landing/MissionVision";
+import Stats from "@/components/sections/landing/Stats";
 // import { privateAxios } from "@/lib/axios";
 import { mockEvents } from "@/data/mockEvents";
 
@@ -66,11 +67,14 @@ export default function Home() {
         {/* Events Section */}
         <Events events={events} />
 
-        {/* Key Benefits Section */}
-        <KeyBenefits />
-        
+        {/* Stats Section */}
+        <Stats />
+
+        {/* Value System Section */}
+        <ValueSystem />
+
         {/* Join Our Team Section */}
-        <JoinOurTeam />
+        {/* <JoinOurTeam /> */}
       </div>
     </div>
   );
