@@ -9,6 +9,7 @@ import ValueSystem from "@/components/sections/landing/ValueSystem";
 // import JoinOurTeam from "@/components/sections/landing/JoinOurTeam"
 import MissionVision from "@/components/sections/landing/MissionVision";
 import Stats from "@/components/sections/landing/Stats";
+import Footer from "@/components/sections/landing/Footer";
 // import { privateAxios } from "@/lib/axios";
 import { mockEvents } from "@/data/mockEvents";
 
@@ -76,6 +77,9 @@ export default function Home() {
         {/* Join Our Team Section */}
         {/* <JoinOurTeam /> */}
       </div>
+      
+      {/* Footer Section - Outside container for custom width */}
+      <Footer />
     </div>
   );
 }
