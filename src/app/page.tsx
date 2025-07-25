@@ -215,8 +215,40 @@ export default function Home() {
               No events at this time
             </p>
           )}
+             {events.length > 0 &&
+            events.filter((event: Events) => {
+              if (event.status === 0) return false;
+              if (eventType === "all") return true;
+              if (event.types.length > 0) {
+                const eventTypes = event.types[0]
+                  .split(",")
+                  .map((t) => t.trim().toLowerCase());
+                return eventTypes.includes(eventType.toLowerCase());
+              }
+              return false;
+            }).length === 0 &&
+            eventType !== "all" && (
+              <p className="text-2xl font-bold text-center">
+                No events found for this category
+              </p>
+            )}
           {events
-            .filter((event: Events) => event.status !== 0)
+            .filter((event: Events) => {
+              if (event.status === 0) return false;
+              if (eventType === "all") return true;
+              if (event.types.length > 0) {
+                const eventTypes = event.types[0]
+                  .split(",")
+                  .map((t) => t.trim().toLowerCase());
+                console.log(
+                  "Event types:",
+                  eventTypes,
+                  "Selected:",
+                  eventType.toLowerCase()
+                );
+                return eventTypes.includes(eventType.toLowerCase());
+              }
+            })
             .map((event) => (
               <div
                 className="h-80 p-2 shadow-lg rounded-lg flex flex-col gap-2 bg-[#D4D4D4]/10"
