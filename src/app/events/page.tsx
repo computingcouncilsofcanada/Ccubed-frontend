@@ -20,6 +20,7 @@ type Events = {
   location: string;
   images: string;
   files: FileObject[];
+  types: string[];
 };
 
 export default function EventsPage() {
@@ -99,8 +100,40 @@ export default function EventsPage() {
               No events at this time
             </p>
           )}
+          {events.length > 0 &&
+            events.filter((event: Events) => {
+              if (event.status === 0) return false;
+              if (eventType === "all") return true;
+              if (event.types.length > 0) {
+                const eventTypes = event.types[0]
+                  .split(",")
+                  .map((t) => t.trim().toLowerCase());
+                return eventTypes.includes(eventType.toLowerCase());
+              }
+              return false;
+            }).length === 0 &&
+            eventType !== "all" && (
+              <p className="text-2xl font-bold text-center">
+                No events found for this category
+              </p>
+            )}
           {events
-            .filter((event: Events) => event.status !== 0) 
+            .filter((event: Events) => {
+              if (event.status === 0) return false;
+              if (eventType === "all") return true;
+              if (event.types.length > 0) {
+                const eventTypes = event.types[0]
+                  .split(",")
+                  .map((t) => t.trim().toLowerCase());
+                console.log(
+                  "Event types:",
+                  eventTypes,
+                  "Selected:",
+                  eventType.toLowerCase()
+                );
+                return eventTypes.includes(eventType.toLowerCase());
+              }
+            })
             .map((event) => (
               <div
                 className="flex border-2 border-black rounded-xl p-4 gap-6 items-center"
@@ -119,6 +152,16 @@ export default function EventsPage() {
                 </div>
                 <div className="flex-1 rounded-md p-4 flex flex-col justify-between min-h-[15rem]">
                   <div>
+                    {event.types &&
+                      event.types.length > 0 &&
+                      event.types[0].split(",").map((type, id) => (
+                        <div
+                          className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white"
+                          key={type + id}
+                        >
+                          {type}
+                        </div>
+                      ))}
                     <div className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white">
                       Discord Events
                     </div>
