@@ -29,6 +29,7 @@ type Event = {
   updated_at: string | null;
   updated_by: string | null;
   pending_action: string;
+  types: string[];
 };
 
 type EventForm = {
@@ -44,6 +45,10 @@ function EventsPage() {
   const { user, isLoading } = useUser();
   const [events, setEvents] = useState<Event[]>([]);
   const [error, setError] = useState<string>("");
+
+  // Add state for selected event types
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const typeOptions = ["In Person", "Discord", "Online"];
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -89,6 +94,10 @@ function EventsPage() {
   }, [page]);
 
   const handleCreateEvent = async (data: EventForm) => {
+    if (selectedTypes.length === 0) {
+      alert("Please select at least one event type.");
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -99,10 +108,13 @@ function EventsPage() {
       if (data.images?.[0]) {
         formData.append("file", data.images[0]);
       }
+      // Append types as a single comma-separated string in an array
+      formData.append("types", selectedTypes.join(","));
 
       const res = await createEvent(formData);
       setIsCreateModalOpen(false);
       resetCreate();
+      setSelectedTypes([]);
       if (res.status === 201) {
         alert(res.message);
         await fetchEvents();
@@ -275,6 +287,7 @@ function EventsPage() {
             <h1>
               Start: {new Date(parseInt(event.start_at)).toLocaleString()}
             </h1>
+            <h1>Types: {event.types}</h1>
             <h1>End: {new Date(parseInt(event.end_at)).toLocaleString()}</h1>
             <h1>Location: {event.location}</h1>
             <h1>Pending action: {event.pending_action}</h1>
@@ -377,6 +390,7 @@ function EventsPage() {
         onClose={() => {
           setIsCreateModalOpen(false);
           resetCreate();
+          setSelectedTypes([]);
         }}
         title="Create New Event"
       >
@@ -474,6 +488,39 @@ function EventsPage() {
               )}
             </div>
 
+            {/* Event Types Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Event Types <span className="text-red-500">*</span>
+              </label>
+              <div className="flex gap-2">
+                {typeOptions.map((type) => (
+                  <label key={type} className="flex items-center gap-1">
+                    <input
+                      type="checkbox"
+                      value={type}
+                      checked={selectedTypes.includes(type)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedTypes((prev) => [...prev, type]);
+                        } else {
+                          setSelectedTypes((prev) =>
+                            prev.filter((t) => t !== type)
+                          );
+                        }
+                      }}
+                    />
+                    {type}
+                  </label>
+                ))}
+              </div>
+              {selectedTypes.length === 0 && (
+                <p className="text-red-500 text-sm">
+                  Please select at least one event type.
+                </p>
+              )}
+            </div>
+
             {/* Event Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -491,6 +538,7 @@ function EventsPage() {
             <button
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              disabled={selectedTypes.length === 0}
             >
               Create Event
             </button>
