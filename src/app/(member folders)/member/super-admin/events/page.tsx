@@ -263,6 +263,21 @@ function EventsPage() {
     }
   };
 
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        router.push("/");
+      } else if (user.role !== "SUPER_ADMIN") {
+        router.push("/member");
+      }
+    }
+  }, [user, isLoading, router]);
+
+    if (!user || user.role !== "SUPER_ADMIN") {
+      return null;
+    }
+  
+
   return (
     <div className="flex mt-10 gap-3 flex-col">
       {/* Page Title */}
