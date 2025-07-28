@@ -30,6 +30,7 @@ type Event = {
   updated_by: string | null;
   pending_action: string;
   types: string[];
+  status: number;
 };
 
 type EventForm = {
@@ -280,7 +281,7 @@ function EventsPage() {
       {/* Events Grid Display */}
       <div className="grid grid-cols-3 gap-5 p-5">
         {events.map((event) => (
-          <div key={event.id} className="border-2 border-blue-200 p-4">
+          <div key={event.id} className="border-2 border-blue-200 p-4 text-white">
             {/* Event Details */}
             <h1 className="font-bold">Event Name: {event.name}</h1>
             <h1>Description: {event.description}</h1>
@@ -291,6 +292,7 @@ function EventsPage() {
             <h1>End: {new Date(parseInt(event.end_at)).toLocaleString()}</h1>
             <h1>Location: {event.location}</h1>
             <h1>Pending action: {event.pending_action}</h1>
+            <h1>Status: {event.status}</h1>
             <h1>
               Created At:{" "}
               {new Date(parseInt(event.created_at)).toLocaleDateString()}

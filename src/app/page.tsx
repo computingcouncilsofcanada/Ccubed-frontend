@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import { privateAxios } from "@/lib/axios";
+import { getAllEvents } from "@/services/useApiAuth";
 
 type FileObject = {
   id: number;
@@ -60,15 +61,20 @@ export default function Home() {
   const [events, setEvents] = useState<Events[]>([]);
   const [error, setError] = useState<string>("");
 
+  const fetchEvents = async () => {
+    try {
+      const offset = 0;
+      const limit =0;
+      const res = await getAllEvents(limit, offset);
+      setEvents(res.data);
+    } catch (error: any) {
+      setError(error.message);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    privateAxios
-      .get("/events")
-      .then((res) => {
-        setEvents(res.data.data);
-      })
-      .catch((error) => {
-        setError(error.response.data.message);
-      });
+    fetchEvents();
   }, []);
 
   return (

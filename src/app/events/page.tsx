@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { privateAxios } from "@/lib/axios"; //importing Public Axios
 import PreviewModal from "@/components/modals/PreviewModal";
+import { getAllEvents } from "@/services/useApiAuth";
+
 
 type FileObject = {
   id: number;
@@ -32,16 +34,21 @@ export default function EventsPage() {
   const handleShare = () => alert("Share link clicked");
   const handleInvite = () => alert("Invitation link clicked");
 
+ const fetchEvents = async () => {
+    try {
+      const offset = 0;
+      const limit =0;
+      const res = await getAllEvents(limit, offset);
+      setEvents(res.data);
+    } catch (error: any) {
+      setError(error.message);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    privateAxios
-      .get("/events")
-      .then((res) => {
-        setEvents(res.data.data);
-      })
-      .catch((error) => {
-        setError(error.response.data.message);
-      });
-  }, []); // Fetching the events once at component mount
+    fetchEvents();
+  }, []);// Fetching the events once at component mount
 
   return (
     <div className="min-h-screen bg-foreground text-background">
