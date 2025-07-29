@@ -30,6 +30,8 @@ type Event = {
   updated_at: string | null;
   updated_by: string | null;
   pending_action: string;
+  types: string[];
+  status: number;
 };
 
 type EventForm = {
@@ -39,6 +41,7 @@ type EventForm = {
   end_at: string;
   location: string;
   images?: FileList;
+  types: string[];
 };
 
 type PreviewEvent = {
@@ -61,6 +64,8 @@ function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [error, setError] = useState<string>("");
 
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const typeOptions = ["In Person", "Discord", "Online"];
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -166,6 +171,11 @@ function EventsPage() {
   }, [page]);
 
   const handleCreateEvent = async (data: EventForm) => {
+    if (selectedTypes.length === 0) {
+      alert("Please select at least one event type.");
+
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -177,9 +187,12 @@ function EventsPage() {
         formData.append("file", data.images[0]);
       }
 
+      formData.append("types", selectedTypes.join(","));
+
       const res = await createEvent(formData);
       setIsCreateModalOpen(false);
       resetCreate();
+      setSelectedTypes([]);
       if (res.status === 201) {
         alert(res.message);
         await fetchEvents();
@@ -218,9 +231,9 @@ function EventsPage() {
 
     try {
       const res = await deleteEvent(selectedEvent.id);
-      setIsDeleteModalOpen(false);
       if (res.status === 200) {
         alert(res.message);
+        setIsDeleteModalOpen(false);
         await fetchEvents();
       }
     } catch (error: any) {
@@ -236,6 +249,7 @@ function EventsPage() {
       const res = await approveCreateEvent(selectedEvent.id);
       if (res.status === 200) {
         alert(res.message);
+        setIsApproveModalOpen(false);
         await fetchEvents();
       }
     } catch (error: any) {
@@ -332,8 +346,22 @@ function EventsPage() {
     }
   };
 
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        router.push("/");
+      } else if (user.role !== "STAFF" && user.role !== "SUPER_ADMIN") {
+        router.push("/member");
+      }
+    }
+  }, [user, isLoading, router]);
+
+  if (!user || (user.role !== "STAFF" && user.role !== "SUPER_ADMIN")) {
+    return null;
+  }
+
   return (
-    <div className="flex mt-10 gap-3 flex-col text-white bg-gray-900 min-h-screen p-4">
+    <div className="flex mt-10 gap-3 flex-col">
       {/* Page Title */}
       <h1 className="text-3xl text-center w-full text-white">Events</h1>
 
@@ -352,28 +380,26 @@ function EventsPage() {
         {events.map((event) => (
           <div
             key={event.id}
-            className="border-2 border-gray-600 p-4 text-white bg-gray-800 rounded-lg"
+            className="border-2 border-blue-200 p-4 text-white "
           >
             {/* Event Details */}
-            <h1 className="font-bold text-white">Event Name: {event.name}</h1>
-            <h1 className="text-white">Description: {event.description}</h1>
-            <h1 className="text-white">
+            <h1 className="font-bold ">Event Name: {event.name}</h1>
+            <h1 className="">Description: {event.description}</h1>
+            <h1 className="">
               Start: {new Date(parseInt(event.start_at)).toLocaleString()}
             </h1>
-            <h1 className="text-white">
-              End: {new Date(parseInt(event.end_at)).toLocaleString()}
-            </h1>
-            <h1 className="text-white">Location: {event.location}</h1>
-            <h1 className="text-white">
-              Pending action: {event.pending_action}
-            </h1>
-            <h1 className="text-white">
+            <h1>Types: {event.types.join(", ")}</h1>
+            <h1>End: {new Date(parseInt(event.end_at)).toLocaleString()}</h1>
+            <h1>Location: {event.location}</h1>
+            <h1>Pending action: {event.pending_action}</h1>
+            <h1>Status: {event.status}</h1>
+            <h1 className="">
               Created At:{" "}
               {new Date(parseInt(event.created_at)).toLocaleDateString()}
             </h1>
-            <h1 className="text-white">Created By: {event.created_by}</h1>
+            <h1 className="">Created By: {event.created_by}</h1>
             {event.updated_at && (
-              <h1 className="text-white">
+              <h1 className="">
                 Last Updated:{" "}
                 {new Date(parseInt(event.updated_at)).toLocaleDateString()}
               </h1>
@@ -448,15 +474,15 @@ function EventsPage() {
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page === 1}
-          className="border-2 border-gray-500 px-4 py-1 rounded disabled:opacity-50 text-white hover:bg-gray-700 bg-gray-800"
+          className="border-2 border-gray-300 px-4 py-1 rounded disabled:opacity-50"
         >
           Previous
         </button>
-        <span className="px-4 py-1 text-white">Page {page}</span>
+        <span className="px-4 py-1 ">Page {page}</span>
         <button
           onClick={() => setPage((p) => p + 1)}
           disabled={events.length < limit}
-          className="border-2 border-gray-500 px-4 py-1 rounded disabled:opacity-50 text-white hover:bg-gray-700 bg-gray-800"
+          className="border-2 border-gray-300 px-4 py-1 rounded disabled:opacity-50"
         >
           Next
         </button>
@@ -468,6 +494,7 @@ function EventsPage() {
         onClose={() => {
           setIsCreateModalOpen(false);
           resetCreate();
+          setSelectedTypes([]);
         }}
         title="Create New Event"
       >
@@ -475,16 +502,16 @@ function EventsPage() {
           <div className="flex flex-col gap-4">
             {/* Event Name Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Event Name
               </label>
               <input
                 type="text"
                 {...registerCreate("name", { required: "Name is required" })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {createErrors.name && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {createErrors.name.message}
                 </p>
               )}
@@ -492,17 +519,17 @@ function EventsPage() {
 
             {/* Event Description Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Description
               </label>
               <textarea
                 {...registerCreate("description", {
                   required: "Description is required",
                 })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {createErrors.description && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {createErrors.description.message}
                 </p>
               )}
@@ -510,7 +537,7 @@ function EventsPage() {
 
             {/* Event Start Time Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Start Time
               </label>
               <input
@@ -518,10 +545,10 @@ function EventsPage() {
                 {...registerCreate("start_at", {
                   required: "Start time is required",
                 })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {createErrors.start_at && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {createErrors.start_at.message}
                 </p>
               )}
@@ -529,7 +556,7 @@ function EventsPage() {
 
             {/* Event End Time Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 End Time
               </label>
               <input
@@ -537,10 +564,10 @@ function EventsPage() {
                 {...registerCreate("end_at", {
                   required: "End time is required",
                 })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {createErrors.end_at && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {createErrors.end_at.message}
                 </p>
               )}
@@ -548,7 +575,7 @@ function EventsPage() {
 
             {/* Event Location Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Location
               </label>
               <input
@@ -556,25 +583,61 @@ function EventsPage() {
                 {...registerCreate("location", {
                   required: "Location is required",
                 })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {createErrors.location && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {createErrors.location.message}
+                </p>
+              )}
+            </div>
+            {/* Event Types Selection */}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Event Types <span className="text-red-500">*</span>
+              </label>
+
+              <div className="flex gap-2">
+                {typeOptions.map((type) => (
+                  <label key={type} className="flex items-center gap-1">
+                    <input
+                      type="checkbox"
+                      value={type}
+                      checked={selectedTypes.includes(type)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedTypes((prev) => [...prev, type]);
+                        } else {
+                          setSelectedTypes((prev) =>
+                            prev.filter((t) => t !== type)
+                          );
+                        }
+                      }}
+                    />
+
+                    {type}
+                  </label>
+                ))}
+              </div>
+
+              {selectedTypes.length === 0 && (
+                <p className="text-red-500 text-sm">
+                  Please select at least one event type.
                 </p>
               )}
             </div>
 
             {/* Event Image Upload */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Event Image
               </label>
               <input
                 type="file"
                 accept="image/*"
                 {...registerCreate("images")}
-                className="mt-1 block w-full text-gray-300"
+                className="mt-1 block w-full "
               />
             </div>
 
@@ -592,7 +655,8 @@ function EventsPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              disabled={selectedTypes.length === 0}
             >
               Create Event
             </button>
@@ -613,17 +677,17 @@ function EventsPage() {
           <div className="flex flex-col gap-4">
             {/* Event Name Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Event Name
               </label>
               <input
                 type="text"
                 defaultValue={selectedEvent?.name}
                 {...registerUpdate("name", { required: "Name is required" })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {updateErrors.name && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {updateErrors.name.message}
                 </p>
               )}
@@ -631,7 +695,7 @@ function EventsPage() {
 
             {/* Event Description Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Description
               </label>
               <textarea
@@ -639,10 +703,10 @@ function EventsPage() {
                 {...registerUpdate("description", {
                   required: "Description is required",
                 })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {updateErrors.description && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {updateErrors.description.message}
                 </p>
               )}
@@ -650,7 +714,7 @@ function EventsPage() {
 
             {/* Event Start Time Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Start Time
               </label>
               <input
@@ -659,10 +723,10 @@ function EventsPage() {
                 {...registerUpdate("start_at", {
                   required: "Start time is required",
                 })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {updateErrors.start_at && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {updateErrors.start_at.message}
                 </p>
               )}
@@ -670,7 +734,7 @@ function EventsPage() {
 
             {/* Event End Time Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 End Time
               </label>
               <input
@@ -679,10 +743,10 @@ function EventsPage() {
                 {...registerUpdate("end_at", {
                   required: "End time is required",
                 })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {updateErrors.end_at && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {updateErrors.end_at.message}
                 </p>
               )}
@@ -690,7 +754,7 @@ function EventsPage() {
 
             {/* Event Location Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-gray-700">
                 Location
               </label>
               <input
@@ -699,10 +763,10 @@ function EventsPage() {
                 {...registerUpdate("location", {
                   required: "Location is required",
                 })}
-                className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
               {updateErrors.location && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-sm">
                   {updateErrors.location.message}
                 </p>
               )}
@@ -726,13 +790,12 @@ function EventsPage() {
         title="Delete Event"
       >
         <div className="flex flex-col gap-4">
-          <p className="text-white">
-            Are you sure you want to delete this event?
-          </p>
+          <p>Are you sure you want to delete this event?</p>
           <div className="flex justify-end gap-2">
             <button
               onClick={() => setIsDeleteModalOpen(false)}
-              className="border-2 border-gray-500 px-4 py-2 rounded hover:bg-gray-700 text-white bg-gray-800"
+              className="border-2 border-gray-300 px-4 py-2 rounded hover:bg-gray-100
+              "
             >
               Cancel
             </button>
@@ -759,14 +822,14 @@ function EventsPage() {
       >
         <div className="flex flex-col gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Rejection Reason *
             </label>
             <textarea
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
               placeholder="Please provide a reason for rejection..."
-              className="w-full rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-red-500 focus:ring-red-500"
+              className="w-full rounded-md border-gray-300 bg-gray-100 shadow-sm focus:border-red-500 focus:ring-red-500 text-black px-2"
               rows={4}
               required
             />
@@ -777,7 +840,7 @@ function EventsPage() {
                 setIsRejectModalOpen(false);
                 setRejectReason("");
               }}
-              className="border-2 border-gray-500 px-4 py-2 rounded hover:bg-gray-700 text-white bg-gray-800"
+              className="border-2 border-gray-300 px-4 py-2 rounded hover:bg-gray-100"
             >
               Cancel
             </button>
@@ -803,13 +866,13 @@ function EventsPage() {
         title="Approve Event Creation"
       >
         <div className="flex flex-col gap-4">
-          <p className="text-white">
+          <p >
             Are you sure you want to approve this event creation?
           </p>
           <div className="flex justify-end gap-2">
             <button
               onClick={() => setIsApproveModalOpen(false)}
-              className="border-2 border-gray-500 px-4 py-2 rounded hover:bg-gray-700 text-white bg-gray-800"
+              className="border-2 border-gray-300 px-4 py-2 rounded hover:bg-gray-100"
             >
               Cancel
             </button>
