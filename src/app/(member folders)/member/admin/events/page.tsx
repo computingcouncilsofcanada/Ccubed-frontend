@@ -188,8 +188,8 @@ function EventsPage() {
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("description", data.description);
-      formData.append("start_at", data.start_at);
-      formData.append("end_at", data.end_at);
+      formData.append("start_at", new Date(data.start_at).getTime().toString());
+      formData.append("end_at", new Date(data.end_at).getTime().toString());
       formData.append("location", data.location);
       if (data.images?.[0]) {
         formData.append("file", data.images[0]);
@@ -222,8 +222,8 @@ function EventsPage() {
       const res = await updateEvent(selectedEvent.id, {
         name: data.name,
         description: data.description,
-        start_at: data.start_at,
-        end_at: data.end_at,
+        start_at: new Date(data.start_at).getTime().toString(),
+        end_at: new Date(data.end_at).getTime().toString(),
         location: data.location,
       });
       setIsUpdateModalOpen(false);
