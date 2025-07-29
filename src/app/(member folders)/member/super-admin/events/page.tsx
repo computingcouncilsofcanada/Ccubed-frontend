@@ -41,6 +41,7 @@ type EventForm = {
   end_at: string;
   location: string;
   images?: FileList;
+  types: string[];
 };
 
 type PreviewEvent = {
@@ -186,7 +187,6 @@ function EventsPage() {
       if (data.images?.[0]) {
         formData.append("file", data.images[0]);
       }
-      // Append types as a single comma-separated string in an array
       formData.append("types", selectedTypes.join(","));
 
       const res = await createEvent(formData);
@@ -382,7 +382,7 @@ function EventsPage() {
             <h1>
               Start: {new Date(parseInt(event.start_at)).toLocaleString()}
             </h1>
-            <h1>Types: {event.types}</h1>
+            <h1>Types: {event.types.join(", ")}</h1>
             <h1>End: {new Date(parseInt(event.end_at)).toLocaleString()}</h1>
             <h1>Location: {event.location}</h1>
             <h1>Pending action: {event.pending_action}</h1>
