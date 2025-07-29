@@ -15,6 +15,7 @@ import {
 } from "@/services/useApiAuth";
 import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
+import PreviewModal from "@/components/modals/PreviewModal";
 
 type Event = {
   id: string;
@@ -42,6 +43,21 @@ type EventForm = {
   images?: FileList;
 };
 
+type PreviewEvent = {
+  id: number;
+  name: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  images: string;
+  files: Array<{
+    id: number;
+    name: string;
+    url: string;
+  }>;
+};
+
 function EventsPage() {
   const { user, isLoading } = useUser();
   const [events, setEvents] = useState<Event[]>([]);
@@ -55,11 +71,13 @@ function EventsPage() {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
   const [rejectType, setRejectType] = useState<"create" | "update">("create");
+  const [previewEvent, setPreviewEvent] = useState<PreviewEvent | null>(null);
 
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -69,6 +87,7 @@ function EventsPage() {
     register: registerCreate,
     handleSubmit: handleCreateSubmit,
     reset: resetCreate,
+    watch: watchCreate,
     formState: { errors: createErrors },
   } = useForm<EventForm>();
 
@@ -78,6 +97,64 @@ function EventsPage() {
     reset: resetUpdate,
     formState: { errors: updateErrors },
   } = useForm<EventForm>();
+
+  const createFormValues = watchCreate();
+
+  const createPreviewEvent = (formData: EventForm): PreviewEvent => {
+    const name = formData.name || "Event Name";
+    const description =
+      formData.description || "Event description will appear here...";
+    const location = formData.location || "Location TBD";
+
+    let date = "Date TBD";
+    let time = "Time TBD";
+
+    if (formData.start_at && formData.end_at) {
+      try {
+        const startDate = new Date(formData.start_at);
+        const endDate = new Date(formData.end_at);
+
+        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+          date = startDate.toLocaleDateString();
+          time = `${startDate.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })} - ${endDate.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}`;
+        }
+      } catch (error) {
+        console.error("Error parsing dates:", error);
+      }
+    }
+
+    return {
+      id: 0,
+      name,
+      description,
+      date,
+      time,
+      location,
+      images: "",
+      files:
+        formData.images && formData.images.length > 0
+          ? [
+              {
+                id: 1,
+                name: formData.images[0].name,
+                url: URL.createObjectURL(formData.images[0]),
+              },
+            ]
+          : [],
+    };
+  };
+
+  const handlePreviewEvent = () => {
+    const previewData = createPreviewEvent(createFormValues);
+    setPreviewEvent(previewData);
+    setIsPreviewModalOpen(true);
+  };
 
   const fetchEvents = async () => {
     try {
@@ -273,10 +350,9 @@ function EventsPage() {
     }
   }, [user, isLoading, router]);
 
-    if (!user || user.role !== "SUPER_ADMIN") {
-      return null;
-    }
-  
+  if (!user || user.role !== "SUPER_ADMIN") {
+    return null;
+  }
 
   return (
     <div className="flex mt-10 gap-3 flex-col">
@@ -296,7 +372,10 @@ function EventsPage() {
       {/* Events Grid Display */}
       <div className="grid grid-cols-3 gap-5 p-5">
         {events.map((event) => (
-          <div key={event.id} className="border-2 border-blue-200 p-4 text-white">
+          <div
+            key={event.id}
+            className="border-2 border-blue-200 p-4 text-white"
+          >
             {/* Event Details */}
             <h1 className="font-bold">Event Name: {event.name}</h1>
             <h1>Description: {event.description}</h1>
@@ -551,6 +630,16 @@ function EventsPage() {
               />
             </div>
 
+            <div>
+              <button
+                type="button"
+                onClick={handlePreviewEvent}
+                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors duration-200"
+              >
+                👁️ Preview Event
+              </button>
+            </div>
+
             {/* Submit Button */}
             <button
               type="submit"
@@ -783,6 +872,11 @@ function EventsPage() {
           </div>
         </div>
       </Modal>
+      <PreviewModal
+        isOpen={isPreviewModalOpen}
+        onClose={() => setIsPreviewModalOpen(false)}
+        event={previewEvent}
+      />
     </div>
   );
 }
