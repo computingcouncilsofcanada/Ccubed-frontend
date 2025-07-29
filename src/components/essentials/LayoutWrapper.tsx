@@ -13,7 +13,7 @@ export default function LayoutWrapper({
     pathname?.startsWith("/member/") || pathname?.startsWith("/login");
 
   return (
-    <div className="bg-linear-to-b  from-[#0D1C26] to-[#1A384C] min-h-screen w-full">
+    <div className="min-h-screen w-full bg-gradient-to-b from-[#0B161E] to-[#10212E]">
       {!isStaffRoute && <Navbar />}
       {children}
     </div>
