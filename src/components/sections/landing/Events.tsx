@@ -121,7 +121,7 @@ function EventCard({
         <div className="p-2 h-full flex flex-col">
           {/* Event Image */}
           <div
-            className="bg-slate-700/30 rounded-xl mb-2"
+            className="bg-slate-700/30 rounded-xl mb-2 flex-shrink-0"
             style={{ width: "258px", height: "176px" }}
           >
             <Image
@@ -132,6 +132,9 @@ function EventCard({
               className="w-full h-full object-cover opacity-80 rounded-xl select-none"
               draggable={false}
               style={{ userSelect: "none" }}
+              priority={false}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
             />
           </div>
           <div className="px-2">
@@ -154,7 +157,7 @@ function EventCard({
             </h3>
 
             {/* Basic Info - Always Visible */}
-            <div className="mb-2 space-y-1">
+            <div className="mb-2 space-y-1 h-12">
                 {/* Time and Date in same row */}
                 <div className="flex items-center gap-2 text-white">
                   <div className="flex items-center gap-1">
@@ -284,9 +287,41 @@ type EventsSectionProps = {
 
 export default function Events({ events }: EventsSectionProps) {
   const [eventType, setEventType] = useState<string>("all");
+  const [showMore, setShowMore] = useState<boolean>(false);
   
   // Show actual events instead of empty state
   const showEmptyState = false;
+
+  // Filter events based on selected type
+  const filteredEvents = events
+    .filter((event: Events) => event.status !== 0)
+    .filter((event: Events) => {
+      if (eventType === "all") return true;
+      if (!event.types || event.types.length === 0) return false;
+      const eventTypeValue = event.types[0].toLowerCase();
+      return (
+        eventTypeValue === eventType ||
+        (eventType === "inperson" && eventTypeValue === "in person") ||
+        (eventType === "hybrid" && eventTypeValue === "hybrid") ||
+        (eventType === "online" && eventTypeValue === "online")
+      );
+    });
+
+  // Check if no events found for specific filter
+  const showNoEventsForFilter = !showEmptyState && eventType !== "all" && filteredEvents.length === 0;
+
+  // Check if there are more events to show
+  const hasMoreEvents = filteredEvents.length > 4;
+  
+  // Get display name for current filter
+  const getFilterDisplayName = (type: string) => {
+    switch(type) {
+      case "inperson": return "In Person";
+      case "hybrid": return "Hybrid"; 
+      case "online": return "Online";
+      default: return type;
+    }
+  };
 
   return (
     <section className="events relative z-10">
@@ -396,7 +431,97 @@ export default function Events({ events }: EventsSectionProps) {
         </div>
 
         {/* Events Grid */}
-        <div className={`flex gap-3 mb-2 ${showEmptyState ? 'justify-center items-center min-h-[400px]' : 'justify-start overflow-x-auto'}`}>
+        <div className={`mb-2 ${showEmptyState || showNoEventsForFilter ? 'flex justify-center items-center h-[451px]' : ''}`}>
+          {!showEmptyState && !showNoEventsForFilter && (
+            <div className="space-y-3">
+              {/* First Row - Always visible */}
+              <div className="grid grid-cols-4 gap-3">
+                {filteredEvents
+                  .slice(0, 4)
+                  .map((event) => (
+                    <EventCard
+                      key={event.id}
+                      id={event.id}
+                      title={event.name}
+                      time={event.time}
+                      date={event.date}
+                      location={event.location}
+                      type={
+                        event.types && event.types.length > 0
+                          ? event.types[0] === "In person"
+                            ? "In Person"
+                            : event.types[0] === "Hybrid"
+                            ? "Hybrid"
+                            : "Online"
+                          : "Online"
+                      }
+                      imageSrc={
+                        event.files && event.files.length > 0
+                          ? event.files[0].url
+                          : "https://placehold.co/400"
+                      }
+                      description={event.description}
+                    />
+                  ))}
+              </div>
+
+              {/* Second Row - Animated */}
+              <AnimatePresence>
+                {showMore && filteredEvents.length > 4 && (
+                  <motion.div
+                    className="grid grid-cols-4 gap-3"
+                    initial={{ opacity: 0, y: -30, height: 0 }}
+                    animate={{ 
+                      opacity: 1, 
+                      y: 0, 
+                      height: "auto",
+                    }}
+                    exit={{ 
+                      opacity: 0, 
+                      y: -30, 
+                      height: 0,
+                    }}
+                    transition={{ 
+                      duration: 0.8, 
+                      ease: [0.25, 0.1, 0.25, 1],
+                      height: { 
+                        duration: 0.8,
+                        ease: [0.25, 0.1, 0.25, 1]
+                      }
+                    }}
+                  >
+                    {filteredEvents
+                      .slice(4, 8)
+                      .map((event) => (
+                        <EventCard
+                          key={event.id}
+                          id={event.id}
+                          title={event.name}
+                          time={event.time}
+                          date={event.date}
+                          location={event.location}
+                          type={
+                            event.types && event.types.length > 0
+                              ? event.types[0] === "In person"
+                                ? "In Person"
+                                : event.types[0] === "Hybrid"
+                                ? "Hybrid"
+                                : "Online"
+                              : "Online"
+                          }
+                          imageSrc={
+                            event.files && event.files.length > 0
+                              ? event.files[0].url
+                              : "https://placehold.co/400"
+                          }
+                          description={event.description}
+                        />
+                      ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
           {showEmptyState && (
             <motion.div 
               className="flex flex-col items-center justify-center py-16 px-8"
@@ -465,69 +590,105 @@ export default function Events({ events }: EventsSectionProps) {
               </p>
             </motion.div>
           )}
-          {!showEmptyState && events
-            .filter((event: Events) => event.status !== 0)
-            .filter((event: Events) => {
-              if (eventType === "all") return true;
-              if (!event.types || event.types.length === 0) return false;
-              const eventTypeValue = event.types[0].toLowerCase();
-              return (
-                eventTypeValue === eventType ||
-                (eventType === "inperson" && eventTypeValue === "in person") ||
-                (eventType === "hybrid" && eventTypeValue === "hybrid") ||
-                (eventType === "online" && eventTypeValue === "online")
-              );
-            })
-            .slice(0, 4)
-            .map((event) => (
-              <EventCard
-                key={event.id}
-                id={event.id}
-                title={event.name}
-                time={event.time}
-                date={event.date}
-                location={event.location}
-                type={
-                  event.types && event.types.length > 0
-                    ? event.types[0] === "In person"
-                      ? "In Person"
-                      : event.types[0] === "Hybrid"
-                      ? "Hybrid"
-                      : "Online"
-                    : "Online"
-                }
-                imageSrc={
-                  event.files && event.files.length > 0
-                    ? event.files[0].url
-                    : "https://placehold.co/400"
-                }
-                description={event.description}
-              />
-            ))}
-        </div>
+          
+          {/* No events found for specific filter */}
+          {showNoEventsForFilter && (
+            <motion.div 
+              className="flex flex-col items-center justify-center py-16 px-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <div className="relative">
+                {/* Background decoration - subtle glow */}
+                <div 
+                  className="absolute rounded-full"
+                  style={{
+                    top: "-8px",
+                    left: "-8px",
+                    width: "80px",
+                    height: "80px",
+                    background: "radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 80%)",
+                    filter: "blur(1px)",
+                  }}
+                />
+                
+                {/* Icon */}
+                <div className="relative z-10 mb-6">
+                  <div 
+                    className="w-16 h-16 rounded-full flex items-center justify-center"
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.12)",
+                      border: "1px solid rgba(255, 255, 255, 0.25)",
+                      boxShadow: "0 4px 12px rgba(255, 255, 255, 0.1)",
+                    }}
+                  >
+                    <IconCalendar 
+                      size={32} 
+                      stroke={1.5} 
+                      color="rgba(255, 255, 255, 0.7)" 
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Text */}
+              <h3 
+                className="text-white text-center mb-2"
+                style={{
+                  fontFamily: "Roboto, sans-serif",
+                  fontWeight: "600",
+                  fontSize: "24px",
+                  lineHeight: "32px",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                No {getFilterDisplayName(eventType)} Events
+              </h3>
+              <p 
+                className="text-white text-center opacity-70"
+                style={{
+                  fontFamily: "Roboto, sans-serif",
+                  fontWeight: "300",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  letterSpacing: "0%",
+                  maxWidth: "350px",
+                }}
+              >
+                We don&apos;t have any {getFilterDisplayName(eventType).toLowerCase()} events available right now. Try checking &quot;All Events&quot; or other event types!
+              </p>
+            </motion.div>
+          )}
+                  </div>
 
-        {/* See More Button */}
-        <div className="flex justify-center">
-          <button
-            className="border border-white rounded-lg"
-            style={{
-              width: "110px",
-              height: "44px",
-              borderRadius: "8px",
-              borderWidth: "1px",
-              borderColor: "#FFFFFF",
-              backgroundColor: "transparent",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "400",
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "1%",
-              color: "#FFFFFF",
-            }}
-          >
-            See more
-          </button>
-        </div>
+        {/* See More Button - Only show if there are more events */}
+        {hasMoreEvents && (
+          <div className="flex justify-center">
+            <motion.button
+              className="border border-white rounded-lg hover:bg-white/10 transition-colors duration-200"
+              style={{
+                width: "110px",
+                height: "44px",
+                borderRadius: "8px",
+                borderWidth: "1px",
+                borderColor: "#FFFFFF",
+                backgroundColor: "transparent",
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: "400",
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "1%",
+                color: "#FFFFFF",
+              }}
+              onClick={() => setShowMore(!showMore)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {showMore ? "Show less" : "See more"}
+            </motion.button>
+          </div>
+        )}
       </div>
     </section>
   );

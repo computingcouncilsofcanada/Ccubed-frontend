@@ -3,10 +3,11 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { privateAxios } from "@/lib/axios";
 
 // Statistics data
-// TODO: Fetch events number and volunteer leaders count from database instead of hardcoded values
-const stats = [
+// TODO: Fetch volunteer leaders count from database instead of hardcoded values
+const getStats = (eventsCount: number) => [
   {
     id: 1,
     number: "5+",
@@ -14,7 +15,7 @@ const stats = [
   },
   {
     id: 2,
-    number: "10+",
+    number: `${eventsCount}+`,
     label: "events",
   },
   {
@@ -67,6 +68,26 @@ function AnimatedCounter({ targetNumber, isInView }: { targetNumber: string, isI
 export default function Stats() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const [eventsCount, setEventsCount] = useState(0);
+
+  // Fetch events count from API
+  useEffect(() => {
+    const fetchEventsCount = async () => {
+      try {
+        const response = await privateAxios.get("/events");
+        const activeEvents = response.data.data.filter((event: { status: number }) => event.status !== 0);
+        setEventsCount(activeEvents.length);
+      } catch (error) {
+        console.error("Error fetching events count:", error);
+        // Fallback to default value
+        setEventsCount(10);
+      }
+    };
+
+    fetchEventsCount();
+  }, []);
+
+  const stats = getStats(eventsCount);
 
   return (
     <section 
@@ -75,7 +96,7 @@ export default function Stats() {
     >
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-        {stats.map((stat, index) => (
+        {stats.map((stat: { id: number; number: string; label: string }, index: number) => (
           <motion.div
             key={stat.id}
             initial={{ opacity: 0, y: 50 }}
