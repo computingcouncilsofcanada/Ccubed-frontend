@@ -57,6 +57,7 @@ type PreviewEvent = {
     name: string;
     url: string;
   }>;
+  types: string[];
 };
 
 function EventsPage() {
@@ -148,6 +149,7 @@ function EventsPage() {
               },
             ]
           : [],
+      types: selectedTypes,
     };
   };
 

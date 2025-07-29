@@ -16,7 +16,7 @@ type EventType = {
   location: string;
   images: string;
   files: FileObject[];
-  // Optionally, add more fields for 'learn', 'need', 'instructors' if available
+types: string[];
 };
 
 interface PreviewModalProps {
@@ -76,9 +76,18 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
         {/* Header */}
         <div className="flex gap-5 items-center  mb-2 ">
           <h2 className="text-2xl font-bold">{event.name}</h2>
-          <div className="inline-block px-4 py-1 border-2 border-black rounded-full  font-patrick text-lg bg-white">
-            Discord Events
-          </div>
+          <div className="flex gap-2">
+                      {event.types &&
+                        event.types.length > 0 &&
+                        event.types.map((type, id) => (
+                          <div
+                            className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white"
+                            key={type + id}
+                          >
+                            {type}
+                          </div>
+                        ))}
+                    </div>
         </div>
         {/* Main Content */}
         <div className="flex h-full flex-row gap-8 ">
