@@ -101,7 +101,18 @@ export default function EventsPage() {
         </div>
 
         <div className="flex flex-col gap-10 mt-10">
-          {events.length === 0 && (
+          {events.length > 0 &&
+            events.filter((event: Events) => {
+              if (event.status === 0) return false;
+              if (eventType === "all") return true;
+              if (event.types.length > 0) {
+                const eventTypes = event.types.map((t) =>
+                  t.split(" ").join("").toLowerCase()
+                );
+                return eventTypes.includes(eventType.toLowerCase());
+              }
+              return false;
+            }).length === 0 && (
             <p className="text-2xl font-bold text-center">
               No events at this time
             </p>
