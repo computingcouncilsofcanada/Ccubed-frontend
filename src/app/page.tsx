@@ -193,7 +193,7 @@ export default function Home() {
           {[
             { label: "All Events", value: "all" },
             { label: "In person", value: "inperson" },
-            { label: "Hybrid", value: "hybrid" },
+            { label: "Discord", value: "discord" },
             { label: "Online", value: "online" },
           ].map((option) => (
             <label
@@ -226,9 +226,9 @@ export default function Home() {
               if (event.status === 0) return false;
               if (eventType === "all") return true;
               if (event.types.length > 0) {
-                const eventTypes = event.types[0]
-                  .split(",")
-                  .map((t) => t.trim().toLowerCase());
+                const eventTypes = event.types.map((t) =>
+                  t.split(" ").join("").toLowerCase()
+                );
                 return eventTypes.includes(eventType.toLowerCase());
               }
               return false;
@@ -243,15 +243,10 @@ export default function Home() {
               if (event.status === 0) return false;
               if (eventType === "all") return true;
               if (event.types.length > 0) {
-                const eventTypes = event.types[0]
-                  .split(",")
-                  .map((t) => t.trim().toLowerCase());
-                console.log(
-                  "Event types:",
-                  eventTypes,
-                  "Selected:",
-                  eventType.toLowerCase()
+                const eventTypes = event.types.map((t) =>
+                  t.split(" ").join("").toLowerCase()
                 );
+      
                 return eventTypes.includes(eventType.toLowerCase());
               }
             })
@@ -273,7 +268,7 @@ export default function Home() {
                   <div className="absolute top-2 right-2 flex flex-col gap-2 ">
                     {event.types &&
                       event.types.length > 0 &&
-                      event.types[0].split(",").map((type, id) => (
+                      event.types.map((type, id) => (
                         <span
                           key={type + id}
                           className="border-2 px-1 border-gray-200 rounded-full text-white"

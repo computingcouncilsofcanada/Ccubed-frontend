@@ -5,7 +5,6 @@ import { privateAxios } from "@/lib/axios"; //importing Public Axios
 import PreviewModal from "@/components/modals/PreviewModal";
 import { getAllEvents } from "@/services/useApiAuth";
 
-
 type FileObject = {
   id: number;
   name: string;
@@ -34,10 +33,10 @@ export default function EventsPage() {
   const handleShare = () => alert("Share link clicked");
   const handleInvite = () => alert("Invitation link clicked");
 
- const fetchEvents = async () => {
+  const fetchEvents = async () => {
     try {
       const offset = 0;
-      const limit =0;
+      const limit = 0;
       const res = await getAllEvents(limit, offset);
       setEvents(res.data);
     } catch (error: any) {
@@ -48,7 +47,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     fetchEvents();
-  }, []);// Fetching the events once at component mount
+  }, []); // Fetching the events once at component mount
 
   return (
     <div className="min-h-screen bg-foreground text-background">
@@ -71,7 +70,7 @@ export default function EventsPage() {
             {[
               { label: "All Events", value: "all" },
               { label: "In person", value: "inperson" },
-              { label: "Hybrid", value: "hybrid" },
+              { label: "Discord", value: "discord" },
               { label: "Online", value: "online" },
             ].map((option) => (
               <label
@@ -112,9 +111,9 @@ export default function EventsPage() {
               if (event.status === 0) return false;
               if (eventType === "all") return true;
               if (event.types.length > 0) {
-                const eventTypes = event.types[0]
-                  .split(",")
-                  .map((t) => t.trim().toLowerCase());
+                const eventTypes = event.types.map((t) =>
+                  t.split(" ").join("").toLowerCase()
+                );
                 return eventTypes.includes(eventType.toLowerCase());
               }
               return false;
@@ -129,14 +128,8 @@ export default function EventsPage() {
               if (event.status === 0) return false;
               if (eventType === "all") return true;
               if (event.types.length > 0) {
-                const eventTypes = event.types[0]
-                  .split(",")
-                  .map((t) => t.trim().toLowerCase());
-                console.log(
-                  "Event types:",
-                  eventTypes,
-                  "Selected:",
-                  eventType.toLowerCase()
+                const eventTypes = event.types.map((t) =>
+                  t.split(" ").join("").toLowerCase()
                 );
                 return eventTypes.includes(eventType.toLowerCase());
               }
@@ -158,20 +151,20 @@ export default function EventsPage() {
                   />
                 </div>
                 <div className="flex-1 rounded-md p-4 flex flex-col justify-between min-h-[15rem]">
-                  <div>
-                    {event.types &&
-                      event.types.length > 0 &&
-                      event.types[0].split(",").map((type, id) => (
-                        <div
-                          className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white"
-                          key={type + id}
-                        >
-                          {type}
-                        </div>
-                      ))}
-                    <div className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white">
-                      Discord Events
+                  <div className="">
+                    <div className="flex gap-2">
+                      {event.types &&
+                        event.types.length > 0 &&
+                        event.types.map((type, id) => (
+                          <div
+                            className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white"
+                            key={type + id}
+                          >
+                            {type}
+                          </div>
+                        ))}
                     </div>
+
                     <h2 className="text-3xl font-patrick mt-2 mb-2">
                       {event.name}
                     </h2>
