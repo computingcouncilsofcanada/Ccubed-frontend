@@ -9,8 +9,8 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isStaffRoute =
-    pathname?.startsWith("/member/") || pathname?.startsWith("/login") || pathname.match("/member");
+  const isStaffRoute = pathname === "/member" ||
+    pathname?.startsWith("/member/") || pathname?.startsWith("/login");
 
   return (
     <div className="bg-linear-to-b  from-[#0D1C26] to-[#1A384C] min-h-screen w-full">
