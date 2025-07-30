@@ -7,7 +7,7 @@ import Events from "@/components/sections/landing/Events";
 import ValueSystem from "@/components/sections/landing/ValueSystem";
 import MissionVision from "@/components/sections/landing/MissionVision";
 import Stats from "@/components/sections/landing/Stats";
-import Footer from "@/components/sections/landing/Footer";
+import Footer from "@/components/shared/Footer";
 import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/lib/utils";
 import { Events as EventType } from "@/types/events";
@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
-      <BgBoxMainPage />
+      <BgBoxMainPage maxHeight={100} />
       {/* Page Container - unified width control */}
       <div className="container mx-auto max-w-6xl">
         {/* Hero Section */}

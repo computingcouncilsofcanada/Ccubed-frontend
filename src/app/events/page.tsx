@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-// import { privateAxios } from "@/lib/axios"; //importing Public Axios
+import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
+import Footer from "@/components/shared/Footer";
 import PreviewModal from "@/components/modals/PreviewModal";
 import { getAllEvents } from "@/services/useApiAuth";
 import { Events } from "@/types/events";
@@ -33,8 +34,11 @@ export default function EventsPage() {
   }, []); // Fetching the events once at component mount
 
   return (
-    <div className="min-h-screen bg-foreground text-background">
-      <div className="max-w-6xl w-full mx-auto py-10 font-patrick px-5">
+    <div className="relative w-full overflow-hidden overflow-x-hidden -mt-30 pt-20">
+      {/* Add the background component - limited height for events page */}
+      <BgBoxMainPage maxHeight={100} />
+      
+      <div className="max-w-6xl w-full mx-auto py-10 font-patrick px-5 relative z-10">
         <div className="border-2 border-black h-85 bg-gray-200 rounded-md"></div>
         <h1 className="text-black  text-3xl mt-5 ">Events</h1>
         <p className="text-lg mt-5">
@@ -193,6 +197,10 @@ export default function EventsPage() {
             ))}
         </div>
       </div>
+
+      {/* Add the shared footer */}
+      <Footer />
+
       {/* Event Details Modal */}
       <PreviewModal
         isOpen={isModalOpen}

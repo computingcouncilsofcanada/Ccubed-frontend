@@ -99,15 +99,27 @@ const bgImages = [
   },
 ];
 
-const BgBoxMainPage = () => {
+interface BgBoxMainPageProps {
+  maxHeight?: number; // Maximum height percentage to show boxes (default: 100 for full page)
+}
+
+const BgBoxMainPage: React.FC<BgBoxMainPageProps> = ({ maxHeight = 100 }) => {
+  // Filter boxes based on maxHeight - only show boxes that start within the visible area
+  const visibleBoxes = bgImages.filter((img) => {
+    const topPosition = parseFloat(img.style.top.replace('%', ''));
+    return topPosition <= maxHeight;
+  });
+
   return (
     <>
-      {bgImages.map((img, idx) => {
-        const isTopLeftBox = idx === 1;
+      {visibleBoxes.map((img) => {
+        // Find original index for isTopLeftBox check
+        const originalIdx = bgImages.findIndex(original => original === img);
+        const isTopLeftBox = originalIdx === 1;
         
         return (
           <motion.div
-            key={idx}
+            key={originalIdx}
             className={isTopLeftBox ? "group select-none" : "select-none"}
             style={{
               position: "absolute",
