@@ -5,9 +5,33 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// API Event type definition
+type ApiEvent = {
+  id: string;
+  name: string;
+  description: string;
+  start_at: string;
+  end_at: string;
+  location: string;
+  status: number;
+  types: string[];
+  pending_action: string | null;
+  reject_reason: string | null;
+  approved_by: string[] | null;
+  created_at: string;
+  updated_at: string | null;
+  created_by: string;
+  updated_by: string | null;
+  files: Array<{
+    id: string;
+    name: string;
+    url: string;
+  }>;
+};
+
 // Transform API event data to match component format
-export function transformApiEvents(apiEvents: any[]) {
-  return apiEvents.map((event: any) => {
+export function transformApiEvents(apiEvents: ApiEvent[]) {
+  return apiEvents.map((event: ApiEvent) => {
     // Handle different timestamp formats
     const formatDateTime = (timestamp: string) => {
       // Check if it's a Unix timestamp (all digits)
