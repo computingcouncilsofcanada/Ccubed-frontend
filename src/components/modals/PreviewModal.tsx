@@ -1,28 +1,11 @@
 import React, { useEffect } from "react";
 import CollapsibleSection from "../ui/CollapsibleSection";
-
-type FileObject = {
-  id: number;
-  name: string;
-  url: string;
-};
-
-type EventType = {
-  id: number;
-  name: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  images: string;
-  files: FileObject[];
-types: string[];
-};
+import { Events } from "@/types/events";
 
 interface PreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
-  event: EventType | null;
+  event: Events | null;
   onShare?: () => void;
   onInvite?: () => void;
 }
@@ -117,7 +100,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                 <li>Lots and lots of vocabulary</li>
                 <li>Useful everyday phrases</li>
                 <li>Basic sentence structures</li>
-                <li>Basic grammar rules most beginner courses don't teach</li>
+                <li>Basic grammar rules most beginner courses don&apos;t teach</li>
               </ul>
             </CollapsibleSection>
             <CollapsibleSection title="What You Need:">

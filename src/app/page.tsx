@@ -10,29 +10,11 @@ import Stats from "@/components/sections/landing/Stats";
 import Footer from "@/components/sections/landing/Footer";
 import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/lib/utils";
+import { Events as EventType } from "@/types/events";
 // import { mockEvents } from "@/data/mockEvents";
 
-type FileObject = {
-  id: number;
-  name: string;
-  url: string;
-};
-
-type Events = {
-  id: number;
-  name: string;
-  description: string;
-  status: number;
-  date: string;
-  time: string;
-  location: string;
-  images: string;
-  files: FileObject[];
-  types: string[];
-};
-
 export default function Home() {
-  const [events, setEvents] = useState<Events[]>([]);
+  const [events, setEvents] = useState<EventType[]>([]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 

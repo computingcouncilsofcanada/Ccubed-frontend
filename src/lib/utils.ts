@@ -5,29 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// API Event type definition
-type ApiEvent = {
-  id: string;
-  name: string;
-  description: string;
-  start_at: string;
-  end_at: string;
-  location: string;
-  status: number;
-  types: string[];
-  pending_action: string | null;
-  reject_reason: string | null;
-  approved_by: string[] | null;
-  created_at: string;
-  updated_at: string | null;
-  created_by: string;
-  updated_by: string | null;
-  files: Array<{
-    id: string;
-    name: string;
-    url: string;
-  }>;
-};
+import { ApiEvent } from "@/types/events";
 
 // Transform API event data to match component format
 export function transformApiEvents(apiEvents: ApiEvent[]) {
@@ -97,7 +75,10 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
       time: timeRange,
       location: event.location,
       images: "", // API doesn't have this field
-      files: event.files || [],
+      files: (event.files || []).map(file => ({
+        ...file,
+        id: parseInt(file.id, 10) // Convert string ID to number
+      })),
       types: transformTypes(event.types)
     };
   });

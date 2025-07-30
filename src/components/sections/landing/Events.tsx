@@ -4,26 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
-
-// Event types
-type FileObject = {
-  id: number;
-  name: string;
-  url: string;
-};
-
-type Events = {
-  id: number;
-  name: string;
-  description: string;
-  status: number;
-  date: string;
-  time: string;
-  location: string;
-  images: string;
-  files: FileObject[];
-  types: string[];
-};
+import { Events } from "@/types/events";
 
 type EventCardProps = {
   id: number;

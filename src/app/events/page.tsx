@@ -1,28 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { privateAxios } from "@/lib/axios"; //importing Public Axios
+// import { privateAxios } from "@/lib/axios"; //importing Public Axios
 import PreviewModal from "@/components/modals/PreviewModal";
 import { getAllEvents } from "@/services/useApiAuth";
-
-type FileObject = {
-  id: number;
-  name: string;
-  url: string;
-};
-
-type Events = {
-  id: number;
-  name: string;
-  description: string;
-  status: number;
-  date: string;
-  time: string;
-  location: string;
-  images: string;
-  files: FileObject[];
-  types: string[];
-};
+import { Events } from "@/types/events";
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Events[]>([]);
@@ -39,8 +21,9 @@ export default function EventsPage() {
       const limit = 0;
       const res = await getAllEvents(limit, offset);
       setEvents(res.data);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'An error occurred';
+      setError(message);
       console.log(error);
     }
   };
