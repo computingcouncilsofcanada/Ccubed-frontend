@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { privateAxios } from "@/lib/axios"; //importing Public Axios
 import PreviewModal from "@/components/modals/PreviewModal";
+import { getAllEvents } from "@/services/useApiAuth";
 
 type FileObject = {
   id: number;
@@ -20,6 +21,7 @@ type Events = {
   location: string;
   images: string;
   files: FileObject[];
+  types: string[];
 };
 
 export default function EventsPage() {
@@ -31,15 +33,20 @@ export default function EventsPage() {
   const handleShare = () => alert("Share link clicked");
   const handleInvite = () => alert("Invitation link clicked");
 
+  const fetchEvents = async () => {
+    try {
+      const offset = 0;
+      const limit = 0;
+      const res = await getAllEvents(limit, offset);
+      setEvents(res.data);
+    } catch (error: any) {
+      setError(error.message);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    privateAxios
-      .get("/events")
-      .then((res) => {
-        setEvents(res.data.data);
-      })
-      .catch((error) => {
-        setError(error.response.data.message);
-      });
+    fetchEvents();
   }, []); // Fetching the events once at component mount
 
   return (
@@ -63,7 +70,7 @@ export default function EventsPage() {
             {[
               { label: "All Events", value: "all" },
               { label: "In person", value: "inperson" },
-              { label: "Hybrid", value: "hybrid" },
+              { label: "Discord", value: "discord" },
               { label: "Online", value: "online" },
             ].map((option) => (
               <label
@@ -94,13 +101,50 @@ export default function EventsPage() {
         </div>
 
         <div className="flex flex-col gap-10 mt-10">
-          {events.length === 0 && (
+          {events.length > 0 &&
+            events.filter((event: Events) => {
+              if (event.status === 0) return false;
+              if (eventType === "all") return true;
+              if (event.types.length > 0) {
+                const eventTypes = event.types.map((t) =>
+                  t.split(" ").join("").toLowerCase()
+                );
+                return eventTypes.includes(eventType.toLowerCase());
+              }
+              return false;
+            }).length === 0 && (
             <p className="text-2xl font-bold text-center">
               No events at this time
             </p>
           )}
+          {events.length > 0 &&
+            events.filter((event: Events) => {
+              if (event.status === 0) return false;
+              if (eventType === "all") return true;
+              if (event.types.length > 0) {
+                const eventTypes = event.types.map((t) =>
+                  t.split(" ").join("").toLowerCase()
+                );
+                return eventTypes.includes(eventType.toLowerCase());
+              }
+              return false;
+            }).length === 0 &&
+            eventType !== "all" && (
+              <p className="text-2xl font-bold text-center">
+                No events found for this category
+              </p>
+            )}
           {events
-            .filter((event: Events) => event.status !== 0) 
+            .filter((event: Events) => {
+              if (event.status === 0) return false;
+              if (eventType === "all") return true;
+              if (event.types.length > 0) {
+                const eventTypes = event.types.map((t) =>
+                  t.split(" ").join("").toLowerCase()
+                );
+                return eventTypes.includes(eventType.toLowerCase());
+              }
+            })
             .map((event) => (
               <div
                 className="flex border-2 border-black rounded-xl p-4 gap-6 items-center"
@@ -118,10 +162,20 @@ export default function EventsPage() {
                   />
                 </div>
                 <div className="flex-1 rounded-md p-4 flex flex-col justify-between min-h-[15rem]">
-                  <div>
-                    <div className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white">
-                      Discord Events
+                  <div className="">
+                    <div className="flex gap-2">
+                      {event.types &&
+                        event.types.length > 0 &&
+                        event.types.map((type, id) => (
+                          <div
+                            className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white"
+                            key={type + id}
+                          >
+                            {type}
+                          </div>
+                        ))}
                     </div>
+
                     <h2 className="text-3xl font-patrick mt-2 mb-2">
                       {event.name}
                     </h2>

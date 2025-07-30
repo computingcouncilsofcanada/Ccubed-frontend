@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 type UserData = {
   school_id: string | null;
@@ -26,7 +27,8 @@ type ChangePasswordForm = {
 };
 
 const page = () => {
-  const { user, setUser } = useUser();
+  const { user, setUser, isLoading } = useUser();
+  const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [error, setError] = useState<string>("");
@@ -96,6 +98,21 @@ const page = () => {
       }
     }
   };
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        router.push("/");
+      }
+      else if (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN") {
+        router.push("/member");
+      }
+    }
+  }, [user, isLoading, router]);
+
+  // Return null if user is not authenticated or authorized
+  if (!user || (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN")) {
+    return null;
+  }
 
 
   return (

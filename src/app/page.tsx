@@ -88,9 +88,8 @@ export default function Home() {
 
         {/* Value System Section */}
         <ValueSystem />
-
       </div>
-      
+
       {/* Footer Section - Outside container for custom width */}
       <Footer />
     </div>
