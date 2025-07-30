@@ -58,9 +58,34 @@ export default function MissionVision() {
   };
 
   return (
-    <section className="mission-vision py-16 px-4 max-w-6xl mx-auto">
+    <section className="mission-vision py-16 px-4 max-w-6xl mx-auto relative">
+      {/* Background Mission Text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+        <span 
+          className="text-white select-none"
+          style={{
+            fontSize: "400px",
+            fontFamily: "Roboto, sans-serif",
+            fontWeight: "900",
+            opacity: "0.08",
+            letterSpacing: "0em",
+            userSelect: "none",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            whiteSpace: "nowrap",
+            zIndex: "0",
+            maskImage: "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
+            WebkitMaskImage: "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
+          }}
+        >
+          Vision
+        </span>
+      </div>
+
       {/* Section Header */}
-      <div className="text-left mb-4">
+      <div className="text-left mb-4 relative z-10">
         <h2
           className="text-white text-[40px] leading-[48px] mb-4 font-extrabold"
           style={{
@@ -84,7 +109,7 @@ export default function MissionVision() {
       </div>
 
       {/* Mission & Vision Cards */}
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center relative z-10">
         {/* Our Mission Card */}
         <motion.div
           className="mission-card relative group cursor-pointer"
