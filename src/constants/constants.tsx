@@ -2,8 +2,9 @@
 export const navLinks = [
   { id: 1, name: "Home", href: "/" },
   { id: 2, name: "Events", href: "/events" },
-  { id: 3, name: "Apply", href: "/contact" },
-  { id: 4, name: "About us", href: "/members" },
+  { id: 3, name: "Council", href: "/members" },
+  { id: 4, name: "Resource", href: "/external-resources" },
+  { id: 4, name: "Partnership", href: "/partnership" }
 ];
 
 export const allNavLinks = [
