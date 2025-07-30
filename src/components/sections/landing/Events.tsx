@@ -4,26 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
-
-// Event types
-type FileObject = {
-  id: number;
-  name: string;
-  url: string;
-};
-
-type Events = {
-  id: number;
-  name: string;
-  description: string;
-  status: number;
-  date: string;
-  time: string;
-  location: string;
-  images: string;
-  files: FileObject[];
-  types: string[];
-};
+import { Events } from "@/types/events";
 
 type EventCardProps = {
   id: number;
@@ -297,14 +278,23 @@ export default function Events({ events }: EventsSectionProps) {
     .filter((event: Events) => event.status !== 0)
     .filter((event: Events) => {
       if (eventType === "all") return true;
-      if (!event.types || event.types.length === 0) return false;
-      const eventTypeValue = event.types[0].toLowerCase();
-      return (
-        eventTypeValue === eventType ||
-        (eventType === "inperson" && eventTypeValue === "in person") ||
-        (eventType === "hybrid" && eventTypeValue === "hybrid") ||
-        (eventType === "online" && eventTypeValue === "online")
-      );
+      if (!event.types || event.types.length === 0) return eventType === "online";
+      
+      // Handle hybrid filter - events with multiple types
+      if (eventType === "hybrid") {
+        return event.types.length > 1;
+      }
+      
+      // Handle single type filters
+      if (eventType === "inperson") {
+        return event.types.length === 1 && event.types[0] === "In Person";
+      }
+      
+      if (eventType === "online") {
+        return event.types.length === 1 && (event.types[0] === "Online" || event.types[0] === "Discord");
+      }
+      
+      return false;
     });
 
   // Check if no events found for specific filter
@@ -325,6 +315,66 @@ export default function Events({ events }: EventsSectionProps) {
 
   return (
     <section className="events relative z-10">
+      {/* Background Events Text - Upper Left */}
+      <div 
+        className="absolute pointer-events-none overflow-hidden"
+        style={{ 
+          zIndex: 0,
+          left: "calc(-50vw + 50%)",
+          top: "45%",
+          transform: "translateY(-50%)",
+          width: "100vw",
+          height: "100%",
+        }}
+      >
+        <span 
+          className="text-white select-none absolute inset-0 flex items-center justify-start"
+          style={{
+            fontSize: "350px",
+            fontFamily: "Roboto, sans-serif",
+            fontWeight: "900",
+            opacity: "0.12",
+            letterSpacing: "0em",
+            userSelect: "none",
+            whiteSpace: "nowrap",
+            maskImage: "radial-gradient(ellipse 80% 70% at 50% 25%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 60%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 25%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 60%, transparent 75%)",
+          }}
+        >
+          Events
+        </span>
+      </div>
+
+      {/* Background Events Text - Lower Right */}
+      <div 
+        className="absolute pointer-events-none overflow-hidden"
+        style={{ 
+          zIndex: 0,
+          left: "calc(-50vw + 50%)",
+          top: "75%",
+          transform: "translateY(-50%)",
+          width: "100vw",
+          height: "100%",
+        }}
+      >
+        <span 
+          className="text-white select-none absolute inset-0 flex items-center justify-end pr-8"
+          style={{
+            fontSize: "350px",
+            fontFamily: "Roboto, sans-serif",
+            fontWeight: "900",
+            opacity: "0.08",
+            letterSpacing: "0em",
+            userSelect: "none",
+            whiteSpace: "nowrap",
+            maskImage: "radial-gradient(ellipse 70% 60% at 75% 60%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.1) 50%, transparent 70%)",
+            WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 75% 60%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.1) 50%, transparent 70%)",
+          }}
+        >
+          Events
+        </span>
+      </div>
+
       {/* Header with title and logo */}
       <div
         className="flex items-end justify-center mb-4 mx-auto"
@@ -447,13 +497,17 @@ export default function Events({ events }: EventsSectionProps) {
                       date={event.date}
                       location={event.location}
                       type={
-                        event.types && event.types.length > 0
-                          ? event.types[0] === "In person"
-                            ? "In Person"
-                            : event.types[0] === "Hybrid"
-                            ? "Hybrid"
-                            : "Online"
-                          : "Online"
+                        (() => {
+                          if (!event.types || event.types.length === 0) return "Online";
+                          
+                          // Multiple types mean hybrid
+                          if (event.types.length > 1) return "Hybrid";
+                          
+                          // Single type matching
+                          const eventType = event.types[0];
+                          if (eventType === "In Person") return "In Person";
+                          return "Online"; // Default to Online
+                        })()
                       }
                       imageSrc={
                         event.files && event.files.length > 0
@@ -501,13 +555,17 @@ export default function Events({ events }: EventsSectionProps) {
                           date={event.date}
                           location={event.location}
                           type={
-                            event.types && event.types.length > 0
-                              ? event.types[0] === "In person"
-                                ? "In Person"
-                                : event.types[0] === "Hybrid"
-                                ? "Hybrid"
-                                : "Online"
-                              : "Online"
+                            (() => {
+                              if (!event.types || event.types.length === 0) return "Online";
+                              
+                              // Multiple types mean hybrid
+                              if (event.types.length > 1) return "Hybrid";
+                              
+                              // Single type matching
+                              const eventType = event.types[0];
+                              if (eventType === "In Person") return "In Person";
+                              return "Online"; // Default to Online
+                            })()
                           }
                           imageSrc={
                             event.files && event.files.length > 0

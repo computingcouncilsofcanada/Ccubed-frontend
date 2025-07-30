@@ -9,11 +9,11 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isStaffRoute =
+  const isStaffRoute = pathname === "/member" ||
     pathname?.startsWith("/member/") || pathname?.startsWith("/login");
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-[#0B161E] to-[#10212E]">
+    <div className="min-h-screen w-full bg-gradient-to-b from-[#0D1C26] to-[#1A384C]">
       {!isStaffRoute && <Navbar />}
       {children}
     </div>

@@ -39,6 +39,10 @@ function RolesPage() {
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [rolePermissions, setRolePermissions] = useState<RolePermission[]>([]);
   const [error, setError] = useState<string>("");
+  const [pendingRolePermissions, setPendingRolePermissions] = useState<
+    Record<string, number>
+  >({});
+  const [isSaving, setIsSaving] = useState(false);
 
   // Data fetching
   const fetchAllData = async () => {
@@ -72,7 +76,6 @@ function RolesPage() {
     }
   };
 
-  // Grouped Permissions
   const groupedPermissions = useMemo(() => {
     if (permissions.length === 0) return {};
     return permissions.reduce((acc, permission) => {
@@ -90,67 +93,69 @@ function RolesPage() {
     [roles]
   );
 
-  // Role-Permission operations
-  const handleToggleRolePermission = async (
-    roleId: string,
-    permissionId: string
-  ) => {
-    const current = rolePermissions.find(
-      (rp) => rp.role_id === roleId && rp.permission_id === permissionId
+  const getKey = (roleId: string, permissionId: string) =>
+    `${roleId}__${permissionId}`;
+
+  const isChecked = (roleId: string, permissionId: string) => {
+    const key = getKey(roleId, permissionId);
+    if (pendingRolePermissions.hasOwnProperty(key)) {
+      return pendingRolePermissions[key] === 1;
+    }
+    return rolePermissions.some(
+      (rp) =>
+        rp.role_id === roleId &&
+        rp.permission_id === permissionId &&
+        rp.status === 1
     );
-    const currentStatus = current ? current.status : 0;
-    const newStatus = currentStatus === 1 ? 0 : 1;
-
-    try {
-      await privateAxios.patch(`/role-permission/${roleId}/${permissionId}`, {
-        status: newStatus,
-      });
-      if (current) {
-        setRolePermissions(
-          rolePermissions.map((rp) =>
-            rp.id === current.id ? { ...rp, status: newStatus } : rp
-          )
-        );
-      } else {
-        await fetchRolePermissions();
-      }
-    } catch (error: any) {
-      alert(
-        error.response?.data?.message || "Failed to update role permission"
-      );
-      console.error("Error updating role permission:", error);
-    }
   };
 
-  const handleBulkUpdate = async (roleId: string, check: boolean) => {
+  const handleCheckboxChange = (roleId: string, permissionId: string) => {
+    const key = getKey(roleId, permissionId);
+    const currentlyChecked = isChecked(roleId, permissionId);
+    setPendingRolePermissions((prev) => ({
+      ...prev,
+      [key]: currentlyChecked ? 0 : 1,
+    }));
+  };
+
+  const handleBulkUpdateLocal = (roleId: string, check: boolean) => {
     const newStatus = check ? 1 : 0;
-    const updates: Promise<any>[] = [];
-
-    permissions.forEach((permission) => {
-      const currentStatus =
-        rolePermissions.find(
-          (rp) => rp.role_id === roleId && rp.permission_id === permission.id
-        )?.status ?? 0;
-
-      if (currentStatus !== newStatus) {
-        updates.push(
-          privateAxios.patch(`/role-permission/${roleId}/${permission.id}`, {
-            status: newStatus,
-          })
-        );
-      }
+    setPendingRolePermissions((prev) => {
+      const updated = { ...prev };
+      permissions.forEach((permission) => {
+        const key = getKey(roleId, permission.id);
+        // Only update if the current (pending or backend) status is different
+        if (isChecked(roleId, permission.id) !== check) {
+          updated[key] = newStatus;
+        }
+      });
+      return updated;
     });
-
-    if (updates.length > 0) {
-      try {
-        await Promise.all(updates);
-        await fetchRolePermissions();
-      } catch (error: any) {
-        alert(error.response?.data?.message || "Bulk update failed");
-      }
-    }
   };
 
+  const handleSave = async () => {
+    setIsSaving(true);
+    setError("");
+    try {
+      const payload = Object.entries(pendingRolePermissions).map(
+        ([key, status]) => {
+          const [role_id, permission_id] = key.split("__");
+          return { role_id, permission_id, status };
+        }
+      );
+      if (payload.length === 0) {
+        setIsSaving(false);
+        return;
+      }
+      await privateAxios.patch("/role-permission", payload);
+      await fetchAllData();
+      setPendingRolePermissions({});
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to save changes");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   useEffect(() => {
     if (!isUserLoading) {
@@ -162,7 +167,6 @@ function RolesPage() {
     }
   }, [user, isUserLoading, router]);
 
-  // Initial data fetch
   useEffect(() => {
     if (!isUserLoading && user?.role === "SUPER_ADMIN") {
       fetchAllData();
@@ -185,6 +189,23 @@ function RolesPage() {
         </div>
       )}
 
+      {/* Save Button */}
+      <div className="flex justify-end mb-4">
+        <button
+          className={`px-6 py-2 rounded font-bold text-white ${
+            Object.keys(pendingRolePermissions).length === 0 || isSaving
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700"
+          }`}
+          onClick={handleSave}
+          disabled={
+            Object.keys(pendingRolePermissions).length === 0 || isSaving
+          }
+        >
+          {isSaving ? "Saving..." : "Save"}
+        </button>
+      </div>
+
       <div className="bg-gray-800/50 rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-700">
@@ -206,14 +227,16 @@ function RolesPage() {
                       <span>{role.name}</span>
                       <div className="flex gap-1">
                         <button
-                          onClick={() => handleBulkUpdate(role.id, true)}
+                          onClick={() => handleBulkUpdateLocal(role.id, true)}
                           className="text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                          type="button"
                         >
                           ✓ All
                         </button>
                         <button
-                          onClick={() => handleBulkUpdate(role.id, false)}
+                          onClick={() => handleBulkUpdateLocal(role.id, false)}
                           className="text-xs bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded"
+                          type="button"
                         >
                           ✕ All
                         </button>
@@ -241,24 +264,15 @@ function RolesPage() {
                           {permission.name}
                         </td>
                         {displayableRoles.map((role) => {
-                          const isChecked = rolePermissions.some(
-                            (rp) =>
-                              rp.role_id === role.id &&
-                              rp.permission_id === permission.id &&
-                              rp.status === 1
-                          );
                           return (
                             <td
                               key={role.id}
                               className="px-6 py-4 whitespace-nowrap text-sm text-center"
                             >
                               <Checkbox
-                                checked={isChecked}
+                                checked={isChecked(role.id, permission.id)}
                                 onCheckedChange={() =>
-                                  handleToggleRolePermission(
-                                    role.id,
-                                    permission.id
-                                  )
+                                  handleCheckboxChange(role.id, permission.id)
                                 }
                                 id={`${role.id}-${permission.id}`}
                               />

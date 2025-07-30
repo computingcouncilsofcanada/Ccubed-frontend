@@ -7,7 +7,7 @@ const Login = () => {
   return (
     <>
       <BackgroundBoxes />
-      <div className="bg-linear-to-r  from-[#0B161E] to-[#306184] h-screen ">
+      <div className="bg-linear-to-r  from-[#0D1C26] to-[#1A384C] h-screen ">
         <div className="px-10 flex flex-col  min-h-screen w-full max-w-7xl mx-auto">
           <Link  href="/" className="flex items-center py-4">
             <img src="/FigmaFiles/ccubed-icon.svg" alt="CCubed Icon" />

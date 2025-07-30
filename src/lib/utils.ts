@@ -5,9 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+import { ApiEvent } from "@/types/events";
+
 // Transform API event data to match component format
-export function transformApiEvents(apiEvents: any[]) {
-  return apiEvents.map((event: any) => {
+export function transformApiEvents(apiEvents: ApiEvent[]) {
+  return apiEvents.map((event: ApiEvent) => {
     // Handle different timestamp formats
     const formatDateTime = (timestamp: string) => {
       // Check if it's a Unix timestamp (all digits)
@@ -50,17 +52,18 @@ export function transformApiEvents(apiEvents: any[]) {
         type.split(',').map(t => t.trim().toLowerCase())
       );
       
-      // Map to proper format
+      // Map to proper format - only known correct types, everything else becomes Online
       const typeMap: { [key: string]: string } = {
         'online': 'Online',
-        'in person': 'In Person', 
-        'hybrid': 'Hybrid'
+        'in person': 'In Person'
       };
       
+      // Any unknown/incorrect type defaults to Online
       const transformedTypes = allTypes.map(type => typeMap[type] || 'Online');
       
-      // Return first type or default to Online
-      return transformedTypes.length > 0 ? [transformedTypes[0]] : ["Online"];
+      // Remove duplicates and return all types
+      const uniqueTypes = [...new Set(transformedTypes)];
+      return uniqueTypes.length > 0 ? uniqueTypes : ["Online"];
     };
 
     return {
@@ -72,7 +75,10 @@ export function transformApiEvents(apiEvents: any[]) {
       time: timeRange,
       location: event.location,
       images: "", // API doesn't have this field
-      files: event.files || [],
+      files: (event.files || []).map(file => ({
+        ...file,
+        id: parseInt(file.id, 10) // Convert string ID to number
+      })),
       types: transformTypes(event.types)
     };
   });
