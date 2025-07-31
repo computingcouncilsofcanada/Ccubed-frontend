@@ -48,12 +48,13 @@ type PreviewEvent = {
   id: number;
   name: string;
   description: string;
+  status: number;
   date: string;
   time: string;
   location: string;
   images: string;
   files: Array<{
-    id: number;
+    id: string;
     name: string;
     url: string;
   }>;
@@ -135,6 +136,7 @@ function EventsPage() {
       id: 0,
       name,
       description,
+      status: 1,
       date,
       time,
       location,
@@ -143,7 +145,7 @@ function EventsPage() {
         formData.images && formData.images.length > 0
           ? [
               {
-                id: 1,
+                id: "1",
                 name: formData.images[0].name,
                 url: URL.createObjectURL(formData.images[0]),
               },
