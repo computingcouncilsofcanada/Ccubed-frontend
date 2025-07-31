@@ -1,7 +1,7 @@
 // Unified Events related type definitions
 
 export type FileObject = {
-  id: number; // Converted from API string to number
+  id: string; // Keep as string for Google Drive IDs
   name: string;
   url: string;
 };

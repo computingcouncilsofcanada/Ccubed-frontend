@@ -280,9 +280,9 @@ export default function Events({ events }: EventsSectionProps) {
       if (eventType === "all") return true;
       if (!event.types || event.types.length === 0) return eventType === "online";
       
-      // Handle hybrid filter - events with multiple types
+      // Handle hybrid filter - events with multiple types OR events specifically marked as hybrid
       if (eventType === "hybrid") {
-        return event.types.length > 1;
+        return event.types.length > 1 || event.types.some(type => type.toLowerCase().includes("hybrid"));
       }
       
       // Handle single type filters
@@ -291,7 +291,7 @@ export default function Events({ events }: EventsSectionProps) {
       }
       
       if (eventType === "online") {
-        return event.types.length === 1 && (event.types[0] === "Online" || event.types[0] === "Discord");
+        return event.types.length === 1 && event.types[0] === "Online";
       }
       
       return false;
@@ -500,13 +500,18 @@ export default function Events({ events }: EventsSectionProps) {
                         (() => {
                           if (!event.types || event.types.length === 0) return "Online";
                           
-                          // Multiple types mean hybrid
-                          if (event.types.length > 1) return "Hybrid";
+                          // Check for hybrid first - either multiple types OR contains "hybrid"
+                          const hasHybridType = event.types.some(type => 
+                            type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
+                          );
+                          if (event.types.length > 1 || hasHybridType) return "Hybrid";
                           
                           // Single type matching
                           const eventType = event.types[0];
                           if (eventType === "In Person") return "In Person";
-                          return "Online"; // Default to Online
+                          if (eventType === "Online") return "Online";
+                          
+                          return "Online"; // Default fallback
                         })()
                       }
                       imageSrc={
@@ -558,13 +563,18 @@ export default function Events({ events }: EventsSectionProps) {
                             (() => {
                               if (!event.types || event.types.length === 0) return "Online";
                               
-                              // Multiple types mean hybrid
-                              if (event.types.length > 1) return "Hybrid";
+                              // Check for hybrid first - either multiple types OR contains "hybrid"
+                              const hasHybridType = event.types.some(type => 
+                                type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
+                              );
+                              if (event.types.length > 1 || hasHybridType) return "Hybrid";
                               
                               // Single type matching
                               const eventType = event.types[0];
                               if (eventType === "In Person") return "In Person";
-                              return "Online"; // Default to Online
+                              if (eventType === "Online") return "Online";
+                              
+                              return "Online"; // Default fallback
                             })()
                           }
                           imageSrc={

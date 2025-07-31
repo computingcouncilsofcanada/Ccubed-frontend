@@ -55,7 +55,8 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
       // Map to proper format - only known correct types, everything else becomes Online
       const typeMap: { [key: string]: string } = {
         'online': 'Online',
-        'in person': 'In Person'
+        'in person': 'In Person',
+        'hybrid': 'Hybrid'
       };
       
       // Any unknown/incorrect type defaults to Online
@@ -76,8 +77,8 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
       location: event.location,
       images: "", // API doesn't have this field
       files: (event.files || []).map(file => ({
-        ...file,
-        id: parseInt(file.id, 10) // Convert string ID to number
+        ...file
+        // Keep file.id as string (Google Drive IDs are strings)
       })),
       types: transformTypes(event.types)
     };
