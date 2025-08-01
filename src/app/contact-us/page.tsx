@@ -1,27 +1,41 @@
 "use client";
 
-//demo form for contact us
+//demo form for /contact-us route
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import { DepartmentSelect } from "@/components/forms/DepartmentSelection";
-import {
-  Linkedin,
-  InstagramIcon,
-  TwitterIcon,
-  Instagram,
-  LinkedinIcon,
-  LucideLinkedin,
-} from "lucide-react";
-function ContactUs() {
+import Modal from "@/components/modals/Modal";
+import { LucideLinkedin, Instagram, TwitterIcon } from "lucide-react";
+
+type FormFields = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  department: string;
+  message: string;
+};
+
+export default function ContactUs() {
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
   const {
     register,
     setValue,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const [selectedDepartment, setSelectedDepartment] = useState("");
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormFields>();
+
+  const onSubmit = async (data: FormFields) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setIsSuccessModalOpen(true);
+    reset();
+    setSelectedDepartment("");
+    console.log(data)
+  };
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
@@ -46,48 +60,82 @@ function ContactUs() {
           }}
         />
 
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col lg:flex-row lg:gap-3">
             <div className="flex-1">
-              <label htmlFor="" className="text-white text-lg font-normal">
+              <label className="text-white text-lg font-normal">
                 First Name <span className="text-[#2DBFC6]">*</span>
               </label>
-
               <input
+                {...register("firstName", {
+                  required: "First name is required",
+                  minLength: { value: 2, message: "At least 2 characters" },
+                  maxLength: { value: 50, message: "Less than 50 characters" },
+                })}
                 type="text"
-                className="bg-white  mb-6 mt-2 w-full p-3 rounded-4xl"
+                className={`bg-white mb-2 mt-2 w-full p-3 rounded-4xl ${
+                  errors.firstName ? "border border-red-500" : ""
+                }`}
                 placeholder="First Name"
               />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm">
+                  {errors.firstName.message}
+                </p>
+              )}
             </div>
 
             <div className="flex-1">
-              <label htmlFor="" className="text-white text-lg font-normal">
+              <label className="text-white text-lg font-normal">
                 Last Name <span className="text-[#2DBFC6]">*</span>
               </label>
-
               <input
+                {...register("lastName", {
+                  required: "Last name is required",
+                  minLength: { value: 2, message: "At least 2 characters" },
+                  maxLength: { value: 50, message: "Less than 50 characters" },
+                })}
                 type="text"
-                className="bg-white  mb-6 mt-2 w-full p-3 rounded-4xl"
+                className={`bg-white mb-2 mt-2 w-full p-3 rounded-4xl ${
+                  errors.lastName ? "border border-red-500" : ""
+                }`}
                 placeholder="Last Name"
               />
+              {errors.lastName && (
+                <p className="text-red-500 text-sm">
+                  {errors.lastName.message}
+                </p>
+              )}
             </div>
           </div>
 
           <div>
-            <label htmlFor="" className="text-white text-lg font-normal">
+            <label className="text-white text-lg font-normal">
               Email Address <span className="text-[#2DBFC6]">*</span>
             </label>
             <input
-              type="text"
-              className="bg-white  mb-6 mt-2 w-full p-3 rounded-4xl"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Please enter a valid email address",
+                },
+              })}
+              type="email"
+              className={`bg-white mb-2 mt-2 w-full p-3 rounded-4xl ${
+                errors.email ? "border border-red-500" : ""
+              }`}
               placeholder="Email Address"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
 
-          <div className="mb-6 text-white text-lg font-normal">
+          <div className="mb-6 mt-5 text-white text-lg font-normal">
             <DepartmentSelect
               register={register}
-              //  error={errors.department}
+              error={errors.department}
               value={selectedDepartment}
               onChange={(val) => {
                 setSelectedDepartment(val);
@@ -100,7 +148,23 @@ function ContactUs() {
             <h2 className="mt-6 mb-2 text-white text-lg font-normal">
               Message <span className="text-[#2DBFC6]">*</span>
             </h2>
-            <textarea className="bg-white border-gray-400 border-1 mb-6 w-full h-30 rounded p-3"></textarea>
+            <textarea
+              {...register("message", {
+                required: "Message is required",
+                minLength: { value: 10, message: "At least 10 characters" },
+                maxLength: {
+                  value: 1000,
+                  message: "Less than 1000 characters",
+                },
+              })}
+              className={`bg-white border-gray-400 border-1  w-full h-30 rounded p-3 ${
+                errors.message ? "border border-red-500" : ""
+              }`}
+              placeholder="Your message"
+            />
+            {errors.message && (
+              <p className="text-red-500 text-sm">{errors.message.message}</p>
+            )}
           </div>
 
           <div>
@@ -117,15 +181,35 @@ function ContactUs() {
           <div>
             <button
               type="submit"
-              className="bg-[#FAA336] text-white text-center px-5 py-3 mt-10 mb-5 rounded-xl w-full"
+              disabled={isSubmitting}
+              className="bg-[#FAA336] text-white text-center px-5 py-3 mt-10 mb-5 rounded-xl w-full disabled:opacity-50"
             >
-              Submit
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>
+
+        {/* Success Modal */}
+        <Modal
+          isOpen={isSuccessModalOpen}
+          onClose={() => setIsSuccessModalOpen(false)}
+          title="Message Sent Successfully!"
+        >
+          <div className="text-center">
+            <div className="text-green-400 text-6xl mb-4">✓</div>
+            <p className="text-lg mb-4">
+              Thank you for your message! We have received your inquiry and will
+              get back to you soon.
+            </p>
+            <button
+              onClick={() => setIsSuccessModalOpen(false)}
+              className="bg-blue-300 text-white px-6 py-2 rounded-md hover:bg-blue-200"
+            >
+              Close
+            </button>
+          </div>
+        </Modal>
       </div>
     </div>
   );
 }
-
-export default ContactUs;
