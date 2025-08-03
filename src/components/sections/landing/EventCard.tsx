@@ -55,7 +55,7 @@ type EventCardProps = {
         onClick={handleClick}
       >
         <motion.div
-          className="relative overflow-hidden border border-white/10 backdrop-blur-sm"
+          className="relative overflow-hidden border border-white/10 backdrop-blur-sm "
           style={{
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",

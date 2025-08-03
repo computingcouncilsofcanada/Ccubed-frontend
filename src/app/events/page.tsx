@@ -48,12 +48,25 @@ export default function EventsPage() {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
-      month: "short",
+      month: "long",
       day: "numeric",
       year: "numeric",
     });
   };
 
+  function getOrdinalSuffix(num: string) {
+    const n = parseInt(num, 10);
+    const lastDigit = n % 10;
+    const lastTwo = n % 100;
+  
+    if (lastTwo >= 11 && lastTwo <= 13) return "th";
+  
+    if (lastDigit === 1) return "st";
+    if (lastDigit === 2) return "nd";
+    if (lastDigit === 3) return "rd";
+    return "th";
+  }
+  
   useEffect(() => {
     // Using real API instead of mock data
     setLoading(true);
@@ -756,20 +769,20 @@ export default function EventsPage() {
               })
               .map((event) => (
                 <div
-                  className="flex text-white group p-5 bg-[#D4D4D4]/10 rounded-lg shadow-xl"
+                  className="flex text-white group p-5 bg-[#D4D4D4]/10 backdrop-blur-sm rounded-lg shadow-xl"
                   key={event.id + "-list"}
                 >
-                  <div className=" px-5">
+                  <div className=" px-5 group-hover:border-r-[1px] border-dashed border-white/10 ">
                     <h1 className="text-center">
                       <span className="text-2xl font-extrabold group-hover:text-5xl transition-all duration-300 ">
-                      {formatDate(event.date).split(" ")[1].split("")[0]}th
+                      {formatDate(event.date).split(" ")[1].split("")[0]}{getOrdinalSuffix(formatDate(event.date).split(" ")[1].split("")[0])}
                       </span>{" "}
                       <br />
                       {formatDate(event.date).split(" ")[0]}
                     </h1>
                   </div>
                   <div className=" flex-1 ">
-                    <div className="flex gap-3 h-60  group-hover:pl-3 transition-all duration-300 group-hover:border-l-[1px] border-dotted">
+                    <div className="flex gap-3 h-60  group-hover:pl-4 transition-all duration-300 ">
                       <div className="flex-1">
                         <Image
                           src={
@@ -792,7 +805,25 @@ export default function EventsPage() {
                           event.types.length > 0 &&
                           event.types.map((type) => (
                             <h1
-                              className="rounded-full px-3 py-2 w-fit bg-[#D4D4D4]/10"
+                            className="w-fit flex justify-center items-center"
+                            style={{
+                              height: "28px",
+                              paddingLeft: "12px",
+                              paddingRight: "12px",
+                              borderRadius: "20px",
+                              backgroundColor: "rgba(212, 212, 212, 0.1)",
+                              border: "1px solid rgba(255, 255, 255, 0.3)",
+                              opacity: "0.99",
+                              color: "#FFFFFF",
+                              fontFamily: "Roboto, sans-serif",
+                              fontWeight: "400",
+                              fontSize: "10px",
+                              lineHeight: "auto",
+                              letterSpacing: "0%",
+                              backdropFilter: "blur(10px)",
+                              WebkitBackdropFilter: "blur(10px)",
+                              filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))",
+                            }}
                               key={event.id + "-" + type}
                             >
                               {type}
