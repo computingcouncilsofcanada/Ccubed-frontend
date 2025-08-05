@@ -40,7 +40,8 @@ export default function Home() {
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
       <BgBoxMainPage maxHeight={100} />
       {/* Page Container - unified width control */}
-      <div className="container mx-auto max-w-6xl">
+      {/* <div className="container mx-auto max-w-6xl"> */}
+      <div className="container mx-auto max-w-6xl px-2">
         {/* Hero Section */}
         <Hero />
 
