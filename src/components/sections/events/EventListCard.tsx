@@ -205,7 +205,7 @@ export function EventListCard({
             </span>
           ))}
 
-        <div className="relative max-w-[300px] mb-2">
+        <div className="relative max-w-[400px] mb-2">
           <h1 
             className="text-4xl font-extrabold text-white"
             style={{ fontFamily: 'Roboto, sans-serif' }}
