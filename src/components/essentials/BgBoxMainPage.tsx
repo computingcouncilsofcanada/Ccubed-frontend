@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const bgImages = [
   // Top section boxes
@@ -104,11 +105,23 @@ interface BgBoxMainPageProps {
 }
 
 const BgBoxMainPage: React.FC<BgBoxMainPageProps> = ({ maxHeight = 100 }) => {
-  // Filter boxes based on maxHeight - only show boxes that start within the visible area
-  const visibleBoxes = bgImages.filter((img) => {
-    const topPosition = parseFloat(img.style.top.replace('%', ''));
-    return topPosition <= maxHeight;
-  });
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [visibleBoxes, setVisibleBoxes] = useState(bgImages);
+
+  useEffect(() => {
+    setIsHydrated(true);
+    // Filter boxes based on maxHeight - only show boxes that start within the visible area
+    const filtered = bgImages.filter((img) => {
+      const topPosition = parseFloat(img.style.top.replace('%', ''));
+      return topPosition <= maxHeight;
+    });
+    setVisibleBoxes(filtered);
+  }, [maxHeight]);
+
+  // Don't render anything until hydrated to prevent mismatches
+  if (!isHydrated) {
+    return null;
+  }
 
   return (
     <>
@@ -162,19 +175,27 @@ const BgBoxMainPage: React.FC<BgBoxMainPageProps> = ({ maxHeight = 100 }) => {
               />
             )}
           
-            <img
-              src={img.src}
-              alt={img.alt}
-              draggable={false}
+            <div 
               style={{
+                position: "relative",
                 width: "100%",
                 height: "100%",
-                objectFit: "contain",
-                position: "relative",
                 zIndex: 2,
-                userSelect: "none",
               }}
-            />
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                style={{
+                  objectFit: "contain",
+                  userSelect: "none",
+                }}
+                draggable={false}
+                unoptimized={img.src.endsWith('.png')}
+              />
+            </div>
           </motion.div>
         );
       })}

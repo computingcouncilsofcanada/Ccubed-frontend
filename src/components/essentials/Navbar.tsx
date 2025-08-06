@@ -11,7 +11,7 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const { user, logout } = useUser();
+  const { user, logout, isHydrated } = useUser();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,10 +45,14 @@ const Navbar = () => {
     router.push("/login");
   };
 
-  // Filter out login link if user is logged in
+  // Filter out login link if user is logged in - only after hydration
   const filteredNavLinks = navLinks.filter(
-    (link) => !(link.name === "Login" && user)
+    (link) => !(link.name === "Login" && isHydrated && user)
   );
+
+  // Don't render user-dependent content until hydrated
+  const showUserContent = isHydrated && user;
+  const showSignInButton = isHydrated && !user;
 
   return (
     <div className="w-full bg-transparent relative z-50">
@@ -89,7 +93,7 @@ const Navbar = () => {
                 {name}
               </Link>
             ))}
-            {user && (
+            {showUserContent && (
               <>
                 <Link
                   href="/login"
@@ -129,37 +133,41 @@ const Navbar = () => {
           </nav>
           
           {/* Desktop Sign In Button */}
-          <Link
-            href="/login"
-            className="text-white px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-gray-900 transition-colors"
-            style={{
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "400",
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "1%",
-            }}
-          >
-            Sign In
-          </Link>
+          {showSignInButton && (
+            <Link
+              href="/login"
+              className="text-white px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-gray-900 transition-colors"
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: "400",
+                fontSize: "16px",
+                lineHeight: "24px",
+                letterSpacing: "1%",
+              }}
+            >
+              Sign In
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center gap-3">
           {/* Mobile Sign In Button */}
-          <Link
-            href="/login"
-            className="text-white px-2 py-1 sm:px-3 sm:py-1.5 border border-white rounded-md text-xs sm:text-sm hover:bg-white hover:text-gray-900 transition-colors"
-            style={{
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "400",
-              fontSize: "12px",
-              lineHeight: "16px",
-              letterSpacing: "1%",
-            }}
-          >
-            Sign In
-          </Link>
+          {showSignInButton && (
+            <Link
+              href="/login"
+              className="text-white px-2 py-1 sm:px-3 sm:py-1.5 border border-white rounded-md text-xs sm:text-sm hover:bg-white hover:text-gray-900 transition-colors"
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: "400",
+                fontSize: "12px",
+                lineHeight: "16px",
+                letterSpacing: "1%",
+              }}
+            >
+              Sign In
+            </Link>
+          )}
           
           {/* Hamburger Menu Button */}
           <button
@@ -184,6 +192,7 @@ const Navbar = () => {
             WebkitBackdropFilter: isOpen ? "blur(10px)" : "none",
             backgroundColor: isOpen ? "rgba(13, 28, 38, 0.8)" : "transparent",
           }}
+          onClick={() => setIsOpen(false)}
         >
           <div className="flex flex-col items-center justify-center min-h-screen px-8">
             <nav className="flex flex-col gap-8 text-center">
@@ -201,7 +210,7 @@ const Navbar = () => {
                   {name}
                 </Link>
               ))}
-              {user && (
+              {showUserContent && (
                 <>
                   <Link
                     href="/login"
