@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 // Define the benefits data
 const benefits = [
@@ -36,6 +37,18 @@ const benefits = [
 ];
 
 export default function ValueSystem() {
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    updateDimensions(); // Set initial dimensions
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
+
   return (
     <section
       className="key-benefits relative z-10"
@@ -184,23 +197,23 @@ export default function ValueSystem() {
                 ease: "easeOut" 
               }}
 
-              className={`group absolute rounded-2xl px-6 py-4 cursor-pointer overflow-hidden`}
+              className={`group absolute rounded-2xl px-6 py-4 cursor-pointer overflow-hidden
+                w-[280px] sm:w-[400px] lg:w-[634px]
+                ${index % 2 === 0 ? 'left-0' : 'right-0'}
+              `}
               style={{
-                width: "634px",
                 height: "222px",
-                left: index % 2 === 0 ? "0px" : "auto",
-                right: index % 2 === 0 ? "auto" : "0px", 
                 top: `${index * 160}px`,
                 zIndex: 10 + index,
                 opacity: 1.0,
               }}
             >
-              {/* Grid Layout: 2x2 */}
+              {/* Grid Layout: 2x2 - Responsive */}
               <div 
                 className="grid gap-2 mb-6"
                 style={{ 
                   marginTop: "20px",
-                  gridTemplateColumns: "80px 1fr",
+                  gridTemplateColumns: windowWidth < 768 ? "60px 1fr" : "80px 1fr",
                   gridTemplateRows: "auto 1fr",
                   alignItems: "baseline"
                 }}
@@ -211,7 +224,7 @@ export default function ValueSystem() {
                     className="font-bold block transition-all duration-300"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      fontSize: "96px",
+                      fontSize: windowWidth < 768 ? "60px" : windowWidth < 1024 ? "80px" : "96px",
                       letterSpacing: "0.5%",
                       lineHeight: "1",
                       color: "rgba(255, 255, 255, 0.3)"
@@ -224,7 +237,7 @@ export default function ValueSystem() {
                     className="font-bold block absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      fontSize: "96px",
+                      fontSize: windowWidth < 768 ? "60px" : windowWidth < 1024 ? "80px" : "96px",
                       letterSpacing: "0.5%",
                       lineHeight: "1",
                       background: benefit.id === 1 ? 
@@ -250,7 +263,7 @@ export default function ValueSystem() {
                     className="font-bold transition-all duration-300"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      fontSize: "40px",
+                      fontSize: windowWidth < 768 ? "24px" : windowWidth < 1024 ? "32px" : "40px",
                       letterSpacing: "0.5%",
                       lineHeight: "1",
                       whiteSpace: "nowrap",
@@ -264,7 +277,7 @@ export default function ValueSystem() {
                     className="font-bold absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      fontSize: "40px",
+                      fontSize: windowWidth < 768 ? "24px" : windowWidth < 1024 ? "32px" : "40px",
                       letterSpacing: "0.5%",
                       lineHeight: "1",
                       whiteSpace: "nowrap",
@@ -295,11 +308,11 @@ export default function ValueSystem() {
                         className="text-white/90 text-left"
                         style={{
                           fontFamily: "Roboto, sans-serif",
-                          fontSize: "20px",
+                          fontSize: windowWidth < 768 ? "14px" : windowWidth < 1024 ? "16px" : "20px",
                           letterSpacing: "1%",
                           fontWeight: "300",
                           lineHeight: "1.3",
-                          maxWidth: "400px"
+                          maxWidth: windowWidth < 768 ? "200px" : windowWidth < 1024 ? "300px" : "400px"
                         }}
                       >
                       {benefit.description}
