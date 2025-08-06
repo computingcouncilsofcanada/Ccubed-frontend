@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
-      <BgBoxMainPage maxHeight={100} />
+      <BgBoxMainPage maxHeight={400} enableGlow={true} />
       {/* Page Container - unified width control */}
       {/* <div className="container mx-auto max-w-6xl"> */}
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 xl:px-2">

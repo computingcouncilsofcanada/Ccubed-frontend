@@ -7,8 +7,8 @@ import Footer from "@/components/shared/Footer";
 function ExternalResourcesPage() {
   return (
     <>
-      <BgBoxMainPage maxHeight={30} />
-      <div className="min-h-screen relative z-10">
+      <BgBoxMainPage maxHeight={100} />
+      <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden -mt-30 pt-20">
         <div className="flex justify-center items-center h-screen">
           <h1 className="text-3xl text-white">External Resources Page</h1>
         </div>

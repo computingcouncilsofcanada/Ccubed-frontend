@@ -44,7 +44,7 @@ export default function EventsPage() {
   return (
     <div className="relative w-full overflow-hidden overflow-x-hidden -mt-30 pt-20">
       {/* Add the background component - limited height for events page */}
-      {isHydrated && <BgBoxMainPage maxHeight={100} />}
+              {isHydrated && <BgBoxMainPage maxHeight={400} />}
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
         <div className="image relative flex justify-center flex-shrink-0">
