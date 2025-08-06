@@ -126,16 +126,23 @@ export default function ValueSystem() {
 
       {/* Header with title and logo */}
       <div
-        className="flex gap-3 items-end justify-start mb-4 relative z-10"
+        className="flex gap-2 sm:gap-3 items-end justify-start mb-4 relative z-10 max-w-full"
         style={{
-          width: "806px",
-          height: "214px",
+          maxWidth: "806px",
+          height: windowWidth < 640 ? "120px" : windowWidth < 1024 ? "160px" : "214px",
         }}
       >
-        <h1 className="text-white text-5xl font-extrabold">
+        <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
           Our Value System
         </h1>
-        <motion.div className="relative" style={{ marginLeft: "-40px" }}>
+        <motion.div 
+          className="relative flex-shrink-0" 
+          style={{ 
+            marginLeft: windowWidth < 640 ? "-70px" : "-60px",
+            marginBottom: windowWidth < 640 ? "-40px" : "-25px",
+            transform: windowWidth < 640 ? "scale(0.5)" : windowWidth < 1024 ? "scale(0.7)" : "scale(0.7)"
+          }}
+        >
           <Image
             src="/FigmaFiles/mainPageAssets/bear_form.svg"
             alt="Bear Form Logo"
@@ -171,8 +178,8 @@ export default function ValueSystem() {
       </div>
 
       {/* Description */}
-      <div className="text-left mb-12 max-w-4xl relative z-10">
-        <p className="text-white font-light text-base leading-relaxed"
+      <div className="text-left mb-8 sm:mb-12 max-w-4xl relative z-10 sm:px-0">
+        <p className="text-white font-light text-sm sm:text-base leading-relaxed"
            style={{
              fontFamily: "Roboto, sans-serif",
              letterSpacing: "1%"
