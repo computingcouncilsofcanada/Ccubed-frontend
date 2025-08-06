@@ -70,7 +70,7 @@ export function CurrentEventsSection({
                       return "Hybrid";
 
                     // Otherwise return the single type
-                    return event.types[0];
+                    return event.types[0] as "Hybrid" | "Online" | "In Person";
                   })()}
                   imageSrc={
                     event.files && event.files.length > 0
@@ -127,7 +127,7 @@ export function CurrentEventsSection({
                         if (event.types.length > 1 || hasHybridType)
                           return "Hybrid";
 
-                        return event.types[0];
+                        return event.types[0] as "Hybrid" | "Online" | "In Person";
                       })()}
                       imageSrc={
                         event.files && event.files.length > 0

@@ -155,7 +155,7 @@ export function EventListCard({
 
       {/* Content section */}
       <div className="flex-1 flex flex-col justify-start relative z-10 py-7">
-        {/* Badge section - 固定高度 32px，独立区域 */}
+        {/* Badge section - Fixed height 32px, independent area */}
         <div className="h-8 flex items-start justify-start flex-shrink-0 mb-3">
           {event.types &&
             event.types.length > 0 && (
@@ -184,7 +184,7 @@ export function EventListCard({
                     }}
                   />
                 )}
-                {/* 显示第一个类型，如果有多个类型则显示 Hybrid */}
+                {/* Show first type, or 'Hybrid' if multiple types */}
                 {event.types.length > 1 ? 'Hybrid' : event.types[0]}
               </span>
             )}
