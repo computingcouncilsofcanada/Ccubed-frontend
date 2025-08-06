@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Events } from "@/types/events";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { getOrdinalDay, getMonthName } from "@/utils/dateUtils";
 
@@ -20,6 +20,15 @@ export function EventListCard({
   const [isHovered, setIsHovered] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Add debounce to prevent rapid state changes
   const handleMouseEnter = () => {
     if (hoverTimeoutRef.current) {
@@ -45,6 +54,9 @@ export function EventListCard({
       key={event.id + "-list"}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      initial={{
+        clipPath: 'none'
+      }}
       style={{
         pointerEvents: 'auto',
         clipPath: isHovered ? zigzagClipPath : 'none'
@@ -58,6 +70,12 @@ export function EventListCard({
       {/* Date section */}
       <motion.div 
         className="flex items-start justify-start relative z-10" 
+        initial={{
+          paddingLeft: '24px',
+          paddingTop: '24px',
+          paddingBottom: '24px',
+          paddingRight: '24px'
+        }}
         animate={{
           paddingLeft: isHovered ? '32px' : '24px',
           paddingTop: isHovered ? '16px' : '24px',
@@ -72,6 +90,9 @@ export function EventListCard({
         <div className="flex flex-col items-center text-center -space-y-1">
           <motion.span 
             className="text-white font-bold"
+            initial={{
+              fontSize: '32px'
+            }}
             animate={{
               fontSize: isHovered ? '48px' : '32px'
             }}
@@ -89,6 +110,9 @@ export function EventListCard({
           </motion.span>
           <motion.span 
             className="text-white font-light"
+            initial={{
+              fontSize: '11px'
+            }}
             animate={{
               fontSize: isHovered ? '16px' : '11px'
             }}
@@ -113,6 +137,9 @@ export function EventListCard({
         style={{ 
           borderRight: '2px dashed rgba(255, 255, 255, 0.1)'
         }}
+        initial={{
+          opacity: 0
+        }}
         animate={{
           opacity: isHovered ? 1 : 0
         }}
@@ -125,6 +152,12 @@ export function EventListCard({
       {/* Image section */}
       <motion.div 
         className="flex items-center justify-center relative z-10" 
+        initial={{
+          paddingLeft: '24px',
+          paddingTop: '17px',
+          paddingBottom: '17px',
+          paddingRight: '16px'
+        }}
         animate={{
           paddingLeft: isHovered ? '16px' : '24px',
           paddingTop: '17px',
@@ -232,6 +265,9 @@ export function EventListCard({
       <div className="flex items-center justify-center relative z-10 pt-5" style={{ paddingRight: '36px' }}>
         <motion.div 
           className="flex flex-col gap-3"
+          initial={{
+            opacity: 0
+          }}
           animate={{
             opacity: isHovered ? 1 : 0
           }}
