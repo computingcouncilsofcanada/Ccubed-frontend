@@ -136,11 +136,11 @@ export default function Events({ events }: EventsSectionProps) {
         </div>
 
         {/* Events Grid */}
-        <div className={`mb-2 ${showEmptyState ? 'flex justify-center items-center h-[451px]' : ''}`}>
+        <div className={`mb-6 ${showEmptyState ? 'flex justify-center items-center h-[451px]' : ''}`}>
           {!showEmptyState && (
             <div className="space-y-2 sm:space-y-3">
               {/* First Row - Always visible */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 lg:gap-6 justify-items-center">
                 {recentEvents
                   .slice(0, 4)
                   .map((event) => (
