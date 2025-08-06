@@ -55,6 +55,16 @@ const bgImages = [
     maxWidth: 180,
     maxHeight: 180,
   },
+  // New left side box for better balance
+  {
+    src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
+    alt: "Background Box Left Side",
+    style: { top: "140vh", left: "5%" },
+    width: "28vw",
+    height: "28vw",
+    maxWidth: 320,
+    maxHeight: 320,
+  },
   
   // Third section - even more spaced
   {
