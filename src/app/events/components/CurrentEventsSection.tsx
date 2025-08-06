@@ -1,5 +1,5 @@
 import { Events } from "@/types/events";
-import { EventCard } from "@/components/sections/landing/EventCard";
+import { EventCard } from "@/components/shared/EventCard";
 import { EventListCard } from "./EventListCard";
 import { EmptyState } from "./EmptyState";
 

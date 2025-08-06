@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useSafariImageFallback } from "../../../hooks/useSafariImageFallback";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 export default function MissionVision() {
   // Use Safari-specific fallback for bear images

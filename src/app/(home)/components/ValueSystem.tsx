@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useSafariImageFallback } from "../../../hooks/useSafariImageFallback";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 // Define the benefits data
 const benefits = [

@@ -66,7 +66,13 @@ type EventCardProps = {
             borderRadius: "20px",
           }}
           animate={{
-            height: shouldShowExpanded ? "451px" : "320px",
+            height: shouldShowExpanded 
+              ? windowWidth >= 1024 && windowWidth < 1100
+                ? "430px"
+                : windowWidth >= 1100 && windowWidth < 1280
+                  ? "440px"
+                  : "451px"
+              : "320px",
           }}
           transition={{
             duration: 0.8,
@@ -246,7 +252,14 @@ type EventCardProps = {
                     </div>
   
                     {/* Action Buttons - Side by Side - Fixed at bottom */}
-                    <div className="flex gap-1.5 sm:gap-2 mb-2 sm:mb-3 lg:mb-4 justify-between mt-auto">
+                    <div 
+                      className="flex gap-1.5 sm:gap-2 justify-between mt-auto"
+                      style={{
+                        marginBottom: windowWidth >= 1024 && windowWidth <= 1280 
+                          ? "12px" 
+                          : "16px"
+                      }}
+                    >
                       <button
                         className="text-white text-xs font-medium rounded-lg transition-all duration-200"
                         style={{

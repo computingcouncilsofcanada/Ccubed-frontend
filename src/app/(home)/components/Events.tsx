@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
 import { Events } from "@/types/events";
 import { useRouter } from "next/navigation";
-import { EventCard } from "./EventCard";
-import { useSafariImageFallback } from "../../../hooks/useSafariImageFallback";
+import { EventCard } from "@/components/shared/EventCard";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 
 
