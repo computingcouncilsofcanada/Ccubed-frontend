@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+
+import { motion } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
 import { Events } from "@/types/events";
+import { useRouter } from "next/navigation";
 import { EventCard } from "./EventCard";
 
 
@@ -15,7 +16,7 @@ type EventsSectionProps = {
 };
 
 export default function Events({ events }: EventsSectionProps) {
-  const [showMore, setShowMore] = useState<boolean>(false);
+  const router = useRouter();
   
   // Show actual events instead of empty state
   const showEmptyState = false;
@@ -178,70 +179,7 @@ export default function Events({ events }: EventsSectionProps) {
                   ))}
               </div>
 
-              {/* Second Row - Animated */}
-              <AnimatePresence>
-                {showMore && recentEvents.length > 4 && (
-                  <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3"
-                    initial={{ opacity: 0, y: -30, height: 0 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0, 
-                      height: "auto",
-                    }}
-                    exit={{ 
-                      opacity: 0, 
-                      y: -30, 
-                      height: 0,
-                    }}
-                    transition={{ 
-                      duration: 0.8, 
-                      ease: [0.25, 0.1, 0.25, 1],
-                      height: { 
-                        duration: 0.8,
-                        ease: [0.25, 0.1, 0.25, 1]
-                      }
-                    }}
-                  >
-                    {recentEvents
-                      .slice(4, 8)
-                      .map((event) => (
-                        <EventCard
-                          key={event.id}
-                          id={event.id}
-                          title={event.name}
-                          time={event.time}
-                          date={event.date}
-                          location={event.location}
-                          type={
-                            (() => {
-                              if (!event.types || event.types.length === 0) return "Online";
-                              
-                              // Check for hybrid first - either multiple types OR contains "hybrid"
-                              const hasHybridType = event.types.some(type => 
-                                type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
-                              );
-                              if (event.types.length > 1 || hasHybridType) return "Hybrid";
-                              
-                              // Single type matching
-                              const eventType = event.types[0];
-                              if (eventType === "In Person") return "In Person";
-                              if (eventType === "Online") return "Online";
-                              
-                              return "Online"; // Default fallback
-                            })()
-                          }
-                          imageSrc={
-                            event.files && event.files.length > 0
-                              ? event.files[0].url
-                              : "https://placehold.co/400"
-                          }
-                          description={event.description}
-                        />
-                      ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+
             </div>
           )}
           {showEmptyState && (
@@ -333,11 +271,11 @@ export default function Events({ events }: EventsSectionProps) {
                 letterSpacing: "1%",
                 color: "#FFFFFF",
               }}
-              onClick={() => setShowMore(!showMore)}
+              onClick={() => router.push('/events')}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              {showMore ? "Show less" : "See more"}
+              See more
             </motion.button>
           </div>
         )}
