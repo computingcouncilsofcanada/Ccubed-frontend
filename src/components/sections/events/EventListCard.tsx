@@ -40,7 +40,7 @@ export function EventListCard({
 
   return (
     <div
-      className={`flex text-white group p-5 bg-[#D4D4D4]/10 backdrop-blur-sm shadow-xl relative overflow-hidden transition-all duration-300 ${isHovered ? '' : 'rounded-lg'}`}
+      className={`flex text-white group bg-[#D4D4D4]/10 backdrop-blur-sm shadow-xl relative overflow-hidden transition-all duration-300 w-full max-w-[1144px] h-[234px] ${isHovered ? '' : 'rounded-lg'}`}
       key={event.id + "-list"}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -48,86 +48,142 @@ export function EventListCard({
         clipPath: isHovered ? zigzagClipPath : 'none'
       }}
     >
-      
-      <div className="px-5 relative z-10">
-        <h1 className="text-center">
-          <span className="text-2xl font-extrabold group-hover:text-5xl transition-all duration-300 ">
+      {/* Date section */}
+      <div 
+        className="flex items-start justify-start relative z-10 transition-all duration-300" 
+        style={{
+          paddingLeft: isHovered ? '32px' : '24px',
+          paddingTop: isHovered ? '16px' : '24px',
+          paddingBottom: isHovered ? '16px' : '24px',
+          paddingRight: isHovered ? '32px' : '24px'
+        }}
+      >
+        <div className="flex flex-col items-center text-center -space-y-1">
+          <span 
+            className="text-white font-bold transition-all duration-300"
+            style={{
+              fontFamily: 'Roboto, sans-serif',
+              fontSize: isHovered ? '48px' : '32px',
+              lineHeight: 'auto',
+              letterSpacing: '0%'
+            }}
+          >
             {formatDate(event.date).split(" ")[1].split("")[0]}{getOrdinalSuffix(formatDate(event.date).split(" ")[1].split("")[0])}
-          </span>{" "}
-          <br />
-          {formatDate(event.date).split(" ")[0]}
-        </h1>
+          </span>
+          <span 
+            className="text-white font-light transition-all duration-300"
+            style={{
+              fontFamily: 'Roboto, sans-serif',
+              fontSize: isHovered ? '16px' : '11px',
+              lineHeight: 'auto',
+              letterSpacing: '0%'
+            }}
+          >
+            {formatDate(event.date).split(" ")[0]}
+          </span>
+        </div>
       </div>
-      <div className="flex-1 relative z-10">
-        <div className="flex gap-3 h-60  group-hover:pl-4 transition-all duration-300 ">
-          <div className="flex-1">
-            <Image
-              src={
-                event.files && event.files.length > 0
-                  ? event.files[0].url
-                  : "https://placehold.co/400"
-              }
-              alt={event.name}
-              width={250}
-              height={250}
-              className="rounded-lg w-full h-full"
-              priority={false}
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-            />
-          </div>
 
-          <div className="flex-2 flex flex-col gap-3">
-            {event.types &&
-              event.types.length > 0 &&
-              event.types.map((type) => (
-                <h1
-                  className="w-fit flex justify-center items-center"
+      {/* Separator line - only shown on hover, spans full card height */}
+      {isHovered && (
+        <div 
+          className="w-[2px] transition-opacity duration-300 z-20"
+          style={{ 
+            borderRight: '2px dashed rgba(255, 255, 255, 0.1)'
+          }}
+        />
+      )}
+
+      {/* Image section */}
+      <div 
+        className="flex items-center justify-center relative z-10" 
+        style={{
+          paddingLeft: isHovered ? '16px' : '24px',
+          paddingTop: '17px',
+          paddingBottom: '17px',
+          paddingRight: '16px'
+        }}
+      >
+        <Image
+          src={
+            event.files && event.files.length > 0
+              ? event.files[0].url
+              : "https://placehold.co/400"
+          }
+          alt={event.name}
+          width={200}
+          height={200}
+          className="rounded-xl opacity-100"
+          style={{ width: '200px', height: '200px' }}
+          priority={false}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+        />
+      </div>
+
+      {/* Content section */}
+      <div className="flex-1 flex flex-col justify-start relative z-10 py-7">
+        {event.types &&
+          event.types.length > 0 &&
+          event.types.map((type) => (
+            <span
+              className="w-fit flex justify-center items-center mb-5 h-8 px-4 bg-[#D4D4D4]/10 text-white rounded-full relative transition-all duration-300"
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                fontWeight: "400",
+                fontSize: "13px",
+                lineHeight: "auto",
+                letterSpacing: "0%",
+              }}
+              key={event.id + "-" + type}
+            >
+              {/* Gradient border overlay - only visible on hover */}
+              {isHovered && (
+                <div
+                  className="absolute inset-0 rounded-full pointer-events-none"
                   style={{
-                    height: "28px",
-                    paddingLeft: "12px",
-                    paddingRight: "12px",
-                    borderRadius: "20px",
-                    backgroundColor: "rgba(212, 212, 212, 0.1)",
-                    border: "1px solid rgba(255, 255, 255, 0.3)",
-                    opacity: "0.99",
-                    color: "#FFFFFF",
-                    fontFamily: "Roboto, sans-serif",
-                    fontWeight: "400",
-                    fontSize: "10px",
-                    lineHeight: "auto",
-                    letterSpacing: "0%",
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
-                    filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))",
+                    background: "linear-gradient(to top, rgba(19, 25, 59, 0.6) 0%, rgba(19, 25, 59, 0.4) 30%, rgba(19, 25, 59, 0.2) 60%, rgba(255, 255, 255, 0.1) 100%)",
+                    mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    maskComposite: "xor",
+                    WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "xor",
+                    padding: "2px",
                   }}
-                  key={event.id + "-" + type}
-                >
-                  {type}
-                </h1>
-              ))}
+                />
+              )}
+              {type}
+            </span>
+          ))}
 
-            <h1 className="text-4xl font-bold max-w-[300px]">
-              {event.name}
-            </h1>
-            <p className="max-w-[500px]">{event.description}</p>
-          </div>
-          <div className="flex-1  flex justify-center items-center">
-            <div className="flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 ">
-              <button
-                className="p-2 text-black bg-[#FAA336] border-[1px] border-[#FAA336] rounded-md text-center"
-                onClick={onInvitationLink}
-              >
-                Invitation Link
-              </button>
-              <button
-                className="p-2 text-white border-[1px] border-white rounded-md text-center"
-                onClick={() => onSeeDetails(event)}
-              >
-                See Details
-              </button>
-            </div>
-          </div>
+        <h1 
+          className="text-4xl font-extrabold max-w-[300px] mb-2"
+          style={{ fontFamily: 'Roboto, sans-serif' }}
+        >
+          {event.name}
+        </h1>
+        <p 
+          className="font-light max-w-[500px]"
+          style={{ fontFamily: 'Roboto, sans-serif' }}
+        >
+          {event.description}
+        </p>
+      </div>
+
+      {/* Button section */}
+      <div className="flex items-center justify-center relative z-10 pt-5" style={{ paddingRight: '36px' }}>
+        <div className="flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300">
+          <button
+            className="p-2 text-black bg-[#FAA336] border-[1px] border-[#FAA336] rounded-md text-center"
+            onClick={onInvitationLink}
+          >
+            Invitation Link
+          </button>
+          <button
+            className="p-2 text-white border-[1px] border-white rounded-md text-center"
+            onClick={() => onSeeDetails(event)}
+          >
+            See Details
+          </button>
         </div>
       </div>
     </div>
