@@ -195,10 +195,10 @@ const BgBoxMainPage: React.FC<BgBoxMainPageProps> = ({ maxHeight = 400, enableGl
             }}
             onDragStart={(e) => e.preventDefault()}
           >
-            {/* White breathing glow effect - only for top left box and only when enabled */}
+            {/* White breathing glow effect - always visible for top left box when enabled */}
             {isTopLeftBox && enableGlow && (
               <motion.div
-                className="absolute inset-0 pointer-events-none invisible group-hover:visible"
+                className="absolute inset-0 pointer-events-none"
                 style={{
                   background: "radial-gradient(ellipse 100% 100% at center, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 40%, transparent 80%)",
                   filter: "blur(30px)",
@@ -208,7 +208,7 @@ const BgBoxMainPage: React.FC<BgBoxMainPageProps> = ({ maxHeight = 400, enableGl
                   opacity: [0.3, 0.7, 0.3],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
