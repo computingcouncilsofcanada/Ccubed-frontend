@@ -54,9 +54,6 @@ export function EventListCard({
       key={event.id + "-list"}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      initial={{
-        clipPath: 'none'
-      }}
       style={{
         pointerEvents: 'auto',
         clipPath: isHovered ? zigzagClipPath : 'none'
