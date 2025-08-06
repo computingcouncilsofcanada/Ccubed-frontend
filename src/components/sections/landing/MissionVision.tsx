@@ -112,18 +112,15 @@ export default function MissionVision() {
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center relative z-10">
         {/* Our Mission Card */}
         <motion.div
-          className="mission-card relative group cursor-pointer"
-          style={{ width: "566px", height: "431px" }}
+          className="mission-card relative group cursor-pointer w-full max-w-[566px] sm:max-w-[480px] md:max-w-[520px] lg:max-w-[566px] h-[456px] sm:h-[426px] md:h-[520px] lg:h-[445px]"
           variants={cardVariants}
           initial="initial"
           whileHover="hover"
         >
           {/* Hover Rectangle */}
           <motion.div
-            className="absolute bottom-0 left-0 z-0"
+            className="absolute bottom-0 left-0 z-0 w-full h-[360px] sm:h-[330px] md:h-[424px] lg:h-[349px]"
             style={{
-              width: "566px",
-              height: "335px",
               background:
                 "linear-gradient(to right, rgba(212, 212, 212, 0.05) 0%, transparent 100%)",
               borderRadius: "12px",
@@ -294,18 +291,15 @@ export default function MissionVision() {
 
         {/* Our Vision Card */}
         <motion.div
-          className="vision-card relative group cursor-pointer"
-          style={{ width: "566px", height: "431px" }}
+          className="vision-card relative group cursor-pointer w-full max-w-[566px] sm:max-w-[480px] md:max-w-[520px] lg:max-w-[566px] h-[456px] sm:h-[426px] md:h-[520px] lg:h-[445px]"
           variants={cardVariants}
           initial="initial"
           whileHover="hover"
         >
           {/* Hover Rectangle */}
           <motion.div
-            className="absolute bottom-0 left-0 z-0"
+            className="absolute bottom-0 left-0 z-0 w-full h-[360px] sm:h-[330px] md:h-[424px] lg:h-[349px]"
             style={{
-              width: "566px",
-              height: "335px",
               background:
                 "linear-gradient(to left, rgba(212, 212, 212, 0.05) 0%, transparent 100%)",
               borderRadius: "12px",
