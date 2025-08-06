@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Events } from "@/types/events";
 import { privateAxios } from "@/lib/axios";
-import { transformApiEvents } from "@/utils/eventsApi";
-import { separateEventsByTime } from "@/utils/eventUtils";
+import { transformApiEvents } from "@/app/events/utils/eventsApi";
+import { separateEventsByTime } from "@/app/events/utils/eventUtils";
 
 export function useEventsData() {
   const [currentEvents, setCurrentEvents] = useState<Events[]>([]);
