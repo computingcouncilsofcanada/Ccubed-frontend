@@ -19,7 +19,7 @@ const bgImages = [
   },
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
-    alt: "Background Box Right Top", 
+    alt: "Background Box Right Top",
     style: { top: "5vh", right: "10%" },
     width: "25vw",
     height: "25vw",
@@ -35,7 +35,7 @@ const bgImages = [
     maxWidth: 320,
     maxHeight: 320,
   },
-  
+
   // Second screen - more spaced out
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
@@ -46,15 +46,7 @@ const bgImages = [
     maxWidth: 600,
     maxHeight: 600,
   },
-  {
-    src: "/FigmaFiles/mainPageAssets/boxTiltRight.png",
-    alt: "Background Box Upper Right Small",
-    style: { top: "160vh", right: "12%" },
-    width: "16vw",
-    height: "16vw",
-    maxWidth: 180,
-    maxHeight: 180,
-  },
+
   // New left side box for better balance
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
@@ -65,7 +57,7 @@ const bgImages = [
     maxWidth: 320,
     maxHeight: 320,
   },
-  
+
   // Third section - even more spaced
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
@@ -79,13 +71,23 @@ const bgImages = [
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
     alt: "Background Box Lower Left",
-    style: { top: "250vh", left: "5%" },
+    style: { top: "230vh", left: "5%" },
     width: "26vw",
     height: "26vw",
     maxWidth: 300,
     maxHeight: 300,
   },
-  
+
+  {
+    src: "/FigmaFiles/mainPageAssets/boxTiltRight.png",
+    alt: "Background Box Upper Right Small",
+    style: { top: "280vh", right: "12%" },
+    width: "16vw",
+    height: "16vw",
+    maxWidth: 180,
+    maxHeight: 180,
+  },
+
   // Extended sections - very sparse
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltRight.png",
@@ -96,6 +98,17 @@ const bgImages = [
     maxWidth: 200,
     maxHeight: 200,
   },
+
+  {
+    src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
+    alt: "Background Box Additional Right",
+    style: { top: "310vh", right: "0%" },
+    width: "35vw",
+    height: "35vw",
+    maxWidth: 400,
+    maxHeight: 400,
+  },
+
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
     alt: "Background Box Extended Center Large",
@@ -105,7 +118,7 @@ const bgImages = [
     maxWidth: 380,
     maxHeight: 380,
   },
-  
+
   // Far extended sections
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltRight.png",
