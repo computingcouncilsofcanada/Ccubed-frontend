@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { formatDateSmart } from "@/utils/dateUtils";
 
@@ -30,6 +30,14 @@ type EventCardProps = {
   }: EventCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(0);
+
+    useEffect(() => {
+      const updateWidth = () => setWindowWidth(window.innerWidth);
+      updateWidth();
+      window.addEventListener("resize", updateWidth);
+      return () => window.removeEventListener("resize", updateWidth);
+    }, []);
   
     const handleClick = () => {
       setIsExpanded(!isExpanded);
@@ -44,18 +52,20 @@ type EventCardProps = {
   
     return (
       <motion.div
-        className="relative group cursor-pointer"
-        style={{ width: "276px", height: "451px" }}
+        className="relative group cursor-pointer w-full max-w-[276px] mx-auto h-[380px] sm:h-[420px] lg:h-[451px]"
+        style={{ 
+          width: "100%", 
+          minWidth: "240px"
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
       >
         <motion.div
-          className="relative overflow-hidden border border-white/10 backdrop-blur-sm "
+          className="relative overflow-hidden border border-white/10 backdrop-blur-sm w-full"
           style={{
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
-            width: "276px",
             borderRadius: "20px",
           }}
           animate={{
@@ -97,8 +107,7 @@ type EventCardProps = {
           <div className="p-2 h-full flex flex-col">
             {/* Event Image */}
             <div
-              className="bg-slate-700/30 rounded-xl mb-2 flex-shrink-0"
-              style={{ width: "258px", height: "176px" }}
+              className="bg-slate-700/30 rounded-xl mb-2 flex-shrink-0 w-full aspect-[258/176] overflow-hidden"
             >
               <Image
                 src={imageSrc}
@@ -116,12 +125,13 @@ type EventCardProps = {
             <div className="px-2">
               {/* Event Title - Always Visible */}
               <h3
-                className="text-white text-left mb-2 overflow-hidden w-full h-14"
+                className="text-white text-left mb-1.5 sm:mb-2 overflow-hidden w-full"
                 style={{
                   fontFamily: "Roboto, sans-serif",
                   fontWeight: "bold",
-                  fontSize: "24px",
-                  lineHeight: "28px",
+                  fontSize: windowWidth < 640 ? "20px" : windowWidth < 1024 ? "22px" : "24px",
+                  lineHeight: windowWidth < 640 ? "24px" : windowWidth < 1024 ? "26px" : "28px",
+                  height: windowWidth < 640 ? "48px" : "56px",
                   color: "#FFFFFF",
                   letterSpacing: "0%",
                   display: "-webkit-box",
@@ -133,22 +143,22 @@ type EventCardProps = {
               </h3>
   
               {/* Basic Info - Always Visible */}
-              <div className="mb-2 space-y-1 h-12">
+              <div className="mb-1.5 sm:mb-2 space-y-1" style={{ height: windowWidth < 640 ? "40px" : "48px" }}>
                 {/* Time and Date in same row */}
                 <div className="flex items-center gap-2 text-white">
                   <div className="flex items-center gap-1">
                     <Image
                       src="/FigmaFiles/eventsAssets/clock-2.svg"
                       alt="Time"
-                      width={20}
-                      height={20}
+                      width={windowWidth < 640 ? 16 : 20}
+                      height={windowWidth < 640 ? 16 : 20}
                       className="select-none"
                       draggable={false}
                       style={{ userSelect: "none" }}
                     />
                     <span
                       style={{
-                        fontSize: "10px",
+                        fontSize: windowWidth < 640 ? "9px" : "10px",
                         fontFamily: "Roboto, sans-serif",
                         fontWeight: "400",
                         letterSpacing: "0%",
@@ -161,15 +171,15 @@ type EventCardProps = {
                     <Image
                       src="/FigmaFiles/eventsAssets/calendar.svg"
                       alt="Date"
-                      width={20}
-                      height={20}
+                      width={windowWidth < 640 ? 16 : 20}
+                      height={windowWidth < 640 ? 16 : 20}
                       className="select-none"
                       draggable={false}
                       style={{ userSelect: "none" }}
                     />
                     <span
                       style={{
-                        fontSize: "10px",
+                        fontSize: windowWidth < 640 ? "9px" : "10px",
                         fontFamily: "Roboto, sans-serif",
                         fontWeight: "400",
                         letterSpacing: "0%",
@@ -239,19 +249,19 @@ type EventCardProps = {
                     </div>
   
                     {/* Action Buttons - Side by Side - Fixed at bottom */}
-                    <div className="flex gap-2 mb-4 justify-center mt-auto">
+                    <div className="flex gap-1.5 sm:gap-2 mb-2 sm:mb-3 lg:mb-4 justify-between mt-auto">
                       <button
                         className="text-white text-xs font-medium rounded-lg transition-all duration-200"
                         style={{
-                          width: "117px",
-                          height: "36px",
+                          flex: "1",
+                          height: windowWidth < 640 ? "30px" : windowWidth < 1024 ? "33px" : "36px",
                           backgroundColor: "#FAA336",
                           borderRadius: "8px",
                           opacity: "100%",
                           fontFamily: "Roboto, sans-serif",
                           fontWeight: "400",
-                          fontSize: "14px",
-                          lineHeight: "20px",
+                          fontSize: windowWidth < 640 ? "12px" : "14px",
+                          lineHeight: windowWidth < 640 ? "16px" : "20px",
                           letterSpacing: "0%",
                           color: "#152E3F",
                         }}
@@ -262,15 +272,15 @@ type EventCardProps = {
                       <button
                         className="text-white text-xs font-medium rounded-lg transition-all duration-200"
                         style={{
-                          width: "117px",
-                          height: "36px",
+                          flex: "1",
+                          height: windowWidth < 640 ? "30px" : windowWidth < 1024 ? "33px" : "36px",
                           backgroundColor: "transparent",
                           border: "1px solid rgba(255, 255, 255, 0.5)",
                           borderRadius: "8px",
                           fontFamily: "Roboto, sans-serif",
                           fontWeight: "400",
-                          fontSize: "14px",
-                          lineHeight: "20px",
+                          fontSize: windowWidth < 640 ? "12px" : "14px",
+                          lineHeight: windowWidth < 640 ? "16px" : "20px",
                           letterSpacing: "0%",
                           color: "#FFFFFF",
                         }}

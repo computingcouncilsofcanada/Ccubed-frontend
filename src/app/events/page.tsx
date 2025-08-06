@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import { motion } from "framer-motion";
@@ -16,6 +16,9 @@ import { useEventsData } from "./hooks/useEventsData";
 import { useEventsFilter } from "./hooks/useEventsFilter";
 
 export default function EventsPage() {
+  // Hydration state
+  const [isHydrated, setIsHydrated] = useState(false);
+  
   // Data fetching with custom hook
   const { currentEvents, pastEvents, error, isLoading } = useEventsData();
 
@@ -24,6 +27,11 @@ export default function EventsPage() {
   const [viewMode, setViewMode] = useState<string>("list");
   const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Handle hydration
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
   
   // Modal handlers
   const handleShare = () => alert("Share link clicked");
@@ -36,7 +44,7 @@ export default function EventsPage() {
   return (
     <div className="relative w-full overflow-hidden overflow-x-hidden -mt-30 pt-20">
       {/* Add the background component - limited height for events page */}
-      <BgBoxMainPage maxHeight={100} />
+      {isHydrated && <BgBoxMainPage maxHeight={100} />}
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
         <div className="image relative flex justify-center flex-shrink-0">
@@ -54,27 +62,29 @@ export default function EventsPage() {
             />
 
             {/* Animated Overlay Image */}
-            <motion.div
-              className="absolute inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <Image
-                src="/FigmaFiles/mainPageAssets/hero-img-2.svg"
-                alt="Hero Image with Texture"
-                width={505}
-                height={505}
-                className="w-full h-full object-contain select-none"
-                priority
-                draggable={false}
-                style={{ userSelect: "none" }}
-              />
-            </motion.div>
+            {isHydrated && (
+              <motion.div
+                className="absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <Image
+                  src="/FigmaFiles/mainPageAssets/hero-img-2.svg"
+                  alt="Hero Image with Texture"
+                  width={505}
+                  height={505}
+                  className="w-full h-full object-contain select-none"
+                  priority
+                  draggable={false}
+                  style={{ userSelect: "none" }}
+                />
+              </motion.div>
+            )}
           </motion.div>
         </div>
         

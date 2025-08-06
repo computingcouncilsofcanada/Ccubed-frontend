@@ -41,7 +41,7 @@ export default function Home() {
       <BgBoxMainPage maxHeight={100} />
       {/* Page Container - unified width control */}
       {/* <div className="container mx-auto max-w-6xl"> */}
-      <div className="container mx-auto max-w-6xl px-2">
+      <div className="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 xl:px-2">
         {/* Hero Section */}
         <Hero />
 

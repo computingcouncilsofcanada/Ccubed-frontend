@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
 import { Events } from "@/types/events";
+import { useRouter } from "next/navigation";
 import { EventCard } from "./EventCard";
 
 
@@ -15,7 +16,8 @@ type EventsSectionProps = {
 };
 
 export default function Events({ events }: EventsSectionProps) {
-  const [showMore, setShowMore] = useState<boolean>(false);
+  const router = useRouter();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   // Show actual events instead of empty state
   const showEmptyState = false;
@@ -32,6 +34,63 @@ export default function Events({ events }: EventsSectionProps) {
 
   // Check if there are more events to show
   const hasMoreEvents = recentEvents.length > 4;
+
+  // Infinite loop scroll functionality
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    let isScrolling = true;
+    const scrollSpeed = 0.5; // pixels per frame
+    let animationId: number;
+
+    const autoScroll = () => {
+      if (!isScrolling || !scrollContainer) return;
+
+      // Calculate the width of one complete set of events (half of total width)
+      const oneSetWidth = scrollContainer.scrollWidth / 2;
+      const currentScroll = scrollContainer.scrollLeft;
+
+      // Reset to beginning when reaching the end of first set for seamless loop
+      if (currentScroll >= oneSetWidth) {
+        scrollContainer.scrollLeft = 0;
+      } else {
+        scrollContainer.scrollLeft += scrollSpeed;
+      }
+
+      animationId = requestAnimationFrame(autoScroll);
+    };
+
+    // Start auto scroll after a delay
+    const startDelay = setTimeout(() => {
+      autoScroll();
+    }, 2000);
+
+    // Pause on hover
+    const handleMouseEnter = () => {
+      isScrolling = false;
+      if (animationId) cancelAnimationFrame(animationId);
+    };
+
+    const handleMouseLeave = () => {
+      isScrolling = true;
+      autoScroll();
+    };
+
+    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      clearTimeout(startDelay);
+      if (animationId) cancelAnimationFrame(animationId);
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
+        scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [recentEvents]);
+
+
 
   return (
     <section className="events relative z-10">
@@ -97,17 +156,13 @@ export default function Events({ events }: EventsSectionProps) {
 
       {/* Header with title and logo */}
       <div
-        className="flex items-end justify-center mb-4 mx-auto"
-        style={{
-          width: "706px",
-          height: "214px",
-        }}
+        className="flex items-end justify-center mb-4 mx-auto w-full max-w-[706px] h-[120px] sm:h-[160px] md:h-[214px] px-4"
       >
-        <h1 className="text-white text-[40px] font-extrabold">Events</h1>
+        <h1 className="text-white text-[28px] sm:text-[32px] md:text-[40px] font-extrabold">Events</h1>
         <Image
           src="/FigmaFiles/mainPageAssets/bear_ccube.svg"
           alt="CCubed Bear Logo Animated"
-          className="mb-[-20px] select-none"
+          className="mb-[-10px] sm:mb-[-15px] md:mb-[-20px] select-none w-[100px] h-[112px] sm:w-[120px] sm:h-[134px] md:w-[143px] md:h-[160px]"
           width={143}
           height={160}
           priority
@@ -116,9 +171,9 @@ export default function Events({ events }: EventsSectionProps) {
         />
       </div>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 px-4 md:px-0">
         {/* Description */}
-        <p className="text-white font-light w-full text-center px-50">
+        <p className="text-white font-light w-full text-center text-sm sm:text-base px-2 sm:px-8 md:px-50">
           Join us for a variety of indoor and outdoor events that bring
           computing students together beyond the screen. Whether it&apos;s a
           casual meetup or a collaborative workshop, there&apos;s always a way
@@ -128,10 +183,9 @@ export default function Events({ events }: EventsSectionProps) {
         {/* Recent Events Section Title */}
         <div className="flex justify-start">
           <h2 
-            className="text-white text-left font-semibold"
+            className="text-white text-left font-semibold text-lg sm:text-xl md:text-2xl"
             style={{
                 fontFamily: "Roboto, sans-serif",
-                fontSize: "24px",
                 letterSpacing: "0.24px", 
               }}
           >
@@ -140,11 +194,96 @@ export default function Events({ events }: EventsSectionProps) {
         </div>
 
         {/* Events Grid */}
-        <div className={`mb-2 ${showEmptyState ? 'flex justify-center items-center h-[451px]' : ''}`}>
+        <div className={`mb-6 ${showEmptyState ? 'flex justify-center items-center h-[451px]' : ''}`}>
           {!showEmptyState && (
-            <div className="space-y-3">
-              {/* First Row - Always visible */}
-              <div className="grid grid-cols-4 gap-3">
+            <div className="space-y-2 sm:space-y-3">
+              {/* Mobile Horizontal Scroll View */}
+              <div className="block sm:hidden" style={{ height: '452px' }}>
+                <div 
+                  ref={scrollContainerRef}
+                  className="overflow-x-auto overflow-y-hidden h-full" 
+                  style={{
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none',
+                    WebkitOverflowScrolling: 'touch'
+                  }}
+                >
+                  <div className="flex gap-4 h-full items-start" style={{ width: 'max-content' }}>
+                    {/* Original events */}
+                    {recentEvents.slice(0, 4).map((event) => (
+                      <div key={event.id} className="flex-shrink-0">
+                        <EventCard
+                          id={event.id}
+                          title={event.name}
+                          time={event.time}
+                          date={event.date}
+                          location={event.location}
+                          type={
+                            (() => {
+                              if (!event.types || event.types.length === 0) return "Online";
+                              
+                              const hasHybridType = event.types.some(type => 
+                                type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
+                              );
+                              if (event.types.length > 1 || hasHybridType) return "Hybrid";
+                              
+                              const eventType = event.types[0];
+                              if (eventType === "In Person") return "In Person";
+                              if (eventType === "Online") return "Online";
+                              
+                              return "Online";
+                            })()
+                          }
+                          imageSrc={
+                            event.files && event.files.length > 0
+                              ? event.files[0].url
+                              : "https://placehold.co/400"
+                          }
+                          description={event.description}
+                        />
+                      </div>
+                    ))}
+                    
+                    {/* Duplicate events for seamless loop */}
+                    {recentEvents.slice(0, 4).map((event) => (
+                      <div key={`duplicate-${event.id}`} className="flex-shrink-0">
+                        <EventCard
+                          id={event.id}
+                          title={event.name}
+                          time={event.time}
+                          date={event.date}
+                          location={event.location}
+                          type={
+                            (() => {
+                              if (!event.types || event.types.length === 0) return "Online";
+                              
+                              const hasHybridType = event.types.some(type => 
+                                type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
+                              );
+                              if (event.types.length > 1 || hasHybridType) return "Hybrid";
+                              
+                              const eventType = event.types[0];
+                              if (eventType === "In Person") return "In Person";
+                              if (eventType === "Online") return "Online";
+                              
+                              return "Online";
+                            })()
+                          }
+                          imageSrc={
+                            event.files && event.files.length > 0
+                              ? event.files[0].url
+                              : "https://placehold.co/400"
+                          }
+                          description={event.description}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Desktop/Tablet Grid View */}
+              <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 lg:gap-6 justify-items-center">
                 {recentEvents
                   .slice(0, 4)
                   .map((event) => (
@@ -183,70 +322,7 @@ export default function Events({ events }: EventsSectionProps) {
                   ))}
               </div>
 
-              {/* Second Row - Animated */}
-              <AnimatePresence>
-                {showMore && recentEvents.length > 4 && (
-                  <motion.div
-                    className="grid grid-cols-4 gap-3"
-                    initial={{ opacity: 0, y: -30, height: 0 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0, 
-                      height: "auto",
-                    }}
-                    exit={{ 
-                      opacity: 0, 
-                      y: -30, 
-                      height: 0,
-                    }}
-                    transition={{ 
-                      duration: 0.8, 
-                      ease: [0.25, 0.1, 0.25, 1],
-                      height: { 
-                        duration: 0.8,
-                        ease: [0.25, 0.1, 0.25, 1]
-                      }
-                    }}
-                  >
-                    {recentEvents
-                      .slice(4, 8)
-                      .map((event) => (
-                        <EventCard
-                          key={event.id}
-                          id={event.id}
-                          title={event.name}
-                          time={event.time}
-                          date={event.date}
-                          location={event.location}
-                          type={
-                            (() => {
-                              if (!event.types || event.types.length === 0) return "Online";
-                              
-                              // Check for hybrid first - either multiple types OR contains "hybrid"
-                              const hasHybridType = event.types.some(type => 
-                                type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
-                              );
-                              if (event.types.length > 1 || hasHybridType) return "Hybrid";
-                              
-                              // Single type matching
-                              const eventType = event.types[0];
-                              if (eventType === "In Person") return "In Person";
-                              if (eventType === "Online") return "Online";
-                              
-                              return "Online"; // Default fallback
-                            })()
-                          }
-                          imageSrc={
-                            event.files && event.files.length > 0
-                              ? event.files[0].url
-                              : "https://placehold.co/400"
-                          }
-                          description={event.description}
-                        />
-                      ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+
             </div>
           )}
           {showEmptyState && (
@@ -338,11 +414,11 @@ export default function Events({ events }: EventsSectionProps) {
                 letterSpacing: "1%",
                 color: "#FFFFFF",
               }}
-              onClick={() => setShowMore(!showMore)}
+              onClick={() => router.push('/events')}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              {showMore ? "Show less" : "See more"}
+              See more
             </motion.button>
           </div>
         )}

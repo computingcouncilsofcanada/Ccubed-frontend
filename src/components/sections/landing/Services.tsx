@@ -312,14 +312,9 @@ export default function Services() {
     >
       {/* Header with title and logo */}
       <div
-        className="flex gap-3 items-end justify-start mb-4"
-        style={{
-          width: "706px",
-          height: "214px",
-          marginLeft: "0",
-        }}
+        className="flex gap-3 items-end justify-start mb-4 w-full max-w-[706px] h-[120px] sm:h-[160px] md:h-[214px] px-4 sm:px-6 md:px-8 xl:px-0"
       >
-        <h1 className="text-white text-4xl font-extrabold">Services</h1>
+        <h1 className="text-white text-2xl sm:text-3xl md:text-4xl font-extrabold">Services</h1>
         <motion.div className="relative" style={{ marginLeft: "-40px" }}>
           <Image
             src="/FigmaFiles/mainPageAssets/small-breathe-logo.svg"
@@ -349,7 +344,7 @@ export default function Services() {
         </motion.div>
       </div>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 px-4 sm:px-6 md:px-8 xl:px-0">
         {/* Description */}
         <p className="text-white font-light">
           We connect computing students across Canada through meaningful
