@@ -7,7 +7,7 @@ import Link from "next/link";
 // Hero Section Component
 export default function Hero() {
   return (
-    <section className="hero flex gap-4 flex-col md:flex-row items-center justify-center relative z-10 max-w-6xl mx-auto">
+    <section className="hero flex gap-4 flex-col md:flex-row items-center justify-center relative z-10 max-w-6xl mx-auto px-4 sm:px-6 md:px-8 xl:px-0">
       {/* Text Content */}
       <div className="text flex flex-col gap-4 md:max-w-lg">
         <h1 className="text-white font-extrabold text-4xl">

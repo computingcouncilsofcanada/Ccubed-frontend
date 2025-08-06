@@ -29,7 +29,7 @@ const Navbar = () => {
         className="flex justify-between p-3 mx-auto items-center px-4"
         style={{ maxWidth: "1200px" }}
       > */}
-      <div className="flex justify-between py-8 px-0 mx-auto items-center max-w-6xl">
+      <div className="flex justify-between py-8 px-4 sm:px-6 md:px-8 xl:px-0 mx-auto items-center max-w-6xl">
         <div className="left flex gap-10 items-center">
           <Link href="/">
             <Image

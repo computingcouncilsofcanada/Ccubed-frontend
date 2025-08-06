@@ -58,7 +58,7 @@ export default function MissionVision() {
   };
 
   return (
-    <section className="mission-vision py-16 px-4 max-w-6xl mx-auto relative">
+    <section className="mission-vision py-12 sm:py-14 md:py-16 px-4 sm:px-6 md:px-8 xl:px-4 max-w-6xl mx-auto relative">
       {/* Background Mission Text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
         <span 
@@ -87,7 +87,7 @@ export default function MissionVision() {
       {/* Section Header */}
       <div className="text-left mb-4 relative z-10">
         <h2
-          className="text-white text-[40px] leading-[48px] mb-4 font-extrabold"
+          className="text-white text-[28px] sm:text-[32px] md:text-[40px] leading-[34px] sm:leading-[38px] md:leading-[48px] mb-4 font-extrabold"
           style={{
             fontFamily: "Roboto, sans-serif",
             letterSpacing: "0%",
@@ -96,7 +96,7 @@ export default function MissionVision() {
           Connecting Students, Building Community
         </h2>
         <p
-          className="text-white max-w-3xl text-base font-light"
+          className="text-white max-w-3xl text-sm sm:text-base font-light"
           style={{
             fontFamily: "Roboto, sans-serif",
             letterSpacing: "1%",

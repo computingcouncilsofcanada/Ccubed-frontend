@@ -97,17 +97,13 @@ export default function Events({ events }: EventsSectionProps) {
 
       {/* Header with title and logo */}
       <div
-        className="flex items-end justify-center mb-4 mx-auto"
-        style={{
-          width: "706px",
-          height: "214px",
-        }}
+        className="flex items-end justify-center mb-4 mx-auto w-full max-w-[706px] h-[120px] sm:h-[160px] md:h-[214px] px-4"
       >
-        <h1 className="text-white text-[40px] font-extrabold">Events</h1>
+        <h1 className="text-white text-[28px] sm:text-[32px] md:text-[40px] font-extrabold">Events</h1>
         <Image
           src="/FigmaFiles/mainPageAssets/bear_ccube.svg"
           alt="CCubed Bear Logo Animated"
-          className="mb-[-20px] select-none"
+          className="mb-[-10px] sm:mb-[-15px] md:mb-[-20px] select-none w-[100px] h-[112px] sm:w-[120px] sm:h-[134px] md:w-[143px] md:h-[160px]"
           width={143}
           height={160}
           priority
@@ -116,9 +112,9 @@ export default function Events({ events }: EventsSectionProps) {
         />
       </div>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 px-4 md:px-0">
         {/* Description */}
-        <p className="text-white font-light w-full text-center px-50">
+        <p className="text-white font-light w-full text-center text-sm sm:text-base px-2 sm:px-8 md:px-50">
           Join us for a variety of indoor and outdoor events that bring
           computing students together beyond the screen. Whether it&apos;s a
           casual meetup or a collaborative workshop, there&apos;s always a way
@@ -128,10 +124,9 @@ export default function Events({ events }: EventsSectionProps) {
         {/* Recent Events Section Title */}
         <div className="flex justify-start">
           <h2 
-            className="text-white text-left font-semibold"
+            className="text-white text-left font-semibold text-lg sm:text-xl md:text-2xl"
             style={{
                 fontFamily: "Roboto, sans-serif",
-                fontSize: "24px",
                 letterSpacing: "0.24px", 
               }}
           >
@@ -142,9 +137,9 @@ export default function Events({ events }: EventsSectionProps) {
         {/* Events Grid */}
         <div className={`mb-2 ${showEmptyState ? 'flex justify-center items-center h-[451px]' : ''}`}>
           {!showEmptyState && (
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {/* First Row - Always visible */}
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
                 {recentEvents
                   .slice(0, 4)
                   .map((event) => (
@@ -187,7 +182,7 @@ export default function Events({ events }: EventsSectionProps) {
               <AnimatePresence>
                 {showMore && recentEvents.length > 4 && (
                   <motion.div
-                    className="grid grid-cols-4 gap-3"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3"
                     initial={{ opacity: 0, y: -30, height: 0 }}
                     animate={{ 
                       opacity: 1, 
