@@ -38,7 +38,7 @@ export default function EventsPage() {
   const handleInvite = () => alert("Invitation link clicked");
 
   // Filter logic with custom hook
-  const { filteredCurrentEvents, showEmptyState, showFilterEmptyState, hasMoreEvents } = 
+  const { filteredCurrentEvents, showEmptyState, showFilterEmptyState } = 
     useEventsFilter({ currentEvents, eventType, isLoading });
 
   return (
@@ -131,7 +131,6 @@ export default function EventsPage() {
           filteredCurrentEvents={filteredCurrentEvents}
           showEmptyState={showEmptyState}
           showFilterEmptyState={showFilterEmptyState}
-          hasMoreEvents={hasMoreEvents}
           eventType={eventType}
                   onSeeDetails={(event) => {
                     setSelectedEvent(event);

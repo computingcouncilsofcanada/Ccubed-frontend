@@ -41,13 +41,9 @@ export function useEventsFilter({ currentEvents, eventType, isLoading }: UseEven
   const showEmptyState = !isLoading && isEmpty && eventType === "all";
   const showFilterEmptyState = !isLoading && isEmpty && eventType !== "all";
 
-  // Check if there are more events to show (for grid view)
-  const hasMoreEvents = filteredCurrentEvents.length > 4;
-
   return {
     filteredCurrentEvents,
     showEmptyState,
     showFilterEmptyState,
-    hasMoreEvents,
   };
 } 
