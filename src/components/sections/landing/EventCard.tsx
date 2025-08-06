@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
+import { formatDateSmart } from "@/utils/dateUtils";
 
 
 
@@ -36,14 +37,9 @@ type EventCardProps = {
   
     const shouldShowExpanded = isExpanded || isHovered;
   
-    // Format date from "2025-08-10" to "Aug 10, 2025"
+    // Use smart date formatting with timezone awareness
     const formatDate = (dateString: string) => {
-      const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      });
+      return formatDateSmart(dateString, { format: 'medium' });
     };
   
     return (

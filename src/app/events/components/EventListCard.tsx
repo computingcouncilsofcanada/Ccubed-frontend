@@ -2,17 +2,20 @@ import Image from "next/image";
 import { Events } from "@/types/events";
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { getOrdinalDay, getMonthName } from "@/utils/dateUtils";
 
 type EventListCardProps = {
   event: Events;
   onSeeDetails: (event: Events) => void;
   onInvitationLink: () => void;
+  showInvitationButton?: boolean; // Optional prop to show/hide invitation button
 };
 
 export function EventListCard({ 
   event, 
   onSeeDetails, 
-  onInvitationLink 
+  onInvitationLink,
+  showInvitationButton = true 
 }: EventListCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -33,27 +36,7 @@ export function EventListCard({
       setIsHovered(false);
     }, 50); // 50ms delay to prevent flickering
   };
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
-
-  function getOrdinalSuffix(num: string) {
-    const n = parseInt(num, 10);
-    const lastDigit = n % 10;
-    const lastTwo = n % 100;
-  
-    if (lastTwo >= 11 && lastTwo <= 13) return "th";
-  
-    if (lastDigit === 1) return "st";
-    if (lastDigit === 2) return "nd";
-    if (lastDigit === 3) return "rd";
-    return "th";
-  }
+  // No need for local functions - using smart date utils
 
   const zigzagClipPath = "polygon(0% 0%, 1% 2%, 0% 4%, 1% 6%, 0% 8%, 1% 10%, 0% 12%, 1% 14%, 0% 16%, 1% 18%, 0% 20%, 1% 22%, 0% 24%, 1% 26%, 0% 28%, 1% 30%, 0% 32%, 1% 34%, 0% 36%, 1% 38%, 0% 40%, 1% 42%, 0% 44%, 1% 46%, 0% 48%, 1% 50%, 0% 52%, 1% 54%, 0% 56%, 1% 58%, 0% 60%, 1% 62%, 0% 64%, 1% 66%, 0% 68%, 1% 70%, 0% 72%, 1% 74%, 0% 76%, 1% 78%, 0% 80%, 1% 82%, 0% 84%, 1% 86%, 0% 88%, 1% 90%, 0% 92%, 1% 94%, 0% 96%, 1% 98%, 0% 100%, 100% 100%, 99% 98%, 100% 96%, 99% 94%, 100% 92%, 99% 90%, 100% 88%, 99% 86%, 100% 84%, 99% 82%, 100% 80%, 99% 78%, 100% 76%, 99% 74%, 100% 72%, 99% 70%, 100% 68%, 99% 66%, 100% 64%, 99% 62%, 100% 60%, 99% 58%, 100% 56%, 99% 54%, 100% 52%, 99% 50%, 100% 48%, 99% 46%, 100% 44%, 99% 42%, 100% 40%, 99% 38%, 100% 36%, 99% 34%, 100% 32%, 99% 30%, 100% 28%, 99% 26%, 100% 24%, 99% 22%, 100% 20%, 99% 18%, 100% 16%, 99% 14%, 100% 12%, 99% 10%, 100% 8%, 99% 6%, 100% 4%, 99% 2%, 100% 0%)";
 
@@ -103,7 +86,7 @@ export function EventListCard({
               ease: [0.16, 1, 0.3, 1]
             }}
           >
-            {formatDate(event.date).split(" ")[1].split("")[0]}{getOrdinalSuffix(formatDate(event.date).split(" ")[1].split("")[0])}
+            {getOrdinalDay(event.date)}
           </motion.span>
           <motion.span 
             className="text-white font-light"
@@ -120,7 +103,7 @@ export function EventListCard({
               ease: [0.16, 1, 0.3, 1]
             }}
           >
-            {formatDate(event.date).split(" ")[0]}
+            {getMonthName(event.date)}
           </motion.span>
         </div>
       </motion.div>
@@ -247,21 +230,23 @@ export function EventListCard({
             ease: [0.16, 1, 0.3, 1]
           }}
         >
-          <button
-            className="w-36 h-11 bg-[#FAA336] text-center flex items-center justify-center"
-            style={{
-              borderRadius: '6px',
-              color: '#0B1820',
-              fontFamily: 'Roboto, sans-serif',
-              fontWeight: '400',
-              fontSize: '16px',
-              lineHeight: 'auto',
-              letterSpacing: '0%'
-            }}
-            onClick={onInvitationLink}
-          >
-            Invitation Link
-          </button>
+          {showInvitationButton && (
+            <button
+              className="w-36 h-11 bg-[#FAA336] text-center flex items-center justify-center"
+              style={{
+                borderRadius: '6px',
+                color: '#0B1820',
+                fontFamily: 'Roboto, sans-serif',
+                fontWeight: '400',
+                fontSize: '16px',
+                lineHeight: 'auto',
+                letterSpacing: '0%'
+              }}
+              onClick={onInvitationLink}
+            >
+              Invitation Link
+            </button>
+          )}
           <button
             className="w-36 h-11 bg-transparent border-[1px] border-white text-center flex items-center justify-center"
             style={{

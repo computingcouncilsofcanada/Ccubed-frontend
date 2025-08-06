@@ -9,7 +9,7 @@ import MissionVision from "@/components/sections/landing/MissionVision";
 import Stats from "@/components/sections/landing/Stats";
 import Footer from "@/components/shared/Footer";
 import { privateAxios } from "@/lib/axios";
-import { transformApiEvents } from "@/lib/utils";
+import { transformApiEvents } from "@/utils/eventsApi";
 import { Events as EventType } from "@/types/events";
 // import { mockEvents } from "@/data/mockEvents";
 
