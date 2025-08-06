@@ -27,52 +27,51 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <section className="footer-section relative z-10 flex justify-center">
+    <section className="footer-section relative z-10 flex justify-center px-4 sm:px-6 md:px-8">
       {/* Main Footer Container with specified dimensions and gradient border */}
-      <div 
-        className="footer-container relative"
+      <div
+        className="footer-container relative w-full max-w-[1150px] h-auto min-h-[298px] md:h-[298px]"
         style={{
-          width: "1150px",
-          height: "298px",
           borderRadius: "30px",
         }}
       >
         {/* Gradient Border Effect */}
-        <div 
+        <div
           className="absolute inset-0 rounded-[30px] pointer-events-none"
           style={{
-            background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 45%, transparent 90%)",
-            mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            maskComposite: 'xor',
-            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            WebkitMaskComposite: 'xor',
-            padding: '4px'
+            background:
+              "linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 45%, transparent 90%)",
+            mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+            maskComposite: "xor",
+            WebkitMask:
+              "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+            WebkitMaskComposite: "xor",
+            padding: "4px",
           }}
         />
-        
+
         {/* Content Container */}
-        <div className="relative px-8 pt-12 h-full">
-          {/* Footer Content Grid */}
-          <div className="h-full flex items-start gap-[100px]">
-            {/* Left Section - Logo and Description */}
-            <div className="footer-left flex flex-col justify-start max-w-md">
+        <div className="relative px-4 sm:px-6 md:px-8 pt-8 sm:pt-10 md:pt-12 h-full pb-8 md:pb-0">
+          {/* Footer Content Grid - Three Column Layout */}
+          <div className="h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_2fr_0.5fr] gap-6 md:gap-8 lg:gap-6 items-start">
+            {/* Column 1 - Logo and Description */}
+            <div className="footer-left flex flex-col justify-start">
               {/* Logo and Title */}
-              <div className="flex items-center gap-4 mb-4 mt-[-20px]">
+              <div className="flex items-center gap-3 sm:gap-4 mb-4 mt-0 md:mt-[-20px]">
                 <Image
                   src="/FigmaFiles/ccubed-icon.svg"
                   alt="CCubed Logo"
                   width={60}
                   height={60}
                   priority
-                  className="select-none"
+                  className="select-none w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] md:w-[60px] md:h-[60px]"
                   draggable={false}
                   style={{ userSelect: "none" }}
                 />
                 <h2
-                  className="text-white font-extrabold"
+                  className="text-white font-extrabold text-[28px] sm:text-[32px] md:text-[40px]"
                   style={{
                     fontFamily: "Roboto, sans-serif",
-                    fontSize: "40px",
                     lineHeight: "1",
                     letterSpacing: "0%",
                   }}
@@ -83,10 +82,9 @@ export default function Footer() {
 
               {/* Description */}
               <p
-                className="text-white font-normal"
+                className="text-white font-normal text-sm sm:text-base"
                 style={{
                   fontFamily: "Roboto, sans-serif",
-                  fontSize: "16px",
                   lineHeight: "22px",
                   letterSpacing: "0%",
                   maxWidth: "450px",
@@ -100,18 +98,17 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Right Section - Navigation Links */}
-            <div className="footer-right grid grid-cols-3 gap-10">
+            {/* Column 2 - Navigation Links */}
+            <div className="footer-navigation grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:grid-cols-3 lg:col-span-1">
               {/* Column 1 */}
               <div className="footer-column">
                 {footerLinks.column1.map((link, index) => (
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-white font-semibold mb-3 hover:opacity-80 transition-opacity"
+                    className="block text-white font-semibold mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-sm sm:text-base"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      fontSize: "16px",
                       lineHeight: "22px",
                       letterSpacing: "0%",
                       opacity: 0.9,
@@ -128,10 +125,9 @@ export default function Footer() {
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-white font-normal mb-3 hover:opacity-80 transition-opacity"
+                    className="block text-white font-normal mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-sm sm:text-base"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      fontSize: "16px",
                       lineHeight: "22px",
                       letterSpacing: "0%",
                       opacity: 0.9,
@@ -148,10 +144,9 @@ export default function Footer() {
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-white font-normal mb-3 hover:opacity-80 transition-opacity"
+                    className="block text-white font-normal mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-sm sm:text-base"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      fontSize: "16px",
                       lineHeight: "22px",
                       letterSpacing: "0%",
                       opacity: 0.9,
@@ -162,29 +157,23 @@ export default function Footer() {
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* Bear mascot positioned absolutely */}
-          <div 
-            className="absolute"
-            style={{
-              left: "970px",
-              bottom: "32px"
-            }}
-          >
-            <Image
-              src="/FigmaFiles/mainPageAssets/bear_greeting.svg"
-              alt="Bear Greeting"
-              width={278}
-              height={346}
-              className="select-none"
-              draggable={false}
-              style={{
-                transform: "scale(1.55)",
-                transformOrigin: "bottom center",
-                userSelect: "none"
-              }}
-            />
+            {/* Column 3 - Bear Mascot */}
+            <div className="footer-bear hidden lg:flex justify-center items-end relative">
+              <Image
+                src="/FigmaFiles/mainPageAssets/bear_greeting.svg"
+                alt="Bear Greeting"
+                width={278}
+                height={346}
+                className="select-none"
+                draggable={false}
+                style={{
+                  transform: "scale(2.5) translateY(30px)",
+                  transformOrigin: "bottom center",
+                  userSelect: "none",
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
