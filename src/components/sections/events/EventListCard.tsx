@@ -155,12 +155,28 @@ export function EventListCard({
             </span>
           ))}
 
-        <h1 
-          className="text-4xl font-extrabold max-w-[300px] mb-2"
-          style={{ fontFamily: 'Roboto, sans-serif' }}
-        >
-          {event.name}
-        </h1>
+        <div className="relative max-w-[300px] mb-2">
+          <h1 
+            className="text-4xl font-extrabold text-white transition-all duration-300"
+            style={{ fontFamily: 'Roboto, sans-serif' }}
+          >
+            {event.name}
+          </h1>
+          {/* Gradient overlay for hover effect */}
+          <h1 
+            className="text-4xl font-extrabold absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{
+              fontFamily: 'Roboto, sans-serif',
+              background: 'linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(80, 128, 239, 1) 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}
+          >
+            {event.name}
+          </h1>
+        </div>
         <p 
           className="font-light max-w-[500px]"
           style={{ fontFamily: 'Roboto, sans-serif' }}
