@@ -7,6 +7,7 @@ import { IconCalendar } from "@tabler/icons-react";
 import { Events } from "@/types/events";
 import { useRouter } from "next/navigation";
 import { EventCard } from "./EventCard";
+import { useSafariImageFallback } from "../../../hooks/useSafariImageFallback";
 
 
 
@@ -18,6 +19,12 @@ type EventsSectionProps = {
 export default function Events({ events }: EventsSectionProps) {
   const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Use Safari-specific fallback for bear ccube image
+  const bearCcubeSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/bear_ccube.svg",
+    "/FigmaFiles/mainPageAssets/bear_ccube.png"
+  );
   
   // Show actual events instead of empty state
   const showEmptyState = false;
@@ -160,7 +167,7 @@ export default function Events({ events }: EventsSectionProps) {
       >
         <h1 className="text-white text-[28px] sm:text-[32px] md:text-[40px] font-extrabold">Events</h1>
         <Image
-          src="/FigmaFiles/mainPageAssets/bear_ccube.svg"
+          src={bearCcubeSrc}
           alt="CCubed Bear Logo Animated"
           className="mb-[-10px] sm:mb-[-15px] md:mb-[-20px] select-none w-[100px] h-[112px] sm:w-[120px] sm:h-[134px] md:w-[143px] md:h-[160px]"
           width={143}

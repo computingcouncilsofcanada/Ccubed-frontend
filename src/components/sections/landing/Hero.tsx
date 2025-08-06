@@ -3,9 +3,21 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useSafariImageFallback } from "../../../hooks/useSafariImageFallback";
 
 // Hero Section Component
 export default function Hero() {
+  // Use Safari-specific fallback for hero images
+  const heroImgSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/hero-img.svg",
+    "/FigmaFiles/mainPageAssets/hero-img.png"
+  );
+  
+  const heroImg2Src = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/hero-img-2.svg",
+    "/FigmaFiles/mainPageAssets/hero-img-2.png"
+  );
+
   return (
     <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-center relative z-10 max-w-6xl mx-auto px-4 sm:px-6 md:px-8 xl:px-0">
       {/* Text Content */}
@@ -99,12 +111,13 @@ export default function Hero() {
         <motion.div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[505px] lg:h-[505px]">
           {/* Base Hero Image */}
           <Image
-            src="/FigmaFiles/mainPageAssets/hero-img.svg"
+            src={heroImgSrc}
             alt="Hero Image"
             width={505}
             height={505}
             className="w-full h-full object-contain select-none"
             priority
+            quality={100}
             draggable={false}
             style={{ userSelect: "none" }}
           />
@@ -121,12 +134,13 @@ export default function Hero() {
             }}
           >
             <Image
-              src="/FigmaFiles/mainPageAssets/hero-img-2.svg"
+              src={heroImg2Src}
               alt="Hero Image with Texture"
               width={505}
               height={505}
               className="w-full h-full object-contain select-none"
               priority
+              quality={100}
               draggable={false}
               style={{ userSelect: "none" }}
             />

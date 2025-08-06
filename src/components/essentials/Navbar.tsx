@@ -9,11 +9,18 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import { navLinks } from "@/constants/constants"; // These are the navlinks from constants file
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { useSafariImageFallback } from "../../hooks/useSafariImageFallback";
 
 const Navbar = () => {
   const { user, logout, isHydrated } = useUser();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Use Safari-specific fallback for logo
+  const logoSrc = useSafariImageFallback(
+    "/FigmaFiles/ccubed-icon.svg",
+    "/FigmaFiles/ccubed-icon.png"
+  );
 
   // Handle body scroll when mobile menu is open
   useEffect(() => {
@@ -64,11 +71,12 @@ const Navbar = () => {
         {/* Logo */}
         <Link href="/">
           <Image
-            src="/FigmaFiles/ccubed-icon.svg"
+            src={logoSrc}
             alt="CCubed Logo"
             width={48}
             height={48}
             priority
+            quality={100}
             className="cursor-pointer select-none"
             draggable={false}
             style={{ userSelect: "none" }}

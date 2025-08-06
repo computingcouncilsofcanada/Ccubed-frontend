@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { useSafariImageFallback } from "../../hooks/useSafariImageFallback";
 
 // Footer navigation links organized by columns
 const footerLinks = {
@@ -26,6 +27,18 @@ const footerLinks = {
 };
 
 export default function Footer() {
+  // Use Safari-specific fallback for logo
+  const logoSrc = useSafariImageFallback(
+    "/FigmaFiles/ccubed-icon.svg",
+    "/FigmaFiles/ccubed-icon.png"
+  );
+
+  // Use Safari-specific fallback for bear greeting
+  const bearSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/bear_greeting.svg",
+    "/FigmaFiles/mainPageAssets/bear_greeting.png"
+  );
+
   return (
     <section className="footer-section relative z-10 flex justify-center px-4 sm:px-6 md:px-8">
       {/* Main Footer Container with specified dimensions and gradient border */}
@@ -59,10 +72,11 @@ export default function Footer() {
               {/* Logo and Title */}
               <div className="flex items-center gap-3 sm:gap-4 mb-4 mt-0 md:mt-[-20px]">
                 <Image
-                  src="/FigmaFiles/ccubed-icon.svg"
+                  src={logoSrc}
                   alt="CCubed Logo"
                   width={60}
                   height={60}
+                  quality={100}
                   priority
                   className="select-none w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] md:w-[60px] md:h-[60px]"
                   draggable={false}
@@ -161,7 +175,7 @@ export default function Footer() {
             {/* Column 3 - Bear Mascot */}
             <div className="footer-bear hidden lg:flex justify-center items-end relative">
               <Image
-                src="/FigmaFiles/mainPageAssets/bear_greeting.svg"
+                src={bearSrc}
                 alt="Bear Greeting"
                 width={278}
                 height={346}

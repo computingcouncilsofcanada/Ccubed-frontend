@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useSafariImageFallback } from "../../../hooks/useSafariImageFallback";
 
 // Define the benefits data
 const benefits = [
@@ -38,6 +39,12 @@ const benefits = [
 
 export default function ValueSystem() {
   const [windowWidth, setWindowWidth] = useState(0);
+  
+  // Use Safari-specific fallback for bear form image
+  const bearFormSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/bear_form.svg",
+    "/FigmaFiles/mainPageAssets/bear_form.png"
+  );
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -144,7 +151,7 @@ export default function ValueSystem() {
           }}
         >
           <Image
-            src="/FigmaFiles/mainPageAssets/bear_form.svg"
+            src={bearFormSrc}
             alt="Bear Form Logo"
             width={143}
             height={210}
@@ -164,7 +171,7 @@ export default function ValueSystem() {
             }}
           >
             <Image
-              src="/FigmaFiles/mainPageAssets/bear_form.svg"
+              src={bearFormSrc}
               alt="Bear Form Logo Animated"
               width={143}
               height={210}

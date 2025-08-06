@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { formatDateSmart } from "@/utils/dateUtils";
 
-
-
-
 type EventCardProps = {
     id: number;
     title: string;
