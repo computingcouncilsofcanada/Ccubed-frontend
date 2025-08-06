@@ -14,7 +14,7 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
     const formatDateTime = (timestamp: string) => {
       // Check if it's a Unix timestamp (all digits)
       if (/^\d+$/.test(timestamp)) {
-        const date = new Date(parseInt(timestamp) * 1000);
+        const date = new Date(parseInt(timestamp));
         return {
           date: date.toISOString().split('T')[0], // YYYY-MM-DD
           time: date.toLocaleTimeString('en-US', { 
