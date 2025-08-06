@@ -10,6 +10,7 @@ import PreviewModal from "@/components/modals/PreviewModal";
 import { getAllEvents } from "@/services/useApiAuth";
 import { Events } from "@/types/events";
 import { EventCard } from "@/components/sections/landing/EventCard";
+import { EventListCard } from "@/components/sections/events/EventListCard";
 import React from "react";
 import { IconCalendar } from "@tabler/icons-react";
 import { privateAxios } from "@/lib/axios";
@@ -20,7 +21,6 @@ export default function EventsPage() {
   const [gridEvents, setGridEvents] = useState<Events[]>([]);
 
   const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
 
   const [eventType, setEventType] = useState<string>("all");
   const [viewMode, setViewMode] = useState<string>("list"); // "list" or "grid"
@@ -45,31 +45,10 @@ export default function EventsPage() {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
 
-  function getOrdinalSuffix(num: string) {
-    const n = parseInt(num, 10);
-    const lastDigit = n % 10;
-    const lastTwo = n % 100;
-  
-    if (lastTwo >= 11 && lastTwo <= 13) return "th";
-  
-    if (lastDigit === 1) return "st";
-    if (lastDigit === 2) return "nd";
-    if (lastDigit === 3) return "rd";
-    return "th";
-  }
   
   useEffect(() => {
     // Using real API instead of mock data
-    setLoading(true);
     privateAxios
       .get("/events")
       .then((res) => {
@@ -79,9 +58,6 @@ export default function EventsPage() {
       .catch((error) => {
         setError(error.response?.data?.message || "Failed to fetch events");
         console.error("Error fetching events:", error);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }, []);
 
@@ -768,98 +744,15 @@ export default function EventsPage() {
                 return false;
               })
               .map((event) => (
-                <div
-                  className="flex text-white group p-5 bg-[#D4D4D4]/10 backdrop-blur-sm rounded-lg shadow-xl"
+                <EventListCard
                   key={event.id + "-list"}
-                >
-                  <div className=" px-5 group-hover:border-r-[1px] border-dashed border-white/10 ">
-                    <h1 className="text-center">
-                      <span className="text-2xl font-extrabold group-hover:text-5xl transition-all duration-300 ">
-                      {formatDate(event.date).split(" ")[1].split("")[0]}{getOrdinalSuffix(formatDate(event.date).split(" ")[1].split("")[0])}
-                      </span>{" "}
-                      <br />
-                      {formatDate(event.date).split(" ")[0]}
-                    </h1>
-                  </div>
-                  <div className=" flex-1 ">
-                    <div className="flex gap-3 h-60  group-hover:pl-4 transition-all duration-300 ">
-                      <div className="flex-1">
-                        <Image
-                          src={
-                            event.files && event.files.length > 0
-                              ? event.files[0].url
-                              : "https://placehold.co/400"
-                          }
-                          alt={event.name}
-                          width={250}
-                          height={250}
-                          className="rounded-lg w-full h-full"
-                          priority={false}
-                          placeholder="blur"
-                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                        ></Image>
-                      </div>
-
-                      <div className="flex-2 flex flex-col gap-3">
-                        {event.types &&
-                          event.types.length > 0 &&
-                          event.types.map((type) => (
-                            <h1
-                            className="w-fit flex justify-center items-center"
-                            style={{
-                              height: "28px",
-                              paddingLeft: "12px",
-                              paddingRight: "12px",
-                              borderRadius: "20px",
-                              backgroundColor: "rgba(212, 212, 212, 0.1)",
-                              border: "1px solid rgba(255, 255, 255, 0.3)",
-                              opacity: "0.99",
-                              color: "#FFFFFF",
-                              fontFamily: "Roboto, sans-serif",
-                              fontWeight: "400",
-                              fontSize: "10px",
-                              lineHeight: "auto",
-                              letterSpacing: "0%",
-                              backdropFilter: "blur(10px)",
-                              WebkitBackdropFilter: "blur(10px)",
-                              filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))",
-                            }}
-                              key={event.id + "-" + type}
-                            >
-                              {type}
-                            </h1>
-                          ))}
-
-                        <h1 className="text-4xl font-bold max-w-[300px]">
-                          {event.name}
-                        </h1>
-                        <p className="max-w-[500px]">{event.description}</p>
-                      </div>
-                      <div className="flex-1  flex justify-center items-center">
-                        <div className="flex flex-col gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 ">
-                          <a
-                            href=""
-                            className="  p-2 text-black bg-[#FAA336] border-[1px] border-[#FAA336] rounded-md text-center"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            Invitation Link
-                          </a>
-                          <a
-                            href=""
-                            className=" p-2  text-white  border-[1px] border-white rounded-md text-center"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setSelectedEvent(event);
-                              setIsModalOpen(true);
-                            }}
-                          >
-                            See Details
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  event={event}
+                  onSeeDetails={(event) => {
+                    setSelectedEvent(event);
+                    setIsModalOpen(true);
+                  }}
+                  onInvitationLink={handleInvite}
+                />
               ))}
           </div>
         )}
