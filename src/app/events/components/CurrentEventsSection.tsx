@@ -26,19 +26,42 @@ export function CurrentEventsSection({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [windowWidth, setWindowWidth] = useState(0);
 
-  // Monitor window width for responsive behavior
+  // Monitor window width for responsive behavior with debounce to prevent jittery layout switches
   useEffect(() => {
     const updateWidth = () => setWindowWidth(window.innerWidth);
     updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
+    
+    // Debounce resize events to prevent excessive layout changes
+    let timeoutId: NodeJS.Timeout;
+    const debouncedUpdateWidth = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(updateWidth, 150);
+    };
+    
+    window.addEventListener("resize", debouncedUpdateWidth);
+    return () => {
+      window.removeEventListener("resize", debouncedUpdateWidth);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   // Determine if we should show horizontal scroll (on small screens with single column)
+  // Use hysteresis to prevent jittery switching at the 640px boundary
+  const [isHorizontalMode, setIsHorizontalMode] = useState(false);
+  
+  useEffect(() => {
+    if (windowWidth < 620) {
+      setIsHorizontalMode(true);
+    } else if (windowWidth > 660) {
+      setIsHorizontalMode(false);
+    }
+    // Between 620-660px, maintain current state to prevent jittering
+  }, [windowWidth]);
+  
   const shouldShowHorizontalScroll = viewMode === "grid" && 
     !showEmptyState && 
     !showFilterEmptyState && 
-    windowWidth < 640 && // Small screens only
+    isHorizontalMode && 
     filteredCurrentEvents.length > 0;
 
   // Infinite loop scroll functionality (only for horizontal scroll view)
@@ -205,7 +228,7 @@ export function CurrentEventsSection({
 
             {/* Regular grid view for larger screens (≥ 640px) */}
             {!shouldShowHorizontalScroll && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-10 justify-items-center sm:justify-items-stretch">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-10 justify-items-center sm:justify-items-stretch transition-all duration-300 ease-in-out">
                 {filteredCurrentEvents.map((event: Events) => (
                   <EventCard
                     key={event.id}
@@ -248,7 +271,7 @@ export function CurrentEventsSection({
 
   // List view
   return (
-    <div className="flex flex-col gap-10 mt-10">
+    <div className="flex flex-col gap-4 mt-10">
       {/* Empty states */}
       {showEmptyState && <EmptyState type="all" height="234px" />}
       {showFilterEmptyState && (

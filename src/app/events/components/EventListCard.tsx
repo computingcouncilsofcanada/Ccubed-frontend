@@ -18,7 +18,13 @@ export function EventListCard({
   showInvitationButton = true 
 }: EventListCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(() => {
+    // Initialize with current window width if available, fallback to desktop size
+    if (typeof window !== 'undefined') {
+      return window.innerWidth;
+    }
+    return 1024; // Default to desktop size for SSR
+  });
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Window width and cleanup timeout
@@ -82,30 +88,44 @@ export function EventListCard({
         className="flex items-start justify-start relative z-10" 
         initial={{
           paddingLeft: windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px',
-          paddingTop: windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px',
+          paddingTop: '24px',
           paddingBottom: windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px',
-          paddingRight: windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px'
+          paddingRight: '0px'
         }}
         animate={{
           paddingLeft: isHovered ? 
             (windowWidth < 700 ? '16px' : windowWidth < 820 ? '20px' : windowWidth < 1024 ? '22px' : windowWidth < 1200 ? '28px' : '32px') : 
             (windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px'),
           paddingTop: isHovered ? 
-            (windowWidth < 700 ? '8px' : windowWidth < 820 ? '12px' : windowWidth < 1024 ? '14px' : windowWidth < 1200 ? '15px' : '16px') : 
-            (windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px'),
+            (windowWidth < 700 ? '24px' : windowWidth < 820 ? '12px' : windowWidth < 1024 ? '14px' : windowWidth < 1200 ? '15px' : '16px') : 
+            '24px',
           paddingBottom: isHovered ? 
             (windowWidth < 700 ? '8px' : windowWidth < 820 ? '12px' : windowWidth < 1024 ? '14px' : windowWidth < 1200 ? '15px' : '16px') : 
             (windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px'),
           paddingRight: isHovered ? 
             (windowWidth < 700 ? '16px' : windowWidth < 820 ? '20px' : windowWidth < 1024 ? '22px' : windowWidth < 1200 ? '28px' : '32px') : 
-            (windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px')
+            '0px'
         }}
         transition={{
           duration: 0.6,
           ease: [0.16, 1, 0.3, 1]
         }}
       >
-        <div className="flex flex-col items-center text-center -space-y-1">
+        <motion.div 
+          className="flex flex-col items-center text-center -space-y-1"
+          initial={{
+            width: windowWidth < 700 ? '48px' : windowWidth < 820 ? '56px' : windowWidth < 1024 ? '64px' : windowWidth < 1200 ? '68px' : '72px'
+          }}
+          animate={{
+            width: isHovered ? 
+              (windowWidth < 700 ? '56px' : windowWidth < 820 ? '64px' : windowWidth < 1024 ? '80px' : windowWidth < 1200 ? '84px' : '88px') : 
+              (windowWidth < 700 ? '48px' : windowWidth < 820 ? '56px' : windowWidth < 1024 ? '64px' : windowWidth < 1200 ? '68px' : '72px')
+          }}
+          transition={{
+            duration: 0.3,
+            ease: "easeInOut"
+          }}
+        >
           <motion.span 
             className="text-white font-bold"
             initial={{
@@ -150,7 +170,7 @@ export function EventListCard({
           >
             {getMonthName(event.date)}
           </motion.span>
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Separator line - only shown on hover, spans full card height */}

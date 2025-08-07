@@ -12,6 +12,7 @@ const footerLinks = {
     { name: "Events", href: "/events" },
     { name: "Resources", href: "/external-resources" },
     { name: "Partnership", href: "/partnership" },
+    { name: "Our Teams", href: "/teams" },
   ],
   column2: [
     { name: "Careers", href: "/hiring" },

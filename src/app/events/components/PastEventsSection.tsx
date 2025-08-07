@@ -29,7 +29,7 @@ export function PastEventsSection({
       </div>
 
       {/* Past Events List */}
-      <div className="flex flex-col gap-6 max-w-6xl mx-auto">
+      <div className="flex flex-col gap-4 max-w-6xl mx-auto">
         {pastEvents.map((event) => (
           <EventListCard
             key={event.id + "-past"}
