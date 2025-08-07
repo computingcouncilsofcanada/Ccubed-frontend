@@ -64,13 +64,13 @@ export default function Footer() {
         />
 
         {/* Content Container */}
-        <div className="relative px-4 sm:px-6 md:px-8 pt-8 sm:pt-10 md:pt-12 h-full pb-8 md:pb-0">
+        <div className="relative px-4 sm:px-6 md:px-8 pt-4 xs:pt-6 sm:pt-10 md:pt-12 h-full pb-4 xs:pb-6 sm:pb-8 md:pb-0">
           {/* Footer Content Grid - Three Column Layout */}
-          <div className="h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_2fr_0.5fr] gap-6 md:gap-8 lg:gap-6 items-start">
+          <div className="h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_2fr_0.5fr] gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-6 items-start">
             {/* Column 1 - Logo and Description */}
             <div className="footer-left flex flex-col justify-start">
               {/* Logo and Title */}
-              <div className="flex items-center gap-3 sm:gap-4 mb-4 mt-0 md:mt-[-20px]">
+              <div className="flex items-center gap-3 sm:gap-4 mb-2 xs:mb-3 sm:mb-4 mt-0 md:mt-[-20px]">
                 <Image
                   src={logoSrc}
                   alt="CCubed Logo"
@@ -96,10 +96,10 @@ export default function Footer() {
 
               {/* Description */}
               <p
-                className="text-white font-normal text-sm sm:text-base"
+                className="text-white font-normal text-xs xs:text-sm sm:text-base"
                 style={{
                   fontFamily: "Roboto, sans-serif",
-                  lineHeight: "22px",
+                  lineHeight: "18px",
                   letterSpacing: "0%",
                   maxWidth: "450px",
                 }}
@@ -113,17 +113,17 @@ export default function Footer() {
             </div>
 
             {/* Column 2 - Navigation Links */}
-            <div className="footer-navigation grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:grid-cols-3 lg:col-span-1">
+            <div className="footer-navigation grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 lg:col-span-1">
               {/* Column 1 */}
               <div className="footer-column">
                 {footerLinks.column1.map((link, index) => (
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-white font-semibold mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-sm sm:text-base"
+                    className="block text-white font-semibold mb-1 xs:mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-xs xs:text-sm sm:text-base"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      lineHeight: "22px",
+                      lineHeight: "16px",
                       letterSpacing: "0%",
                       opacity: 0.9,
                     }}
@@ -139,10 +139,10 @@ export default function Footer() {
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-white font-normal mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-sm sm:text-base"
+                    className="block text-white font-normal mb-1 xs:mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-xs xs:text-sm sm:text-base"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      lineHeight: "22px",
+                      lineHeight: "16px",
                       letterSpacing: "0%",
                       opacity: 0.9,
                     }}
@@ -158,10 +158,10 @@ export default function Footer() {
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-white font-normal mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-sm sm:text-base"
+                    className="block text-white font-normal mb-1 xs:mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-xs xs:text-sm sm:text-base"
                     style={{
                       fontFamily: "Roboto, sans-serif",
-                      lineHeight: "22px",
+                      lineHeight: "16px",
                       letterSpacing: "0%",
                       opacity: 0.9,
                     }}
