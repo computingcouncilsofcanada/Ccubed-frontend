@@ -55,7 +55,7 @@ const ComingSoon = () => {
       <BgBoxComingSoon />
       
       {/* Header */}
-      <header className="relative z-10 flex-shrink-0 py-6">
+      <header className="relative z-30 flex-shrink-0 px-4 py-6">
         <div className="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto">
         <Link href="/" className="flex items-center gap-2 w-fit">
           <Image 

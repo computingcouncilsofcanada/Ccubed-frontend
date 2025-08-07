@@ -118,16 +118,12 @@ const BgBoxComingSoon = () => {
               pointerEvents: "auto",
             }}
             initial={{ 
-              opacity: 0, 
-              scale: 0.8,
+              opacity: 0.7, 
+              scale: 1,
             }}
             animate={{ 
               opacity: 0.7, 
               scale: 1,
-            }}
-            transition={{
-              duration: 2.5 + index * 0.3,
-              ease: "easeOut",
             }}
             whileHover={{
               rotate: 30,
