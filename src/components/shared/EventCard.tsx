@@ -27,11 +27,20 @@ type EventCardProps = {
   }: EventCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const [windowWidth, setWindowWidth] = useState(0);
+    const [windowWidth, setWindowWidth] = useState(() => {
+      // Initialize with current window width if available, fallback to desktop size
+      if (typeof window !== 'undefined') {
+        return window.innerWidth;
+      }
+      return 1024; // Default to desktop size for SSR
+    });
 
     useEffect(() => {
       const updateWidth = () => setWindowWidth(window.innerWidth);
-      updateWidth();
+      // Ensure window width is correctly set after hydration
+      if (typeof window !== 'undefined') {
+        updateWidth();
+      }
       window.addEventListener("resize", updateWidth);
       return () => window.removeEventListener("resize", updateWidth);
     }, []);
