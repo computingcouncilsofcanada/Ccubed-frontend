@@ -10,15 +10,16 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  
   const [isHydrated, setIsHydrated] = useState(false);
   
   useEffect(() => {
     setIsHydrated(true);
   }, []);
 
-  const isStaffRoute = pathname === "/member" ||
-    pathname?.startsWith("/member/") || pathname?.startsWith("/login");
-
+  const isStaffRoute =
+    pathname?.startsWith("/member/") || pathname?.startsWith("/login") || pathname?.startsWith("/coming-soon");
+    
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-[#0D1C26] to-[#1A384C]">
       {isHydrated && !isStaffRoute && <Navbar />}
