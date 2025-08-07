@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 // Define the benefits data
 const benefits = [
@@ -38,6 +39,12 @@ const benefits = [
 
 export default function ValueSystem() {
   const [windowWidth, setWindowWidth] = useState(0);
+  
+  // Use Safari-specific fallback for bear form image
+  const bearFormSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/bear_form.svg",
+    "/FigmaFiles/mainPageAssets/bear_form.png"
+  );
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -144,7 +151,7 @@ export default function ValueSystem() {
           }}
         >
           <Image
-            src="/FigmaFiles/mainPageAssets/bear_form.svg"
+            src={bearFormSrc}
             alt="Bear Form Logo"
             width={143}
             height={210}
@@ -164,7 +171,7 @@ export default function ValueSystem() {
             }}
           >
             <Image
-              src="/FigmaFiles/mainPageAssets/bear_form.svg"
+              src={bearFormSrc}
               alt="Bear Form Logo Animated"
               width={143}
               height={210}
@@ -335,12 +342,12 @@ export default function ValueSystem() {
                 style={{
                   background: `${
                     benefit.id === 1 ? 
-                    'linear-gradient(to right, rgba(173, 216, 230, 0.8) 0%, rgba(173, 216, 230, 0.6) 30%, rgba(173, 216, 230, 0.3) 50%, transparent 70%)' :
+                    'linear-gradient(135deg, rgba(173, 216, 230, 0.8) 0%, rgba(173, 216, 230, 0.6) 20%, rgba(173, 216, 230, 0.3) 40%, transparent 60%)' :
                     benefit.id === 2 ? 
-                    'linear-gradient(to left, rgba(248, 176, 65, 0.8) 0%, rgba(248, 176, 65, 0.6) 30%, rgba(248, 176, 65, 0.4) 50%, transparent 70%)' :
+                    'linear-gradient(305deg, rgba(248, 176, 65, 0.8) 0%, rgba(248, 176, 65, 0.6) 30%, rgba(248, 176, 65, 0.4) 50%, transparent 70%)' :
                     benefit.id === 3 ? 
-                    'linear-gradient(to right, rgba(255, 63, 51, 0.8) 0%, rgba(255, 63, 51, 0.6) 30%, rgba(255, 63, 51, 0.4) 50%, transparent 70%)' :
-                    'linear-gradient(315deg, rgba(57, 74, 139, 0.8) 0%, rgba(57, 74, 139, 0.7) 25%, rgba(57, 74, 139, 0.5) 45%, rgba(255, 255, 255, 0.4) 60%, rgba(255, 255, 255, 0.2) 70%, transparent 80%)'
+                    'linear-gradient(135deg, rgba(255, 63, 51, 0.8) 0%, rgba(255, 63, 51, 0.6) 20%, rgba(255, 63, 51, 0.4) 40%, transparent 60%)' :
+                    'linear-gradient(335deg, rgba(57, 74, 139, 0.8) 0%, rgba(57, 74, 139, 0.7) 25%, rgba(57, 74, 139, 0.5) 50%, rgba(255, 255, 255, 0.4) 60%, rgba(255, 255, 255, 0.2) 65%, transparent 75%)'
                   }`,
                   mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
                   maskComposite: 'xor',

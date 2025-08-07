@@ -1,25 +1,44 @@
+"use client";
+
 import React from "react";
 import BackgroundBoxes from "@/components/essentials/BackgroundBoxes";
 import LoginForm from "@/components/forms/LoginForm";
 import Link from "next/link";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
+import Image from "next/image";
 
 const Login = () => {
+  const logoSrc = useSafariImageFallback(
+    "/FigmaFiles/ccubed-icon.svg",
+    "/FigmaFiles/ccubed-icon.png"
+  );
+
   return (
     <>
       <BackgroundBoxes />
       <div className="bg-linear-to-r  from-[#0D1C26] to-[#1A384C] h-screen ">
         <div className="px-10 flex flex-col  min-h-screen w-full max-w-7xl mx-auto">
           <Link  href="/" className="flex items-center py-4">
-            <img src="/FigmaFiles/ccubed-icon.svg" alt="CCubed Icon" />
+            <Image src={logoSrc}
+              alt="CCubed Icon"
+              width={40}
+              height={40}
+              quality={100}
+              draggable={false}
+              style={{ userSelect: "none" }}
+            />
             <h1 className="text-white font-bold">CCUBED</h1>
           </Link>
           <div className="flex-1 h-full flex">
             <div className=" bg-gray-200/10 backdrop-blur-sm w-1/2 rounded-4xl shadow-2xl flex flex-col items-center justify-center gap-4 px-10">
-              <img
-                src="/FigmaFiles/ccubed-icon.svg"
+              <Image
+                src={logoSrc}
                 alt="CCubed Icon"
                 width={100}
                 height={100}
+                quality={100}
+                draggable={false}
+                style={{ userSelect: "none" }}
               />
               <h1 className="text-white font-bold text-4xl">CCUBED</h1>
                             <p 
