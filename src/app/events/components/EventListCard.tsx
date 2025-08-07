@@ -90,7 +90,7 @@ export function EventListCard({
           paddingLeft: windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px',
           paddingTop: windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px',
           paddingBottom: windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px',
-          paddingRight: windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px'
+          paddingRight: '0px'
         }}
         animate={{
           paddingLeft: isHovered ? 
@@ -104,14 +104,28 @@ export function EventListCard({
             (windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px'),
           paddingRight: isHovered ? 
             (windowWidth < 700 ? '16px' : windowWidth < 820 ? '20px' : windowWidth < 1024 ? '22px' : windowWidth < 1200 ? '28px' : '32px') : 
-            (windowWidth < 700 ? '12px' : windowWidth < 820 ? '16px' : windowWidth < 1024 ? '18px' : windowWidth < 1200 ? '20px' : '24px')
+            '0px'
         }}
         transition={{
           duration: 0.6,
           ease: [0.16, 1, 0.3, 1]
         }}
       >
-        <div className="flex flex-col items-center text-center -space-y-1">
+        <motion.div 
+          className="flex flex-col items-center text-center -space-y-1"
+          initial={{
+            width: windowWidth < 700 ? '56px' : windowWidth < 820 ? '60px' : windowWidth < 1024 ? '64px' : windowWidth < 1200 ? '68px' : '72px'
+          }}
+          animate={{
+            width: isHovered ? 
+              (windowWidth < 700 ? '72px' : windowWidth < 820 ? '76px' : windowWidth < 1024 ? '80px' : windowWidth < 1200 ? '84px' : '88px') : 
+              (windowWidth < 700 ? '56px' : windowWidth < 820 ? '60px' : windowWidth < 1024 ? '64px' : windowWidth < 1200 ? '68px' : '72px')
+          }}
+          transition={{
+            duration: 0.3,
+            ease: "easeInOut"
+          }}
+        >
           <motion.span 
             className="text-white font-bold"
             initial={{
@@ -156,7 +170,7 @@ export function EventListCard({
           >
             {getMonthName(event.date)}
           </motion.span>
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Separator line - only shown on hover, spans full card height */}
