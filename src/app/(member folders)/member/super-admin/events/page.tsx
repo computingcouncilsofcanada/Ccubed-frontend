@@ -15,6 +15,7 @@ import {
 } from "@/services/useApiAuth";
 import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
+import PreviewModal from "@/components/modals/PreviewModal";
 
 type Event = {
   id: string;
@@ -29,6 +30,8 @@ type Event = {
   updated_at: string | null;
   updated_by: string | null;
   pending_action: string;
+  types: string[];
+  status: number;
 };
 
 type EventForm = {
@@ -38,6 +41,24 @@ type EventForm = {
   end_at: string;
   location: string;
   images?: FileList;
+  types: string[];
+};
+
+type PreviewEvent = {
+  id: number;
+  name: string;
+  description: string;
+  status: number;
+  date: string;
+  time: string;
+  location: string;
+  images: string;
+  files: Array<{
+    id: string;
+    name: string;
+    url: string;
+  }>;
+  types: string[];
 };
 
 function EventsPage() {
@@ -45,15 +66,21 @@ function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [error, setError] = useState<string>("");
 
+  // Add state for selected event types
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const typeOptions = ["In Person", "Online"];
+
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
   const [rejectType, setRejectType] = useState<"create" | "update">("create");
+  const [previewEvent, setPreviewEvent] = useState<PreviewEvent | null>(null);
 
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -63,6 +90,7 @@ function EventsPage() {
     register: registerCreate,
     handleSubmit: handleCreateSubmit,
     reset: resetCreate,
+    watch: watchCreate,
     formState: { errors: createErrors },
   } = useForm<EventForm>();
 
@@ -72,6 +100,74 @@ function EventsPage() {
     reset: resetUpdate,
     formState: { errors: updateErrors },
   } = useForm<EventForm>();
+
+  const createFormValues = watchCreate();
+
+  const createPreviewEvent = (formData: EventForm): PreviewEvent => {
+    const name = formData.name || "Event Name";
+    const description =
+      formData.description || "Event description will appear here...";
+    const location = formData.location || "Location TBD";
+
+    let date = "Date TBD";
+    let time = "Time TBD";
+
+    if (formData.start_at && formData.end_at) {
+      try {
+        const startDate = new Date(formData.start_at);
+        const endDate = new Date(formData.end_at);
+
+        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+          date = startDate.toLocaleDateString();
+          time = `${startDate.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })} - ${endDate.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}`;
+        }
+      } catch (error) {
+        console.error("Error parsing dates:", error);
+      }
+    }
+
+    let typesToShow = selectedTypes;
+    if (
+      selectedTypes.includes("In Person") &&
+      selectedTypes.includes("Online")
+    ) {
+      typesToShow = ["hybrid"];
+    }
+
+    return {
+      id: 0,
+      name,
+      description,
+      status: 1,
+      date,
+      time,
+      location,
+      images: "",
+      files:
+        formData.images && formData.images.length > 0
+          ? [
+              {
+                id: "1",
+                name: formData.images[0].name,
+                url: URL.createObjectURL(formData.images[0]),
+              },
+            ]
+          : [],
+      types: typesToShow,
+    };
+  };
+
+  const handlePreviewEvent = () => {
+    const previewData = createPreviewEvent(createFormValues);
+    setPreviewEvent(previewData);
+    setIsPreviewModalOpen(true);
+  };
 
   const fetchEvents = async () => {
     try {
@@ -89,20 +185,34 @@ function EventsPage() {
   }, [page]);
 
   const handleCreateEvent = async (data: EventForm) => {
+    if (selectedTypes.length === 0) {
+      alert("Please select at least one event type.");
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("description", data.description);
-      formData.append("start_at", data.start_at);
-      formData.append("end_at", data.end_at);
+      formData.append("start_at", new Date(data.start_at).getTime().toString());
+      formData.append("end_at", new Date(data.end_at).getTime().toString());
       formData.append("location", data.location);
       if (data.images?.[0]) {
         formData.append("file", data.images[0]);
       }
+      let typesToSubmit = selectedTypes;
+      if (
+        selectedTypes.includes("In Person") &&
+        selectedTypes.includes("Online")
+      ) {
+        typesToSubmit = ["hybrid"];
+      }
+
+      formData.append("types", typesToSubmit.join(","));
 
       const res = await createEvent(formData);
       setIsCreateModalOpen(false);
       resetCreate();
+      setSelectedTypes([]);
       if (res.status === 201) {
         alert(res.message);
         await fetchEvents();
@@ -120,8 +230,8 @@ function EventsPage() {
       const res = await updateEvent(selectedEvent.id, {
         name: data.name,
         description: data.description,
-        start_at: data.start_at,
-        end_at: data.end_at,
+        start_at: new Date(data.start_at).getTime().toString(),
+        end_at: new Date(data.end_at).getTime().toString(),
         location: data.location,
       });
       setIsUpdateModalOpen(false);
@@ -250,6 +360,20 @@ function EventsPage() {
     }
   };
 
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        router.push("/");
+      } else if (user.role !== "SUPER_ADMIN") {
+        router.push("/member");
+      }
+    }
+  }, [user, isLoading, router]);
+
+  if (!user || user.role !== "SUPER_ADMIN") {
+    return null;
+  }
+
   return (
     <div className="flex mt-10 gap-3 flex-col">
       {/* Page Title */}
@@ -268,16 +392,21 @@ function EventsPage() {
       {/* Events Grid Display */}
       <div className="grid grid-cols-3 gap-5 p-5">
         {events.map((event) => (
-          <div key={event.id} className="border-2 border-blue-200 p-4">
+          <div
+            key={event.id}
+            className="border-2 border-blue-200 p-4 text-white"
+          >
             {/* Event Details */}
             <h1 className="font-bold">Event Name: {event.name}</h1>
             <h1>Description: {event.description}</h1>
             <h1>
               Start: {new Date(parseInt(event.start_at)).toLocaleString()}
             </h1>
+            <h1>Types: {event.types.join(", ")}</h1>
             <h1>End: {new Date(parseInt(event.end_at)).toLocaleString()}</h1>
             <h1>Location: {event.location}</h1>
             <h1>Pending action: {event.pending_action}</h1>
+            <h1>Status: {event.status}</h1>
             <h1>
               Created At:{" "}
               {new Date(parseInt(event.created_at)).toLocaleDateString()}
@@ -377,6 +506,7 @@ function EventsPage() {
         onClose={() => {
           setIsCreateModalOpen(false);
           resetCreate();
+          setSelectedTypes([]);
         }}
         title="Create New Event"
       >
@@ -474,6 +604,39 @@ function EventsPage() {
               )}
             </div>
 
+            {/* Event Types Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Event Types <span className="text-red-500">*</span>
+              </label>
+              <div className="flex gap-2">
+                {typeOptions.map((type) => (
+                  <label key={type} className="flex items-center gap-1">
+                    <input
+                      type="checkbox"
+                      value={type}
+                      checked={selectedTypes.includes(type)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedTypes((prev) => [...prev, type]);
+                        } else {
+                          setSelectedTypes((prev) =>
+                            prev.filter((t) => t !== type)
+                          );
+                        }
+                      }}
+                    />
+                    {type}
+                  </label>
+                ))}
+              </div>
+              {selectedTypes.length === 0 && (
+                <p className="text-red-500 text-sm">
+                  Please select at least one event type.
+                </p>
+              )}
+            </div>
+
             {/* Event Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -487,10 +650,21 @@ function EventsPage() {
               />
             </div>
 
+            <div>
+              <button
+                type="button"
+                onClick={handlePreviewEvent}
+                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors duration-200"
+              >
+                👁️ Preview Event
+              </button>
+            </div>
+
             {/* Submit Button */}
             <button
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              disabled={selectedTypes.length === 0}
             >
               Create Event
             </button>
@@ -718,6 +892,11 @@ function EventsPage() {
           </div>
         </div>
       </Modal>
+      <PreviewModal
+        isOpen={isPreviewModalOpen}
+        onClose={() => setIsPreviewModalOpen(false)}
+        event={previewEvent}
+      />
     </div>
   );
 }

@@ -2,37 +2,19 @@
 
 import { useEffect, useState } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
-import Hero from "@/components/sections/landing/Hero";
-import Events from "@/components/sections/landing/Events";
-import ValueSystem from "@/components/sections/landing/ValueSystem";
-import MissionVision from "@/components/sections/landing/MissionVision";
-import Stats from "@/components/sections/landing/Stats";
-import Footer from "@/components/sections/landing/Footer";
+import Hero from "./components/Hero";
+import Events from "./components/Events";
+import ValueSystem from "./components/ValueSystem";
+import MissionVision from "./components/MissionVision";
+import Stats from "./components/Stats";
+import Footer from "@/components/shared/Footer";
 import { privateAxios } from "@/lib/axios";
-import { transformApiEvents } from "@/lib/utils";
+import { transformApiEvents } from "@/app/events/utils/eventsApi";
+import { Events as EventType } from "@/types/events";
 // import { mockEvents } from "@/data/mockEvents";
 
-type FileObject = {
-  id: number;
-  name: string;
-  url: string;
-};
-
-type Events = {
-  id: number;
-  name: string;
-  description: string;
-  status: number;
-  date: string;
-  time: string;
-  location: string;
-  images: string;
-  files: FileObject[];
-  types: string[];
-};
-
 export default function Home() {
-  const [events, setEvents] = useState<Events[]>([]);
+  const [events, setEvents] = useState<EventType[]>([]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -56,9 +38,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
-      <BgBoxMainPage />
+      <BgBoxMainPage maxHeight={400} enableGlow={true} />
       {/* Page Container - unified width control */}
-      <div className="container mx-auto max-w-6xl">
+      {/* <div className="container mx-auto max-w-6xl"> */}
+      <div className="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 xl:px-2">
         {/* Hero Section */}
         <Hero />
 
@@ -88,9 +71,8 @@ export default function Home() {
 
         {/* Value System Section */}
         <ValueSystem />
-
       </div>
-      
+
       {/* Footer Section - Outside container for custom width */}
       <Footer />
     </div>

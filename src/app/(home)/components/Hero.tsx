@@ -3,24 +3,36 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 // Hero Section Component
 export default function Hero() {
+  // Use Safari-specific fallback for hero images
+  const heroImgSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/hero-img.svg",
+    "/FigmaFiles/mainPageAssets/hero-img.png"
+  );
+  
+  const heroImg2Src = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/hero-img-2.svg",
+    "/FigmaFiles/mainPageAssets/hero-img-2.png"
+  );
+
   return (
-    <section className="hero flex gap-4 flex-col md:flex-row items-center justify-center relative z-10 max-w-6xl mx-auto">
+    <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-center relative z-10 max-w-6xl mx-auto px-4 sm:px-6 md:px-8 xl:px-0">
       {/* Text Content */}
-      <div className="text flex flex-col gap-4 md:max-w-lg">
-        <h1 className="text-white font-extrabold text-4xl">
+      <div className="text flex flex-col gap-4 md:max-w-sm lg:max-w-lg">
+        <h1 className="text-white font-extrabold text-2xl sm:text-3xl md:text-2xl lg:text-4xl">
           Connecting Canada&apos;s computing students through community and
           events.
         </h1>
         <p 
-          className="text-white max-w-xl"
+          className="text-white max-w-xl sm:text-lg sm:leading-6 lg:text-xl lg:leading-7"
           style={{
             fontFamily: "Roboto, sans-serif",
             fontWeight: "300",
-            fontSize: "20px",
-            lineHeight: "26px",
+            fontSize: "16px",
+            lineHeight: "22px",
             letterSpacing: "0%"
           }}
         >
@@ -96,15 +108,16 @@ export default function Hero() {
 
       {/* Hero Image with Animation */}
       <div className="image relative flex justify-center flex-shrink-0">
-        <motion.div className="relative w-[505px] h-[505px]">
+        <motion.div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[505px] lg:h-[505px]">
           {/* Base Hero Image */}
           <Image
-            src="/FigmaFiles/mainPageAssets/hero-img.svg"
+            src={heroImgSrc}
             alt="Hero Image"
             width={505}
             height={505}
             className="w-full h-full object-contain select-none"
             priority
+            quality={100}
             draggable={false}
             style={{ userSelect: "none" }}
           />
@@ -121,12 +134,13 @@ export default function Hero() {
             }}
           >
             <Image
-              src="/FigmaFiles/mainPageAssets/hero-img-2.svg"
+              src={heroImg2Src}
               alt="Hero Image with Texture"
               width={505}
               height={505}
               className="w-full h-full object-contain select-none"
               priority
+              quality={100}
               draggable={false}
               style={{ userSelect: "none" }}
             />

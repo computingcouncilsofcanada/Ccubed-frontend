@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 
 type UserData = {
@@ -28,7 +29,8 @@ type ChangePasswordForm = {
 };
 
 const page = () => {
-  const { user, setUser } = useUser();
+  const { user, setUser, isLoading } = useUser();
+  const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [error, setError] = useState<string>("");
@@ -100,6 +102,21 @@ const page = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user) {
+        router.push("/");
+      }
+      else if (user.role !== "STAFF" && user.role !== "SUPER_ADMIN") {
+        router.push("/member");
+      }
+    }
+  }, [user, isLoading, router]);
+
+  if (!user || (user.role !== "STAFF" && user.role !== "SUPER_ADMIN")) {
+    return null;
+  }
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6">
