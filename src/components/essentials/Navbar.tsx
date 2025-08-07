@@ -67,9 +67,9 @@ const Navbar = () => {
         className="flex justify-between p-3 mx-auto items-center px-4"
         style={{ maxWidth: "1200px" }}
       > */}
-      <div className="flex justify-between py-4 sm:py-8 px-4 sm:px-6 md:px-8 xl:px-0 mx-auto items-center max-w-6xl">
+      <div className="flex items-center justify-between md:justify-start py-4 sm:py-8 px-4 sm:px-6 md:px-8 xl:px-0 mx-auto max-w-6xl">
         {/* Logo */}
-        <Link href="/">
+        <Link href="/" className="mr-8">
           <Image
             src={logoSrc}
             alt="CCubed Logo"
@@ -84,7 +84,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8 flex-1">
           <nav className="flex gap-8">
             {filteredNavLinks.map(({ id, href, name }) => (
               <Link
@@ -140,22 +140,24 @@ const Navbar = () => {
             )}
           </nav>
           
-          {/* Desktop Sign In Button */}
-          {showSignInButton && (
-            <Link
-              href="/login"
-              className="text-white px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-gray-900 transition-colors"
-              style={{
-                fontFamily: "Poppins, sans-serif",
-                fontWeight: "400",
-                fontSize: "16px",
-                lineHeight: "24px",
-                letterSpacing: "1%",
-              }}
-            >
-              Sign In
-            </Link>
-          )}
+          {/* Desktop Sign In Button - now positioned on the right */}
+          <div className="ml-auto">
+            {showSignInButton && (
+              <Link
+                href="/login"
+                className="text-white px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-gray-900 transition-colors"
+                style={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "400",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  letterSpacing: "1%",
+                }}
+              >
+                Sign In
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
@@ -164,12 +166,12 @@ const Navbar = () => {
           {showSignInButton && (
             <Link
               href="/login"
-              className="text-white px-2 py-1 sm:px-3 sm:py-1.5 border border-white rounded-md text-xs sm:text-sm hover:bg-white hover:text-gray-900 transition-colors"
+              className="text-white px-2 py-1 border border-white rounded-md hover:bg-white hover:text-gray-900 transition-colors h-6 flex items-center"
               style={{
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: "400",
-                fontSize: "12px",
-                lineHeight: "16px",
+                fontSize: "10px",
+                lineHeight: "12px",
                 letterSpacing: "1%",
               }}
             >
