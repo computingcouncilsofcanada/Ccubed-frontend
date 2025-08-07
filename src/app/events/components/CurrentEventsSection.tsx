@@ -248,7 +248,7 @@ export function CurrentEventsSection({
 
   // List view
   return (
-    <div className="flex flex-col gap-10 mt-10">
+    <div className="flex flex-col gap-4 mt-10">
       {/* Empty states */}
       {showEmptyState && <EmptyState type="all" height="234px" />}
       {showFilterEmptyState && (
