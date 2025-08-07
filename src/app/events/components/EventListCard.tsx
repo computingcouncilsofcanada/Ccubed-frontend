@@ -217,18 +217,33 @@ export function EventListCard({
           />
         ) : null}
         <div 
-          className={`w-[200px] h-[200px] rounded-xl bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center ${event.files && event.files.length > 0 ? 'hidden' : 'flex'}`}
+          className={`rounded-xl bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center ${event.files && event.files.length > 0 ? 'hidden' : 'flex'}`}
           style={{ 
+            width: windowWidth < 600 ? '100px' : windowWidth < 700 ? '100px' : windowWidth < 820 ? '120px' : windowWidth < 1024 ? '140px' : windowWidth < 1200 ? '170px' : '200px',
+            height: windowWidth < 600 ? '100px' : windowWidth < 700 ? '100px' : windowWidth < 820 ? '120px' : windowWidth < 1024 ? '140px' : windowWidth < 1200 ? '170px' : '200px',
             display: event.files && event.files.length > 0 ? 'none' : 'flex'
           }}
         >
           <div className="text-center">
-            <div className="w-12 h-12 mx-auto mb-2 text-gray-400">
+            <div 
+              className="mx-auto mb-2 text-gray-400"
+              style={{
+                width: windowWidth < 600 ? '24px' : windowWidth < 700 ? '24px' : windowWidth < 820 ? '32px' : windowWidth < 1024 ? '40px' : windowWidth < 1200 ? '44px' : '48px',
+                height: windowWidth < 600 ? '24px' : windowWidth < 700 ? '24px' : windowWidth < 820 ? '32px' : windowWidth < 1024 ? '40px' : windowWidth < 1200 ? '44px' : '48px'
+              }}
+            >
               <svg fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd"/>
               </svg>
             </div>
-            <span className="text-xs text-gray-400 font-medium">No Image</span>
+            <span 
+              className="text-gray-400 font-medium"
+              style={{
+                fontSize: windowWidth < 600 ? '8px' : windowWidth < 700 ? '9px' : windowWidth < 820 ? '10px' : windowWidth < 1024 ? '11px' : windowWidth < 1200 ? '12px' : '12px'
+              }}
+            >
+              No Image
+            </span>
           </div>
         </div>
       </motion.div>
