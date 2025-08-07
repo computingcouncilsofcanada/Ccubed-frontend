@@ -210,7 +210,8 @@ const ComingSoon = () => {
                 minWidth: "80px",
                 minHeight: "80px",
                 maxWidth: "160px",
-                maxHeight: "160px"
+                maxHeight: "160px",
+                objectFit: "contain"
               }}
             />
           </div>
