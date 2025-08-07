@@ -50,10 +50,15 @@ const ComingSoon = () => {
 
 
   return (
-    <>
+    <div 
+      className="min-h-screen w-full"
+      style={{
+        background: "linear-gradient(to bottom, #0D1C26 0%, #1A384C 100%)"
+      }}
+    >
       <BgBoxComingSoon />
-      <div className="relative z-20">
-        <div className="px-10 flex flex-col  min-h-screen w-full max-w-7xl mx-auto">
+      <div className="relative min-h-screen">
+        <div className="px-10 flex flex-col max-w-7xl mx-auto">
           <Link href="/" className="flex items-center pt-8 pb-4 gap-2">
             <Image 
               src={logoSrc}
@@ -74,7 +79,7 @@ const ComingSoon = () => {
               CCUBED
             </h1>
           </Link>
-          <div className=" bg-[#D4D4D4]/10 backdrop-blur-xs drop-shadow-lg w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto rounded-[20px] shadow-2xl flex flex-col items-center justify-center gap-4 md:gap-6 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-[60px] py-20 relative border-2 border-white/20">
+          <div className="bg-[#D4D4D4]/10 backdrop-blur-xs drop-shadow-lg w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto rounded-[20px] shadow-2xl flex flex-col items-center justify-center gap-4 md:gap-6 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-[60px] py-20 relative z-30 border-2 border-white/20">
 
         
             <Image
@@ -186,18 +191,21 @@ const ComingSoon = () => {
               height={200}
               quality={100}
               draggable={false}
-              style={{ userSelect: "none" }}
-              className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40"
+              style={{ 
+                userSelect: "none",
+                width: "12vh",
+                height: "12vh",
+                minWidth: "80px",
+                minHeight: "80px",
+                maxWidth: "160px",
+                maxHeight: "160px"
+              }}
             />
           </div>
           </div>
-          {/* dummy div */}
-          <div className="footer  flex md:flex-row flex-col justify-between py-4 items-center">
-  
-          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

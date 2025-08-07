@@ -9,7 +9,7 @@ const bgImages = [
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltRight.png",
     alt: "Background Box Top Left Blue",
-    style: { top: "1vh", left: "0%" },
+    style: { top: "10px", left: "0%" },
     width: "40vw",
     height: "40vw",
     maxWidth: 400,
@@ -20,7 +20,7 @@ const bgImages = [
   {
     src: "/FigmaFiles/mainPageAssets/cube-yellow-glossy.png",
     alt: "Background Box Top Right Yellow",
-    style: { top: "-5vh", right: "-5%" },
+    style: { top: "-50px", right: "-5%" },
     width: "22vw",
     height: "22vw",
     maxWidth: 240,
@@ -31,7 +31,7 @@ const bgImages = [
   {
     src: "/FigmaFiles/mainPageAssets/cube-yellow-glossy.png",
     alt: "Background Box Middle Left Yellow",
-    style: { top: "35vh", left: "33%" },
+    style: { top: "350px", left: "33%" },
     width: "17vw",
     height: "17vw",
     maxWidth: 170,
@@ -42,7 +42,7 @@ const bgImages = [
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
     alt: "Background Box Middle Right Blue",
-    style: { top: "17vh", right: "28%" },
+    style: { top: "170px", right: "28%" },
     width: "28vw",
     height: "28vw",
     maxWidth: 280,
@@ -53,7 +53,7 @@ const bgImages = [
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltRight.png",
     alt: "Background Box Bottom Left Blue",
-    style: { bottom: "0vh", left: "0%" },
+    style: { bottom: "0px", left: "0%" },
     width: "26vw",
     height: "26vw",
     maxWidth: 280,
@@ -64,7 +64,7 @@ const bgImages = [
   {
     src: "/FigmaFiles/mainPageAssets/cube-yellow-glossy.png",
     alt: "Background Box Bottom Center Yellow",
-    style: { bottom: "6vh", right: "30%" },
+    style: { bottom: "60px", right: "30%" },
     width: "18vw",
     height: "18vw",
     maxWidth: 200,
@@ -75,7 +75,7 @@ const bgImages = [
   {
     src: "/FigmaFiles/mainPageAssets/boxTiltLeft.png",
     alt: "Background Box Bottom Right Blue",
-    style: { bottom: "-6vh", right: "-3%" },
+    style: { bottom: "-60px", right: "-3%" },
     width: "23vw",
     height: "23vw",
     maxWidth: 230,
@@ -95,11 +95,12 @@ const BgBoxComingSoon = () => {
 
   return (
     <div 
-      className="fixed inset-0"
+      className="absolute inset-0"
       style={{
         overflow: "hidden",
         pointerEvents: "none",
         zIndex: 25,
+        backgroundColor: "transparent",
       }}
     >
       {bgImages.map((img, index) => {
