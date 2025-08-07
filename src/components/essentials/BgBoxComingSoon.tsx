@@ -99,7 +99,7 @@ const BgBoxComingSoon = () => {
       style={{
         overflow: "hidden",
         pointerEvents: "none",
-        zIndex: 1,
+        zIndex: 25,
       }}
     >
       {bgImages.map((img, index) => {
@@ -113,7 +113,7 @@ const BgBoxComingSoon = () => {
               height: img.height,
               maxWidth: img.maxWidth,
               maxHeight: img.maxHeight,
-              zIndex: 2,
+              zIndex: 26,
               pointerEvents: "auto",
             }}
             initial={{ 
@@ -142,7 +142,7 @@ const BgBoxComingSoon = () => {
                 position: "relative",
                 width: "100%",
                 height: "100%",
-                zIndex: 2,
+                zIndex: 27,
                 filter: img.color === "yellow" ? "blur(8px)" : "none",
               }}
             >
