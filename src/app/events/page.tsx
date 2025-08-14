@@ -122,12 +122,16 @@ export default function EventsPage() {
         </div>
 
         {/* Header with title and logo */}
-        <div
+        <motion.div
           className="flex gap-2 sm:gap-3 items-end justify-start mb-4 relative z-10 max-w-full"
           style={{
             maxWidth: "806px",
             height: windowWidth < 640 ? "120px" : windowWidth < 1024 ? "160px" : "214px",
           }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
             Events
@@ -151,14 +155,20 @@ export default function EventsPage() {
               style={{ userSelect: "none" }}
             />
           </motion.div>
-        </div>
+        </motion.div>
 
-        <p className=" mt-5 text-white">
+        <motion.p
+          className=" mt-5 text-white"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.05 }}
+        >
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti qui
           officiis inventore, laborum porro debitis quae eius! A, ex ipsa quidem
           quasi error expedita earum beatae! Beatae quo delectus dignissimos
           dolorem fugit alias. Iusto eos non ad, dignissimos molestiae sunt.
-        </p>
+        </motion.p>
 
         {error && (
           <p className="mt-4 rounded-md border border-red-300 bg-red-100 p-4 text-center text-red-700">
@@ -167,36 +177,57 @@ export default function EventsPage() {
         )}
 
         {/* Events Header - Filters and View Toggle */}
-        <EventsHeader
-          eventType={eventType}
-          onEventTypeChange={setEventType}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <EventsHeader
+            eventType={eventType}
+            onEventTypeChange={setEventType}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+          />
+        </motion.div>
 
         {/* Current Events Section */}
-        <CurrentEventsSection
-          viewMode={viewMode}
-          filteredCurrentEvents={filteredCurrentEvents}
-          showEmptyState={showEmptyState}
-          showFilterEmptyState={showFilterEmptyState}
-          eventType={eventType}
-          onSeeDetails={(event) => {
-            setSelectedEvent(event);
-            setIsModalOpen(true);
-          }}
-          onInvitationLink={handleInvite}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
+        >
+          <CurrentEventsSection
+            viewMode={viewMode}
+            filteredCurrentEvents={filteredCurrentEvents}
+            showEmptyState={showEmptyState}
+            showFilterEmptyState={showFilterEmptyState}
+            eventType={eventType}
+            onSeeDetails={(event) => {
+              setSelectedEvent(event);
+              setIsModalOpen(true);
+            }}
+            onInvitationLink={handleInvite}
+          />
+        </motion.div>
 
         {/* Past Events Section - Always show in list format, shows ALL past events */}
-        <PastEventsSection
-          pastEvents={pastEvents} // Show ALL past events, no filtering
-          onSeeDetails={(event) => {
-            setSelectedEvent(event);
-            setIsModalOpen(true);
-          }}
-          onInvitationLink={handleInvite}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+        >
+          <PastEventsSection
+            pastEvents={pastEvents} // Show ALL past events, no filtering
+            onSeeDetails={(event) => {
+              setSelectedEvent(event);
+              setIsModalOpen(true);
+            }}
+            onInvitationLink={handleInvite}
+          />
+        </motion.div>
       </div>
 
       {/* Add the shared footer */}

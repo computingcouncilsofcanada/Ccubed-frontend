@@ -58,7 +58,7 @@ type EventCardProps = {
   
     return (
       <motion.div
-        className="relative group cursor-pointer w-full max-w-[276px] mx-auto h-[380px] sm:h-[420px] lg:h-[451px]"
+        className="relative group cursor-pointer w-full max-w-[276px] mx-auto"
         style={{ 
           width: "100%", 
           minWidth: "240px"
@@ -75,13 +75,17 @@ type EventCardProps = {
             borderRadius: "20px",
           }}
           animate={{
-            height: shouldShowExpanded 
-              ? windowWidth >= 1024 && windowWidth < 1100
-                ? "430px"
-                : windowWidth >= 1100 && windowWidth < 1280
-                  ? "440px"
-                  : "451px"
-              : "320px",
+            height: shouldShowExpanded
+              ? (windowWidth < 640
+                  ? "420px"
+                  : windowWidth < 1024
+                    ? "440px"
+                    : "451px")
+              : (windowWidth < 640
+                  ? "340px"
+                  : windowWidth < 1024
+                    ? "320px"
+                    : "320px"),
           }}
           transition={{
             duration: 0.8,

@@ -101,69 +101,15 @@ export default function Events({ events }: EventsSectionProps) {
 
   return (
     <section className="events relative z-10">
-      {/* Background Events Text - Upper Left */}
-      <div 
-        className="absolute pointer-events-none overflow-hidden"
-        style={{ 
-          zIndex: 0,
-          left: "calc(-50vw + 50%)",
-          top: "45%",
-          transform: "translateY(-50%)",
-          width: "100vw",
-          height: "100%",
-        }}
-      >
-        <span 
-          className="text-white select-none absolute inset-0 flex items-center justify-start"
-          style={{
-            fontSize: "350px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.12",
-            letterSpacing: "0em",
-            userSelect: "none",
-            whiteSpace: "nowrap",
-            maskImage: "radial-gradient(ellipse 80% 70% at 50% 25%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 60%, transparent 75%)",
-            WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 25%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 60%, transparent 75%)",
-          }}
-        >
-          Events
-        </span>
-      </div>
-
-      {/* Background Events Text - Lower Right */}
-      <div 
-        className="absolute pointer-events-none overflow-hidden"
-        style={{ 
-          zIndex: 0,
-          left: "calc(-50vw + 50%)",
-          top: "75%",
-          transform: "translateY(-50%)",
-          width: "100vw",
-          height: "100%",
-        }}
-      >
-        <span 
-          className="text-white select-none absolute inset-0 flex items-center justify-end pr-8"
-          style={{
-            fontSize: "350px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.08",
-            letterSpacing: "0em",
-            userSelect: "none",
-            whiteSpace: "nowrap",
-            maskImage: "radial-gradient(ellipse 70% 60% at 75% 60%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.1) 50%, transparent 70%)",
-            WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 75% 60%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.1) 50%, transparent 70%)",
-          }}
-        >
-          Events
-        </span>
-      </div>
+      {/* Background handled globally in BgTextMainPage */}
 
       {/* Header with title and logo */}
-      <div
+      <motion.div
         className="flex items-end justify-center mb-4 mx-auto w-full max-w-[706px] h-[120px] sm:h-[160px] md:h-[214px] px-4"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <h1 className="text-white text-[28px] sm:text-[32px] md:text-[40px] font-extrabold">Events</h1>
         <Image
@@ -176,19 +122,31 @@ export default function Events({ events }: EventsSectionProps) {
           draggable={false}
           style={{ userSelect: "none" }}
         />
-      </div>
+      </motion.div>
 
       <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 px-4 md:px-0">
         {/* Description */}
-        <p className="text-white font-light w-full text-center text-sm sm:text-base px-2 sm:px-8 md:px-50">
+        <motion.p
+          className="text-white font-light w-full text-center text-sm sm:text-base px-2 sm:px-8 md:px-50"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.05 }}
+        >
           Join us for a variety of indoor and outdoor events that bring
           computing students together beyond the screen. Whether it&apos;s a
           casual meetup or a collaborative workshop, there&apos;s always a way
           to connect and grow.
-        </p>
+        </motion.p>
 
         {/* Recent Events Section Title */}
-        <div className="flex justify-start">
+        <motion.div
+          className="flex justify-start"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+        >
           <h2 
             className="text-white text-left font-semibold text-lg sm:text-xl md:text-2xl"
             style={{
@@ -198,7 +156,7 @@ export default function Events({ events }: EventsSectionProps) {
           >
             Recent Events
           </h2>
-        </div>
+        </motion.div>
 
         {/* Events Grid */}
         <div className={`mb-6 ${showEmptyState ? 'flex justify-center items-center h-[451px]' : ''}`}>
@@ -293,39 +251,46 @@ export default function Events({ events }: EventsSectionProps) {
               <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 lg:gap-6 justify-items-center">
                 {recentEvents
                   .slice(0, 4)
-                  .map((event) => (
-                    <EventCard
+                  .map((event, idx) => (
+                    <motion.div
                       key={event.id}
-                      id={event.id}
-                      title={event.name}
-                      time={event.time}
-                      date={event.date}
-                      location={event.location}
-                      type={
-                        (() => {
-                          if (!event.types || event.types.length === 0) return "Online";
-                          
-                          // Check for hybrid first - either multiple types OR contains "hybrid"
-                          const hasHybridType = event.types.some(type => 
-                            type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
-                          );
-                          if (event.types.length > 1 || hasHybridType) return "Hybrid";
-                          
-                          // Single type matching
-                          const eventType = event.types[0];
-                          if (eventType === "In Person") return "In Person";
-                          if (eventType === "Online") return "Online";
-                          
-                          return "Online"; // Default fallback
-                        })()
-                      }
-                      imageSrc={
-                        event.files && event.files.length > 0
-                          ? event.files[0].url
-                          : "https://placehold.co/400"
-                      }
-                      description={event.description}
-                    />
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 0.6, ease: "easeOut", delay: idx * 0.15 }}
+                    >
+                      <EventCard
+                        id={event.id}
+                        title={event.name}
+                        time={event.time}
+                        date={event.date}
+                        location={event.location}
+                        type={
+                          (() => {
+                            if (!event.types || event.types.length === 0) return "Online";
+                            
+                            // Check for hybrid first - either multiple types OR contains "hybrid"
+                            const hasHybridType = event.types.some(type => 
+                              type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
+                            );
+                            if (event.types.length > 1 || hasHybridType) return "Hybrid";
+                            
+                            // Single type matching
+                            const eventType = event.types[0];
+                            if (eventType === "In Person") return "In Person";
+                            if (eventType === "Online") return "Online";
+                            
+                            return "Online"; // Default fallback
+                          })()
+                        }
+                        imageSrc={
+                          event.files && event.files.length > 0
+                            ? event.files[0].url
+                            : "https://placehold.co/400"
+                        }
+                        description={event.description}
+                      />
+                    </motion.div>
                   ))}
               </div>
 

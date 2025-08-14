@@ -60,84 +60,19 @@ export default function ValueSystem() {
     <section
       className="key-benefits relative z-10"
     >
-      {/* Background Key Benefit Text - Left side */}
-      <div 
-        className="absolute pointer-events-none overflow-hidden"
-        style={{ 
-          zIndex: 0,
-          left: "calc(-50vw + 50%)",
-          top: "38%",
-          transform: "translateY(-50%)",
-          width: "100vw",
-          height: "100%",
-        }}
-      >
-        <div 
-          className="text-white select-none absolute inset-0 flex items-center justify-start"
-          style={{
-            fontSize: "130px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.04",
-            letterSpacing: "0em",
-            userSelect: "none",
-            lineHeight: "1.2",
-            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0.3) 18%, rgba(0,0,0,0.1) 22%, transparent 25%)",
-            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0.3) 18%, rgba(0,0,0,0.1) 22%, transparent 25%)",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-            <div>Key</div>
-            <div>Benefit</div>
-            <div>of Our</div>
-            <div>System</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Background Key Benefit Text - Right side (180 degree flip) */}
-      <div 
-        className="absolute pointer-events-none overflow-hidden"
-        style={{ 
-          zIndex: 0,
-          left: "calc(-50vw + 50%)",
-          top: "10%",
-          transform: "translateY(-50%)",
-          width: "100vw",
-          height: "100%",
-        }}
-      >
-        <div 
-          className="text-white select-none absolute inset-0 flex items-center justify-start"
-          style={{
-            fontSize: "130px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.04",
-            letterSpacing: "0em",
-            userSelect: "none",
-            lineHeight: "1.2",
-            transform: "rotate(180deg)",
-            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 8%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.05) 18%, transparent 20%)",
-            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 8%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.05) 18%, transparent 20%)",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left" }}>
-            <div>Key</div>
-            <div>Benefit</div>
-            <div>of Our</div>
-            <div>System</div>
-          </div>
-        </div>
-      </div>
+      {/* Background handled globally in BgTextMainPage */}
 
       {/* Header with title and logo */}
-      <div
+      <motion.div
         className="flex gap-2 sm:gap-3 items-end justify-start mb-4 relative z-10 max-w-full"
         style={{
           maxWidth: "806px",
           height: windowWidth < 640 ? "120px" : windowWidth < 1024 ? "160px" : "214px",
         }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
           Our Value System
@@ -182,10 +117,16 @@ export default function ValueSystem() {
             />
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Description */}
-      <div className="text-left mb-8 sm:mb-12 max-w-4xl relative z-10 sm:px-0">
+      <motion.div
+        className="text-left mb-8 sm:mb-12 max-w-4xl relative z-10 sm:px-0"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut", delay: 0.05 }}
+      >
         <p className="text-white font-light text-sm sm:text-base leading-relaxed"
            style={{
              fontFamily: "Roboto, sans-serif",
@@ -194,7 +135,7 @@ export default function ValueSystem() {
         >
           We value growth, mentorship, collaboration, and impact. These principles guide us in creating a supportive space where students learn, connect, and contribute to a stronger community.
         </p>
-      </div>
+      </motion.div>
 
       {/* Benefits Cards - Cascading Layout */}
       <div className="relative max-w-6xl mx-auto px-4 z-10" style={{ height: "800px" }}>
@@ -202,12 +143,12 @@ export default function ValueSystem() {
           {benefits.map((benefit, index) => (
             <motion.div
               key={benefit.id}
-              initial={{ opacity: 0, y: -100 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -100 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ 
                 duration: 0.8, 
-                delay: index * 0.3,
+                delay: index * 0.25,
                 ease: "easeOut" 
               }}
 

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { useSafariImageFallback } from "../../hooks/useSafariImageFallback";
 
 // Footer navigation links organized by columns
@@ -43,11 +44,15 @@ export default function Footer() {
   return (
     <section className="footer-section relative z-10 flex justify-center px-4 sm:px-6 md:px-8">
       {/* Main Footer Container with specified dimensions and gradient border */}
-      <div
+      <motion.div
         className="footer-container relative w-full max-w-[1150px] h-auto min-h-[298px] md:h-[298px]"
         style={{
           borderRadius: "30px",
         }}
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
       >
         {/* Gradient Border Effect */}
         <div
@@ -191,7 +196,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 } 

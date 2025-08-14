@@ -82,35 +82,16 @@ export default function MissionVision() {
 
   return (
     <section className="mission-vision py-12 sm:py-14 md:py-16 px-4 sm:px-6 md:px-8 xl:px-4 max-w-6xl mx-auto relative">
-      {/* Background Mission Text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <span
-          className="text-white select-none"
-          style={{
-            fontSize: "400px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.08",
-            letterSpacing: "0em",
-            userSelect: "none",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            whiteSpace: "nowrap",
-            zIndex: "0",
-            maskImage:
-              "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
-            WebkitMaskImage:
-              "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
-          }}
-        >
-          Vision
-        </span>
-      </div>
+      {/* Background handled globally in BgTextMainPage */}
 
       {/* Section Header */}
-      <div className="text-left mb-4 relative z-10">
+      <motion.div
+        className="text-left mb-4 relative z-10"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
         <h2
           className="text-white text-[28px] sm:text-[32px] md:text-[40px] leading-[34px] sm:leading-[38px] md:leading-[48px] mb-4 font-extrabold"
           style={{
@@ -131,17 +112,23 @@ export default function MissionVision() {
           and shared resources. Our goal is to create a supportive space where
           students feel connected, empowered, and never alone on their journey.
         </p>
-      </div>
+      </motion.div>
 
       {/* Mission & Vision Cards */}
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center relative z-10">
         {/* Our Mission Card */}
         <motion.div
-          className="mission-card relative group cursor-pointer w-full max-w-[566px] sm:max-w-[480px] md:max-w-[520px] lg:max-w-[566px] h-[456px] sm:h-[426px] md:h-[520px] lg:h-[445px]"
-          variants={cardVariants}
-          initial="initial"
-          whileHover="hover"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
         >
+          <motion.div
+            className="mission-card relative group cursor-pointer w-full max-w-[566px] sm:max-w-[480px] md:max-w-[520px] lg:max-w-[566px] h-[456px] sm:h-[426px] md:h-[520px] lg:h-[445px]"
+            variants={cardVariants}
+            initial="initial"
+            whileHover="hover"
+          >
           {/* Hover Rectangle */}
           <motion.div
             className="absolute bottom-0 left-0 z-0 w-full h-[360px] sm:h-[330px] md:h-[424px] lg:h-[349px]"
@@ -314,15 +301,22 @@ export default function MissionVision() {
               </motion.p>
             </div>
           </div>
+          </motion.div>
         </motion.div>
 
         {/* Our Vision Card */}
         <motion.div
-          className="vision-card relative group cursor-pointer w-full max-w-[566px] sm:max-w-[480px] md:max-w-[520px] lg:max-w-[566px] h-[456px] sm:h-[426px] md:h-[520px] lg:h-[445px]"
-          variants={cardVariants}
-          initial="initial"
-          whileHover="hover"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
         >
+          <motion.div
+            className="vision-card relative group cursor-pointer w-full max-w-[566px] sm:max-w-[480px] md:max-w-[520px] lg:max-w-[566px] h-[456px] sm:h-[426px] md:h-[520px] lg:h-[445px]"
+            variants={cardVariants}
+            initial="initial"
+            whileHover="hover"
+          >
           {/* Hover Rectangle */}
           <motion.div
             className="absolute bottom-0 left-0 z-0 w-full h-[360px] sm:h-[330px] md:h-[424px] lg:h-[349px]"
@@ -500,6 +494,7 @@ export default function MissionVision() {
               </motion.p>
             </div>
           </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
+import BgTextMainPage from "@/components/essentials/BgTextMainPage";
 import Hero from "./components/Hero";
 import Events from "./components/Events";
 import ValueSystem from "./components/ValueSystem";
@@ -39,6 +40,7 @@ export default function Home() {
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
       <BgBoxMainPage maxHeight={400} enableGlow={true} />
+      <BgTextMainPage />
       {/* Page Container - unified width control */}
       {/* <div className="container mx-auto max-w-6xl"> */}
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 xl:px-2">
