@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Events } from "@/types/events";
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { getOrdinalDay, getMonthName } from "@/utils/dateUtils";
+import { extractDay, getOrdinalSuffix, getMonthName } from "@/utils/dateUtils";
 
 type EventListCardProps = {
   event: Events;
@@ -100,6 +100,55 @@ export function EventListCard({
       : windowWidth < 820
       ? 6
       : 8;
+
+  // Day number and ordinal suffix for date display
+  const dayNumber = extractDay(event.date);
+  const ordinal = getOrdinalSuffix(dayNumber);
+
+  // Suffix sizing/position (small superscript at top-right of the day number)
+  const suffixFontSizeBase =
+    windowWidth < 700
+      ? "10px"
+      : windowWidth < 820
+      ? "12px"
+      : windowWidth < 1024
+      ? "14px"
+      : windowWidth < 1200
+      ? "16px"
+      : "18px";
+  const suffixFontSizeHover =
+    windowWidth < 700
+      ? "12px"
+      : windowWidth < 820
+      ? "14px"
+      : windowWidth < 1024
+      ? "16px"
+      : windowWidth < 1200
+      ? "18px"
+      : "20px";
+  // Align suffix top flush with the day number top
+  const suffixTopBase = "0px";
+  const suffixTopHover = "0px";
+  const suffixRightBase =
+    windowWidth < 700
+      ? "-10px"
+      : windowWidth < 820
+      ? "-12px"
+      : windowWidth < 1024
+      ? "-14px"
+      : windowWidth < 1200
+      ? "-16px"
+      : "-18px";
+  const suffixRightHover =
+    windowWidth < 700
+      ? "-12px"
+      : windowWidth < 820
+      ? "-14px"
+      : windowWidth < 1024
+      ? "-16px"
+      : windowWidth < 1200
+      ? "-18px"
+      : "-20px";
 
   return (
     <motion.div
@@ -263,11 +312,33 @@ export function EventListCard({
             ease: "easeInOut",
           }}
         >
-          <motion.span
-            className="text-white font-bold"
-            initial={{
-              fontSize:
-                windowWidth < 700
+          <div className="relative inline-block leading-none">
+            <motion.span
+              className="text-white font-bold"
+              initial={{
+                fontSize:
+                  windowWidth < 700
+                    ? "18px"
+                    : windowWidth < 820
+                    ? "20px"
+                    : windowWidth < 1024
+                    ? "22px"
+                    : windowWidth < 1200
+                    ? "28px"
+                    : "32px",
+              }}
+              animate={{
+                fontSize: isHovered
+                  ? windowWidth < 700
+                    ? "24px"
+                    : windowWidth < 820
+                    ? "28px"
+                    : windowWidth < 1024
+                    ? "32px"
+                    : windowWidth < 1200
+                    ? "40px"
+                    : "48px"
+                  : windowWidth < 700
                   ? "18px"
                   : windowWidth < 820
                   ? "20px"
@@ -276,40 +347,45 @@ export function EventListCard({
                   : windowWidth < 1200
                   ? "28px"
                   : "32px",
-            }}
-            animate={{
-              fontSize: isHovered
-                ? windowWidth < 700
-                  ? "24px"
-                  : windowWidth < 820
-                  ? "28px"
-                  : windowWidth < 1024
-                  ? "32px"
-                  : windowWidth < 1200
-                  ? "40px"
-                  : "48px"
-                : windowWidth < 700
-                ? "18px"
-                : windowWidth < 820
-                ? "20px"
-                : windowWidth < 1024
-                ? "22px"
-                : windowWidth < 1200
-                ? "28px"
-                : "32px",
-            }}
-            style={{
-              fontFamily: "Roboto, sans-serif",
-              lineHeight: "auto",
-              letterSpacing: "0%",
-            }}
-            transition={{
-              duration: 0.6,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            {getOrdinalDay(event.date)}
-          </motion.span>
+              }}
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                lineHeight: "auto",
+                letterSpacing: "0%",
+              }}
+              transition={{
+                duration: 0.6,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              {dayNumber}
+            </motion.span>
+            <motion.span
+              className="absolute text-white"
+              initial={{
+                fontSize: suffixFontSizeBase,
+                top: suffixTopBase,
+                right: suffixRightBase,
+              }}
+              animate={{
+                fontSize: isHovered ? suffixFontSizeHover : suffixFontSizeBase,
+                top: isHovered ? suffixTopHover : suffixTopBase,
+                right: isHovered ? suffixRightHover : suffixRightBase,
+              }}
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                fontWeight: 700,
+                lineHeight: 1,
+                opacity: 0.9,
+              }}
+              transition={{
+                duration: 0.6,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              {ordinal}
+            </motion.span>
+          </div>
           <motion.span
             className="text-white font-light"
             initial={{
