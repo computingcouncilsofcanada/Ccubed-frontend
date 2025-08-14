@@ -49,10 +49,10 @@ export default function Footer() {
         style={{
           borderRadius: "30px",
         }}
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
       >
         {/* Gradient Border Effect */}
         <div
@@ -74,13 +74,7 @@ export default function Footer() {
           {/* Footer Content Grid - Three Column Layout */}
           <div className="h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_2fr_0.5fr] gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-6 items-start">
             {/* Column 1 - Logo and Description */}
-            <motion.div 
-              className="footer-left flex flex-col justify-start"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
-            >
+            <div className="footer-left flex flex-col justify-start">
               {/* Logo and Title */}
               <div className="flex items-center gap-3 sm:gap-4 mb-2 xs:mb-3 sm:mb-4 mt-0 md:mt-[-20px]">
                 <Image
@@ -122,16 +116,10 @@ export default function Footer() {
                 Aliquam lorem id in scelerisque tortor amet lacus dolor
                 interdum.
               </p>
-            </motion.div>
+            </div>
 
             {/* Column 2 - Navigation Links */}
-            <motion.div 
-              className="footer-navigation grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 lg:col-span-1"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
-            >
+            <div className="footer-navigation grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 lg:col-span-1">
               {/* Column 1 */}
               <div className="footer-column">
                 {footerLinks.column1.map((link, index) => (
@@ -188,16 +176,10 @@ export default function Footer() {
                   </Link>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* Column 3 - Bear Mascot */}
-            <motion.div 
-              className="footer-bear hidden lg:flex justify-center items-end relative"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.25 }}
-            >
+            <div className="footer-bear hidden lg:flex justify-center items-end relative">
               <Image
                 src={bearSrc}
                 alt="Bear Greeting"
@@ -211,7 +193,7 @@ export default function Footer() {
                   userSelect: "none",
                 }}
               />
-            </motion.div>
+            </div>
           </div>
         </div>
       </motion.div>
