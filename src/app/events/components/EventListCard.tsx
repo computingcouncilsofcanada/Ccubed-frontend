@@ -273,7 +273,7 @@ export function EventListCard({
         }}
       >
         <motion.div
-          className="flex flex-col items-center text-center -space-y-1"
+          className="flex flex-col items-center text-center -space-y-1 relative"
           initial={{
             width:
               windowWidth < 700
@@ -312,7 +312,19 @@ export function EventListCard({
             ease: "easeInOut",
           }}
         >
-          <div className="relative inline-block leading-none">
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              background:
+                "radial-gradient(ellipse 120% 95% at 50% 42%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 35%, rgba(255,255,255,0.04) 55%, transparent 78%)",
+              filter: "blur(10px)",
+              borderRadius: "8px",
+            }}
+          />
+          <div className="relative z-10 inline-block leading-none">
             <motion.span
               className="text-white font-bold"
               initial={{
@@ -387,7 +399,7 @@ export function EventListCard({
             </motion.span>
           </div>
           <motion.span
-            className="text-white font-light"
+            className="text-white font-light relative z-10"
             initial={{
               fontSize:
                 windowWidth < 700
