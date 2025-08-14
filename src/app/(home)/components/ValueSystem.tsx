@@ -132,12 +132,16 @@ export default function ValueSystem() {
       </div>
 
       {/* Header with title and logo */}
-      <div
+      <motion.div
         className="flex gap-2 sm:gap-3 items-end justify-start mb-4 relative z-10 max-w-full"
         style={{
           maxWidth: "806px",
           height: windowWidth < 640 ? "120px" : windowWidth < 1024 ? "160px" : "214px",
         }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
           Our Value System
@@ -182,10 +186,16 @@ export default function ValueSystem() {
             />
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Description */}
-      <div className="text-left mb-8 sm:mb-12 max-w-4xl relative z-10 sm:px-0">
+      <motion.div
+        className="text-left mb-8 sm:mb-12 max-w-4xl relative z-10 sm:px-0"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.7, ease: "easeOut", delay: 0.05 }}
+      >
         <p className="text-white font-light text-sm sm:text-base leading-relaxed"
            style={{
              fontFamily: "Roboto, sans-serif",
@@ -194,7 +204,7 @@ export default function ValueSystem() {
         >
           We value growth, mentorship, collaboration, and impact. These principles guide us in creating a supportive space where students learn, connect, and contribute to a stronger community.
         </p>
-      </div>
+      </motion.div>
 
       {/* Benefits Cards - Cascading Layout */}
       <div className="relative max-w-6xl mx-auto px-4 z-10" style={{ height: "800px" }}>
@@ -202,12 +212,12 @@ export default function ValueSystem() {
           {benefits.map((benefit, index) => (
             <motion.div
               key={benefit.id}
-              initial={{ opacity: 0, y: -100 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -100 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ 
                 duration: 0.8, 
-                delay: index * 0.3,
+                delay: index * 0.25,
                 ease: "easeOut" 
               }}
 

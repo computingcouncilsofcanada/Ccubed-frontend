@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { useSafariImageFallback } from "../../hooks/useSafariImageFallback";
 
 // Footer navigation links organized by columns
@@ -43,11 +44,15 @@ export default function Footer() {
   return (
     <section className="footer-section relative z-10 flex justify-center px-4 sm:px-6 md:px-8">
       {/* Main Footer Container with specified dimensions and gradient border */}
-      <div
+      <motion.div
         className="footer-container relative w-full max-w-[1150px] h-auto min-h-[298px] md:h-[298px]"
         style={{
           borderRadius: "30px",
         }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
         {/* Gradient Border Effect */}
         <div
@@ -69,7 +74,13 @@ export default function Footer() {
           {/* Footer Content Grid - Three Column Layout */}
           <div className="h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_2fr_0.5fr] gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-6 items-start">
             {/* Column 1 - Logo and Description */}
-            <div className="footer-left flex flex-col justify-start">
+            <motion.div 
+              className="footer-left flex flex-col justify-start"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
+            >
               {/* Logo and Title */}
               <div className="flex items-center gap-3 sm:gap-4 mb-2 xs:mb-3 sm:mb-4 mt-0 md:mt-[-20px]">
                 <Image
@@ -111,10 +122,16 @@ export default function Footer() {
                 Aliquam lorem id in scelerisque tortor amet lacus dolor
                 interdum.
               </p>
-            </div>
+            </motion.div>
 
             {/* Column 2 - Navigation Links */}
-            <div className="footer-navigation grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 lg:col-span-1">
+            <motion.div 
+              className="footer-navigation grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 lg:col-span-1"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+            >
               {/* Column 1 */}
               <div className="footer-column">
                 {footerLinks.column1.map((link, index) => (
@@ -171,10 +188,16 @@ export default function Footer() {
                   </Link>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Column 3 - Bear Mascot */}
-            <div className="footer-bear hidden lg:flex justify-center items-end relative">
+            <motion.div 
+              className="footer-bear hidden lg:flex justify-center items-end relative"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.25 }}
+            >
               <Image
                 src={bearSrc}
                 alt="Bear Greeting"
@@ -188,10 +211,10 @@ export default function Footer() {
                   userSelect: "none",
                 }}
               />
-            </div>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 } 
