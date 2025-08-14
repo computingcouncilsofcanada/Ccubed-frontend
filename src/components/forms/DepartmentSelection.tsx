@@ -60,7 +60,7 @@ export const DepartmentSelect = ({
         })}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`w-full border-2 border-background p-2 rounded-md outline-none bg-foreground text-background ${
+        className={`bg-white w-full border-2 border-background p-3 outline-none bg-foreground  rounded-4xl text-gray-500 ${
           error ? "border-red-500" : ""
         }`}
       >
@@ -75,3 +75,5 @@ export const DepartmentSelect = ({
     </label>
   );
 };
+
+
