@@ -60,76 +60,7 @@ export default function ValueSystem() {
     <section
       className="key-benefits relative z-10"
     >
-      {/* Background Key Benefit Text - Left side */}
-      <div 
-        className="absolute pointer-events-none overflow-hidden"
-        style={{ 
-          zIndex: 0,
-          left: "calc(-50vw + 50%)",
-          top: "38%",
-          transform: "translateY(-50%)",
-          width: "100vw",
-          height: "100%",
-        }}
-      >
-        <div 
-          className="text-white select-none absolute inset-0 flex items-center justify-start"
-          style={{
-            fontSize: "130px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.04",
-            letterSpacing: "0em",
-            userSelect: "none",
-            lineHeight: "1.2",
-            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0.3) 18%, rgba(0,0,0,0.1) 22%, transparent 25%)",
-            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0.3) 18%, rgba(0,0,0,0.1) 22%, transparent 25%)",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-            <div>Key</div>
-            <div>Benefit</div>
-            <div>of Our</div>
-            <div>System</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Background Key Benefit Text - Right side (180 degree flip) */}
-      <div 
-        className="absolute pointer-events-none overflow-hidden"
-        style={{ 
-          zIndex: 0,
-          left: "calc(-50vw + 50%)",
-          top: "10%",
-          transform: "translateY(-50%)",
-          width: "100vw",
-          height: "100%",
-        }}
-      >
-        <div 
-          className="text-white select-none absolute inset-0 flex items-center justify-start"
-          style={{
-            fontSize: "130px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.04",
-            letterSpacing: "0em",
-            userSelect: "none",
-            lineHeight: "1.2",
-            transform: "rotate(180deg)",
-            maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 8%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.05) 18%, transparent 20%)",
-            WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 8%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.05) 18%, transparent 20%)",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left" }}>
-            <div>Key</div>
-            <div>Benefit</div>
-            <div>of Our</div>
-            <div>System</div>
-          </div>
-        </div>
-      </div>
+      {/* Background handled globally in BgTextMainPage */}
 
       {/* Header with title and logo */}
       <motion.div

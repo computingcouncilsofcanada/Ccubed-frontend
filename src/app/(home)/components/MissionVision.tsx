@@ -82,32 +82,7 @@ export default function MissionVision() {
 
   return (
     <section className="mission-vision py-12 sm:py-14 md:py-16 px-4 sm:px-6 md:px-8 xl:px-4 max-w-6xl mx-auto relative">
-      {/* Background Mission Text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <span
-          className="text-white select-none"
-          style={{
-            fontSize: "400px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.08",
-            letterSpacing: "0em",
-            userSelect: "none",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            whiteSpace: "nowrap",
-            zIndex: "0",
-            maskImage:
-              "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
-            WebkitMaskImage:
-              "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
-          }}
-        >
-          Vision
-        </span>
-      </div>
+      {/* Background handled globally in BgTextMainPage */}
 
       {/* Section Header */}
       <motion.div

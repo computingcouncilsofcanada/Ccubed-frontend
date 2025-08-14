@@ -101,65 +101,7 @@ export default function Events({ events }: EventsSectionProps) {
 
   return (
     <section className="events relative z-10">
-      {/* Background Events Text - Upper Left */}
-      <div 
-        className="absolute pointer-events-none overflow-hidden"
-        style={{ 
-          zIndex: 0,
-          left: "calc(-50vw + 50%)",
-          top: "45%",
-          transform: "translateY(-50%)",
-          width: "100vw",
-          height: "100%",
-        }}
-      >
-        <span 
-          className="text-white select-none absolute inset-0 flex items-center justify-start"
-          style={{
-            fontSize: "350px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.12",
-            letterSpacing: "0em",
-            userSelect: "none",
-            whiteSpace: "nowrap",
-            maskImage: "radial-gradient(ellipse 80% 70% at 50% 25%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 60%, transparent 75%)",
-            WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 25%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 60%, transparent 75%)",
-          }}
-        >
-          Events
-        </span>
-      </div>
-
-      {/* Background Events Text - Lower Right */}
-      <div 
-        className="absolute pointer-events-none overflow-hidden"
-        style={{ 
-          zIndex: 0,
-          left: "calc(-50vw + 50%)",
-          top: "75%",
-          transform: "translateY(-50%)",
-          width: "100vw",
-          height: "100%",
-        }}
-      >
-        <span 
-          className="text-white select-none absolute inset-0 flex items-center justify-end pr-8"
-          style={{
-            fontSize: "350px",
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "900",
-            opacity: "0.08",
-            letterSpacing: "0em",
-            userSelect: "none",
-            whiteSpace: "nowrap",
-            maskImage: "radial-gradient(ellipse 70% 60% at 75% 60%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.1) 50%, transparent 70%)",
-            WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 75% 60%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.1) 50%, transparent 70%)",
-          }}
-        >
-          Events
-        </span>
-      </div>
+      {/* Background handled globally in BgTextMainPage */}
 
       {/* Header with title and logo */}
       <motion.div
