@@ -2,8 +2,31 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 export default function MissionVision() {
+  // Use Safari-specific fallback for bear images
+  const bearSpeakerSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/bear_speaker.svg",
+    "/FigmaFiles/mainPageAssets/bear_speaker.png"
+  );
+  
+  const bearEarthSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/bear_earth.svg",
+    "/FigmaFiles/mainPageAssets/bear_earth.png"
+  );
+
+  // Use Safari-specific fallback for badge images
+  const orangeBadgeSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/orange_badge.svg",
+    "/FigmaFiles/mainPageAssets/orange_badge.png"
+  );
+  
+  const greenBadgeSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/green_badge.svg",
+    "/FigmaFiles/mainPageAssets/green_badge.png"
+  );
+
   const cardVariants = {
     initial: {},
     hover: {}
@@ -58,10 +81,10 @@ export default function MissionVision() {
   };
 
   return (
-    <section className="mission-vision py-16 px-4 max-w-6xl mx-auto relative">
+    <section className="mission-vision py-12 sm:py-14 md:py-16 px-4 sm:px-6 md:px-8 xl:px-4 max-w-6xl mx-auto relative">
       {/* Background Mission Text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <span 
+        <span
           className="text-white select-none"
           style={{
             fontSize: "400px",
@@ -76,8 +99,10 @@ export default function MissionVision() {
             transform: "translate(-50%, -50%)",
             whiteSpace: "nowrap",
             zIndex: "0",
-            maskImage: "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
-            WebkitMaskImage: "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
+            maskImage:
+              "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 50%, transparent 65%)",
           }}
         >
           Vision
@@ -87,7 +112,7 @@ export default function MissionVision() {
       {/* Section Header */}
       <div className="text-left mb-4 relative z-10">
         <h2
-          className="text-white text-[40px] leading-[48px] mb-4 font-extrabold"
+          className="text-white text-[28px] sm:text-[32px] md:text-[40px] leading-[34px] sm:leading-[38px] md:leading-[48px] mb-4 font-extrabold"
           style={{
             fontFamily: "Roboto, sans-serif",
             letterSpacing: "0%",
@@ -96,7 +121,7 @@ export default function MissionVision() {
           Connecting Students, Building Community
         </h2>
         <p
-          className="text-white max-w-3xl text-base font-light"
+          className="text-white max-w-3xl text-sm sm:text-base font-light"
           style={{
             fontFamily: "Roboto, sans-serif",
             letterSpacing: "1%",
@@ -112,18 +137,15 @@ export default function MissionVision() {
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 justify-items-center relative z-10">
         {/* Our Mission Card */}
         <motion.div
-          className="mission-card relative group cursor-pointer"
-          style={{ width: "566px", height: "431px" }}
+          className="mission-card relative group cursor-pointer w-full max-w-[566px] sm:max-w-[480px] md:max-w-[520px] lg:max-w-[566px] h-[456px] sm:h-[426px] md:h-[520px] lg:h-[445px]"
           variants={cardVariants}
           initial="initial"
           whileHover="hover"
         >
           {/* Hover Rectangle */}
           <motion.div
-            className="absolute bottom-0 left-0 z-0"
+            className="absolute bottom-0 left-0 z-0 w-full h-[360px] sm:h-[330px] md:h-[424px] lg:h-[349px]"
             style={{
-              width: "566px",
-              height: "335px",
               background:
                 "linear-gradient(to right, rgba(212, 212, 212, 0.05) 0%, transparent 100%)",
               borderRadius: "12px",
@@ -150,12 +172,13 @@ export default function MissionVision() {
           {/* Bear Image - Positioned at top of card */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-15">
             <Image
-              src="/FigmaFiles/mainPageAssets/bear_speaker.svg"
+              src={bearSpeakerSrc}
               alt="Bear with Speaker"
               width={165}
               height={165}
               className="w-32 h-32 md:w-40 md:h-40 object-contain select-none"
               draggable={false}
+              quality={100}
               style={{ userSelect: "none" }}
             />
           </div>
@@ -215,12 +238,13 @@ export default function MissionVision() {
                 />
 
                 <Image
-                  src="/FigmaFiles/mainPageAssets/orange_badge.svg"
+                  src={orangeBadgeSrc}
                   alt="Orange Badge"
                   width={127}
                   height={113}
                   className="relative z-10 select-none"
                   draggable={false}
+                  quality={100}
                   style={{ userSelect: "none" }}
                 />
               </div>
@@ -294,18 +318,15 @@ export default function MissionVision() {
 
         {/* Our Vision Card */}
         <motion.div
-          className="vision-card relative group cursor-pointer"
-          style={{ width: "566px", height: "431px" }}
+          className="vision-card relative group cursor-pointer w-full max-w-[566px] sm:max-w-[480px] md:max-w-[520px] lg:max-w-[566px] h-[456px] sm:h-[426px] md:h-[520px] lg:h-[445px]"
           variants={cardVariants}
           initial="initial"
           whileHover="hover"
         >
           {/* Hover Rectangle */}
           <motion.div
-            className="absolute bottom-0 left-0 z-0"
+            className="absolute bottom-0 left-0 z-0 w-full h-[360px] sm:h-[330px] md:h-[424px] lg:h-[349px]"
             style={{
-              width: "566px",
-              height: "335px",
               background:
                 "linear-gradient(to left, rgba(212, 212, 212, 0.05) 0%, transparent 100%)",
               borderRadius: "12px",
@@ -332,12 +353,13 @@ export default function MissionVision() {
           {/* Bear Image - Positioned at top of card */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-15">
             <Image
-              src="/FigmaFiles/mainPageAssets/bear_earth.svg"
+              src={bearEarthSrc}
               alt="Bear with Earth"
               width={165}
               height={165}
               className="w-32 h-32 md:w-40 md:h-40 object-contain select-none"
               draggable={false}
+              quality={100}
               style={{ userSelect: "none" }}
             />
           </div>
@@ -397,12 +419,13 @@ export default function MissionVision() {
                 />
 
                 <Image
-                  src="/FigmaFiles/mainPageAssets/green_badge.svg"
+                  src={greenBadgeSrc}
                   alt="Green Badge"
                   width={127}
                   height={113}
                   className="relative z-10 select-none"
                   draggable={false}
+                  quality={100}
                   style={{ userSelect: "none" }}
                 />
               </div>

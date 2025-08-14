@@ -92,10 +92,10 @@ export default function Stats() {
   return (
     <section 
       ref={ref}
-      className="stats-section relative z-10 py-16"
+      className="stats-section relative z-10 py-16 flex justify-center"
     >
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center place-items-center max-w-5xl w-full">
         {stats.map((stat: { id: number; number: string; label: string }, index: number) => (
           <motion.div
             key={stat.id}
@@ -106,16 +106,17 @@ export default function Stats() {
               delay: index * 0.2,
               ease: "easeOut" 
             }}
-            className="text-start"
+            className="flex flex-col items-start justify-center w-[200px] h-[140px] text-left pl-4"
           >
             {/* Number */}
             <div 
-              className="text-white font-bold mb-2"
+              className="text-white font-bold flex items-center mb-2"
               style={{
                 fontFamily: "Roboto, sans-serif",
                 fontSize: "64px",
                 lineHeight: "1",
-                letterSpacing: "0%"
+                letterSpacing: "0%",
+                height: "64px",
               }}
             >
               <AnimatedCounter 
@@ -126,7 +127,7 @@ export default function Stats() {
             
             {/* Label */}
             <div 
-              className="text-white font-light px-1.5"
+              className="text-white font-light text-left"
               style={{
                 fontFamily: "Roboto, sans-serif",
                 fontSize: "20px",

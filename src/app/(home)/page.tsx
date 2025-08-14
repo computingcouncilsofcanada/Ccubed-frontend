@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
-import Hero from "@/components/sections/landing/Hero";
-import Events from "@/components/sections/landing/Events";
-import ValueSystem from "@/components/sections/landing/ValueSystem";
-import MissionVision from "@/components/sections/landing/MissionVision";
-import Stats from "@/components/sections/landing/Stats";
-import Footer from "@/components/sections/landing/Footer";
+import Hero from "./components/Hero";
+import Events from "./components/Events";
+import ValueSystem from "./components/ValueSystem";
+import MissionVision from "./components/MissionVision";
+import Stats from "./components/Stats";
+import Footer from "@/components/shared/Footer";
 import { privateAxios } from "@/lib/axios";
-import { transformApiEvents } from "@/lib/utils";
+import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import { Events as EventType } from "@/types/events";
 // import { mockEvents } from "@/data/mockEvents";
 
@@ -38,9 +38,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
-      <BgBoxMainPage />
+      <BgBoxMainPage maxHeight={400} enableGlow={true} />
       {/* Page Container - unified width control */}
-      <div className="container mx-auto max-w-6xl">
+      {/* <div className="container mx-auto max-w-6xl"> */}
+      <div className="container mx-auto max-w-6xl px-4 sm:px-6 md:px-8 xl:px-2">
         {/* Hero Section */}
         <Hero />
 

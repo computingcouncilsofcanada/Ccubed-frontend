@@ -1,198 +1,207 @@
 "use client";
 
-import { useEffect, useState } from "react";
-// import { privateAxios } from "@/lib/axios"; //importing Public Axios
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
+import { motion } from "framer-motion";
+import Footer from "@/components/shared/Footer";
 import PreviewModal from "@/components/modals/PreviewModal";
-import { getAllEvents } from "@/services/useApiAuth";
 import { Events } from "@/types/events";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
+
+import { PastEventsSection } from "./components/PastEventsSection";
+import { EventsHeader } from "./components/EventsHeader";
+import { CurrentEventsSection } from "./components/CurrentEventsSection";
+import React from "react";
+import { useEventsData } from "./hooks/useEventsData";
+import { useEventsFilter } from "./hooks/useEventsFilter";
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<Events[]>([]);
-  const [error, setError] = useState<string>("");
+  // Safari fallback for images
+  const heroImgSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/hero-img.svg",
+    "/FigmaFiles/mainPageAssets/hero-img.png"
+  );
+  
+  const heroImg2Src = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/hero-img-2.svg",
+    "/FigmaFiles/mainPageAssets/hero-img-2.png"
+  );
+  
+  const bearImgSrc = useSafariImageFallback(
+    "/FigmaFiles/mainPageAssets/bear_form.svg",
+    "/FigmaFiles/mainPageAssets/bear_form.png"
+  );
+
+  // Window width state for responsive design
+  const [windowWidth, setWindowWidth] = useState(0);
+  
+  // Hydration state
+  const [isHydrated, setIsHydrated] = useState(false);
+  
+  // Data fetching with custom hook
+  const { currentEvents, pastEvents, error, isLoading } = useEventsData();
+
+  // UI state
   const [eventType, setEventType] = useState<string>("all");
+  const [viewMode, setViewMode] = useState<string>("list");
   const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Handle hydration and window width
+  useEffect(() => {
+    setIsHydrated(true);
+    
+    // Set initial window width
+    setWindowWidth(window.innerWidth);
+    
+    // Handle window resize
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Modal handlers
   const handleShare = () => alert("Share link clicked");
   const handleInvite = () => alert("Invitation link clicked");
 
-  const fetchEvents = async () => {
-    try {
-      const offset = 0;
-      const limit = 0;
-      const res = await getAllEvents(limit, offset);
-      setEvents(res.data);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'An error occurred';
-      setError(message);
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchEvents();
-  }, []); // Fetching the events once at component mount
+  // Filter logic with custom hook
+  const { filteredCurrentEvents, showEmptyState, showFilterEmptyState } = 
+    useEventsFilter({ currentEvents, eventType, isLoading });
 
   return (
-    <div className="min-h-screen bg-foreground text-background">
-      <div className="max-w-6xl w-full mx-auto py-10 font-patrick px-5">
-        <div className="border-2 border-black h-85 bg-gray-200 rounded-md"></div>
-        <h1 className="text-black  text-3xl mt-5 ">Events</h1>
-        <p className="text-lg mt-5">
+    <div className="relative w-full overflow-hidden overflow-x-hidden -mt-30 pt-20">
+      {/* Add the background component - limited height for events page */}
+      {isHydrated && <BgBoxMainPage maxHeight={400} />}
+
+      <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
+        <div className="image relative flex justify-center flex-shrink-0">
+          <motion.div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[505px] lg:h-[505px]">
+            {/* Base Hero Image */}
+            <Image
+              src={heroImgSrc}
+              alt="Hero Image"
+              width={505}
+              height={505}
+              className="w-full h-full object-contain select-none"
+              priority
+              quality={100}
+              draggable={false}
+              style={{ userSelect: "none" }}
+            />
+
+            {/* Animated Overlay Image */}
+            {isHydrated && (
+              <motion.div
+                className="absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <Image
+                  src={heroImg2Src}
+                  alt="Hero Image with Texture"
+                  width={505}
+                  height={505}
+                  className="w-full h-full object-contain select-none"
+                  priority
+                  quality={100}
+                  draggable={false}
+                  style={{ userSelect: "none" }}
+                />
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+
+        {/* Header with title and logo */}
+        <div
+          className="flex gap-2 sm:gap-3 items-end justify-start mb-4 relative z-10 max-w-full"
+          style={{
+            maxWidth: "806px",
+            height: windowWidth < 640 ? "120px" : windowWidth < 1024 ? "160px" : "214px",
+          }}
+        >
+          <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
+            Events
+          </h1>
+          <motion.div 
+            className="relative flex-shrink-0" 
+            style={{ 
+              marginLeft: windowWidth < 640 ? "-70px" : "-60px",
+              marginBottom: windowWidth < 640 ? "-40px" : "-25px",
+              transform: windowWidth < 640 ? "scale(0.5)" : windowWidth < 1024 ? "scale(0.7)" : "scale(0.7)"
+            }}
+          >
+            <Image
+              src={bearImgSrc}
+              alt="Bear Form Logo"
+              width={143}
+              height={210}
+              priority
+              className="select-none"
+              draggable={false}
+              style={{ userSelect: "none" }}
+            />
+          </motion.div>
+        </div>
+
+        <p className=" mt-5 text-white">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti qui
           officiis inventore, laborum porro debitis quae eius! A, ex ipsa quidem
           quasi error expedita earum beatae! Beatae quo delectus dignissimos
           dolorem fugit alias. Iusto eos non ad, dignissimos molestiae sunt.
         </p>
+
         {error && (
           <p className="mt-4 rounded-md border border-red-300 bg-red-100 p-4 text-center text-red-700">
             {error}
           </p>
         )}
-        <div className="flex justify-between items-center  mt-7">
-          <div className="flex gap-6 ">
-            {[
-              { label: "All Events", value: "all" },
-              { label: "In person", value: "inperson" },
-              { label: "Discord", value: "discord" },
-              { label: "Online", value: "online" },
-            ].map((option) => (
-              <label
-                key={option.value}
-                className={`px-6 py-1 rounded-lg border-2 font-patrick text-xl cursor-pointer transition-colors duration-150
-            ${
-              eventType === option.value
-                ? "bg-black text-white border-black"
-                : "bg-white text-black border-black"
-            }
-          `}
-              >
-                <input
-                  type="radio"
-                  name="eventType"
-                  value={option.value}
-                  checked={eventType === option.value}
-                  onChange={() => setEventType(option.value)}
-                  className="hidden"
-                />
-                {option.label}
-              </label>
-            ))}
-          </div>
-          <button className="px-6 py-1 rounded-lg border-2 font-patrick text-xl cursor-pointer  bg-white text-black border-black">
-            Past - Upcoming
-          </button>
-        </div>
 
-        <div className="flex flex-col gap-10 mt-10">
-          {events.length > 0 &&
-            events.filter((event: Events) => {
-              if (event.status === 0) return false;
-              if (eventType === "all") return true;
-              if (event.types.length > 0) {
-                const eventTypes = event.types.map((t) =>
-                  t.split(" ").join("").toLowerCase()
-                );
-                return eventTypes.includes(eventType.toLowerCase());
-              }
-              return false;
-            }).length === 0 && (
-            <p className="text-2xl font-bold text-center">
-              No events at this time
-            </p>
-          )}
-          {events.length > 0 &&
-            events.filter((event: Events) => {
-              if (event.status === 0) return false;
-              if (eventType === "all") return true;
-              if (event.types.length > 0) {
-                const eventTypes = event.types.map((t) =>
-                  t.split(" ").join("").toLowerCase()
-                );
-                return eventTypes.includes(eventType.toLowerCase());
-              }
-              return false;
-            }).length === 0 &&
-            eventType !== "all" && (
-              <p className="text-2xl font-bold text-center">
-                No events found for this category
-              </p>
-            )}
-          {events
-            .filter((event: Events) => {
-              if (event.status === 0) return false;
-              if (eventType === "all") return true;
-              if (event.types.length > 0) {
-                const eventTypes = event.types.map((t) =>
-                  t.split(" ").join("").toLowerCase()
-                );
-                return eventTypes.includes(eventType.toLowerCase());
-              }
-            })
-            .map((event) => (
-              <div
-                className="flex border-2 border-black rounded-xl p-4 gap-6 items-center"
-                key={event.id}
-              >
-                <div className="w-70 h-70 bg-gray-200 flex items-center justify-center rounded-md border-2 border-black">
-                  <img
-                    src={
-                      event.files && event.files.length > 0
-                        ? event.files[0].url
-                        : "https://placehold.co/400"
-                    }
-                    className="w-full h-full object-cover rounded-md"
-                    alt={event.name}
-                  />
-                </div>
-                <div className="flex-1 rounded-md p-4 flex flex-col justify-between min-h-[15rem]">
-                  <div className="">
-                    <div className="flex gap-2">
-                      {event.types &&
-                        event.types.length > 0 &&
-                        event.types.map((type, id) => (
-                          <div
-                            className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white"
-                            key={type + id}
-                          >
-                            {type}
-                          </div>
-                        ))}
-                    </div>
+        {/* Events Header - Filters and View Toggle */}
+        <EventsHeader
+          eventType={eventType}
+          onEventTypeChange={setEventType}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
 
-                    <h2 className="text-3xl font-patrick mt-2 mb-2">
-                      {event.name}
-                    </h2>
-                    <p className="text-lg font-patrick mb-4">
-                      {event.description}
-                    </p>
-                  </div>
-                  <div className="flex justify-between items-center mt-4">
-                    <a href="#" className="underline font-patrick text-lg">
-                      Discord - #event-stage channel
-                    </a>
-                    <span className="font-patrick text-lg">
-                      January (Exact Date TBD)
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-4 ml-4">
-                  <button className="bg-black text-white px-6 py-3 rounded-lg font-patrick text-xl">
-                    Invitation Link
-                  </button>
-                  <button
-                    className="border-2 border-black bg-white text-black px-6 py-3 rounded-lg font-patrick text-xl"
-                    onClick={() => {
-                      setSelectedEvent(event);
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    See Details
-                  </button>
-                </div>
-              </div>
-            ))}
-        </div>
+        {/* Current Events Section */}
+        <CurrentEventsSection
+          viewMode={viewMode}
+          filteredCurrentEvents={filteredCurrentEvents}
+          showEmptyState={showEmptyState}
+          showFilterEmptyState={showFilterEmptyState}
+          eventType={eventType}
+          onSeeDetails={(event) => {
+            setSelectedEvent(event);
+            setIsModalOpen(true);
+          }}
+          onInvitationLink={handleInvite}
+        />
+
+        {/* Past Events Section - Always show in list format, shows ALL past events */}
+        <PastEventsSection
+          pastEvents={pastEvents} // Show ALL past events, no filtering
+          onSeeDetails={(event) => {
+            setSelectedEvent(event);
+            setIsModalOpen(true);
+          }}
+          onInvitationLink={handleInvite}
+        />
       </div>
+
+      {/* Add the shared footer */}
+      <Footer />
+
       {/* Event Details Modal */}
       <PreviewModal
         isOpen={isModalOpen}

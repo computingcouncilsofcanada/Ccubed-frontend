@@ -48,12 +48,13 @@ type PreviewEvent = {
   id: number;
   name: string;
   description: string;
+  status: number;
   date: string;
   time: string;
   location: string;
   images: string;
   files: Array<{
-    id: number;
+    id: string;
     name: string;
     url: string;
   }>;
@@ -67,7 +68,7 @@ function EventsPage() {
 
   // Add state for selected event types
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const typeOptions = ["In Person", "Discord", "Online"];
+  const typeOptions = ["In Person", "Online"];
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -131,10 +132,19 @@ function EventsPage() {
       }
     }
 
+    let typesToShow = selectedTypes;
+    if (
+      selectedTypes.includes("In Person") &&
+      selectedTypes.includes("Online")
+    ) {
+      typesToShow = ["hybrid"];
+    }
+
     return {
       id: 0,
       name,
       description,
+      status: 1,
       date,
       time,
       location,
@@ -143,13 +153,13 @@ function EventsPage() {
         formData.images && formData.images.length > 0
           ? [
               {
-                id: 1,
+                id: "1",
                 name: formData.images[0].name,
                 url: URL.createObjectURL(formData.images[0]),
               },
             ]
           : [],
-      types: selectedTypes,
+      types: typesToShow,
     };
   };
 
@@ -189,7 +199,15 @@ function EventsPage() {
       if (data.images?.[0]) {
         formData.append("file", data.images[0]);
       }
-      formData.append("types", selectedTypes.join(","));
+      let typesToSubmit = selectedTypes;
+      if (
+        selectedTypes.includes("In Person") &&
+        selectedTypes.includes("Online")
+      ) {
+        typesToSubmit = ["hybrid"];
+      }
+
+      formData.append("types", typesToSubmit.join(","));
 
       const res = await createEvent(formData);
       setIsCreateModalOpen(false);
