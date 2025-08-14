@@ -66,8 +66,31 @@ export function EventListCard({
     }, 50); // 50ms delay to prevent flickering
   };
 
-  const zigzagClipPath =
-    "polygon(0% 0%, 1% 2%, 0% 4%, 1% 6%, 0% 8%, 1% 10%, 0% 12%, 1% 14%, 0% 16%, 1% 18%, 0% 20%, 1% 22%, 0% 24%, 1% 26%, 0% 28%, 1% 30%, 0% 32%, 1% 34%, 0% 36%, 1% 38%, 0% 40%, 1% 42%, 0% 44%, 1% 46%, 0% 48%, 1% 50%, 0% 52%, 1% 54%, 0% 56%, 1% 58%, 0% 60%, 1% 62%, 0% 64%, 1% 66%, 0% 68%, 1% 70%, 0% 72%, 1% 74%, 0% 76%, 1% 78%, 0% 80%, 1% 82%, 0% 84%, 1% 86%, 0% 88%, 1% 90%, 0% 92%, 1% 94%, 0% 96%, 1% 98%, 0% 100%, 100% 100%, 99% 98%, 100% 96%, 99% 94%, 100% 92%, 99% 90%, 100% 88%, 99% 86%, 100% 84%, 99% 82%, 100% 80%, 99% 78%, 100% 76%, 99% 74%, 100% 72%, 99% 70%, 100% 68%, 99% 66%, 100% 64%, 99% 62%, 100% 60%, 99% 58%, 100% 56%, 99% 54%, 100% 52%, 99% 50%, 100% 48%, 99% 46%, 100% 44%, 99% 42%, 100% 40%, 99% 38%, 100% 36%, 99% 34%, 100% 32%, 99% 30%, 100% 28%, 99% 26%, 100% 24%, 99% 22%, 100% 20%, 99% 18%, 100% 16%, 99% 14%, 100% 12%, 99% 10%, 100% 8%, 99% 6%, 100% 4%, 99% 2%, 100% 0%)";
+  // Generate a zigzag clip-path dynamically so density is easy to tweak
+  const generateZigzagClipPath = (stepPercent = 3, amplitudePercent = 1) => {
+    const points: string[] = [];
+    // Left edge: from top to bottom
+    points.push(`0% 0%`);
+    let toggleLeft = true;
+    for (let y = stepPercent; y <= 100; y += stepPercent) {
+      const x = toggleLeft ? `${amplitudePercent}%` : `0%`;
+      points.push(`${x} ${y}%`);
+      toggleLeft = !toggleLeft;
+    }
+    // Bottom-right corner
+    points.push(`100% 100%`);
+    // Right edge: from bottom back to top
+    let toggleRight = true;
+    for (let y = 100 - stepPercent; y >= 0; y -= stepPercent) {
+      const x = toggleRight ? `${100 - amplitudePercent}%` : `100%`;
+      points.push(`${x} ${y}%`);
+      toggleRight = !toggleRight;
+    }
+    return `polygon(${points.join(", ")})`;
+  };
+
+  // Make it slightly less dense than before (was ~2% step). Now 3%.
+  const zigzagClipPath = generateZigzagClipPath(3, 1);
 
   // Recalculate description line clamp based on title wrapped lines (more title lines => fewer description lines)
   useEffect(() => {
