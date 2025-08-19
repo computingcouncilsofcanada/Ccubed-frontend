@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import { Events as EventItem } from "@/types/events";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import PreviewModal from "@/components/modals/PreviewModal";
 
 type CalendarEvent = {
@@ -21,9 +19,7 @@ type DayCell = {
   iso: string;
 };
 
-function formatMonthYear(date: Date) {
-  return date.toLocaleDateString(undefined, { month: "long", year: "numeric" });
-}
+
 
 function getMonthGrid(year: number, monthIndexZeroBased: number): DayCell[] {
   const firstOfMonth = new Date(year, monthIndexZeroBased, 1);
@@ -82,7 +78,7 @@ type CalendarSectionProps = {
 
 export function CalendarSection({ events }: CalendarSectionProps) {
   // State for selected month/year
-  const [selectedDate, setSelectedDate] = useState(() => {
+  const [selectedDate] = useState(() => {
     const now = new Date();
     return { year: now.getFullYear(), month: now.getMonth() };
   });
@@ -93,18 +89,13 @@ export function CalendarSection({ events }: CalendarSectionProps) {
 
   const { year: targetYear, month: targetMonthIndex } = selectedDate;
 
-  const monthPrefix = `${targetYear}-${String(targetMonthIndex + 1).padStart(
-    2,
-    "0"
-  )}`;
-
   const grid = useMemo(
     () => getMonthGrid(targetYear, targetMonthIndex),
     [targetYear, targetMonthIndex]
   );
 
   const monthLabel = useMemo(
-    () => formatMonthYear(new Date(targetYear, targetMonthIndex, 1)),
+    () => new Date(targetYear, targetMonthIndex, 1).toLocaleDateString(undefined, { month: "long" }),
     [targetYear, targetMonthIndex]
   );
 
@@ -148,30 +139,6 @@ export function CalendarSection({ events }: CalendarSectionProps) {
     return map;
   }, [calendarEvents]);
 
-  // Navigation functions
-  const goToPreviousMonth = () => {
-    setSelectedDate((prev) => {
-      if (prev.month === 0) {
-        return { year: prev.year - 1, month: 11 };
-      }
-      return { year: prev.year, month: prev.month - 1 };
-    });
-  };
-
-  const goToNextMonth = () => {
-    setSelectedDate((prev) => {
-      if (prev.month === 11) {
-        return { year: prev.year + 1, month: 0 };
-      }
-      return { year: prev.year, month: prev.month + 1 };
-    });
-  };
-
-  const goToCurrentMonth = () => {
-    const now = new Date();
-    setSelectedDate({ year: now.getFullYear(), month: now.getMonth() });
-  };
-
   // Handle event click
   const handleEventClick = (event: CalendarEvent) => {
     setSelectedEvent(event.originalEvent);
@@ -187,44 +154,25 @@ export function CalendarSection({ events }: CalendarSectionProps) {
   return (
     <div className="max-w-6xl w-full mx-auto px-5 relative z-10 mt-5">
       {/* Calendar header */}
-      <div className="flex items-end justify-between mb-2">
-        <h2 className="text-white text-[32px] md:text-[40px] leading-tight font-extrabold">
+      <div className="mb-6 text-white font-roboto tracking-normal">
+        {/* Main title */}
+        <h2 className="text-4xl leading-normal font-semibold -mb-2 tracking-normal -mb-4">
           Calendar
         </h2>
-        <div className="flex items-center gap-4">
-          {/* Month navigation */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={goToPreviousMonth}
-              className="p-2 text-white hover:text-white/80 transition-colors"
-              aria-label="Previous month"
-            >
-              <IconChevronLeft size={24} />
-            </button>
-            <div className="text-white text-2xl md:text-[28px] font-extrabold min-w-[200px] text-center">
-              {monthLabel}
-            </div>
-            <button
-              onClick={goToNextMonth}
-              className="p-2 text-white hover:text-white/80 transition-colors"
-              aria-label="Next month"
-            >
-              <IconChevronRight size={24} />
-            </button>
+
+        {/* Description and month row */}
+        <div className="flex items-end justify-between mb-8">
+          <div className="max-w-3xl">
+            <p className="text-base font-light leading-[23px]">
+              Lorem ipsum dolor sit amet consectetur. Ac malesuada sagittis
+              mollis ullamcorper blandit.
+            </p>
           </div>
-          {/* Current month button */}
-          <button
-            onClick={goToCurrentMonth}
-            className="px-3 py-1 text-white text-sm border border-white/30 rounded-lg hover:bg-white/10 transition-colors"
-          >
-            Today
-          </button>
+          <div className="text-4xl leading-none font-semibold">
+            {monthLabel}
+          </div>
         </div>
       </div>
-      <p className="text-white text-sm mb-6 max-w-3xl">
-        Lorem ipsum dolor sit amet consectetur. Ac malesuada sagittis mollis
-        ullamcorper blandit.
-      </p>
 
       {/* Weekday labels */}
       <div className="grid grid-cols-7 gap-3 text-white text-xs mb-3">
