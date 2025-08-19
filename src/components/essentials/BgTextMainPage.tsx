@@ -1,21 +1,20 @@
 "use client";
 import React from "react";
 
-// Consistent static layout (no DOM measuring). Adjust the vh constants below to tune spacing.
-// Header + Hero + extra margin compose the Mission/Vision band top
-const HEADER_HEIGHT_VH = 8;        // Navbar/header approximate height
-const HERO_HEIGHT_VH = 36;         // Hero section approximate height
-const MV_MARGIN_TOP_VH = 12;       // Additional spacing before Mission/Vision
-const MV_CONTAINER_TOP_VH = HEADER_HEIGHT_VH + HERO_HEIGHT_VH + MV_MARGIN_TOP_VH; // computed top
-const MV_CONTAINER_HEIGHT_VH = 60; // Mission/Vision band height
+// Consistent static layout using fixed pixel values
+const HEADER_HEIGHT_PX = 80;        // Navbar/header height in pixels
+const HERO_HEIGHT_PX = 360;         // Hero section height in pixels
+const MV_MARGIN_TOP_PX = 120;       // Additional spacing before Mission/Vision
+const MV_CONTAINER_TOP_PX = HEADER_HEIGHT_PX + HERO_HEIGHT_PX + MV_MARGIN_TOP_PX; // computed top
+const MV_CONTAINER_HEIGHT_PX = 600; // Mission/Vision band height
 
-const EVENTS_CONTAINER_TOP_VH_1 = 115; // First Events band top
-const EVENTS_CONTAINER_TOP_VH_2 = 155; // Second Events band top
-const EVENTS_CONTAINER_HEIGHT_VH = 90;  // Events band height (both)
+const EVENTS_CONTAINER_TOP_PX_1 = 1150; // First Events band top
+const EVENTS_CONTAINER_TOP_PX_2 = 1550; // Second Events band top
+const EVENTS_CONTAINER_HEIGHT_PX = 900;  // Events band height (both)
 
-const VS_CONTAINER_TOP_VH_1 = 230; // Value System first band
-const VS_CONTAINER_TOP_VH_2 = 265; // Value System second band
-const VS_CONTAINER_HEIGHT_VH = 90;  // Value System band height
+const VS_CONTAINER_TOP_PX_1 = 2300; // Value System first band
+const VS_CONTAINER_TOP_PX_2 = 2650; // Value System second band
+const VS_CONTAINER_HEIGHT_PX = 900;  // Value System band height
 
 const BgTextMainPage: React.FC = () => {
   return (
@@ -24,7 +23,7 @@ const BgTextMainPage: React.FC = () => {
       style={{ width: "100%", zIndex: 1 }}
     >
       {/* Mission/Vision center word (fixed band) */}
-      <div className="absolute overflow-hidden" style={{ left: 0, right: 0, top: `${MV_CONTAINER_TOP_VH + 8}vh`, height: `${MV_CONTAINER_HEIGHT_VH}vh` }}>
+      <div className="absolute overflow-hidden" style={{ left: 0, right: 0, top: `${MV_CONTAINER_TOP_PX + 80}px`, height: `${MV_CONTAINER_HEIGHT_PX}px` }}>
         <span
           className="text-white select-none"
           style={{
@@ -50,7 +49,7 @@ const BgTextMainPage: React.FC = () => {
 
       {/* Events section background texts (fixed bands) */}
       <div className="absolute overflow-hidden"
-        style={{ left: "calc(-50vw + 50%)", top: `${EVENTS_CONTAINER_TOP_VH_1}vh`, width: "100vw", height: `${EVENTS_CONTAINER_HEIGHT_VH}vh` }}
+        style={{ left: "calc(-50vw + 50%)", top: `${EVENTS_CONTAINER_TOP_PX_1}px`, width: "100vw", height: `${EVENTS_CONTAINER_HEIGHT_PX}px` }}
       >
         <span
           className="text-white select-none absolute inset-0 flex items-center justify-start"
@@ -72,7 +71,7 @@ const BgTextMainPage: React.FC = () => {
       </div>
 
       <div className="absolute overflow-hidden"
-        style={{ left: "calc(-50vw + 50%)", top: `${EVENTS_CONTAINER_TOP_VH_2}vh`, width: "100vw", height: `${EVENTS_CONTAINER_HEIGHT_VH}vh` }}
+        style={{ left: "calc(-50vw + 50%)", top: `${EVENTS_CONTAINER_TOP_PX_2}px`, width: "100vw", height: `${EVENTS_CONTAINER_HEIGHT_PX}px` }}
       >
         <span
           className="text-white select-none absolute inset-0 flex items-center justify-end pr-8"
@@ -95,7 +94,7 @@ const BgTextMainPage: React.FC = () => {
 
       {/* Value System background texts (fixed bands) */}
       <div className="absolute overflow-hidden"
-        style={{ left: "calc(-50vw + 50%)", top: `${VS_CONTAINER_TOP_VH_2}vh`, width: "100vw", height: `${VS_CONTAINER_HEIGHT_VH}vh` }}
+        style={{ left: "calc(-50vw + 50%)", top: `${VS_CONTAINER_TOP_PX_2}px`, width: "100vw", height: `${VS_CONTAINER_HEIGHT_PX}px` }}
       >
         <div
           className="text-white select-none absolute inset-0 flex items-center justify-start"
@@ -122,7 +121,7 @@ const BgTextMainPage: React.FC = () => {
       </div>
 
       <div className="absolute overflow-hidden"
-        style={{ left: "calc(-50vw + 50%)", top: `${VS_CONTAINER_TOP_VH_1}vh`, width: "100vw", height: `${VS_CONTAINER_HEIGHT_VH}vh` }}
+        style={{ left: "calc(-50vw + 50%)", top: `${VS_CONTAINER_TOP_PX_1}px`, width: "100vw", height: `${EVENTS_CONTAINER_HEIGHT_PX}px` }}
       >
         <div
           className="text-white select-none absolute inset-0 flex items-center justify-start"
