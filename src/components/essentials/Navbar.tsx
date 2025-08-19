@@ -90,12 +90,11 @@ const Navbar = () => {
               <Link
                 key={id}
                 href={href}
-                className="text-white font-normal hover:text-gray-300 transition-colors"
+                className="text-white font-normal hover:text-gray-300 transition-colors tracking-[0.01em]"
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   fontSize: "16px",
                   lineHeight: "24px",
-                  letterSpacing: "1%",
                 }}
               >
                 {name}
@@ -106,13 +105,12 @@ const Navbar = () => {
                 <Link
                   href="/login"
                   onClick={handleLogout}
-                  className="text-white cursor-pointer hover:text-gray-300 transition-colors"
+                  className="text-white cursor-pointer hover:text-gray-300 transition-colors tracking-[0.01em]"
                   style={{
                     fontFamily: "Poppins, sans-serif",
                     fontWeight: "400",
                     fontSize: "16px",
                     lineHeight: "24px",
-                    letterSpacing: "1%",
                   }}
                 >
                   Logout
@@ -125,13 +123,12 @@ const Navbar = () => {
                       ? "super-admin"
                       : "admin"
                   }`}
-                  className="text-white cursor-pointer hover:text-gray-300 transition-colors"
+                  className="text-white cursor-pointer hover:text-gray-300 transition-colors tracking-[0.01em]"
                   style={{
                     fontFamily: "Poppins, sans-serif",
                     fontWeight: "400",
                     fontSize: "16px",
-                    lineHeight: "24px",
-                    letterSpacing: "1%",
+                    lineHeight: "24px"
                   }}
                 >
                   {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
@@ -139,19 +136,18 @@ const Navbar = () => {
               </>
             )}
           </nav>
-          
+
           {/* Desktop Sign In Button - now positioned on the right */}
           <div className="ml-auto">
             {showSignInButton && (
               <Link
                 href="/login"
-                className="text-white px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-gray-900 transition-colors"
+                className="text-white px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-gray-900 transition-colors tracking-[0.01em]"
                 style={{
                   fontFamily: "Poppins, sans-serif",
                   fontWeight: "400",
                   fontSize: "16px",
-                  lineHeight: "24px",
-                  letterSpacing: "1%",
+                  lineHeight: "24px"
                 }}
               >
                 Sign In
@@ -166,19 +162,18 @@ const Navbar = () => {
           {showSignInButton && (
             <Link
               href="/login"
-              className="text-white px-2 py-1 border border-white rounded-md hover:bg-white hover:text-gray-900 transition-colors h-6 flex items-center"
+              className="text-white px-2 py-1 border border-white rounded-md hover:bg-white hover:text-gray-900 transition-colors h-6 flex items-center tracking-[0.01em]"
               style={{
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: "400",
                 fontSize: "10px",
-                lineHeight: "12px",
-                letterSpacing: "1%",
+                lineHeight: "12px"
               }}
             >
               Sign In
             </Link>
           )}
-          
+
           {/* Hamburger Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -195,7 +190,9 @@ const Navbar = () => {
         {/* Mobile Menu Overlay */}
         <div
           className={`fixed inset-0 transition-all duration-300 md:hidden ${
-            isOpen ? "opacity-100 z-40 pointer-events-auto" : "opacity-0 -z-10 pointer-events-none"
+            isOpen
+              ? "opacity-100 z-40 pointer-events-auto"
+              : "opacity-0 -z-10 pointer-events-none"
           }`}
           style={{
             backdropFilter: isOpen ? "blur(10px)" : "none",
@@ -210,10 +207,9 @@ const Navbar = () => {
                 <Link
                   key={id}
                   href={href}
-                  className="text-white text-2xl font-medium hover:text-gray-300 transition-colors"
+                  className="text-white text-2xl font-medium hover:text-gray-300 transition-colors tracking-[0.01em]"
                   style={{
-                    fontFamily: "Poppins, sans-serif",
-                    letterSpacing: "1%",
+                    fontFamily: "Poppins, sans-serif"
                   }}
                   onClick={() => setIsOpen(false)}
                 >
@@ -228,10 +224,9 @@ const Navbar = () => {
                       handleLogout();
                       setIsOpen(false);
                     }}
-                    className="text-white text-2xl font-medium hover:text-gray-300 transition-colors"
+                    className="text-white text-2xl font-medium hover:text-gray-300 transition-colors tracking-[0.01em]"
                     style={{
                       fontFamily: "Poppins, sans-serif",
-                      letterSpacing: "1%",
                     }}
                   >
                     Logout
@@ -244,10 +239,9 @@ const Navbar = () => {
                         ? "super-admin"
                         : "admin"
                     }`}
-                    className="text-white text-2xl font-medium hover:text-gray-300 transition-colors"
+                    className="text-white text-2xl font-medium hover:text-gray-300 transition-colors tracking-[0.01em]"
                     style={{
                       fontFamily: "Poppins, sans-serif",
-                      letterSpacing: "1%",
                     }}
                     onClick={() => setIsOpen(false)}
                   >
