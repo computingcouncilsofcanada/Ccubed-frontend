@@ -41,4 +41,4 @@ export type ApiEvent = {
     name: string;
     url: string;
   }>;
-}; 
+};

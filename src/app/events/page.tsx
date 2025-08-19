@@ -15,6 +15,7 @@ import { CurrentEventsSection } from "./components/CurrentEventsSection";
 import React from "react";
 import { useEventsData } from "./hooks/useEventsData";
 import { useEventsFilter } from "./hooks/useEventsFilter";
+import { CalendarSection } from "./components/CalendarSection";
 
 export default function EventsPage() {
   // Safari fallback for images
@@ -22,12 +23,12 @@ export default function EventsPage() {
     "/FigmaFiles/mainPageAssets/hero-img.svg",
     "/FigmaFiles/mainPageAssets/hero-img.png"
   );
-  
+
   const heroImg2Src = useSafariImageFallback(
     "/FigmaFiles/mainPageAssets/hero-img-2.svg",
     "/FigmaFiles/mainPageAssets/hero-img-2.png"
   );
-  
+
   const bearImgSrc = useSafariImageFallback(
     "/FigmaFiles/mainPageAssets/bear_form.svg",
     "/FigmaFiles/mainPageAssets/bear_form.png"
@@ -35,10 +36,10 @@ export default function EventsPage() {
 
   // Window width state for responsive design
   const [windowWidth, setWindowWidth] = useState(0);
-  
+
   // Hydration state
   const [isHydrated, setIsHydrated] = useState(false);
-  
+
   // Data fetching with custom hook
   const { currentEvents, pastEvents, error, isLoading } = useEventsData();
 
@@ -47,29 +48,29 @@ export default function EventsPage() {
   const [viewMode, setViewMode] = useState<string>("list");
   const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   // Handle hydration and window width
   useEffect(() => {
     setIsHydrated(true);
-    
+
     // Set initial window width
     setWindowWidth(window.innerWidth);
-    
+
     // Handle window resize
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-  
+
   // Modal handlers
   const handleShare = () => alert("Share link clicked");
   const handleInvite = () => alert("Invitation link clicked");
 
   // Filter logic with custom hook
-  const { filteredCurrentEvents, showEmptyState, showFilterEmptyState } = 
+  const { filteredCurrentEvents, showEmptyState, showFilterEmptyState } =
     useEventsFilter({ currentEvents, eventType, isLoading });
 
   return (
@@ -126,7 +127,12 @@ export default function EventsPage() {
           className="flex gap-2 sm:gap-3 items-end justify-start mb-4 relative z-10 max-w-full"
           style={{
             maxWidth: "806px",
-            height: windowWidth < 640 ? "120px" : windowWidth < 1024 ? "160px" : "214px",
+            height:
+              windowWidth < 640
+                ? "120px"
+                : windowWidth < 1024
+                ? "160px"
+                : "214px",
           }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -136,12 +142,17 @@ export default function EventsPage() {
           <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
             Events
           </h1>
-          <motion.div 
-            className="relative flex-shrink-0" 
-            style={{ 
+          <motion.div
+            className="relative flex-shrink-0"
+            style={{
               marginLeft: windowWidth < 640 ? "-70px" : "-60px",
               marginBottom: windowWidth < 640 ? "-40px" : "-25px",
-              transform: windowWidth < 640 ? "scale(0.5)" : windowWidth < 1024 ? "scale(0.7)" : "scale(0.7)"
+              transform:
+                windowWidth < 640
+                  ? "scale(0.5)"
+                  : windowWidth < 1024
+                  ? "scale(0.7)"
+                  : "scale(0.7)",
             }}
           >
             <Image
@@ -227,6 +238,16 @@ export default function EventsPage() {
             }}
             onInvitationLink={handleInvite}
           />
+        </motion.div>
+
+        {/* Calendar Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 }}
+        >
+          <CalendarSection events={[...currentEvents, ...pastEvents]} />
         </motion.div>
       </div>
 
