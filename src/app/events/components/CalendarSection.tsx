@@ -156,7 +156,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
       {/* Calendar header */}
       <div className="mb-6 text-white font-roboto tracking-normal">
         {/* Main title */}
-        <h2 className="text-4xl leading-normal font-semibold -mb-2 tracking-normal -mb-4">
+        <h2 className="text-4xl leading-normal font-semibold -mb-2 tracking-normal md:-mb-4">
           Calendar
         </h2>
 
@@ -175,7 +175,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
       </div>
 
       {/* Weekday labels */}
-      <div className="grid grid-cols-7 gap-3 text-white text-xs mb-3">
+      <div className="grid grid-cols-7 gap-3 text-white  mb-1 font-roboto text-[16px] font-light">
         {["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"].map((d) => (
           <div key={d} className="px-2">
             {d}
@@ -195,39 +195,37 @@ export function CalendarSection({ events }: CalendarSectionProps) {
               key={`${cell.iso}-${idx}`}
               className={[
                 "relative rounded-2xl backdrop-blur-md",
-                (eventsByIso.get(cell.iso) || []).length > 0
-                  ? "bg-white/5"
-                  : "bg-transparent",
                 isToday ? "ring-2 ring-white" : "", // White border for current day
-                "min-h-[120px] md:min-h-[160px] p-1 md:p-2",
+                "min-h-[120px] md:min-h-[160px] p-1 md:p-2 ",
               ].join(" ")}
             >
               <div
                 className={[
                   "mb-3 md:mb-4",
                   "text-white ",
-                  cell.inCurrentMonth ? "text-white" : "text-white/40",
-                  "text-lg md:text-2xl font-semibold",
+                //   cell.inCurrentMonth ? "text-white" : "text-white/40",
+                  "text-lg md:text-[32px] font-medium font-roboto ",
                 ].join(" ")}
               >
                 {cell.date.getDate().toString().padStart(2, "0")}
               </div>
-              <div className="space-y-2">
+              <div 
+              className={["space-y-2 h-[142px]",
+                 eventsByIso.get(cell.iso) && eventsByIso.get(cell.iso)!.length > 0 ? "bg-[#D4D4D4]/10 rounded-2xl p-2" : ""].join(" ")}>
                 {(eventsByIso.get(cell.iso) || []).map((evt) => (
                   <div
                     key={evt.id}
-                    className="p-2 cursor-pointer hover:bg-white/10 rounded-lg transition-colors"
+                    className="p-2 cursor-pointer rounded-lg transition-colors group"
                     onClick={() => handleEventClick(evt)}
-                    title="Click to view event details"
                   >
-                    <div className="text-white text-sm md:text-base font-semibold leading-tight">
+                    <div className="text-white text-[20px] font-medium md:text-base  leading-tight">
                       {evt.title}
                     </div>
-                    <div className="text-white/60 text-[10px] md:text-xs leading-tight">
+                    <div className="text-white/60 text-[12px] md:text-xs font-light leading-tight group-hover:text-white">
                       {evt.subtitle}
                     </div>
                     {evt.time && (
-                      <div className="text-white/60 text-[10px] md:text-xs leading-tight mt-1">
+                      <div className="text-white/60 text-[11px] md:text-xs font-light leading-tight mt-1 group-hover:text-white">
                         {evt.time}
                       </div>
                     )}
