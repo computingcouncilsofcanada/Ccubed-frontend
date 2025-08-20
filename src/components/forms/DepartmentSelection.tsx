@@ -35,7 +35,7 @@ const departmentDescriptions: Record<string, string> = {
   partnerships:
     "Connect with our partnerships team for collaboration opportunities, sponsorship inquiries, and strategic alliances.",
   default:
-    "Please select a department to get specific information about how we can help you.",
+    "",
 };
 
 const getDepartmentDescription = (name: string) => {
@@ -50,9 +50,9 @@ export const DepartmentSelect = ({
   onChange,
 }: DepartmentSelectProps) => {
   return (
-    <label htmlFor="department" className="font-roberto">
-      <p>Choose Department</p>
-      <p className="mb-2">{getDepartmentDescription(value)}</p>
+    <label htmlFor="department" className="font-roberto text-[14px] ">
+      <p className="ml-5">Choose Department</p>
+      <p className="mb-2 ml-5">{getDepartmentDescription(value)}</p>
       <select
         {...register("department", {
           required: "Please select a department",
@@ -60,7 +60,7 @@ export const DepartmentSelect = ({
         })}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`bg-white w-full border-2 border-background p-3 outline-none bg-foreground  rounded-4xl text-gray-500 ${
+        className={`bg-white w-full border-2 border-background px-[26px] h-[48px] outline-none bg-foreground  rounded-4xl text-gray-500 ${
           error ? "border-red-500" : ""
         }`}
       >

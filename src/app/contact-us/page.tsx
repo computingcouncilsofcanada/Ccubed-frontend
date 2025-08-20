@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import BackgroundBoxes from "@/components/essentials/BackgroundBoxes";
 import { DepartmentSelect } from "@/components/forms/DepartmentSelection";
 import Modal from "@/components/modals/Modal";
+import Footer from "@/components/shared/Footer"
+
 
 type FormFields = {
   firstName: string;
@@ -42,15 +44,16 @@ export default function ContactUs() {
       <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto px-15 pt-10 flex-1 relative z-10 gap-24">
  
         <div className="md:w-1/2 w-full">
-          <h1 className="text-white font-medium text-[40px] font-roboto mb-2">
+          <h1 className="text-white font-bold text-[48px] font-roboto mb-2">
             Let's Get in Touch
           </h1>
-          <p className="text-gray-300 mb-8">Or just reach out manually to <span className="text-amber-400">your.mail@gmail.com</span></p>
+          <p className="text-gray-300 text-[16px] font-normal mb-8">Or just reach out manually to <span className="text-amber-400">your.mail@gmail.com</span></p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-6">
-              <label className="text-white text-lg font-normal">
-                Full Name <span >*</span>
+              <label className="text-white text-[14px] font-normal ml-5">
+                Full Name <span >:</span>
               </label>
+              
               <input
                 {...register("firstName", {
                   required: "Name is required",
@@ -58,19 +61,27 @@ export default function ContactUs() {
                   maxLength: { value: 50, message: "Less than 50 characters" },
                 })}
                 type="text"
-                className={`bg-white mb-2 mt-2 w-full p-3 rounded-4xl ${
+                className={`bg-white mb-2 mt-2 w-full h-[48px] p-3 rounded-4xl 
+                          border border-transparent
+                          transition-all duration-300 ease-in-out
+                          focus:border-2 focus:border-[#FAA336] focus:shadow-md
+                          focus:outline-none ${
                   errors.firstName ? "border border-red-500" : ""
                 }`}
                 placeholder="Enter Your Full Name"
               />
+
+               
+              
+              
               {errors.firstName && (
                 <p className="text-red-500 text-sm">{errors.firstName.message}</p>
               )}
             </div>
 
             <div className="mb-6">
-              <label className="text-white text-lg font-normal">
-                Email <span >*</span> 
+              <label className="text-white text-[14px] font-normal ml-5">
+                Email <span >:</span> 
               </label>
               <input
                 {...register("email", {
@@ -81,7 +92,11 @@ export default function ContactUs() {
                   },
                 })}
                 type="email"
-                className={`bg-white mb-2 mt-2 w-full p-3 rounded-4xl ${
+                className={`bg-white mb-2 mt-2 w-full h-[48px] p-3 rounded-4xl 
+                          border border-transparent
+                          transition-all duration-300 ease-in-out
+                          focus:border-2 focus:border-[#FAA336] focus:shadow-md
+                          focus:outline-none   ${
                   errors.email ? "border border-red-500" : ""
                 }`}
                 placeholder="Yourmail@gmail.com"
@@ -91,7 +106,7 @@ export default function ContactUs() {
               )}
             </div>
 
-            <div className="mb-6 text-white text-lg font-normal">
+            <div className="mb-6 text-white text-lg font-normal ">
               <DepartmentSelect
                 register={register}
                 error={errors.department}
@@ -104,8 +119,8 @@ export default function ContactUs() {
             </div>
 
             <div className="mb-5">
-              <label className="text-white text-lg font-normal">
-                Your Message <span >*</span>
+              <label className="text-white text-[14px] font-normal ml-5">
+                Your Message <span >:</span>
               </label>
               <textarea
                 {...register("message", {
@@ -113,10 +128,14 @@ export default function ContactUs() {
                   minLength: { value: 10, message: "At least 10 characters" },
                   maxLength: { value: 1000, message: "Less than 1000 characters" },
                 })}
-                className={`bg-white border-gray-400 border-1 w-full h-32 rounded p-3 mt-2 ${
+                className={`bg-white border-gray-400 border-1 md:w-[567px] w-full h-[259px]  rounded-[20px] p-3 mt-2 
+                  
+                          transition-all duration-300 ease-in-out
+                          focus:border-2 focus:border-[#FAA336] focus:shadow-md
+                          focus:outline-none ${
                   errors.message ? "border border-red-500" : ""
                 }`}
-                placeholder="Your message"
+                placeholder="Your text"
               />
               {errors.message && (
                 <p className="text-red-500 text-sm">{errors.message.message}</p>
@@ -126,52 +145,42 @@ export default function ContactUs() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-[#FAA336] text-white text-center px-5 py-3 mt-4 mb-5 rounded-xl w-full disabled:opacity-50"
+              className="bg-[#FAA336] text-white text-center px-5 py-3 mt-4 mb-5 rounded-[30px] w-full disabled:opacity-50"
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           </form>
         </div>
 
-        <div className="md:w-1/2 w-full flex flex-col items-start ">
+        <div className="md:w-1/2 w-full flex flex-col items-start mb-40">
           <img
-            src="/FigmaFiles/map.svg"
-            alt="CCubed Map"
-            width={800}
-            height={800}
-            className="mb-3"
-          />
-          <h1 className="text-white font-medium text-[24px] font-roboto mb-3">
+          src="/FigmaFiles/map.svg"
+          alt="CCubed Map"
+          className=" sm:max-w-[400px] md:max-w-[600px] lg:max-w-[700px]"
+        />
+
+
+        
+           <div className="ml-6">
+            <h1 className="text-white font-roboto text-[32px] font-bold mb-4">
             Visit Us
           </h1>
-          <p className="mb-5 text-white">Address: <span className="font-extralight">Lorem ipsum dolor sit amet consectetur.  scelerisque tortor amet lacus dolor interdum. Leo</span></p>
-          <p className=" text-white">Phone: (+1) 123 234 1234</p>
+          <p className="mb-5 text-white font-roboto text-[18px] font-bold">
+  Address : <span className="font-light text-[16px] ml-2">Address goes here</span>
+</p>
+           </div>
          
+        </div>
+        <div>
+          
         </div>
       </div>
 
-      <div className="footer flex flex-col md:flex-row md:justify-center md:items-center py-4 w-full px-4 mt-auto gap-200">
-        <h1
-          style={{
-            fontFamily: "Roboto, sans-serif",
-            fontWeight: "400",
-            fontSize: "20px",
-            letterSpacing: "0%",
-            color: "#FFFFFF",
-            opacity: "40%",
-            textAlign: "center",
-          }}
-        >
-          COMPUTING COUNCILS OF CANADA
-        </h1>
-        <div className="social-icons flex items-center gap-3 justify-center mt-2 md:mt-0">
-          <img src="/FigmaFiles/social-icons/brand-discord.svg" alt="Discord" />
-          <img src="/FigmaFiles/social-icons/brand-linkedin.svg" alt="LinkedIn" />
-          <img src="/FigmaFiles/social-icons/brand-instagram.svg" alt="Instagram" />
-          <img src="/FigmaFiles/social-icons/brand-facebook.svg" alt="Facebook" />
-          <img src="/FigmaFiles/social-icons/brand-twitter.svg" alt="Twitter" />
+        <div className="mt-8">
+                    <Footer/>
+
         </div>
-      </div>
+   
 
       <Modal
         isOpen={isSuccessModalOpen}
