@@ -19,8 +19,6 @@ type DayCell = {
   iso: string;
 };
 
-
-
 function getMonthGrid(year: number, monthIndexZeroBased: number): DayCell[] {
   const firstOfMonth = new Date(year, monthIndexZeroBased, 1);
   const lastOfMonth = new Date(year, monthIndexZeroBased + 1, 0);
@@ -51,7 +49,7 @@ function getMonthGrid(year: number, monthIndexZeroBased: number): DayCell[] {
     grid.push({ date, inCurrentMonth: true, iso });
   }
 
-  // Fill remaining cells to complete a 6x7 grid (42 cells)
+
   while (grid.length % 7 !== 0) {
     const nextDate = new Date(
       year,
@@ -61,12 +59,19 @@ function getMonthGrid(year: number, monthIndexZeroBased: number): DayCell[] {
     const iso = nextDate.toISOString().slice(0, 10);
     grid.push({ date: nextDate, inCurrentMonth: false, iso });
   }
-  while (grid.length < 42) {
-    const last = grid[grid.length - 1].date;
-    const date = new Date(last);
-    date.setDate(last.getDate() + 1);
-    const iso = date.toISOString().slice(0, 10);
-    grid.push({ date, inCurrentMonth: false, iso });
+
+  // Then, limit to exactly 3 weeks (21 cells)
+  if (grid.length > 21) {
+    grid.splice(21);
+  } else if (grid.length < 21) {
+    // Add more cells if we have less than 21
+    while (grid.length < 21) {
+      const last = grid[grid.length - 1].date;
+      const date = new Date(last);
+      date.setDate(last.getDate() + 1);
+      const iso = date.toISOString().slice(0, 10);
+      grid.push({ date, inCurrentMonth: false, iso });
+    }
   }
 
   return grid;
@@ -95,7 +100,10 @@ export function CalendarSection({ events }: CalendarSectionProps) {
   );
 
   const monthLabel = useMemo(
-    () => new Date(targetYear, targetMonthIndex, 1).toLocaleDateString(undefined, { month: "long" }),
+    () =>
+      new Date(targetYear, targetMonthIndex, 1).toLocaleDateString(undefined, {
+        month: "long",
+      }),
     [targetYear, targetMonthIndex]
   );
 
@@ -203,32 +211,37 @@ export function CalendarSection({ events }: CalendarSectionProps) {
                 className={[
                   "mb-3 md:mb-4",
                   "text-white ",
-                //   cell.inCurrentMonth ? "text-white" : "text-white/40",
+                  //   cell.inCurrentMonth ? "text-white" : "text-white/40",
                   "text-lg md:text-[32px] font-medium font-roboto ",
                 ].join(" ")}
               >
                 {cell.date.getDate().toString().padStart(2, "0")}
               </div>
-              <div 
-              className={["space-y-2 h-[142px]",
-                 eventsByIso.get(cell.iso) && eventsByIso.get(cell.iso)!.length > 0 ? "bg-[#D4D4D4]/10 rounded-2xl p-2" : ""].join(" ")}>
+              <div
+                className={[
+                  "space-y-2",
+                  (eventsByIso.get(cell.iso)?.length ?? 0) > 0
+                    ? " bg-[#D4D4D4]/10 rounded-lg p-2"
+                    : "",
+                ].join(" ")}
+              >
                 {(eventsByIso.get(cell.iso) || []).map((evt) => (
                   <div
                     key={evt.id}
-                    className="p-2 cursor-pointer rounded-lg transition-colors group"
+                    className="p-2 cursor-pointer rounded-lg transition-colors group hover:bg-white/10"
                     onClick={() => handleEventClick(evt)}
                   >
                     <div className="text-white text-[20px] font-medium md:text-base  leading-tight">
                       {evt.title}
                     </div>
-                    <div className="text-white/60 text-[12px] md:text-xs font-light leading-tight group-hover:text-white">
+                    {/* <div className="text-white/60 text-[12px] md:text-xs font-light leading-tight group-hover:text-white">
                       {evt.subtitle}
                     </div>
                     {evt.time && (
                       <div className="text-white/60 text-[11px] md:text-xs font-light leading-tight mt-1 group-hover:text-white">
                         {evt.time}
                       </div>
-                    )}
+                    )} */}
                   </div>
                 ))}
               </div>
