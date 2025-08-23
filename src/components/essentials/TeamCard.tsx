@@ -31,9 +31,9 @@ const TeamCard = ({
           variants={{
             rest: { x: 0, y: 0, rotate: 0, opacity: 0 },
             hover: {
-              x: -10,
+              x: -11,
               y: -5,
-              rotate: -10,
+              rotate: -5,
               opacity: 0.1,
               filter: "blur(4px)",
             },
@@ -47,7 +47,7 @@ const TeamCard = ({
         <motion.div
           variants={{
             rest: { x: 0, y: 0, rotate: 0, opacity: 1 },
-            hover: { x: 20, y: -10, rotate: 7, opacity: 0.1 },
+            hover: { x: 15, y: -10, rotate: 10, opacity: 0.1 },
           }}
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="relative h-full w-full rounded-xl overflow-hidden z-10"
@@ -61,8 +61,15 @@ const TeamCard = ({
           className="absolute inset-0 flex items-center justify-center z-20"
           style={{ pointerEvents: "none" }}
         >
-          <div className="bg-[#D4D4D41A] w-[233px] h-[100px] rounded-xl shadow-2xl border text-white italic text-center flex items-center backdrop-blur border-gray-700">
-            <p className=" text-[18px]">{info}</p>
+          <div style={{
+            border: "2px solid transparent",
+            borderImageSource:
+              "linear-gradient(304.46deg, rgba(83, 92, 145, 0.02) 1.69%, rgba(255, 255, 255, 0.02) 100.92%), linear-gradient(125.58deg, rgba(255, 255, 255, 0.1) 2.32%, rgba(146, 144, 195, 0.09) 99.14%)",
+            borderImageSlice: 1,
+            backdropFilter: "blur(13px)",           
+            boxShadow: "0px 14px 44px 0px #00000040" 
+          }} className="bg-[#D4D4D41A] w-[233px] h-[100px] rounded-xl  flex items-center justify-center backdrop-blur">
+            <p className=" text-[18px] italic p-5">{info}</p>
           </div>
         </motion.div>
       </div>
