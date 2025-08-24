@@ -59,7 +59,7 @@ export const mockMembers = [
         
                 },
                  {
-                    id:4,
+                    id:5,
                     name: "Soroush Merikhy",
                     role: "UI/UX Designer",
                     imageUrl: "/disco.jpg",
@@ -71,7 +71,7 @@ export const mockMembers = [
         
                 },
                  {
-                    id:4,
+                    id:6,
                     name: "Soroush Merikhy",
                     role: "UI/UX Designer",
                     imageUrl: "/disco.jpg",

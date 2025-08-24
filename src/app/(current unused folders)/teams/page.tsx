@@ -1,12 +1,18 @@
-import React from "react";
+"use client";
+
+import React, { useState} from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
 import { mockMembers } from "@/data/mockMembers";
 import Image from "next/image";
 import TeamCard from "@/components/essentials/TeamCard";
+import TeamFilterBar from "./components/TeamFilterBar";
 
 import { motion } from "framer-motion";
+
 function OurTeamsPage() {
+  const [teamType, setTeamType] = useState<string>("management");
+
   return (
     <>
       <BgBoxMainPage maxHeight={100} />
@@ -19,6 +25,7 @@ function OurTeamsPage() {
             Meet our diverse team of world-class creators, designers, and
             problem solvers
           </p>
+          <TeamFilterBar teamType={teamType} onTeamTypeChange = {setTeamType}/>
 
           <div className="flex flex-wrap justify-center gap-8 mt-8">
             {mockMembers.map((team) => (
