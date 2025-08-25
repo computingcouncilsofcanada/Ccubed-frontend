@@ -10,6 +10,7 @@ const TeamFilterBar = ({ teamType, onTeamTypeChange }: TeamFilterBarProps) => {
   return (
     <div className="flex gap-3 justify-center relative w-full max-w-5xl mx-auto mt-5">
       {[
+        { label: "Full Team", value: "fullteam" },
         { label: "Management", value: "management" },
         { label: "Product", value: "product" },
         { label: "Operation", value: "operation" },

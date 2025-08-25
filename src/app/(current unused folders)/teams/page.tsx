@@ -11,12 +11,14 @@ import TeamFilterBar from "./components/TeamFilterBar";
 import { motion } from "framer-motion";
 
 function OurTeamsPage() {
-  const [teamType, setTeamType] = useState<string>("management");
-
-
+  const [teamType, setTeamType] = useState<string>("fullteam");
 
   // Group filtered members by their original team
   const groupedFilteredMembers = useMemo(() => {
+    if (teamType === "fullteam") {
+      return mockMembers;
+    }
+
     const grouped = mockMembers
       .map((team) => ({
         ...team,
