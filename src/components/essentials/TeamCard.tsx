@@ -39,9 +39,9 @@ const TeamCard = ({
             },
           }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="absolute top-0 left-0 h-full w-full rounded-xl overflow-hidden z-0"
+          className="absolute top-0 left-0 h-full w-full rounded-xl overflow-hidden z-0 group"
         >
-          <Image src={imageUrl} alt="Shadow" fill className="object-cover" />
+          <Image src={imageUrl} alt="Shadow" fill className="object-cover group-hover:grayscale" />
         </motion.div>
 
         <motion.div
@@ -50,9 +50,9 @@ const TeamCard = ({
             hover: { x: 15, y: -10, rotate: 10, opacity: 0.1 },
           }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="relative h-full w-full rounded-xl overflow-hidden z-10"
+          className="relative h-full w-full rounded-xl overflow-hidden z-10 group"
         >
-          <Image src={imageUrl} alt="Main" fill className="object-cover" />
+          <Image src={imageUrl} alt="Main" fill className="object-cover group-hover:grayscale" />
         </motion.div>
 
         <motion.div
