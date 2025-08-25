@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState} from "react";
+import React, { useState, useMemo } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
 import { mockMembers } from "@/data/mockMembers";
@@ -12,6 +12,20 @@ import { motion } from "framer-motion";
 
 function OurTeamsPage() {
   const [teamType, setTeamType] = useState<string>("management");
+
+
+
+  // Group filtered members by their original team
+  const groupedFilteredMembers = useMemo(() => {
+    const grouped = mockMembers
+      .map((team) => ({
+        ...team,
+        members: team.members.filter((member) => member.category === teamType),
+      }))
+      .filter((team) => team.members.length > 0);
+
+    return grouped;
+  }, [teamType]);
 
   return (
     <>
@@ -25,11 +39,11 @@ function OurTeamsPage() {
             Meet our diverse team of world-class creators, designers, and
             problem solvers
           </p>
-          <TeamFilterBar teamType={teamType} onTeamTypeChange = {setTeamType}/>
+          <TeamFilterBar teamType={teamType} onTeamTypeChange={setTeamType} />
 
           <div className="flex flex-wrap justify-center gap-8 mt-8">
-            {mockMembers.map((team) => (
-              <div key={team.team} className=" w-full mb-16">
+            {groupedFilteredMembers.map((team) => (
+              <div key={team.team} className="w-full mb-16">
                 <h2 className="text-white font-semibold text-[32px] mb-6 mt-[38px]">
                   {team.team}
                 </h2>
