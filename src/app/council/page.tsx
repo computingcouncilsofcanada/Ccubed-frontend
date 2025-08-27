@@ -36,27 +36,7 @@ const CouncilPage = () => {
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut" as const
-      }
-    }
-  };
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
@@ -65,9 +45,10 @@ const CouncilPage = () => {
       <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-[1152px] mt-4">
         {/* Header Section with Logo and Title Side by Side */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16 pt-8"
         >
           {/* Logo and Title Side by Side */}
@@ -99,15 +80,19 @@ const CouncilPage = () => {
 
         {/* Council Sections */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
           className="space-y-6 mb-32 flex flex-col items-center w-[1152px] mx-auto"
         >
           {councilSections.map((section, index) => (
             <motion.div
               key={index}
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.2,
+                ease: "easeOut" 
+              }}
               className="relative group flex items-start"
             >
               {/* Background Title for each card */}

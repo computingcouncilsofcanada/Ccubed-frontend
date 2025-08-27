@@ -24,23 +24,14 @@ const RepresentativesSection = () => {
 
   const filterOptions = ["Management", "Product", "Operation", "Design", "Marketing", "Customer service"];
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut" as const
-      }
-    }
-  };
+
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="mb-24"
     >
       <div className="text-center mb-8">
@@ -117,9 +108,14 @@ const RepresentativesSection = () => {
           {councilRepresentatives.map((rep, index) => (
             <motion.div
               key={index}
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.1,
+                ease: "easeOut" 
+              }}
               className="text-center flex-shrink-0"
             >
               <div className="relative mb-4">

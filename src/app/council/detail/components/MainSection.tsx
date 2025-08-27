@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 const MainSection = () => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: -30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="text-center mb-24 pt-8"
     >
       <h1 className="text-[64px] leading-[48px] tracking-[0.01em] font-extrabold text-white mb-6" style={{ fontFamily: 'Roboto, sans-serif' }}>

@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 const DescriptionSection = () => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="mb-24"
     >
       <div className="flex items-center justify-between h-[331px]">
