@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 interface Representative {
   name: string;
@@ -11,12 +12,18 @@ interface Representative {
 
 const RepresentativesSection = () => {
   const [activeFilter, setActiveFilter] = useState("Management");
+  
+  // Use Safari image fallback for representative images
+  const representativeImgSrc = useSafariImageFallback(
+    "/FigmaFiles/councilAssets/guy.svg",
+    "/FigmaFiles/councilAssets/guy.png"
+  );
 
   const councilRepresentatives: Representative[] = [
     {
       name: "Parth Doshi",
       title: "President",
-      image: "/FigmaFiles/councilAssets/guy.png",
+      image: representativeImgSrc,
       role: "Management"
     },
     // Add more representatives as needed
