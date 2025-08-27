@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const DescriptionSection = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -26,21 +28,40 @@ const DescriptionSection = () => {
         <div className="flex-shrink-0">
           <div className="flex gap-2">
             {/* Large rectangle */}
-            <div className="w-[373px] h-[331px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] relative">
+            <motion.div 
+              className="opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] relative cursor-pointer"
+              animate={{
+                width: hoveredIndex === null ? "373px" : hoveredIndex === 0 ? "373px" : "57px"
+              }}
+              style={{ height: "331px" }}
+              onHoverStart={() => setHoveredIndex(0)}
+              onHoverEnd={() => setHoveredIndex(null)}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
               {/* Outer border with higher opacity */}
               <div className="absolute inset-0 border border-white/2 rounded-[20px] pointer-events-none"></div>
               {/* Inner border with lower opacity */}
               <div className="absolute inset-[1px] border border-white/5 rounded-[19px] pointer-events-none"></div>
-            </div>
+            </motion.div>
             
             {/* Three small rectangles */}
             {[1, 2, 3].map((item) => (
-              <div key={item} className="w-[57px] h-[331px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] relative">
+              <motion.div 
+                key={item} 
+                className="opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] relative cursor-pointer"
+                animate={{
+                  width: hoveredIndex === item ? "373px" : "57px"
+                }}
+                style={{ height: "331px" }}
+                onHoverStart={() => setHoveredIndex(item)}
+                onHoverEnd={() => setHoveredIndex(null)}
+                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
                 {/* Outer border with higher opacity */}
                 <div className="absolute inset-0 border border-white/2 rounded-[20px] pointer-events-none"></div>
                 {/* Inner border with lower opacity */}
                 <div className="absolute inset-[1px] border border-white/5 rounded-[19px] pointer-events-none"></div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
