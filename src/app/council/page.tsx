@@ -113,14 +113,14 @@ const CouncilPage = () => {
               {/* Background Title for each card */}
               <BackgroundTitle title={section.title} />
               
-              <div className="w-[1151px] h-[160px] group-hover:h-[230px] group-hover:w-[1011px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] flex items-start transition-all duration-300 cursor-pointer relative z-10">
+              <div className="w-[1151px] h-[160px] group-hover:h-[230px] group-hover:w-[1011px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] flex items-start transition-all duration-700 ease-out cursor-pointer relative z-10">
                 {/* Outer border with higher opacity */}
                 <div className="absolute inset-0 border border-white/2 rounded-[20px] pointer-events-none"></div>
                 {/* Inner border with lower opacity */}
                 <div className="absolute inset-[1px] border border-white/5 rounded-[19px] pointer-events-none"></div>
                 {/* Left Side - Icon/Image */}
-                <div className="flex-shrink-0 px-6 py-4 group-hover:py-6 transition-all duration-300">
-                  <div className="w-[113px] h-[126px] group-hover:w-[134px] group-hover:h-[182px] rounded-[20px] overflow-hidden transition-all duration-300 ease-in-out opacity-100">
+                <div className="flex-shrink-0 px-6 py-4 group-hover:py-6 transition-all duration-700 ease-out">
+                  <div className="w-[113px] h-[126px] group-hover:w-[134px] group-hover:h-[182px] rounded-[20px] overflow-hidden transition-all duration-700 ease-out opacity-100">
                     <Image
                       src={section.icon}
                       alt="Council Section Icon"
@@ -132,7 +132,7 @@ const CouncilPage = () => {
                 </div>
 
                 {/* Right Side - Text Content */}
-                <div className="flex-1 py-4 group-hover:py-6 group-hover:flex-none group-hover:w-[820px] transition-all duration-300">
+                <div className="flex-1 py-4 group-hover:py-6 group-hover:flex-none group-hover:w-[820px] transition-all duration-700 ease-out">
                                     <div className="relative">
                     {/* Default title */}
                     <h2 
