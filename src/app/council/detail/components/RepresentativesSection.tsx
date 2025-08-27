@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
+import { IconBrandLinkedin, IconBrandDiscord, IconBrandInstagram, IconBrandTwitter } from "@tabler/icons-react";
 
 interface Representative {
   name: string;
@@ -12,6 +13,8 @@ interface Representative {
 
 const RepresentativesSection = () => {
   const [activeFilter, setActiveFilter] = useState("Management");
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   
   // Use Safari image fallback for representative images
   const representativeImgSrc = useSafariImageFallback(
@@ -30,6 +33,38 @@ const RepresentativesSection = () => {
   ];
 
   const filterOptions = ["Management", "Product", "Operation", "Design", "Marketing", "Customer service"];
+
+  // Social media links for representatives
+  const socialLinks = [
+    {
+      id: 1,
+      icon: IconBrandLinkedin,
+      linkUrl: "https://www.linkedin.com/company/ccubed-dev/posts/?feedView=all",
+      altText: "LinkedIn",
+      fill: false,
+    },
+    {
+      id: 2,
+      icon: IconBrandInstagram,
+      linkUrl: "https://www.instagram.com/ccubed_dev/?hl=en",
+      altText: "Instagram",
+      fill: false,
+    },
+    {
+      id: 3,
+      icon: IconBrandTwitter,
+      linkUrl: "https://x.com/ccubed_dev",
+      altText: "Twitter",
+      fill: false,
+    },
+    {
+      id: 4,
+      icon: IconBrandDiscord,
+      linkUrl: "https://discord.com/invite/477KvYukHf",
+      altText: "Discord",
+      fill: false,
+    },
+  ];
 
 
 
@@ -51,7 +86,7 @@ const RepresentativesSection = () => {
       </div>
 
       {/* Filter Buttons */}
-      <div className="flex justify-center gap-4 mb-24 h-[51px]">
+      <div className="flex justify-center gap-4 mb-4 h-[51px]">
         {filterOptions.map((filter) => (
           <button
             key={filter}
@@ -125,23 +160,65 @@ const RepresentativesSection = () => {
               }}
               className="text-center flex-shrink-0"
             >
-              <div className="relative mb-4">
-                <div className="w-[169px] h-[169px] mx-auto rounded-full overflow-hidden">
+              {/* Profile Picture Container - Fixed height, bottom aligned */}
+              <div className="relative h-[229px] flex items-end justify-center mb-4">
+                <motion.div 
+                  className="overflow-hidden cursor-pointer"
+                  animate={{
+                    width: (hoveredIndex === index || clickedIndex === index) ? "179px" : "169px",
+                    height: (hoveredIndex === index || clickedIndex === index) ? "229px" : "169px",
+                    borderRadius: (hoveredIndex === index || clickedIndex === index) ? "12px" : "50%"
+                  }}
+                  onHoverStart={() => setHoveredIndex(index)}
+                  onHoverEnd={() => setHoveredIndex(null)}
+                  onClick={() => setClickedIndex(clickedIndex === index ? null : index)}
+                  transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                >
                   <Image
                     src={rep.image}
                     alt={rep.name}
-                    width={169}
-                    height={169}
+                    width={179}
+                    height={229}
                     className="w-full h-full object-cover"
                   />
-                </div>
+                </motion.div>
               </div>
-              <h3 className="text-[20px] font-bold text-white mb-2" style={{ fontFamily: 'Roboto, sans-serif' }}>
+              
+              {/* Text content - positioned below PFP space */}
+              <h3 className="text-[24px] font-medium text-white" style={{ fontFamily: 'Roboto, sans-serif' }}>
                 {rep.name}
               </h3>
-              <p className="text-[16px] text-white/80" style={{ fontFamily: 'Roboto, sans-serif' }}>
+              <p className="text-[18px] text-white font-light mb-2" style={{ fontFamily: 'Roboto, sans-serif' }}>
                 {rep.title}
               </p>
+              
+              {/* Social Media Icons */}
+              <motion.div 
+                className="flex items-center justify-center gap-4"
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: (hoveredIndex === index || clickedIndex === index) ? 1 : 0
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                {socialLinks.map(({ id, linkUrl, icon: IconComponent, altText, fill }) => (
+                  <a
+                    href={linkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={id}
+                    aria-label={altText}
+                    className="hover:opacity-80 transition-opacity duration-200"
+                  >
+                    <IconComponent 
+                      size={24} 
+                      color="#FFFFFF" 
+                      stroke={fill ? 0 : 1.5}
+                      fill={fill ? "#FFFFFF" : "none"}
+                    />
+                  </a>
+                ))}
+              </motion.div>
             </motion.div>
           ))}
         </div>
