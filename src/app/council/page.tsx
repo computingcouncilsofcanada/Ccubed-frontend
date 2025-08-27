@@ -36,38 +36,19 @@ const CouncilPage = () => {
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut" as const
-      }
-    }
-  };
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
       <BgBoxMainPage maxHeight={200} />
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-[1160px] mt-4">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-[1152px] mt-4">
         {/* Header Section with Logo and Title Side by Side */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16 pt-8"
         >
           {/* Logo and Title Side by Side */}
@@ -99,28 +80,32 @@ const CouncilPage = () => {
 
         {/* Council Sections */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="space-y-6 mb-32 flex flex-col items-center w-[1160px] mx-auto"
+          className="space-y-6 mb-32 flex flex-col items-center w-[1152px] mx-auto"
         >
           {councilSections.map((section, index) => (
             <motion.div
               key={index}
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.2,
+                ease: "easeOut" 
+              }}
               className="relative group flex items-start"
             >
               {/* Background Title for each card */}
               <BackgroundTitle title={section.title} />
               
-              <div className="w-[1151px] h-[160px] group-hover:h-[230px] group-hover:w-[1011px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] flex items-start transition-all duration-300 cursor-pointer relative z-10">
+              <div className="w-[1151px] h-[160px] group-hover:h-[230px] group-hover:w-[1011px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] flex items-start transition-all duration-700 ease-out cursor-pointer relative z-10">
                 {/* Outer border with higher opacity */}
                 <div className="absolute inset-0 border border-white/2 rounded-[20px] pointer-events-none"></div>
                 {/* Inner border with lower opacity */}
                 <div className="absolute inset-[1px] border border-white/5 rounded-[19px] pointer-events-none"></div>
                 {/* Left Side - Icon/Image */}
-                <div className="flex-shrink-0 px-6 py-4 group-hover:py-6 transition-all duration-300">
-                  <div className="w-[113px] h-[126px] group-hover:w-[134px] group-hover:h-[182px] rounded-[20px] overflow-hidden transition-all duration-300 ease-in-out opacity-100">
+                <div className="flex-shrink-0 px-6 py-4 group-hover:py-6 transition-all duration-700 ease-out">
+                  <div className="w-[113px] h-[126px] group-hover:w-[134px] group-hover:h-[182px] rounded-[20px] overflow-hidden transition-all duration-700 ease-out opacity-100">
                     <Image
                       src={section.icon}
                       alt="Council Section Icon"
@@ -132,7 +117,7 @@ const CouncilPage = () => {
                 </div>
 
                 {/* Right Side - Text Content */}
-                <div className="flex-1 py-4 group-hover:py-6 group-hover:flex-none group-hover:w-[820px] transition-all duration-300">
+                <div className="flex-1 py-4 group-hover:py-6 group-hover:flex-none group-hover:w-[820px] transition-all duration-700 ease-out">
                                     <div className="relative">
                     {/* Default title */}
                     <h2 
@@ -187,13 +172,13 @@ const CouncilPage = () => {
                     }}
                   />
                   
-                  {/* Button content */}
-                  <div className="w-full h-full rounded-xl flex items-center justify-center relative z-10 text-white pl-6">
+                  {/* Button content with navigation */}
+                  <a href="/council/detail" className="w-full h-full rounded-xl flex items-center justify-center relative z-10 text-white pl-6 block">
                     <div className="text-center">
                       <div className="text-[24px] leading-[26px] tracking-[0.01em] font-light mb-[10px]" style={{ fontFamily: 'Roboto, sans-serif' }}>View</div>
                       <div className="text-[24px] leading-[26px] tracking-[0.01em] font-light" style={{ fontFamily: 'Roboto, sans-serif' }}>Details</div>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
             </motion.div>

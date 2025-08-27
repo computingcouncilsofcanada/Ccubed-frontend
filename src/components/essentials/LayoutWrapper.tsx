@@ -21,7 +21,9 @@ export default function LayoutWrapper({
     pathname?.startsWith("/member/") || pathname?.startsWith("/login") || pathname?.startsWith("/coming-soon");
     
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-[#0D1C26] to-[#1A384C]">
+    <div className="min-h-screen w-full" style={{
+      background: 'linear-gradient(180deg, #0D1C26 0%, #0D1C26 25%, #0D1C26 40%, #1A384C 70%, #1A384C 100%)'
+    }}>
       {isHydrated && !isStaffRoute && <Navbar />}
       {children}
     </div>
