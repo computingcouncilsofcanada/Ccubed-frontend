@@ -62,7 +62,7 @@ const CouncilPage = () => {
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
       <BgBoxMainPage maxHeight={200} />
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-[1160px] mt-4">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-[1152px] mt-4">
         {/* Header Section with Logo and Title Side by Side */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -102,7 +102,7 @@ const CouncilPage = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="space-y-6 mb-32 flex flex-col items-center w-[1160px] mx-auto"
+          className="space-y-6 mb-32 flex flex-col items-center w-[1152px] mx-auto"
         >
           {councilSections.map((section, index) => (
             <motion.div
@@ -187,13 +187,13 @@ const CouncilPage = () => {
                     }}
                   />
                   
-                  {/* Button content */}
-                  <div className="w-full h-full rounded-xl flex items-center justify-center relative z-10 text-white pl-6">
+                  {/* Button content with navigation */}
+                  <a href="/council/detail" className="w-full h-full rounded-xl flex items-center justify-center relative z-10 text-white pl-6 block">
                     <div className="text-center">
                       <div className="text-[24px] leading-[26px] tracking-[0.01em] font-light mb-[10px]" style={{ fontFamily: 'Roboto, sans-serif' }}>View</div>
                       <div className="text-[24px] leading-[26px] tracking-[0.01em] font-light" style={{ fontFamily: 'Roboto, sans-serif' }}>Details</div>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
             </motion.div>
