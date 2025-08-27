@@ -14,7 +14,7 @@ const CouncilDetailPage = () => {
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
       <BgBoxMainPage maxHeight={200} />
 
-      <div className="relative z-10 container mx-auto w-[1152px] mt-4">
+      <div className="relative z-10 container mx-auto w-[1152px] mt-6">
         <MainSection />
         <DescriptionSection />
         <RepresentativesSection />
