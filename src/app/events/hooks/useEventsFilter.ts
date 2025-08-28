@@ -24,10 +24,14 @@ type UseEventsFilterProps = {
   isLoading: boolean;
 };
 
-export function useEventsFilter({ currentEvents, eventType, isLoading }: UseEventsFilterProps) {
+export function useEventsFilter({
+  currentEvents,
+  eventType,
+  isLoading,
+}: UseEventsFilterProps) {
   // Apply filter to current events
-  const filteredCurrentEvents = useMemo(() => 
-    filterEventsByType(currentEvents, eventType), 
+  const filteredCurrentEvents = useMemo(
+    () => filterEventsByType(currentEvents, eventType),
     [currentEvents, eventType]
   );
 
@@ -41,4 +45,4 @@ export function useEventsFilter({ currentEvents, eventType, isLoading }: UseEven
     showEmptyState,
     showFilterEmptyState,
   };
-} 
+}
