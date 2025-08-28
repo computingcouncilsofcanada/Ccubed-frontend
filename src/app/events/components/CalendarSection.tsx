@@ -169,7 +169,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
 
   return (
     <div className="max-w-6xl w-full mx-auto px-5 relative z-10 mt-20">
-      {/* Calendar header */}
+      {/* Calendar header */} 
       <div className="mb-6 text-white font-roboto tracking-normal">
         {/* Main title */}
         <h2 className="text-4xl leading-normal font-semibold -mb-2 tracking-normal md:-mb-4">
