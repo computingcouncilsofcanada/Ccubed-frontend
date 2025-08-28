@@ -30,14 +30,14 @@ export function CurrentEventsSection({
   useEffect(() => {
     const updateWidth = () => setWindowWidth(window.innerWidth);
     updateWidth();
-    
+
     // Debounce resize events to prevent excessive layout changes
     let timeoutId: NodeJS.Timeout;
     const debouncedUpdateWidth = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(updateWidth, 150);
     };
-    
+
     window.addEventListener("resize", debouncedUpdateWidth);
     return () => {
       window.removeEventListener("resize", debouncedUpdateWidth);
@@ -48,7 +48,7 @@ export function CurrentEventsSection({
   // Determine if we should show horizontal scroll (on small screens with single column)
   // Use hysteresis to prevent jittery switching at the 640px boundary
   const [isHorizontalMode, setIsHorizontalMode] = useState(false);
-  
+
   useEffect(() => {
     if (windowWidth < 620) {
       setIsHorizontalMode(true);
@@ -57,17 +57,18 @@ export function CurrentEventsSection({
     }
     // Between 620-660px, maintain current state to prevent jittering
   }, [windowWidth]);
-  
-  const shouldShowHorizontalScroll = viewMode === "grid" && 
-    !showEmptyState && 
-    !showFilterEmptyState && 
-    isHorizontalMode && 
+
+  const shouldShowHorizontalScroll =
+    viewMode === "grid" &&
+    !showEmptyState &&
+    !showFilterEmptyState &&
+    isHorizontalMode &&
     filteredCurrentEvents.length > 0;
 
   // Infinite loop scroll functionality (only for horizontal scroll view)
   useEffect(() => {
     if (!shouldShowHorizontalScroll) return;
-    
+
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
@@ -108,15 +109,15 @@ export function CurrentEventsSection({
       autoScroll();
     };
 
-    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    scrollContainer.addEventListener("mouseenter", handleMouseEnter);
+    scrollContainer.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       clearTimeout(startDelay);
       if (animationId) cancelAnimationFrame(animationId);
       if (scrollContainer) {
-        scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
-        scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+        scrollContainer.removeEventListener("mouseenter", handleMouseEnter);
+        scrollContainer.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
   }, [filteredCurrentEvents, shouldShowHorizontalScroll, windowWidth]);
@@ -141,17 +142,20 @@ export function CurrentEventsSection({
           <>
             {/* Horizontal scroll view for small screens (< 640px) */}
             {shouldShowHorizontalScroll && (
-              <div className="mt-10" style={{ height: '452px' }}>
-                <div 
+              <div className="mt-10" style={{ height: "452px" }}>
+                <div
                   ref={scrollContainerRef}
                   className="overflow-x-auto overflow-y-hidden h-full"
                   style={{
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none',
-                    WebkitOverflowScrolling: 'touch'
+                    scrollbarWidth: "none",
+                    msOverflowStyle: "none",
+                    WebkitOverflowScrolling: "touch",
                   }}
                 >
-                  <div className="flex gap-4 h-full items-start" style={{ width: 'max-content' }}>
+                  <div
+                    className="flex gap-4 h-full items-start"
+                    style={{ width: "max-content" }}
+                  >
                     {/* Original events */}
                     {filteredCurrentEvents.map((event: Events) => (
                       <div key={event.id} className="flex-shrink-0">
@@ -179,7 +183,7 @@ export function CurrentEventsSection({
                         />
                       </div>
                     ))}
-                    
+
                     {/* Duplicate events for seamless loop if we have events */}
                     {filteredCurrentEvents.length > 0 &&
                       filteredCurrentEvents.map((event: Events) => (
@@ -262,7 +266,9 @@ export function CurrentEventsSection({
       )}
 
       {/* List events */}
-      {!showEmptyState && !showFilterEmptyState && filteredCurrentEvents.length > 0 &&
+      {!showEmptyState &&
+        !showFilterEmptyState &&
+        filteredCurrentEvents.length > 0 &&
         filteredCurrentEvents.map((event: Events) => (
           <EventListCard
             key={event.id}
@@ -274,4 +280,4 @@ export function CurrentEventsSection({
         ))}
     </div>
   );
-} 
+}

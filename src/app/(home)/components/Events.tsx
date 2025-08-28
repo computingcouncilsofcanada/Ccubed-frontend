@@ -9,8 +9,6 @@ import { useRouter } from "next/navigation";
 import { EventCard } from "@/components/shared/EventCard";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
-
-
 // Main Events Section Component
 type EventsSectionProps = {
   events: Events[];
@@ -19,13 +17,13 @@ type EventsSectionProps = {
 export default function Events({ events }: EventsSectionProps) {
   const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  
+
   // Use Safari-specific fallback for bear ccube image
   const bearCcubeSrc = useSafariImageFallback(
     "/FigmaFiles/mainPageAssets/bear_ccube.svg",
     "/FigmaFiles/mainPageAssets/bear_ccube.png"
   );
-  
+
   // Show actual events instead of empty state
   const showEmptyState = false;
 
@@ -84,20 +82,18 @@ export default function Events({ events }: EventsSectionProps) {
       autoScroll();
     };
 
-    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    scrollContainer.addEventListener("mouseenter", handleMouseEnter);
+    scrollContainer.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       clearTimeout(startDelay);
       if (animationId) cancelAnimationFrame(animationId);
       if (scrollContainer) {
-        scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
-        scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+        scrollContainer.removeEventListener("mouseenter", handleMouseEnter);
+        scrollContainer.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
   }, [recentEvents]);
-
-
 
   return (
     <section className="events relative z-10">
@@ -111,7 +107,9 @@ export default function Events({ events }: EventsSectionProps) {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <h1 className="text-white text-[28px] sm:text-[32px] md:text-[40px] font-extrabold">Events</h1>
+        <h1 className="text-white text-[28px] sm:text-[32px] md:text-[40px] font-extrabold">
+          Events
+        </h1>
         <Image
           src={bearCcubeSrc}
           alt="CCubed Bear Logo Animated"
@@ -159,21 +157,28 @@ export default function Events({ events }: EventsSectionProps) {
         </motion.div>
 
         {/* Events Grid */}
-        <div className={`mb-6 ${showEmptyState ? 'flex justify-center items-center h-[451px]' : ''}`}>
+        <div
+          className={`mb-6 ${
+            showEmptyState ? "flex justify-center items-center h-[451px]" : ""
+          }`}
+        >
           {!showEmptyState && (
             <div className="space-y-2 sm:space-y-3">
               {/* Mobile Horizontal Scroll View */}
-              <div className="block sm:hidden" style={{ height: '452px' }}>
-                <div 
+              <div className="block sm:hidden" style={{ height: "452px" }}>
+                <div
                   ref={scrollContainerRef}
                   className="overflow-x-auto overflow-y-hidden h-full"
                   style={{
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none',
-                    WebkitOverflowScrolling: 'touch'
+                    scrollbarWidth: "none",
+                    msOverflowStyle: "none",
+                    WebkitOverflowScrolling: "touch",
                   }}
                 >
-                  <div className="flex gap-4 h-full items-start" style={{ width: 'max-content' }}>
+                  <div
+                    className="flex gap-4 h-full items-start"
+                    style={{ width: "max-content" }}
+                  >
                     {/* Original events */}
                     {recentEvents.slice(0, 4).map((event) => (
                       <div key={event.id} className="flex-shrink-0">
@@ -201,7 +206,7 @@ export default function Events({ events }: EventsSectionProps) {
                         />
                       </div>
                     ))}
-                    
+
                     {/* Duplicate events for seamless loop */}
                     {recentEvents.slice(0, 4).map((event) => (
                       <div
@@ -293,11 +298,12 @@ export default function Events({ events }: EventsSectionProps) {
                     left: "-8px",
                     width: "80px",
                     height: "80px",
-                    background: "radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 80%)",
+                    background:
+                      "radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 80%)",
                     filter: "blur(1px)",
                   }}
                 />
-                
+
                 {/* Icon */}
                 <div className="relative z-10 mb-6">
                   <div
@@ -316,7 +322,7 @@ export default function Events({ events }: EventsSectionProps) {
                   </div>
                 </div>
               </div>
-              
+
               {/* Text */}
               <h3
                 className="text-white text-center mb-2"
@@ -366,7 +372,7 @@ export default function Events({ events }: EventsSectionProps) {
                 letterSpacing: "1%",
                 color: "#FFFFFF",
               }}
-              onClick={() => router.push('/events')}
+              onClick={() => router.push("/events")}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -377,4 +383,4 @@ export default function Events({ events }: EventsSectionProps) {
       </div>
     </section>
   );
-} 
+}
