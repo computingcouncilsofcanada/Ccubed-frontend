@@ -67,7 +67,7 @@ function EventsPage() {
   const [error, setError] = useState<string>("");
 
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const typeOptions = ["Online"];
+  const typeOptions = ["Online", "In Person"];
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);

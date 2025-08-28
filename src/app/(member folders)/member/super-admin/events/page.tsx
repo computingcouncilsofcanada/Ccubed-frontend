@@ -68,7 +68,7 @@ function EventsPage() {
 
   // Add state for selected event types
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const typeOptions = ["Online"];
+  const typeOptions = ["Online", "In Person"];
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -132,6 +132,7 @@ function EventsPage() {
       }
     }
 
+    // Transform selected types for preview: use selected types directly
     let typesToShow = selectedTypes;
 
     return {
