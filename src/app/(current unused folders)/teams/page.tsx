@@ -43,14 +43,14 @@ function OurTeamsPage() {
           </p>
           <TeamFilterBar teamType={teamType} onTeamTypeChange={setTeamType} />
 
-          <div className="flex flex-wrap justify-center gap-8 mt-8">
+          <div className="flex flex-wrap justify-center mt-8">
             {groupedFilteredMembers.map((team) => (
               <div key={team.team} className="w-full mb-16">
-                <h2 className="text-white font-semibold text-[32px] mb-6 mt-[38px]">
+                <h2 className="text-white font-semibold text-[32px] mb-[64px] mt-[38px]">
                   {team.team}
                 </h2>
 
-                <div className="flex flex-wrap justify-center gap-9">
+                <div className="flex flex-wrap justify-center gap-9 gap-y-17">
                   {team.members.map((member) => (
                     <TeamCard
                       key={member.id}
