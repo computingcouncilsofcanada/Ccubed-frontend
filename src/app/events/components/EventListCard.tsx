@@ -831,8 +831,8 @@ export function EventListCard({
                   }}
                 />
               )}
-              {/* Show first type, or 'Hybrid' if multiple types */}
-              {event.types.length > 1 ? "Hybrid" : event.types[0]}
+              {/* Show first type, or 'Online' if multiple types */}
+              {event.types.length > 1 ? "Online" : event.types[0]}
             </span>
           )}
         </div>
