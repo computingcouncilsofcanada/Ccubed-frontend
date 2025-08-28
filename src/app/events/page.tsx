@@ -129,10 +129,10 @@ export default function EventsPage() {
             maxWidth: "806px",
             height:
               windowWidth < 640
-                ? "120px"
+                ? "50px"
                 : windowWidth < 1024
-                ? "160px"
-                : "214px",
+                ? "100px"
+                : "120px",
           }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
