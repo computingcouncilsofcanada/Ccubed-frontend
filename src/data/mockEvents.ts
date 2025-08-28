@@ -36,7 +36,7 @@ export const mockEvents = [
         url: "/FigmaFiles/eventsAssets/ppl.svg",
       },
     ],
-    types: ["Online"],
+    types: ["In Person"],
   },
   {
     id: 3,
@@ -55,7 +55,7 @@ export const mockEvents = [
         url: "/FigmaFiles/eventsAssets/discord.svg",
       },
     ],
-    types: ["Online"],
+    types: ["In Person"],
   },
   {
     id: 4,
@@ -93,7 +93,7 @@ export const mockEvents = [
         url: "/FigmaFiles/eventsAssets/ppl.svg",
       },
     ],
-    types: ["Online"],
+    types: ["In Person"],
   },
   {
     id: 6,
@@ -150,7 +150,7 @@ export const mockEvents = [
         url: "/FigmaFiles/eventsAssets/ppl.svg",
       },
     ],
-    types: ["Online"],
+    types: ["In Person"],
   },
 ];
 

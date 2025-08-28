@@ -9,7 +9,7 @@ type EventCardProps = {
   time: string;
   date: string;
   location: string;
-  type: "Online";
+  type: "Online" | "In Person";
   imageSrc: string;
   description: string;
 };
