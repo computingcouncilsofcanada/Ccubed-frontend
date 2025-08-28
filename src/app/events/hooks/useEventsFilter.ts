@@ -14,6 +14,13 @@ const filterEventsByType = (events: Events[], type: string): Events[] => {
           eventType.toLowerCase().includes("online")
         );
       }
+      if (type === "inperson") {
+        // Show events that are explicitly marked as in-person
+        if (!event.types || event.types.length === 0) return false;
+        return event.types.some((eventType) =>
+          eventType.toLowerCase().includes("in person")
+        );
+      }
       return false;
     });
 };

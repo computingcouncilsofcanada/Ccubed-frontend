@@ -2,12 +2,14 @@ import { motion } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
 
 type EmptyStateProps = {
-  type: "all" | "online";
+  type: "all" | "online" | "inperson";
   height?: string;
 };
 
 const getFilterDisplayName = (type: string) => {
   switch (type) {
+    case "inperson":
+      return "In Person";
     case "online":
       return "Online";
     default:
