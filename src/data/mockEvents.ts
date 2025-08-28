@@ -3,7 +3,8 @@ export const mockEvents = [
   {
     id: 1,
     name: "Tech Talk: AI & the Future of Jobs",
-    description: "Join industry experts as they discuss how AI is reshaping the job market. Get insights on staying relevant and building future-proof skills.",
+    description:
+      "Join industry experts as they discuss how AI is reshaping the job market. Get insights on staying relevant and building future-proof skills.",
     status: 1,
     date: "2025-08-10",
     time: "3:00 PM - 5:00 PM",
@@ -13,15 +14,16 @@ export const mockEvents = [
       {
         id: 1,
         name: "event-image-1.jpg",
-        url: "/FigmaFiles/eventsAssets/discord.svg"
-      }
+        url: "/FigmaFiles/eventsAssets/discord.svg",
+      },
     ],
-    types: ["Online"]
+    types: ["Online"],
   },
   {
     id: 2,
     name: "Beginner Coding Bootcamp: Web Dev",
-    description: "Perfect for beginners! Learn the fundamentals of web development in this hands-on bootcamp.",
+    description:
+      "Perfect for beginners! Learn the fundamentals of web development in this hands-on bootcamp.",
     status: 1,
     date: "2025-08-29",
     time: "2:00 PM - 6:00 PM",
@@ -31,15 +33,16 @@ export const mockEvents = [
       {
         id: 2,
         name: "event-image-2.jpg",
-        url: "/FigmaFiles/eventsAssets/ppl.svg"
-      }
+        url: "/FigmaFiles/eventsAssets/ppl.svg",
+      },
     ],
-    types: ["In person"]
+    types: ["Online"],
   },
   {
     id: 3,
     name: "React Workshop: Building Modern UIs",
-    description: "Learn to build modern user interfaces with React. Hands-on workshop covering components, hooks, and state management.",
+    description:
+      "Learn to build modern user interfaces with React. Hands-on workshop covering components, hooks, and state management.",
     status: 1,
     date: "2025-09-05",
     time: "10:00 AM - 4:00 PM",
@@ -49,15 +52,16 @@ export const mockEvents = [
       {
         id: 3,
         name: "event-image-3.jpg",
-        url: "/FigmaFiles/eventsAssets/discord.svg"
-      }
+        url: "/FigmaFiles/eventsAssets/discord.svg",
+      },
     ],
-    types: ["Hybrid"]
+    types: ["Online"],
   },
   {
     id: 4,
     name: "Networking Night: Computing Students Connect",
-    description: "Join fellow computing students for an evening of networking, sharing experiences, and building connections.",
+    description:
+      "Join fellow computing students for an evening of networking, sharing experiences, and building connections.",
     status: 1,
     date: "2025-09-12",
     time: "6:00 PM - 9:00 PM",
@@ -67,15 +71,16 @@ export const mockEvents = [
       {
         id: 4,
         name: "event-image-4.jpg",
-        url: "/FigmaFiles/eventsAssets/discord.svg"
-      }
+        url: "/FigmaFiles/eventsAssets/discord.svg",
+      },
     ],
-    types: ["Online"]
+    types: ["Online"],
   },
   {
     id: 5,
     name: "Python Data Science Fundamentals",
-    description: "Introduction to data science using Python. Learn pandas, numpy, and basic machine learning concepts.",
+    description:
+      "Introduction to data science using Python. Learn pandas, numpy, and basic machine learning concepts.",
     status: 1,
     date: "2025-09-20",
     time: "1:00 PM - 5:00 PM",
@@ -85,15 +90,16 @@ export const mockEvents = [
       {
         id: 5,
         name: "event-image-5.jpg",
-        url: "/FigmaFiles/eventsAssets/ppl.svg"
-      }
+        url: "/FigmaFiles/eventsAssets/ppl.svg",
+      },
     ],
-    types: ["In person"]
+    types: ["Online"],
   },
   {
     id: 6,
     name: "Cybersecurity Workshop: Protecting Your Code",
-    description: "Learn essential cybersecurity practices for developers. Secure coding, authentication, and vulnerability assessment.",
+    description:
+      "Learn essential cybersecurity practices for developers. Secure coding, authentication, and vulnerability assessment.",
     status: 1,
     date: "2025-10-01",
     time: "2:00 PM - 6:00 PM",
@@ -103,15 +109,16 @@ export const mockEvents = [
       {
         id: 6,
         name: "event-image-6.jpg",
-        url: "/FigmaFiles/eventsAssets/discord.svg"
-      }
+        url: "/FigmaFiles/eventsAssets/discord.svg",
+      },
     ],
-    types: ["Hybrid"]
+    types: ["Online"],
   },
   {
     id: 7,
     name: "Open Source Contribution Workshop",
-    description: "Learn how to contribute to open source projects. Git workflows, issue tracking, and community collaboration.",
+    description:
+      "Learn how to contribute to open source projects. Git workflows, issue tracking, and community collaboration.",
     status: 1,
     date: "2025-10-10",
     time: "11:00 AM - 3:00 PM",
@@ -121,15 +128,16 @@ export const mockEvents = [
       {
         id: 7,
         name: "event-image-7.jpg",
-        url: "/FigmaFiles/eventsAssets/ppl.svg"
-      }
+        url: "/FigmaFiles/eventsAssets/ppl.svg",
+      },
     ],
-    types: ["Online"]
+    types: ["Online"],
   },
   {
     id: 8,
     name: "Mobile App Development with Flutter",
-    description: "Build cross-platform mobile applications using Flutter. From setup to deployment on app stores.",
+    description:
+      "Build cross-platform mobile applications using Flutter. From setup to deployment on app stores.",
     status: 1,
     date: "2025-10-18",
     time: "9:00 AM - 5:00 PM",
@@ -139,12 +147,12 @@ export const mockEvents = [
       {
         id: 8,
         name: "event-image-8.jpg",
-        url: "/FigmaFiles/eventsAssets/ppl.svg"
-      }
+        url: "/FigmaFiles/eventsAssets/ppl.svg",
+      },
     ],
-    types: ["In person"]
-  }
+    types: ["Online"],
+  },
 ];
 
 // Export the type for TypeScript usage
-export type MockEvent = typeof mockEvents[0]; 
+export type MockEvent = (typeof mockEvents)[0];

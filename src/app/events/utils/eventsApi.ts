@@ -35,8 +35,6 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
       // Map to proper format - only known correct types, everything else becomes Online
       const typeMap: { [key: string]: string } = {
         online: "Online",
-        "in person": "In Person",
-        hybrid: "Hybrid",
       };
 
       // Any unknown/incorrect type defaults to Online
