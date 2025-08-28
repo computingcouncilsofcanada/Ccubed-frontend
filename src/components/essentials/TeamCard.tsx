@@ -85,15 +85,7 @@ const TeamCard = ({
         transition={{ duration: 0.25, ease: "easeOut" }}
         className="relative z-30 flex gap-3 mt-[16px] justify-center"
       >
-        <a href={discord} target="_blank" rel="noopener noreferrer">
-          <Image
-            src="/discord.svg"
-            alt="Discord Icon"
-            width={24}
-            height={24}
-            className="mx-auto"
-          />
-        </a>
+    
         <a href={linkedin} target="_blank" rel="noopener noreferrer">
           <Image
             src="/linkedin.svg"
