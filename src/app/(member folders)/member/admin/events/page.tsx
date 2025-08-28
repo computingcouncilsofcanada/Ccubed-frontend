@@ -67,7 +67,7 @@ function EventsPage() {
   const [error, setError] = useState<string>("");
 
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const typeOptions = ["In Person", "Online"];
+  const typeOptions = ["Online"];
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -128,14 +128,8 @@ function EventsPage() {
       }
     }
 
-    // Transform selected types for preview: if both "In Person" and "Online" are selected, show "hybrid"
+    // Transform selected types for preview: use selected types directly
     let typesToShow = selectedTypes;
-    if (
-      selectedTypes.includes("In Person") &&
-      selectedTypes.includes("Online")
-    ) {
-      typesToShow = ["hybrid"];
-    }
 
     return {
       id: 0,
@@ -208,14 +202,8 @@ function EventsPage() {
         formData.append("file", data.images[0]);
       }
 
-      // Transform selected types: if both "In Person" and "Online" are selected, use "hybrid"
+      // Transform selected types: use selected types directly
       let typesToSubmit = selectedTypes;
-      if (
-        selectedTypes.includes("In Person") &&
-        selectedTypes.includes("Online")
-      ) {
-        typesToSubmit = ["hybrid"];
-      }
 
       formData.append("types", typesToSubmit.join(","));
 

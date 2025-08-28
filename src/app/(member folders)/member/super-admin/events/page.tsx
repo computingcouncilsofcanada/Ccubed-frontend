@@ -68,7 +68,7 @@ function EventsPage() {
 
   // Add state for selected event types
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const typeOptions = ["In Person", "Online"];
+  const typeOptions = ["Online"];
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -133,12 +133,6 @@ function EventsPage() {
     }
 
     let typesToShow = selectedTypes;
-    if (
-      selectedTypes.includes("In Person") &&
-      selectedTypes.includes("Online")
-    ) {
-      typesToShow = ["hybrid"];
-    }
 
     return {
       id: 0,
@@ -200,12 +194,6 @@ function EventsPage() {
         formData.append("file", data.images[0]);
       }
       let typesToSubmit = selectedTypes;
-      if (
-        selectedTypes.includes("In Person") &&
-        selectedTypes.includes("Online")
-      ) {
-        typesToSubmit = ["hybrid"];
-      }
 
       formData.append("types", typesToSubmit.join(","));
 
