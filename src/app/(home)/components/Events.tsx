@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
-import { Events } from "@/types/events";
+import type { Events } from "@/types/events";
 import { useRouter } from "next/navigation";
 import { EventCard } from "@/components/shared/EventCard";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
@@ -147,12 +147,12 @@ export default function Events({ events }: EventsSectionProps) {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
         >
-          <h2 
+          <h2
             className="text-white text-left font-semibold text-lg sm:text-xl md:text-2xl"
             style={{
-                fontFamily: "Roboto, sans-serif",
-                letterSpacing: "0.24px", 
-              }}
+              fontFamily: "Roboto, sans-serif",
+              letterSpacing: "0.24px",
+            }}
           >
             Recent Events
           </h2>
@@ -166,7 +166,7 @@ export default function Events({ events }: EventsSectionProps) {
               <div className="block sm:hidden" style={{ height: '452px' }}>
                 <div 
                   ref={scrollContainerRef}
-                  className="overflow-x-auto overflow-y-hidden h-full" 
+                  className="overflow-x-auto overflow-y-hidden h-full"
                   style={{
                     scrollbarWidth: 'none',
                     msOverflowStyle: 'none',
@@ -183,22 +183,15 @@ export default function Events({ events }: EventsSectionProps) {
                           time={event.time}
                           date={event.date}
                           location={event.location}
-                          type={
-                            (() => {
-                              if (!event.types || event.types.length === 0) return "Online";
-                              
-                              const hasHybridType = event.types.some(type => 
-                                type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
-                              );
-                              if (event.types.length > 1 || hasHybridType) return "Hybrid";
-                              
-                              const eventType = event.types[0];
-                              if (eventType === "In Person") return "In Person";
-                              if (eventType === "Online") return "Online";
-                              
+                          type={(() => {
+                            if (!event.types || event.types.length === 0)
                               return "Online";
-                            })()
-                          }
+
+                            // Return the first type or default to Online, ensuring it's the correct type
+                            const eventType = event.types[0];
+                            if (eventType === "In Person") return "In Person";
+                            return "Online";
+                          })()}
                           imageSrc={
                             event.files && event.files.length > 0
                               ? event.files[0].url
@@ -211,29 +204,25 @@ export default function Events({ events }: EventsSectionProps) {
                     
                     {/* Duplicate events for seamless loop */}
                     {recentEvents.slice(0, 4).map((event) => (
-                      <div key={`duplicate-${event.id}`} className="flex-shrink-0">
+                      <div
+                        key={`duplicate-${event.id}`}
+                        className="flex-shrink-0"
+                      >
                         <EventCard
                           id={event.id}
                           title={event.name}
                           time={event.time}
                           date={event.date}
                           location={event.location}
-                          type={
-                            (() => {
-                              if (!event.types || event.types.length === 0) return "Online";
-                              
-                              const hasHybridType = event.types.some(type => 
-                                type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
-                              );
-                              if (event.types.length > 1 || hasHybridType) return "Hybrid";
-                              
-                              const eventType = event.types[0];
-                              if (eventType === "In Person") return "In Person";
-                              if (eventType === "Online") return "Online";
-                              
+                          type={(() => {
+                            if (!event.types || event.types.length === 0)
                               return "Online";
-                            })()
-                          }
+
+                            // Return the first type or default to Online, ensuring it's the correct type
+                            const eventType = event.types[0];
+                            if (eventType === "In Person") return "In Person";
+                            return "Online";
+                          })()}
                           imageSrc={
                             event.files && event.files.length > 0
                               ? event.files[0].url
@@ -249,56 +238,47 @@ export default function Events({ events }: EventsSectionProps) {
 
               {/* Desktop/Tablet Grid View */}
               <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 lg:gap-6 justify-items-center">
-                {recentEvents
-                  .slice(0, 4)
-                  .map((event, idx) => (
-                    <motion.div
-                      key={event.id}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.2 }}
-                      transition={{ duration: 0.6, ease: "easeOut", delay: idx * 0.15 }}
-                    >
-                      <EventCard
-                        id={event.id}
-                        title={event.name}
-                        time={event.time}
-                        date={event.date}
-                        location={event.location}
-                        type={
-                          (() => {
-                            if (!event.types || event.types.length === 0) return "Online";
-                            
-                            // Check for hybrid first - either multiple types OR contains "hybrid"
-                            const hasHybridType = event.types.some(type => 
-                              type.toLowerCase() === "hybrid" || type.toLowerCase().includes("hybrid")
-                            );
-                            if (event.types.length > 1 || hasHybridType) return "Hybrid";
-                            
-                            // Single type matching
-                            const eventType = event.types[0];
-                            if (eventType === "In Person") return "In Person";
-                            if (eventType === "Online") return "Online";
-                            
-                            return "Online"; // Default fallback
-                          })()
-                        }
-                        imageSrc={
-                          event.files && event.files.length > 0
-                            ? event.files[0].url
-                            : "https://placehold.co/400"
-                        }
-                        description={event.description}
-                      />
-                    </motion.div>
-                  ))}
+                {recentEvents.slice(0, 4).map((event, idx) => (
+                  <motion.div
+                    key={event.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{
+                      duration: 0.6,
+                      ease: "easeOut",
+                      delay: idx * 0.15,
+                    }}
+                  >
+                    <EventCard
+                      id={event.id}
+                      title={event.name}
+                      time={event.time}
+                      date={event.date}
+                      location={event.location}
+                      type={(() => {
+                        if (!event.types || event.types.length === 0)
+                          return "Online";
+
+                        // Return the first type or default to Online, ensuring it's the correct type
+                        const eventType = event.types[0];
+                        if (eventType === "In Person") return "In Person";
+                        return "Online";
+                      })()}
+                      imageSrc={
+                        event.files && event.files.length > 0
+                          ? event.files[0].url
+                          : "https://placehold.co/400"
+                      }
+                      description={event.description}
+                    />
+                  </motion.div>
+                ))}
               </div>
-
-
             </div>
           )}
           {showEmptyState && (
-            <motion.div 
+            <motion.div
               className="flex flex-col items-center justify-center py-16 px-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -306,7 +286,7 @@ export default function Events({ events }: EventsSectionProps) {
             >
               <div className="relative">
                 {/* Background decoration - subtle glow */}
-                <div 
+                <div
                   className="absolute rounded-full"
                   style={{
                     top: "-8px",
@@ -320,7 +300,7 @@ export default function Events({ events }: EventsSectionProps) {
                 
                 {/* Icon */}
                 <div className="relative z-10 mb-6">
-                  <div 
+                  <div
                     className="w-16 h-16 rounded-full flex items-center justify-center"
                     style={{
                       backgroundColor: "rgba(255, 255, 255, 0.12)",
@@ -328,17 +308,17 @@ export default function Events({ events }: EventsSectionProps) {
                       boxShadow: "0 4px 12px rgba(255, 255, 255, 0.1)",
                     }}
                   >
-                    <IconCalendar 
-                      size={32} 
-                      stroke={1.5} 
-                      color="rgba(255, 255, 255, 0.7)" 
+                    <IconCalendar
+                      size={32}
+                      stroke={1.5}
+                      color="rgba(255, 255, 255, 0.7)"
                     />
                   </div>
                 </div>
               </div>
               
               {/* Text */}
-              <h3 
+              <h3
                 className="text-white text-center mb-2"
                 style={{
                   fontFamily: "Roboto, sans-serif",
@@ -350,7 +330,7 @@ export default function Events({ events }: EventsSectionProps) {
               >
                 No Events Available
               </h3>
-              <p 
+              <p
                 className="text-white text-center opacity-70"
                 style={{
                   fontFamily: "Roboto, sans-serif",
