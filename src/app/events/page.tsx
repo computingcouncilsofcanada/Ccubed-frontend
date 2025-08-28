@@ -80,7 +80,7 @@ export default function EventsPage() {
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
         <div className="image relative flex justify-center flex-shrink-0">
-          <motion.div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[505px] lg:h-[505px]">
+          <motion.div className="relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] lg:w-[405px] lg:h-[405px]">
             {/* Base Hero Image */}
             <Image
               src={heroImgSrc}
