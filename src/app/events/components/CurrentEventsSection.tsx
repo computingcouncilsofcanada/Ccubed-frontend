@@ -133,7 +133,7 @@ export function CurrentEventsSection({
         {/* Empty states */}
         {showEmptyState && <EmptyState type="all" />}
         {showFilterEmptyState && (
-          <EmptyState type={eventType as "inperson" | "hybrid" | "online"} />
+          <EmptyState type={eventType as "online" | "inperson"} />
         )}
 
         {/* Grid events - Show all events */}
@@ -144,7 +144,7 @@ export function CurrentEventsSection({
               <div className="mt-10" style={{ height: '452px' }}>
                 <div 
                   ref={scrollContainerRef}
-                  className="overflow-x-auto overflow-y-hidden h-full" 
+                  className="overflow-x-auto overflow-y-hidden h-full"
                   style={{
                     scrollbarWidth: 'none',
                     msOverflowStyle: 'none',
@@ -165,17 +165,10 @@ export function CurrentEventsSection({
                             if (!event.types || event.types.length === 0)
                               return "Online";
 
-                            // Check for hybrid first - either multiple types OR contains "hybrid"
-                            const hasHybridType = event.types.some(
-                              (type) =>
-                                type.toLowerCase() === "hybrid" ||
-                                type.toLowerCase().includes("hybrid")
-                            );
-                            if (event.types.length > 1 || hasHybridType)
-                              return "Hybrid";
-
-                            // Otherwise return the single type
-                            return event.types[0] as "Hybrid" | "Online" | "In Person";
+                            // Return the first type or default to Online, ensuring it's the correct type
+                            const eventType = event.types[0];
+                            if (eventType === "In Person") return "In Person";
+                            return "Online";
                           })()}
                           imageSrc={
                             event.files && event.files.length > 0
@@ -188,39 +181,36 @@ export function CurrentEventsSection({
                     ))}
                     
                     {/* Duplicate events for seamless loop if we have events */}
-                    {filteredCurrentEvents.length > 0 && filteredCurrentEvents.map((event: Events) => (
-                      <div key={`duplicate-${event.id}`} className="flex-shrink-0">
-                        <EventCard
-                          id={event.id}
-                          title={event.name}
-                          time={event.time}
-                          date={event.date}
-                          location={event.location}
-                          type={(() => {
-                            if (!event.types || event.types.length === 0)
+                    {filteredCurrentEvents.length > 0 &&
+                      filteredCurrentEvents.map((event: Events) => (
+                        <div
+                          key={`duplicate-${event.id}`}
+                          className="flex-shrink-0"
+                        >
+                          <EventCard
+                            id={event.id}
+                            title={event.name}
+                            time={event.time}
+                            date={event.date}
+                            location={event.location}
+                            type={(() => {
+                              if (!event.types || event.types.length === 0)
+                                return "Online";
+
+                              // Return the first type or default to Online, ensuring it's the correct type
+                              const eventType = event.types[0];
+                              if (eventType === "In Person") return "In Person";
                               return "Online";
-
-                            // Check for hybrid first - either multiple types OR contains "hybrid"
-                            const hasHybridType = event.types.some(
-                              (type) =>
-                                type.toLowerCase() === "hybrid" ||
-                                type.toLowerCase().includes("hybrid")
-                            );
-                            if (event.types.length > 1 || hasHybridType)
-                              return "Hybrid";
-
-                            // Otherwise return the single type
-                            return event.types[0] as "Hybrid" | "Online" | "In Person";
-                          })()}
-                          imageSrc={
-                            event.files && event.files.length > 0
-                              ? event.files[0].url
-                              : "https://placehold.co/400"
-                          }
-                          description={event.description}
-                        />
-                      </div>
-                    ))}
+                            })()}
+                            imageSrc={
+                              event.files && event.files.length > 0
+                                ? event.files[0].url
+                                : "https://placehold.co/400"
+                            }
+                            description={event.description}
+                          />
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -241,17 +231,10 @@ export function CurrentEventsSection({
                       if (!event.types || event.types.length === 0)
                         return "Online";
 
-                      // Check for hybrid first - either multiple types OR contains "hybrid"
-                      const hasHybridType = event.types.some(
-                        (type) =>
-                          type.toLowerCase() === "hybrid" ||
-                          type.toLowerCase().includes("hybrid")
-                      );
-                      if (event.types.length > 1 || hasHybridType)
-                        return "Hybrid";
-
-                      // Otherwise return the single type
-                      return event.types[0] as "Hybrid" | "Online" | "In Person";
+                      // Return the first type or default to Online, ensuring it's the correct type
+                      const eventType = event.types[0];
+                      if (eventType === "In Person") return "In Person";
+                      return "Online";
                     })()}
                     imageSrc={
                       event.files && event.files.length > 0
@@ -275,7 +258,7 @@ export function CurrentEventsSection({
       {/* Empty states */}
       {showEmptyState && <EmptyState type="all" height="234px" />}
       {showFilterEmptyState && (
-        <EmptyState type={eventType as "inperson" | "hybrid" | "online"} height="234px" />
+        <EmptyState type={eventType as "online" | "inperson"} height="234px" />
       )}
 
       {/* List events */}
