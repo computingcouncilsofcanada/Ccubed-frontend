@@ -1,0 +1,226 @@
+export const mockMembers = [
+  {
+    team: "Executive Leadership Team",
+    members: [
+      {
+        id: 1,
+        name: "Parth Doshi",
+        role: "President",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here this is cool",
+        category: "management",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+    ],
+  },
+  {
+    team: "Board of Directors",
+    members: [
+      {
+        id: 2,
+        name: "Parth Doshi",
+        role: "President",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here this is cool",
+        category: "management",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 3,
+        name: "Naetri Niranjan",
+        role: "Director of Communications",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "marketing",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 4,
+        name: "Het Jivani",
+        role: "Director of Outreach & Systems Administration",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "operation",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 5,
+        name: "Divjot Singh",
+        role: "Director of Events",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "operation",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+    ],
+  },
+  {
+    team: "Board of Designer and Developer",
+    members: [
+      {
+        id: 6,
+        name: "Fopefoluwa Ikufisile",
+        role: "Web Developer",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "product",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 7,
+        name: "James Ha",
+        role: "Web Developer",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "product",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 8,
+        name: "Raymond Lam",
+        role: "Web Developer",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "product",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 9,
+        name: "Binming Li",
+        role: "Web Developer",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "product",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 10,
+        name: "Soroush Merikhy",
+        role: "Lead of UI/UX Design",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "design",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+    ],
+  },
+  {
+    team: "Board of Event Coordinator",
+    members: [
+      {
+        id: 11,
+        name: "Zaid Mohiuddin",
+        role: "Events Coordinator",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "operation",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 12,
+        name: "Stephanie Song",
+        role: "Events Coordinator",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "operation",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 13,
+        name: "Minahil Fatima",
+        role: "Events Coordinator",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "operation",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 14,
+        name: "Jessamine Li",
+        role: "Social Media Coordinator",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "marketing",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 15,
+        name: "Gulroob Saini",
+        role: "HR Coordinator",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "customerservice",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 16,
+        name: "Funmibi Olaegbe",
+        role: "HR Coordinator",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "customerservice",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+      {
+        id: 17,
+        name: "Evangelyn Kelvin",
+        role: "HR Coordinator",
+        imageUrl: "/disco.jpg",
+        info: "Info about person goes here",
+        category: "customerservice",
+        social: {
+          linkedin: "https://linkedin.com",
+          discord: "https://discord.com",
+        },
+      },
+    ],
+  },
+];
