@@ -7,17 +7,12 @@ const filterEventsByType = (events: Events[], type: string): Events[] => {
     .filter((event: Events) => event.status !== 0)
     .filter((event: Events) => {
       if (type === "all") return true;
-      if (!event.types || event.types.length === 0) return type === "online";
-
-      if (type === "hybrid") {
-        return event.types.length > 1 || 
-               event.types.some((eventType) => eventType.toLowerCase().includes("hybrid"));
-      }
-      if (type === "inperson") {
-        return event.types.length === 1 && event.types[0] === "In Person";
-      }
       if (type === "online") {
-        return event.types.length === 1 && event.types[0] === "Online";
+        // Show events that are explicitly marked as online or have no types specified
+        if (!event.types || event.types.length === 0) return true;
+        return event.types.some((eventType) =>
+          eventType.toLowerCase().includes("online")
+        );
       }
       return false;
     });
