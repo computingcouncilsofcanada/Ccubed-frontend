@@ -47,7 +47,7 @@ export default function ContactUs() {
           <h1 className="text-white font-bold text-[48px] font-roboto mb-2">
             Let's Get in Touch
           </h1>
-          <p className="text-gray-300 text-[16px] font-normal mb-8">Or just reach out manually to <span className="text-amber-400">your.mail@gmail.com</span></p>
+          <p className="text-gray-300 text-[16px] font-normal mb-8">Or just reach out manually to <span className="text-amber-400">executive@ccubed.dev</span></p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-6">
               <label className="text-white text-[14px] font-normal ml-5">
@@ -61,13 +61,9 @@ export default function ContactUs() {
                   maxLength: { value: 50, message: "Less than 50 characters" },
                 })}
                 type="text"
-                className={`bg-white mb-2 mt-2 w-full h-[48px] p-3 rounded-4xl 
-                          border border-transparent
-                          transition-all duration-300 ease-in-out
-                          focus:border-2 focus:border-[#FAA336] focus:shadow-md
-                          focus:outline-none ${
-                  errors.firstName ? "border border-red-500" : ""
-                }`}
+                className={`bg-white mb-2 mt-2 w-full h-[48px] p-3 rounded-4xl border transition-all duration-300 ease-in-out
+                          focus:border-2 focus:border-[#FAA336] focus:shadow-md focus:outline-none
+                          ${errors.firstName ? "border-red-500" : "border-transparent"}`}
                 placeholder="Enter Your Full Name"
               />
 
@@ -92,13 +88,9 @@ export default function ContactUs() {
                   },
                 })}
                 type="email"
-                className={`bg-white mb-2 mt-2 w-full h-[48px] p-3 rounded-4xl 
-                          border border-transparent
-                          transition-all duration-300 ease-in-out
-                          focus:border-2 focus:border-[#FAA336] focus:shadow-md
-                          focus:outline-none   ${
-                  errors.email ? "border border-red-500" : ""
-                }`}
+                className={`bg-white mb-2 mt-2 w-full h-[48px] p-3 rounded-4xl border transition-all duration-300 ease-in-out
+                          focus:border-2 focus:border-[#FAA336] focus:shadow-md focus:outline-none
+                          ${errors.email ? "border-red-500" : "border-transparent"}`}
                 placeholder="Yourmail@gmail.com"
               />
               {errors.email && (
@@ -119,8 +111,8 @@ export default function ContactUs() {
             </div>
 
             <div className="mb-5">
-              <label className="text-white text-[14px] font-normal ml-5">
-                Your Message <span >:</span>
+              <label className="text-white text-[14px] font-normal ml-5 block">
+                Your Message <span>:</span>
               </label>
               <textarea
                 {...register("message", {
@@ -128,13 +120,10 @@ export default function ContactUs() {
                   minLength: { value: 10, message: "At least 10 characters" },
                   maxLength: { value: 1000, message: "Less than 1000 characters" },
                 })}
-                className={`bg-white border-gray-400 border-1 md:w-[567px] w-full h-[259px]  rounded-[20px] p-3 mt-2 
-                  
+                className={`bg-white w-full box-border h-[259px] rounded-[20px] p-3 mt-2
                           transition-all duration-300 ease-in-out
                           focus:border-2 focus:border-[#FAA336] focus:shadow-md
-                          focus:outline-none ${
-                  errors.message ? "border border-red-500" : ""
-                }`}
+                          focus:outline-none ${errors.message ? "border border-red-500" : ""}`}
                 placeholder="Your text"
               />
               {errors.message && (
@@ -152,28 +141,14 @@ export default function ContactUs() {
           </form>
         </div>
 
-        <div className="md:w-1/2 w-full flex flex-col items-start mb-40">
+        <div className="md:w-1/2 w-full flex items-center justify-center mb-12 md:mb-40">
           <img
-          src="/FigmaFiles/map.svg"
-          alt="CCubed Map"
-          className=" sm:max-w-[400px] md:max-w-[600px] lg:max-w-[700px]"
-        />
-
-
-        
-           <div className="ml-6">
-            <h1 className="text-white font-roboto text-[32px] font-bold mb-4">
-            Visit Us
-          </h1>
-          <p className="mb-5 text-white font-roboto text-[18px] font-bold">
-  Address : <span className="font-light text-[16px] ml-2">Address goes here</span>
-</p>
-           </div>
-         
+            src="/FigmaFiles/ccubed-icon.png"
+            alt="CCubed Map"
+            className="w-auto max-w-[300px] sm:max-w-[400px] md:max-w-[600px] lg:max-w-[700px] object-contain shadow-sm"
+          />
         </div>
-        <div>
-          
-        </div>
+    
       </div>
 
         <div className="mt-8">
