@@ -11,12 +11,13 @@ const TeamFilterBar = ({ teamType, onTeamTypeChange }: TeamFilterBarProps) => {
     <div className="flex gap-3 justify-center relative w-full max-w-5xl mx-auto mt-5">
       {[
         { label: "Full Team", value: "fullteam" },
-        { label: "Management", value: "management" },
-        { label: "Product", value: "product" },
-        { label: "Operation", value: "operation" },
-        { label: "Design", value: "design" },
-        { label: "Marketing", value: "marketing" },
-        { label: "Customer Service", value: "customerservice" },
+        { label: "Directors", value: "directors" },
+        { label: "System Admin", value: "sysadmin" },
+        { label: "Communications", value: "operation" },
+        { label: "Events", value: "events" },
+        { label: "Finance", value: "finance" },
+        { label: "Outreach", value: "outreach" },
+        { label: "HR", value: "hr" }
       ].map((option) => (
         <motion.label
           key={option.value}
@@ -30,25 +31,31 @@ const TeamFilterBar = ({ teamType, onTeamTypeChange }: TeamFilterBarProps) => {
         >
           {/* gradient border */}
           {teamType === option.value && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="absolute inset-0 drop-shadow-[0_9px_21px] drop-shadow-[#F6A427]/75"
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              background: "linear-gradient(90deg, rgba(51,186,197,0.8) 0%, rgba(51,186,197,0.2) 60%, transparent 100%)",
+              padding: "2px",
+              borderRadius: "20px",
+            boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.35)"
+
+            }}
+          >
+            <div
               style={{
-                borderRadius: "20px",
-                background:
-                  "linear-gradient(90deg,#33BAC5 0%, #fff 55%, transparent 57% )",
-                mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                maskComposite: "xor",
-                WebkitMask:
-                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                WebkitMaskComposite: "xor",
-                padding: "2px",
+                width: "100%",
+                height: "100%",
+                borderRadius: "18px",
+                backgroundColor: "#0b0f17", 
               }}
-            ></motion.div>
-          )}
+            ></div>
+          </motion.div>
+        )}
+
 
           <input
             type="radio"

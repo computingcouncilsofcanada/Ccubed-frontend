@@ -8,7 +8,7 @@ export const mockMembers = [
         role: "President",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here this is cool",
-        category: "management",
+        category: "directors",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -25,7 +25,7 @@ export const mockMembers = [
         role: "President",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here this is cool",
-        category: "management",
+        category: "directors",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -70,7 +70,7 @@ export const mockMembers = [
     ],
   },
   {
-    team: "Board of Designer and Developer",
+    team: "System Administration Team",
     members: [
       {
         id: 6,
@@ -78,7 +78,7 @@ export const mockMembers = [
         role: "Web Developer",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "product",
+        category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -90,7 +90,7 @@ export const mockMembers = [
         role: "Web Developer",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "product",
+        category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -102,7 +102,7 @@ export const mockMembers = [
         role: "Web Developer",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "product",
+        category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -114,7 +114,7 @@ export const mockMembers = [
         role: "Web Developer",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "product",
+        category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -126,7 +126,7 @@ export const mockMembers = [
         role: "Lead of UI/UX Design",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "design",
+        category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -143,7 +143,7 @@ export const mockMembers = [
         role: "Events Coordinator",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "operation",
+        category: "events",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -155,7 +155,7 @@ export const mockMembers = [
         role: "Events Coordinator",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "operation",
+        category: "events",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -167,31 +167,43 @@ export const mockMembers = [
         role: "Events Coordinator",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "operation",
+        category: "events",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
         },
       },
-      {
+    
+      
+    ],
+  },
+  {
+    team: "Outreach Team",
+    members:[
+        {
         id: 14,
         name: "Jessamine Li",
         role: "Social Media Coordinator",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "marketing",
+        category: "outreach",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
         },
       },
+    ]
+  },
+  {
+    team: "HR Team",
+    members:[
       {
         id: 15,
         name: "Gulroob Saini",
         role: "HR Coordinator",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "customerservice",
+        category: "hr",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -203,7 +215,7 @@ export const mockMembers = [
         role: "HR Coordinator",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "customerservice",
+        category: "hr",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
@@ -215,12 +227,12 @@ export const mockMembers = [
         role: "HR Coordinator",
         imageUrl: "/disco.jpg",
         info: "Info about person goes here",
-        category: "customerservice",
+        category: "hr",
         social: {
           linkedin: "https://linkedin.com",
           discord: "https://discord.com",
         },
       },
-    ],
-  },
+    ]
+  }
 ];
