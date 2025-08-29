@@ -8,12 +8,13 @@ type TeamFilterBarProps = {
 
 const TeamFilterBar = ({ teamType, onTeamTypeChange }: TeamFilterBarProps) => {
   return (
-    <div className="flex gap-3 justify-center relative w-full max-w-5xl mx-auto mt-5">
+    <div className="flex  flex-wrap gap-3 justify-center relative w-full max-w-5xl mx-auto mt-5">
+      
       {[
         { label: "Full Team", value: "fullteam" },
         { label: "Directors", value: "directors" },
         { label: "System Admin", value: "sysadmin" },
-        { label: "Communications", value: "operation" },
+        { label: "Communications", value: "communications" },
         { label: "Events", value: "events" },
         { label: "Finance", value: "finance" },
         { label: "Outreach", value: "outreach" },
@@ -32,6 +33,7 @@ const TeamFilterBar = ({ teamType, onTeamTypeChange }: TeamFilterBarProps) => {
           {/* gradient border */}
           {teamType === option.value && (
           <motion.div
+          
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}

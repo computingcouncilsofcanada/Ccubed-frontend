@@ -59,7 +59,7 @@ function OurTeamsPage() {
                       role={member.role}
                       info={member.info}
                       linkedin={member.social.linkedin}
-                      discord={member.social.discord}
+          
                     />
                   ))}
                 </div>
@@ -68,7 +68,10 @@ function OurTeamsPage() {
           </div>
         </div>
 
-        <Footer />
+ 
+        <div className="mt-12">
+          <Footer />
+        </div>
       </div>
     </>
   );

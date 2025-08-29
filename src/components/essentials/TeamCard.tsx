@@ -7,7 +7,6 @@ type TeamCardProps = {
   name: string;
   role: string;
   info: string;
-  discord: string;
   linkedin: string;
 };
 
@@ -16,7 +15,6 @@ const TeamCard = ({
   name,
   role,
   info,
-  discord,
   linkedin,
 }: TeamCardProps) => {
   return (
