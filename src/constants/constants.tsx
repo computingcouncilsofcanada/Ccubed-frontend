@@ -3,9 +3,7 @@ export const navLinks = [
   { id: 1, name: "Home", href: "/" },
   { id: 2, name: "Events", href: "/events" },
   { id: 3, name: "Council", href: "/council" },
-  { id: 4, name: "Resource", href: "/external-resources" },
-  { id: 5, name: "Partnership", href: "/partnership" },
-  { id: 6, name: "Our Teams", href: "/teams" }
+  { id: 4, name: "Our Teams", href: "/teams" }
 ];
 
 export const allNavLinks = [
