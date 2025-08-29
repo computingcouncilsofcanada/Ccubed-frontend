@@ -180,8 +180,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
         <div className="flex items-end justify-between mb-8">
           <div className="max-w-3xl">
             <p className="text-base font-light leading-[23px]">
-              Lorem ipsum dolor sit amet consectetur. Ac malesuada sagittis
-              mollis ullamcorper blandit.
+            Plan ahead with CCubed: learn, connect, and take your next step.
             </p>
           </div>
           <div className="text-4xl leading-none font-semibold flex items-center gap-4">

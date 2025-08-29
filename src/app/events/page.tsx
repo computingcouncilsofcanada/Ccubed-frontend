@@ -175,10 +175,7 @@ export default function EventsPage() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.05 }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti qui
-          officiis inventore, laborum porro debitis quae eius! A, ex ipsa quidem
-          quasi error expedita earum beatae! Beatae quo delectus dignissimos
-          dolorem fugit alias. Iusto eos non ad, dignissimos molestiae sunt.
+          Discover, connect, and move forward—CCubed brings more events that make a difference.
         </motion.p>
 
         {error && (
