@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
 import type { Events } from "@/types/events";
 import { useRouter } from "next/navigation";
 import { EventCard } from "@/components/shared/EventCard";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
+import PreviewModal from "@/components/modals/PreviewModal";
 
 // Main Events Section Component
 type EventsSectionProps = {
@@ -17,6 +18,8 @@ type EventsSectionProps = {
 export default function Events({ events }: EventsSectionProps) {
   const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
 
   // Use Safari-specific fallback for bear ccube image
   const bearCcubeSrc = useSafariImageFallback(
@@ -94,6 +97,8 @@ export default function Events({ events }: EventsSectionProps) {
       }
     };
   }, [recentEvents]);
+
+  const handleInvite = () => alert("Registration link clicked");
 
   return (
     <section className="events relative z-10">
@@ -203,6 +208,11 @@ export default function Events({ events }: EventsSectionProps) {
                               : "https://placehold.co/400"
                           }
                           description={event.description}
+                          onseeDetails={(event) => {
+                            setSelectedEvent(event);
+                            setIsModalOpen(true);
+                          }}
+                          onInvitationLink={handleInvite}
                         />
                       </div>
                     ))}
@@ -234,6 +244,11 @@ export default function Events({ events }: EventsSectionProps) {
                               : "https://placehold.co/400"
                           }
                           description={event.description}
+                          onseeDetails={(event) => {
+                            setSelectedEvent(event);
+                            setIsModalOpen(true);
+                          }}
+                          onInvitationLink={handleInvite}
                         />
                       </div>
                     ))}
@@ -276,6 +291,11 @@ export default function Events({ events }: EventsSectionProps) {
                           : "https://placehold.co/400"
                       }
                       description={event.description}
+                      onseeDetails={(event) => {
+                        setSelectedEvent(event);
+                        setIsModalOpen(true);
+                      }}
+                      onInvitationLink={handleInvite}
                     />
                   </motion.div>
                 ))}
@@ -381,6 +401,12 @@ export default function Events({ events }: EventsSectionProps) {
           </div>
         )}
       </div>
+      <PreviewModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        event={selectedEvent}
+        onInvite={handleInvite}
+      />
     </section>
   );
 }

@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { formatDateSmart } from "@/utils/dateUtils";
+import { Events } from "@/types/events";
 
 type EventCardProps = {
   id: number;
@@ -12,11 +13,13 @@ type EventCardProps = {
   type: "Online" | "In Person";
   imageSrc: string;
   description: string;
+  onseeDetails: (event: Events) => void;
+  onInvitationLink: () => void;
 };
 
 // EventCard component - integrated into this section
 export function EventCard({
-  // id,
+  id,
   title,
   time,
   date,
@@ -24,6 +27,8 @@ export function EventCard({
   type,
   imageSrc,
   description,
+  onseeDetails,
+  onInvitationLink,
 }: EventCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -47,6 +52,24 @@ export function EventCard({
 
   const handleClick = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const handleSeeDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (onseeDetails) {
+      onseeDetails({
+        id,
+        name: title,
+        description,
+        status: 0,
+        date,
+        time,
+        location,
+        images: imageSrc,
+        files: [],
+        types: [type],
+      });
+    }
   };
 
   const shouldShowExpanded = isExpanded || isHovered;
@@ -305,7 +328,7 @@ export function EventCard({
                         letterSpacing: "0%",
                         color: "#152E3F",
                       }}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={onInvitationLink}
                     >
                       Registration Link
                     </button>
@@ -329,7 +352,7 @@ export function EventCard({
                         letterSpacing: "0%",
                         color: "#FFFFFF",
                       }}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={handleSeeDetails}
                     >
                       See Details
                     </button>
