@@ -1,4 +1,4 @@
-import React, { useEffect , useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import CollapsibleSection from "../ui/CollapsibleSection";
 import { Events } from "@/types/events";
 import Image from "next/image";
@@ -18,39 +18,36 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
   onShare,
   onInvite,
 }) => {
+  const scrollLockRef = useRef(0);
 
+  useEffect(() => {
+    if (isOpen) {
+      scrollLockRef.current = window.scrollY;
 
-const scrollLockRef = useRef(0); 
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollLockRef.current}px`;
+      document.body.style.width = "100%";
+    } else {
+      const scrollY = scrollLockRef.current;
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollY);
+    }
 
-useEffect(() => {
-  if (isOpen) {
-    scrollLockRef.current = window.scrollY;
+    return () => {
+      if (!isOpen) return;
 
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollLockRef.current}px`;
-    document.body.style.width = "100%";
-  } else {
-    const scrollY = scrollLockRef.current;
-    document.body.style.overflow = "";
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
-    window.scrollTo(0, scrollY);
-  }
-
-  return () => {
-    if (!isOpen) return; 
-
-    const scrollY = scrollLockRef.current;
-    document.body.style.overflow = "";
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
-    window.scrollTo(0, scrollY);
-  };
-}, [isOpen]);
-
+      const scrollY = scrollLockRef.current;
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
 
   if (!isOpen || !event) return null;
 
@@ -171,17 +168,6 @@ useEffect(() => {
                 </div> */}
                 <div className="flex gap-2 items-center justify-end ">
                   <button
-                    onClick={onShare}
-                    className="px-4  py-2  text-white  border-[1px] border-white rounded-md text-center"
-                    style={{
-                      height: "auto",
-                      minHeight: 0,
-                      alignSelf: "center",
-                    }}
-                  >
-                    Share Link
-                  </button>
-                  <button
                     onClick={onInvite}
                     className=" px-4 py-2 text-[#0B1820] bg-[#FAA336] border-[1px] border-[#FAA336] rounded-md text-center"
                     style={{
@@ -190,7 +176,7 @@ useEffect(() => {
                       alignSelf: "center",
                     }}
                   >
-                    Invitation Link
+                    Registration Link
                   </button>
                 </div>
               </div>
