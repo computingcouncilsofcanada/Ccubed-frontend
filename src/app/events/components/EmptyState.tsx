@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { IconCalendar } from "@tabler/icons-react";
 
 type EmptyStateProps = {
-  type: "all" | "inperson" | "hybrid" | "online";
+  type: "all" | "online" | "inperson";
   height?: string;
 };
 
@@ -10,8 +10,6 @@ const getFilterDisplayName = (type: string) => {
   switch (type) {
     case "inperson":
       return "In Person";
-    case "hybrid":
-      return "Hybrid";
     case "online":
       return "Online";
     default:
@@ -21,7 +19,7 @@ const getFilterDisplayName = (type: string) => {
 
 export function EmptyState({ type, height = "451px" }: EmptyStateProps) {
   const isAllEvents = type === "all";
-  
+
   return (
     <motion.div
       className="flex flex-col items-center justify-center px-8"
@@ -75,7 +73,9 @@ export function EmptyState({ type, height = "451px" }: EmptyStateProps) {
           letterSpacing: "-0.01em",
         }}
       >
-        {isAllEvents ? "No Events Available" : `No ${getFilterDisplayName(type)} Events`}
+        {isAllEvents
+          ? "No Events Available"
+          : `No ${getFilterDisplayName(type)} Events`}
       </h3>
       <p
         className="text-white text-center opacity-70"
@@ -90,8 +90,10 @@ export function EmptyState({ type, height = "451px" }: EmptyStateProps) {
       >
         {isAllEvents
           ? "Check back soon for exciting upcoming events and workshops!"
-          : `We don't have any ${getFilterDisplayName(type).toLowerCase()} events available right now. Try checking "All Events" or other event types!`}
+          : `We don't have any ${getFilterDisplayName(
+              type
+            ).toLowerCase()} events available right now. Try checking "All Events" or other event types!`}
       </p>
     </motion.div>
   );
-} 
+}

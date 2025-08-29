@@ -80,7 +80,7 @@ export default function EventsPage() {
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
         <div className="image relative flex justify-center flex-shrink-0">
-          <motion.div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[505px] lg:h-[505px]">
+          <motion.div className="relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] lg:w-[405px] lg:h-[405px]">
             {/* Base Hero Image */}
             <Image
               src={heroImgSrc}
@@ -129,10 +129,10 @@ export default function EventsPage() {
             maxWidth: "806px",
             height:
               windowWidth < 640
-                ? "120px"
+                ? "50px"
                 : windowWidth < 1024
-                ? "160px"
-                : "214px",
+                ? "100px"
+                : "120px",
           }}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -175,10 +175,7 @@ export default function EventsPage() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.05 }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti qui
-          officiis inventore, laborum porro debitis quae eius! A, ex ipsa quidem
-          quasi error expedita earum beatae! Beatae quo delectus dignissimos
-          dolorem fugit alias. Iusto eos non ad, dignissimos molestiae sunt.
+          Discover, connect, and move forward—CCubed brings more events that make a difference.
         </motion.p>
 
         {error && (

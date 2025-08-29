@@ -7,17 +7,19 @@ const filterEventsByType = (events: Events[], type: string): Events[] => {
     .filter((event: Events) => event.status !== 0)
     .filter((event: Events) => {
       if (type === "all") return true;
-      if (!event.types || event.types.length === 0) return type === "online";
-
-      if (type === "hybrid") {
-        return event.types.length > 1 || 
-               event.types.some((eventType) => eventType.toLowerCase().includes("hybrid"));
+      if (type === "online") {
+        // Show events that are explicitly marked as online or have no types specified
+        if (!event.types || event.types.length === 0) return true;
+        return event.types.some((eventType) =>
+          eventType.toLowerCase().includes("online")
+        );
       }
       if (type === "inperson") {
-        return event.types.length === 1 && event.types[0] === "In Person";
-      }
-      if (type === "online") {
-        return event.types.length === 1 && event.types[0] === "Online";
+        // Show events that are explicitly marked as in-person
+        if (!event.types || event.types.length === 0) return false;
+        return event.types.some((eventType) =>
+          eventType.toLowerCase().includes("in person")
+        );
       }
       return false;
     });
@@ -29,10 +31,14 @@ type UseEventsFilterProps = {
   isLoading: boolean;
 };
 
-export function useEventsFilter({ currentEvents, eventType, isLoading }: UseEventsFilterProps) {
+export function useEventsFilter({
+  currentEvents,
+  eventType,
+  isLoading,
+}: UseEventsFilterProps) {
   // Apply filter to current events
-  const filteredCurrentEvents = useMemo(() => 
-    filterEventsByType(currentEvents, eventType), 
+  const filteredCurrentEvents = useMemo(
+    () => filterEventsByType(currentEvents, eventType),
     [currentEvents, eventType]
   );
 
@@ -46,4 +52,4 @@ export function useEventsFilter({ currentEvents, eventType, isLoading }: UseEven
     showEmptyState,
     showFilterEmptyState,
   };
-} 
+}

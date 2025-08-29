@@ -19,20 +19,18 @@ export function EventsHeader({
       {/* Event Type Filter */}
       <div
         className="flex gap-1 rounded-lg p-1 bg-[#0B161E] relative"
-        style={{ width: "352px", height: "56px" }}
+        style={{ width: "176px", height: "56px" }}
       >
         {/* Sliding Background Indicator */}
         <motion.div
           className="absolute top-1 rounded-lg"
           style={{
             height: "48px",
-            width: "84px", // (352-8-3)/4 = width per option
+            width: "84px", // (176-8-3)/2 = width per option
             backgroundColor: "rgba(19, 40, 54, 0.8)",
           }}
           animate={{
-            x:
-              ["all", "inperson", "hybrid", "online"].indexOf(eventType) *
-              87, // 84px width + 3px gap
+            x: ["all", "online"].indexOf(eventType) * 87, // 84px width + 3px gap
           }}
           transition={{
             duration: 0.5,
@@ -56,9 +54,7 @@ export function EventsHeader({
             padding: "1.5px",
           }}
           animate={{
-            x:
-              ["all", "inperson", "hybrid", "online"].indexOf(eventType) *
-              87,
+            x: ["all", "online"].indexOf(eventType) * 87,
           }}
           transition={{
             duration: 0.5,
@@ -68,8 +64,6 @@ export function EventsHeader({
 
         {[
           { label: "All Events", value: "all" },
-          { label: "In Person", value: "inperson" },
-          { label: "Hybrid", value: "hybrid" },
           { label: "Online", value: "online" },
         ].map((option) => (
           <motion.label
@@ -181,4 +175,4 @@ export function EventsHeader({
       </div>
     </div>
   );
-} 
+}

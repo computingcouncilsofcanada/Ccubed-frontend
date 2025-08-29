@@ -49,29 +49,13 @@ function getMonthGrid(year: number, monthIndexZeroBased: number): DayCell[] {
     grid.push({ date, inCurrentMonth: true, iso });
   }
 
-
-  while (grid.length % 7 !== 0) {
-    const nextDate = new Date(
-      year,
-      monthIndexZeroBased + 1,
-      grid.length - (mondayStartIndex + daysInMonth) + 1
-    );
-    const iso = nextDate.toISOString().slice(0, 10);
-    grid.push({ date: nextDate, inCurrentMonth: false, iso });
-  }
-
-  // Then, limit to exactly 3 weeks (21 cells)
-  if (grid.length > 21) {
-    grid.splice(21);
-  } else if (grid.length < 21) {
-    // Add more cells if we have less than 21
-    while (grid.length < 21) {
-      const last = grid[grid.length - 1].date;
-      const date = new Date(last);
-      date.setDate(last.getDate() + 1);
-      const iso = date.toISOString().slice(0, 10);
-      grid.push({ date, inCurrentMonth: false, iso });
-    }
+  // Fill out the rest of the grid to 6x7 = 42 cells
+  while (grid.length < 42) {
+    const last = grid[grid.length - 1].date;
+    const date = new Date(last);
+    date.setDate(last.getDate() + 1);
+    const iso = date.toISOString().slice(0, 10);
+    grid.push({ date, inCurrentMonth: false, iso });
   }
 
   return grid;
@@ -83,7 +67,7 @@ type CalendarSectionProps = {
 
 export function CalendarSection({ events }: CalendarSectionProps) {
   // State for selected month/year
-  const [selectedDate] = useState(() => {
+  const [selectedDate, setSelectedDate] = useState(() => {
     const now = new Date();
     return { year: now.getFullYear(), month: now.getMonth() };
   });
@@ -159,9 +143,33 @@ export function CalendarSection({ events }: CalendarSectionProps) {
     setSelectedEvent(null);
   };
 
+  // Month navigation handlers
+  const handlePrevMonth = () => {
+    setSelectedDate((prev) => {
+      let newMonth = prev.month - 1;
+      let newYear = prev.year;
+      if (newMonth < 0) {
+        newMonth = 11;
+        newYear -= 1;
+      }
+      return { year: newYear, month: newMonth };
+    });
+  };
+  const handleNextMonth = () => {
+    setSelectedDate((prev) => {
+      let newMonth = prev.month + 1;
+      let newYear = prev.year;
+      if (newMonth > 11) {
+        newMonth = 0;
+        newYear += 1;
+      }
+      return { year: newYear, month: newMonth };
+    });
+  };
+
   return (
-    <div className="max-w-6xl w-full mx-auto px-5 relative z-10 mt-5">
-      {/* Calendar header */}
+    <div className="max-w-6xl w-full mx-auto px-5 relative z-10 mt-20">
+      {/* Calendar header */} 
       <div className="mb-6 text-white font-roboto tracking-normal">
         {/* Main title */}
         <h2 className="text-4xl leading-normal font-semibold -mb-2 tracking-normal md:-mb-4">
@@ -172,12 +180,61 @@ export function CalendarSection({ events }: CalendarSectionProps) {
         <div className="flex items-end justify-between mb-8">
           <div className="max-w-3xl">
             <p className="text-base font-light leading-[23px]">
-              Lorem ipsum dolor sit amet consectetur. Ac malesuada sagittis
-              mollis ullamcorper blandit.
+            Plan ahead with CCubed: learn, connect, and take your next step.
             </p>
           </div>
-          <div className="text-4xl leading-none font-semibold">
-            {monthLabel}
+          <div className="text-4xl leading-none font-semibold flex items-center gap-4">
+            <button
+              aria-label="Previous Month"
+              onClick={handlePrevMonth}
+              className="px-2 py-1 rounded hover:bg-white/10 transition-colors flex items-center justify-center"
+              type="button"
+            >
+              {/* Left chevron SVG */}
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <polyline
+                  points="18,6 10,14 18,22"
+                  stroke="white"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <span>
+              {monthLabel} {targetYear}
+            </span>
+            <button
+              aria-label="Next Month"
+              onClick={handleNextMonth}
+              className="px-2 py-1 rounded hover:bg-white/10 transition-colors flex items-center justify-center"
+              type="button"
+            >
+              {/* Right chevron SVG */}
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <polyline
+                  points="10,6 18,14 10,22"
+                  stroke="white"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
