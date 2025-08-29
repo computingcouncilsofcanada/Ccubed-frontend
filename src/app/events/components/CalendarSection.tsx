@@ -288,7 +288,10 @@ export function CalendarSection({ events }: CalendarSectionProps) {
                     className="p-2 cursor-pointer rounded-lg transition-colors group hover:bg-white/10"
                     onClick={() => handleEventClick(evt)}
                   >
-                    <div className="text-white text-[20px] font-medium md:text-base  leading-tight">
+                    <div
+                      className="text-white text-[20px] font-medium md:text-base leading-tight truncate max-w-full"
+                      title={evt.title}
+                    >
                       {evt.title}
                     </div>
                     {/* <div className="text-white/60 text-[12px] md:text-xs font-light leading-tight group-hover:text-white">
