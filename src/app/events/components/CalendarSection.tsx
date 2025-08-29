@@ -49,8 +49,8 @@ function getMonthGrid(year: number, monthIndexZeroBased: number): DayCell[] {
     grid.push({ date, inCurrentMonth: true, iso });
   }
 
-  // Fill out the rest of the grid to 6x7 = 42 cells
-  while (grid.length < 42) {
+  // Fill out the rest of the grid to 4x7 = 28 cells
+  while (grid.length < 28) {
     const last = grid[grid.length - 1].date;
     const date = new Date(last);
     date.setDate(last.getDate() + 1);
@@ -169,7 +169,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
 
   return (
     <div className="max-w-6xl w-full mx-auto px-5 relative z-10 mt-20">
-      {/* Calendar header */} 
+      {/* Calendar header */}
       <div className="mb-6 text-white font-roboto tracking-normal">
         {/* Main title */}
         <h2 className="text-4xl leading-normal font-semibold -mb-2 tracking-normal md:-mb-4">
@@ -180,7 +180,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
         <div className="flex items-end justify-between mb-8">
           <div className="max-w-3xl">
             <p className="text-base font-light leading-[23px]">
-            Plan ahead with CCubed: learn, connect, and take your next step.
+              Plan ahead with CCubed: learn, connect, and take your next step.
             </p>
           </div>
           <div className="text-4xl leading-none font-semibold flex items-center gap-4">
