@@ -268,7 +268,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
                 className={[
                   "mb-3 md:mb-4",
                   "text-white ",
-                  //   cell.inCurrentMonth ? "text-white" : "text-white/40",
+                    cell.inCurrentMonth ? "text-white" : "text-white/40",
                   "text-lg md:text-[32px] font-medium font-roboto ",
                 ].join(" ")}
               >
