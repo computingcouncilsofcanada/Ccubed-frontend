@@ -67,7 +67,7 @@ export default function EventsPage() {
 
   // Modal handlers
   const handleShare = () => alert("Share link clicked");
-  const handleInvite = () => alert("Invitation link clicked");
+  const handleInvite = () => alert("Registration link clicked");
 
   // Filter logic with custom hook
   const { filteredCurrentEvents, showEmptyState, showFilterEmptyState } =

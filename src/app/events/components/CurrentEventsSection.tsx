@@ -180,6 +180,8 @@ export function CurrentEventsSection({
                               : "https://placehold.co/400"
                           }
                           description={event.description}
+                          onseeDetails={onSeeDetails}
+                          onInvitationLink={onInvitationLink}
                         />
                       </div>
                     ))}
@@ -212,6 +214,8 @@ export function CurrentEventsSection({
                                 : "https://placehold.co/400"
                             }
                             description={event.description}
+                            onseeDetails={onSeeDetails}
+                            onInvitationLink={onInvitationLink}
                           />
                         </div>
                       ))}
@@ -246,6 +250,8 @@ export function CurrentEventsSection({
                         : "https://placehold.co/400"
                     }
                     description={event.description}
+                    onseeDetails={onSeeDetails}
+                    onInvitationLink={onInvitationLink}
                   />
                 ))}
               </div>

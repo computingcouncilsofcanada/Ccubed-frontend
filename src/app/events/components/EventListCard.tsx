@@ -1032,60 +1032,58 @@ export function EventListCard({
             ease: [0.16, 1, 0.3, 1],
           }}
         >
-          {showInvitationButton && (
-            <button
-              className="bg-[#FAA336] text-center flex items-center justify-center"
-              style={{
-                minWidth:
-                  windowWidth < 600
-                    ? "60px"
-                    : windowWidth < 700
-                    ? "70px"
-                    : windowWidth < 820
-                    ? "80px"
-                    : windowWidth < 1024
-                    ? "90px"
-                    : windowWidth < 1200
-                    ? "105px"
-                    : "120px",
-                height:
-                  windowWidth < 600
-                    ? "20px"
-                    : windowWidth < 700
-                    ? "24px"
-                    : windowWidth < 820
-                    ? "28px"
-                    : windowWidth < 1024
-                    ? "30px"
-                    : windowWidth < 1200
-                    ? "33px"
-                    : "36px",
-                paddingLeft: "8px",
-                paddingRight: "8px",
-                borderRadius: "6px",
-                color: "#0B1820",
-                fontFamily: "Roboto, sans-serif",
-                fontWeight: "400",
-                fontSize:
-                  windowWidth < 600
-                    ? "8px"
-                    : windowWidth < 700
-                    ? "9px"
-                    : windowWidth < 820
-                    ? "10px"
-                    : windowWidth < 1024
-                    ? "11px"
-                    : windowWidth < 1200
-                    ? "12px"
-                    : "14px",
-                lineHeight: "auto",
-                letterSpacing: "0%",
-              }}
-              onClick={onInvitationLink}
-            >
-              Invitation Link
-            </button>
-          )}
+          <button
+            className="bg-[#FAA336] text-center flex items-center justify-center"
+            style={{
+              minWidth:
+                windowWidth < 600
+                  ? "60px"
+                  : windowWidth < 700
+                  ? "70px"
+                  : windowWidth < 820
+                  ? "80px"
+                  : windowWidth < 1024
+                  ? "90px"
+                  : windowWidth < 1200
+                  ? "105px"
+                  : "120px",
+              height:
+                windowWidth < 600
+                  ? "20px"
+                  : windowWidth < 700
+                  ? "24px"
+                  : windowWidth < 820
+                  ? "28px"
+                  : windowWidth < 1024
+                  ? "30px"
+                  : windowWidth < 1200
+                  ? "33px"
+                  : "36px",
+              paddingLeft: "8px",
+              paddingRight: "8px",
+              borderRadius: "6px",
+              color: "#0B1820",
+              fontFamily: "Roboto, sans-serif",
+              fontWeight: "400",
+              fontSize:
+                windowWidth < 600
+                  ? "8px"
+                  : windowWidth < 700
+                  ? "9px"
+                  : windowWidth < 820
+                  ? "10px"
+                  : windowWidth < 1024
+                  ? "11px"
+                  : windowWidth < 1200
+                  ? "12px"
+                  : "14px",
+              lineHeight: "auto",
+              letterSpacing: "0%",
+            }}
+            onClick={onInvitationLink}
+          >
+            Registration Link
+          </button>
           <button
             className="bg-transparent border-[1px] border-white text-center flex items-center justify-center"
             style={{
