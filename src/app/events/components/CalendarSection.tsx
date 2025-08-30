@@ -168,40 +168,40 @@ export function CalendarSection({ events }: CalendarSectionProps) {
   };
 
   return (
-    <div className="max-w-6xl w-full mx-auto px-5 relative z-10 mt-20">
+    <div className="max-w-6xl w-full mx-auto px-2 relative z-10 mt-8">
       {/* Calendar header */}
-      <div className="mb-6 text-white font-roboto tracking-normal">
+      <div className="mb-2 text-white font-roboto tracking-normal">
         {/* Main title */}
-        <h2 className="text-4xl leading-normal font-semibold -mb-2 tracking-normal md:-mb-4">
+        <h2 className="text-2xl leading-tight font-semibold mb-0 tracking-normal md:mb-1">
           Calendar
         </h2>
 
         {/* Description and month row */}
-        <div className="flex items-end justify-between mb-8">
-          <div className="max-w-3xl">
-            <p className="text-base font-light leading-[23px]">
+        <div className="flex items-end justify-between mb-3">
+          <div className="max-w-2xl">
+            <p className="text-sm font-light leading-[18px]">
               Plan ahead with CCubed: learn, connect, and take your next step.
             </p>
           </div>
-          <div className="text-4xl leading-none font-semibold flex items-center gap-4">
+          <div className="text-xl leading-none font-semibold flex items-center gap-2">
             <button
               aria-label="Previous Month"
               onClick={handlePrevMonth}
-              className="px-2 py-1 rounded hover:bg-white/10 transition-colors flex items-center justify-center"
+              className="px-1 py-0.5 rounded hover:bg-white/10 transition-colors flex items-center justify-center"
               type="button"
             >
               {/* Left chevron SVG */}
               <svg
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <polyline
-                  points="18,6 10,14 18,22"
+                  points="13,4 7,10 13,16"
                   stroke="white"
-                  strokeWidth="3"
+                  strokeWidth="2"
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -214,21 +214,21 @@ export function CalendarSection({ events }: CalendarSectionProps) {
             <button
               aria-label="Next Month"
               onClick={handleNextMonth}
-              className="px-2 py-1 rounded hover:bg-white/10 transition-colors flex items-center justify-center"
+              className="px-1 py-0.5 rounded hover:bg-white/10 transition-colors flex items-center justify-center"
               type="button"
             >
               {/* Right chevron SVG */}
               <svg
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <polyline
-                  points="10,6 18,14 10,22"
+                  points="7,4 13,10 7,16"
                   stroke="white"
-                  strokeWidth="3"
+                  strokeWidth="2"
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -240,16 +240,16 @@ export function CalendarSection({ events }: CalendarSectionProps) {
       </div>
 
       {/* Weekday labels */}
-      <div className="grid grid-cols-7 gap-3 text-white  mb-1 font-roboto text-[16px] font-light">
+      <div className="grid grid-cols-7 gap-1 text-white mb-0 font-roboto text-xs font-light">
         {["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"].map((d) => (
-          <div key={d} className="px-2">
+          <div key={d} className="px-1">
             {d}
           </div>
         ))}
       </div>
 
       {/* Calendar grid */}
-      <div className="grid grid-cols-7 gap-3">
+      <div className="grid grid-cols-7 gap-1">
         {grid.map((cell, idx) => {
           // Check if this cell represents today
           const today = new Date();
@@ -259,9 +259,9 @@ export function CalendarSection({ events }: CalendarSectionProps) {
             <div
               key={`${cell.iso}-${idx}`}
               className={[
-                "relative rounded-2xl backdrop-blur-md",
+                "relative rounded-xl backdrop-blur-md",
                 isToday ? "ring-2 ring-white" : "", // White border for current day
-                "min-h-[120px] md:min-h-[160px] p-1 md:p-2 ",
+                "min-h-[36px] sm:min-h-[48px] md:min-h-[64px] lg:min-h-[80px] p-0.5 sm:p-1 md:p-1 ",
               ].join(" ")}
             >
               <div
@@ -269,7 +269,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
                   "mb-3 md:mb-4",
                   "text-white ",
                   cell.inCurrentMonth ? "text-white" : "text-white/40",
-                  "text-lg md:text-[32px] font-medium font-roboto ",
+                  "text-xs sm:text-sm md:text-base lg:text-lg font-medium font-roboto ",
                 ].join(" ")}
               >
                 {cell.date.getDate().toString().padStart(2, "0")}
@@ -278,7 +278,7 @@ export function CalendarSection({ events }: CalendarSectionProps) {
                 className={[
                   "space-y-2",
                   (eventsByIso.get(cell.iso)?.length ?? 0) > 0
-                    ? " bg-[#D4D4D4]/10 rounded-lg p-2"
+                    ? " bg-[#D4D4D4]/10 rounded-lg p-1"
                     : "",
                 ].join(" ")}
               >
@@ -289,19 +289,11 @@ export function CalendarSection({ events }: CalendarSectionProps) {
                     onClick={() => handleEventClick(evt)}
                   >
                     <div
-                      className="text-white text-[20px] font-medium md:text-base leading-tight truncate max-w-full"
+                      className="text-white text-xs font-medium md:text-xs leading-tight truncate max-w-full"
                       title={evt.title}
                     >
                       {evt.title}
                     </div>
-                    {/* <div className="text-white/60 text-[12px] md:text-xs font-light leading-tight group-hover:text-white">
-                      {evt.subtitle}
-                    </div>
-                    {evt.time && (
-                      <div className="text-white/60 text-[11px] md:text-xs font-light leading-tight mt-1 group-hover:text-white">
-                        {evt.time}
-                      </div>
-                    )} */}
                   </div>
                 ))}
               </div>
