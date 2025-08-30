@@ -53,7 +53,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
-      <div className="bg-[#D4D4D4]/10 rounded-2xl max-w-7xl w-full h-9/10 p-8 relative  text-white flex flex-col gap-4 overflow-y-auto">
+      <div className="bg-[#D4D4D4]/10 md:rounded-2xl max-w-7xl w-full h-full md:h-9/10 p-8 relative  text-white flex flex-col gap-4  overflow-y-auto">
         <button
           onClick={onClose}
           className="absolute top-5 right-5    px-4 py-1 text-lg"
@@ -94,9 +94,9 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                     </div> */}
         </div>
         {/* Main Content */}
-        <div className="flex h-full flex-row gap-8 ">
+        <div className="flex h-full flex-col  md:flex-row gap-8 ">
           {/* Image Box */}
-          <div className="w-100 h-full   bg-gray-100 border border-black rounded-lg flex items-center justify-center overflow-hidden">
+          <div className="w-100 h-full   bg-gray-100 border border-black rounded-lg flex items-center justify-center md:overflow-hidden">
             {event.files && event.files.length > 0 ? (
               <Image
                 src={event.files[0].url}
@@ -104,7 +104,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                 width={400}
                 height={400}
                 style={{ width: "100%", height: "100%" }}
-                className="object-cover  overflow-hidden"
+                className="object-cover  md:overflow-hidden"
               ></Image>
             ) : (
               <span className="text-4xl text-gray-400">🖼️</span>
