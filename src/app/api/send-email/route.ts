@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
   const { firstName, email, department, message } = await req.json();
+   const formattedMessage = message.replace(/\n/g, "<br>");
 
   const departmentEmails: Record<string, string> = {
     "Finance/Sponsorship": "finance@ccubed.dev",
@@ -32,7 +33,16 @@ export async function POST(req: Request) {
       to: toEmail, 
       subject: `Message from ${firstName} - ${department}`,
       text: message,
-      html: `<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'><h2 style='margin-bottom: 10px;'>New ${department} Message</h2><p><strong>Department:</strong> ${department}</p><p><strong>Email:</strong> ${email}</p><p><strong>First Name:</strong> Testing</p><p><strong>Message:</strong> ${message}</p></div>`,
+      html: `
+  <div style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+    <h2 style='margin-bottom: 10px;'>New ${department} Message</h2>
+    <p><strong>Department:</strong> ${department}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>First Name:</strong> ${firstName}</p>
+    <p><strong>Message:</strong><br>${formattedMessage}</p>
+  </div>
+`
+
       
     });
 
