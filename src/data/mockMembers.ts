@@ -7,7 +7,7 @@ export const mockMembers = [
         name: "Parth Doshi",
         role: "President",
         imageUrl: "/MemberPics/parth.png",
-        info: "Info about person goes here this is cool",
+        info: "President",
         category: "directors",
         social: {
           linkedin: "https://linkedin.com",
@@ -23,7 +23,7 @@ export const mockMembers = [
         name: "Lucas Lalumière",
         role: "Director of Cybersecurity",
         imageUrl: "/MemberPics/lucas.png",
-        info: "Info about person goes here this is cool",
+        info: "Director of Cybersecurity",
         category: "directors",
         social: {
           linkedin: "https://linkedin.com",
@@ -34,7 +34,7 @@ export const mockMembers = [
         name: "Naetri Niranjan",
         role: "Director of Communications",
         imageUrl: "/MemberPics/naetri.png",
-        info: "Info about person goes here",
+        info: "Director of Communications",
         category: "directors",
         social: {
           linkedin: "https://linkedin.com",
@@ -45,7 +45,7 @@ export const mockMembers = [
         name: "Het Jivani",
         role: "Director of Outreach & Systems Administration",
         imageUrl: "/MemberPics/het.png",
-        info: "Info about person goes here",
+        info: "Director of Outreach & Systems Administration",
         category: "directors",
         social: {
           linkedin: "https://linkedin.com",
@@ -56,7 +56,7 @@ export const mockMembers = [
         name: "Divjot Singh",
         role: "Director of Events",
         imageUrl: "/MemberPics/divjot.png",
-        info: "Info about person goes here",
+        info: "Director of Events",
         category: "directors",
         social: {
           linkedin: "https://linkedin.com",
@@ -69,10 +69,10 @@ export const mockMembers = [
     members: [
       {
         id: 6,
-        name: "Fopefoluwa Ikufisile",
-        role: "Web Developer",
-        imageUrl: "/MemberPics/fope.png",
-        info: "Info about person goes here",
+        name: "Het Jivani",
+        role: "Director of Outreach & Systems Administration",
+        imageUrl: "/MemberPics/het.png",
+        info: "Director of Outreach & Systems Administration",
         category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
@@ -80,10 +80,10 @@ export const mockMembers = [
       },
       {
         id: 7,
-        name: "James Ha",
+        name: "Fopefoluwa Ikufisile",
         role: "Web Developer",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Info about person goes here",
+        imageUrl: "/MemberPics/fope.png",
+        info: "Web Developer",
         category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
@@ -91,10 +91,10 @@ export const mockMembers = [
       },
       {
         id: 8,
-        name: "Raymond Lam",
+        name: "James Ha",
         role: "Web Developer",
-        imageUrl: "/MemberPics/raymond2.png",
-        info: "Info about person goes here",
+        imageUrl: "/MemberPics/no-picture.png",
+        info: "Web Developer",
         category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
@@ -102,10 +102,10 @@ export const mockMembers = [
       },
       {
         id: 9,
-        name: "Binming Li",
+        name: "Raymond Lam",
         role: "Web Developer",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Info about person goes here",
+        imageUrl: "/MemberPics/raymond2.png",
+        info: "Web Developer",
         category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
@@ -113,10 +113,21 @@ export const mockMembers = [
       },
       {
         id: 10,
+        name: "Binming Li",
+        role: "Web Developer",
+        imageUrl: "/MemberPics/no-picture.png",
+        info: "Web Developer",
+        category: "sysadmin",
+        social: {
+          linkedin: "https://linkedin.com",
+        },
+      },
+      {
+        id: 11,
         name: "Soroush Merikhy",
         role: "Lead of UI/UX Design",
         imageUrl: "/MemberPics/no-picture.png",
-        info: "Info about person goes here",
+        info: "Lead of UI/UX Design",
         category: "sysadmin",
         social: {
           linkedin: "https://linkedin.com",
@@ -125,25 +136,14 @@ export const mockMembers = [
     ],
   },
   {
-      team: "Board of Communications",
+      team: "Communications Team",
       members:[
         {
-        id: 11,
+        id: 12,
         name: "Naetri Niranjan",
         role: "Director of Communications",
         imageUrl: "/MemberPics/naetri.png",
-        info: "Info about person goes here",
-        category: "communications",
-        social: {
-          linkedin: "https://linkedin.com",
-        },
-      },
-      {
-        id: 12,
-        name: "Jessamine Li",
-        role: "Social Media Coordinator",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Info about person goes here",
+        info: "Director of Communications",
         category: "communications",
         social: {
           linkedin: "https://linkedin.com",
@@ -151,10 +151,21 @@ export const mockMembers = [
       },
       {
         id: 13,
+        name: "Jessamine Li",
+        role: "Social Media Coordinator",
+        imageUrl: "/MemberPics/no-picture.png",
+        info: "Social Media Coordinator",
+        category: "communications",
+        social: {
+          linkedin: "https://linkedin.com",
+        },
+      },
+      {
+        id: 14,
         name: "Esaaba Nyarko",
         role: "Social Media Coordinator",
         imageUrl: "/MemberPics/esaaba.png",
-        info: "Info about person goes here",
+        info: "Social Media Coordinator",
         category: "communications",
         social: {
           linkedin: "https://linkedin.com",
@@ -163,25 +174,14 @@ export const mockMembers = [
       ]
   },
   {
-    team: "Board of Event Coordination",
+    team: "Events Team",
     members: [
       {
-        id: 14,
+        id: 15,
         name: "Zaid Mohiuddin",
         role: "Events Coordinator",
         imageUrl: "/MemberPics/zaid.png",
-        info: "Info about person goes here",
-        category: "events",
-        social: {
-          linkedin: "https://linkedin.com",
-        },
-      },
-      {
-        id: 15,
-        name: "Stephanie Song",
-        role: "Events Coordinator",
-        imageUrl: "/MemberPics/steph.png",
-        info: "Info about person goes here",
+        info: "Events Coordinator",
         category: "events",
         social: {
           linkedin: "https://linkedin.com",
@@ -189,10 +189,21 @@ export const mockMembers = [
       },
       {
         id: 16,
+        name: "Stephanie Song",
+        role: "Events Coordinator",
+        imageUrl: "/MemberPics/steph.png",
+        info: "Events Coordinator",
+        category: "events",
+        social: {
+          linkedin: "https://linkedin.com",
+        },
+      },
+      {
+        id: 17,
         name: "Minahil Fatima",
         role: "Events Coordinator",
         imageUrl: "/MemberPics/fatima.png",
-        info: "Info about person goes here",
+        info: "Events Coordinator",
         category: "events",
         social: {
           linkedin: "https://linkedin.com",
@@ -201,14 +212,14 @@ export const mockMembers = [
     ],
   },
   {
-    team: "Board of Finance",
+    team: "Finance Team",
     members:[
        {
-        id: 17,
+        id: 18,
         name: "Ryan",
         role: "Finance Coordinator",
         imageUrl: "/MemberPics/no-picture.png",
-        info: "Info about person goes here",
+        info: "Finance Coordinator",
         category: "finance",
         social: {
           linkedin: "https://linkedin.com",
@@ -220,22 +231,11 @@ export const mockMembers = [
     team: "Outreach Team",
     members: [
       {
-        id: 18,
+        id: 19,
         name: "Het Jivani",
         role: "Director of Outreach & Systems Administration",
         imageUrl: "/MemberPics/het.png",
-        info: "Info about person goes here",
-        category: "outreach",
-        social: {
-          linkedin: "https://linkedin.com",
-        },
-      },
-      {
-        id: 19,
-        name: "Lucas Lalumière",
-        role: "Director of Cybersecurity",
-        imageUrl: "/MemberPics/lucas.png",
-        info: "Info about person goes here this is cool",
+        info: "Director of Outreach & Systems Administration",
         category: "outreach",
         social: {
           linkedin: "https://linkedin.com",
@@ -243,10 +243,21 @@ export const mockMembers = [
       },
       {
         id: 20,
+        name: "Lucas Lalumière",
+        role: "Director of Cybersecurity",
+        imageUrl: "/MemberPics/lucas.png",
+        info: "Director of Cybersecurity",
+        category: "outreach",
+        social: {
+          linkedin: "https://linkedin.com",
+        },
+      },
+      {
+        id: 21,
         name: "Sparsh Ladani",
         role: "Program Coordinator",
         imageUrl: "/MemberPics/no-picture.png",
-        info: "Info about person goes here this is cool",
+        info: "Program Coordinator",
         category: "outreach",
         social: {
           linkedin: "https://linkedin.com",
@@ -259,22 +270,11 @@ export const mockMembers = [
     team: "Human Resources Team",
     members: [
       {
-        id: 21,
+        id: 22,
         name: "Gulroob Saini",
         role: "HR Coordinator",
         imageUrl: "/MemberPics/gulroob.png",
-        info: "Info about person goes here",
-        category: "hr",
-        social: {
-          linkedin: "https://linkedin.com",
-        },
-      },
-      {
-        id: 22,
-        name: "Funmibi Olaegbe",
-        role: "HR Coordinator",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Info about person goes here",
+        info: "HR Coordinator",
         category: "hr",
         social: {
           linkedin: "https://linkedin.com",
@@ -282,10 +282,21 @@ export const mockMembers = [
       },
       {
         id: 23,
+        name: "Funmibi Olaegbe",
+        role: "HR Coordinator",
+        imageUrl: "/MemberPics/no-picture.png",
+        info: "HR Coordinator",
+        category: "hr",
+        social: {
+          linkedin: "https://linkedin.com",
+        },
+      },
+      {
+        id: 24,
         name: "Evangelyn Kelvin",
         role: "HR Coordinator",
         imageUrl: "/MemberPics/no-picture.png",
-        info: "Info about person goes here",
+        info: "HR Coordinator",
         category: "hr",
         social: {
           linkedin: "https://linkedin.com",
