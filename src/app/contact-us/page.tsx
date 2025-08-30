@@ -31,9 +31,19 @@ export default function ContactUs() {
 
   const onSubmit = async (data: FormFields) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSuccessModalOpen(true);
+  
     reset();
     setSelectedDepartment("");
+    try {
+    const res = await fetch("/api/send-email", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (result.success) setIsSuccessModalOpen(true);
+  } catch (err) {
+    console.error(err);
+  }
     console.log(data);
   };
 
