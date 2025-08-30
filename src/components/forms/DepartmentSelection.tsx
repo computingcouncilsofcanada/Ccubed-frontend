@@ -16,26 +16,18 @@ type DepartmentSelectProps = {
 };
 
 const departments: Department[] = [
-  { name: "System Administration", id: 1 },
-  { name: "Communications", id: 2 },
-  { name: "Outreach", id: 3 },
-  { name: "Events", id: 4 },
-  { name: "Partnerships", id: 5 },
+  { name: "Finance/Sponsorship", id: 1 },
+  { name: "Social Media Collabs", id: 2 },
+  { name: "General Queries", id: 3 },
+  { name: "Partnership/Hiring", id: 4 },
 ];
 
 const departmentDescriptions: Record<string, string> = {
-  "system administration":
-    "Connect with our system administration team for technical support, account management, and system-related inquiries.",
-  communications:
-    "Get in touch with our communications team for media inquiries, press releases, and public relations matters.",
-  outreach:
-    "Reach out to our outreach team for community engagement, external partnerships, and public awareness initiatives.",
-  events:
-    "Contact our events team for information about upcoming events, event registration, and event-related questions.",
-  partnerships:
-    "Connect with our partnerships team for collaboration opportunities, sponsorship inquiries, and strategic alliances.",
-  default:
-    "",
+  "finance/sponsorship": "Finance/Sponsorship questions - finance@ccubed.dev",
+  "social media collabs": "Get in touch with our communications team for media inquiries, press releases, and public relations matters - communications@ccubed.dev",
+  "general queries": "General questions - executivesccubed@gmail.com",
+  "partnership/hiring": "Connect with our partnerships team for collaboration opportunities, sponsorship inquiries, and strategic alliances - outreach@ccubed.dev",
+  default: "",
 };
 
 const getDepartmentDescription = (name: string) => {
