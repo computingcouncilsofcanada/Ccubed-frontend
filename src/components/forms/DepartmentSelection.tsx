@@ -16,26 +16,18 @@ type DepartmentSelectProps = {
 };
 
 const departments: Department[] = [
-  { name: "System Administration", id: 1 },
-  { name: "Communications", id: 2 },
-  { name: "Outreach", id: 3 },
-  { name: "Events", id: 4 },
-  { name: "Partnerships", id: 5 },
+  { name: "Finance/Sponsorship", id: 1 },
+  { name: "Social Media Collabs", id: 2 },
+  { name: "General Queries", id: 3 },
+  { name: "Partnership/Hiring", id: 4 },
 ];
 
 const departmentDescriptions: Record<string, string> = {
-  "system administration":
-    "Connect with our system administration team for technical support, account management, and system-related inquiries.",
-  communications:
-    "Get in touch with our communications team for media inquiries, press releases, and public relations matters.",
-  outreach:
-    "Reach out to our outreach team for community engagement, external partnerships, and public awareness initiatives.",
-  events:
-    "Contact our events team for information about upcoming events, event registration, and event-related questions.",
-  partnerships:
-    "Connect with our partnerships team for collaboration opportunities, sponsorship inquiries, and strategic alliances.",
-  default:
-    "Please select a department to get specific information about how we can help you.",
+  "finance/sponsorship": "Finance/Sponsorship questions - finance@ccubed.dev",
+  "social media collabs": "Get in touch with our communications team for media inquiries, press releases, and public relations matters - communications@ccubed.dev",
+  "general queries": "General questions - executivesccubed@gmail.com",
+  "partnership/hiring": "Connect with our partnerships team for collaboration opportunities, sponsorship inquiries, and strategic alliances - outreach@ccubed.dev",
+  default: "",
 };
 
 const getDepartmentDescription = (name: string) => {
@@ -50,9 +42,9 @@ export const DepartmentSelect = ({
   onChange,
 }: DepartmentSelectProps) => {
   return (
-    <label htmlFor="department" className="font-roberto">
-      <p>Choose Department</p>
-      <p className="mb-2">{getDepartmentDescription(value)}</p>
+    <label htmlFor="department" className="font-roberto text-[14px] ">
+      <p className="ml-5">Choose Department</p>
+      <p className="mb-2 ml-5">{getDepartmentDescription(value)}</p>
       <select
         {...register("department", {
           required: "Please select a department",
@@ -60,7 +52,7 @@ export const DepartmentSelect = ({
         })}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`bg-white w-full border-2 border-background p-3 outline-none bg-foreground  rounded-4xl text-gray-500 ${
+        className={`bg-white w-full border-2 border-background px-[26px] h-[48px] outline-none bg-foreground  rounded-4xl text-gray-500 ${
           error ? "border-red-500" : ""
         }`}
       >
