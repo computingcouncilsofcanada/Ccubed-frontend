@@ -23,8 +23,7 @@ export default function Hero() {
       {/* Text Content */}
       <div className="text flex flex-col gap-4 md:max-w-sm lg:max-w-lg">
         <h1 className="text-white font-extrabold text-2xl sm:text-3xl md:text-2xl lg:text-4xl">
-          Connecting Canada&apos;s computing students through community and
-          events.
+          Computing Councils of Canada (CCUBED)
         </h1>
         <p 
           className="text-white max-w-xl sm:text-lg sm:leading-6 lg:text-xl lg:leading-7"
@@ -36,8 +35,7 @@ export default function Hero() {
             letterSpacing: "0%"
           }}
         >
-          To connect and support students through engaging events while
-          building community amongst Canadian computing student groups. 
+          Canada’s largest student run not for profit organization for computer science students 
         </p>
         
         {/* Call to Action Buttons */}
@@ -85,7 +83,7 @@ export default function Hero() {
           </Link>
           </div>
           <Link
-            href="/"
+            href="/teams"
             className="flex items-center justify-center rounded-lg"
             style={{
               width: "125px",
@@ -101,7 +99,7 @@ export default function Hero() {
               letterSpacing: "1%"
             }}
           >
-            Learn More
+            Team
           </Link>
         </div>
       </div>

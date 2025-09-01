@@ -11,21 +11,21 @@ const footerLinks = {
     { name: "Home", href: "/" },
     { name: "Council", href: "/council" },
     { name: "Events", href: "/events" },
-    { name: "Resources", href: "/external-resources" },
-    { name: "Partnership", href: "/partnership" },
+    // { name: "Resources", href: "/external-resources" },
+    // { name: "Partnership", href: "/partnership" },
     { name: "Our Teams", href: "/teams" },
   ],
   column2: [
-    { name: "Careers", href: "/hiring" },
-    { name: "Blog", href: "/blog" },
+    // { name: "Careers", href: "/hiring" },
+    // { name: "Blog", href: "/blog" },
     { name: "Contact Us", href: "/contact-us" },
     { name: "About Us", href: "/about" },
   ],
-  column3: [
-    { name: "FAQs", href: "/faqs" },
-    { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Terms of Use", href: "/terms-of-use" },
-  ],
+  // column3: [
+  //   { name: "FAQs", href: "/faqs" },
+  //   { name: "Privacy Policy", href: "/privacy-policy" },
+  //   { name: "Terms of Use", href: "/terms-of-use" },
+  // ],
 };
 
 export default function Footer() {
@@ -110,11 +110,7 @@ export default function Footer() {
                   maxWidth: "450px",
                 }}
               >
-                Lorem ipsum dolor sit amet consectetur. Ac malesuada sagittis
-                mollis ullamcorper blandit augue phasellus hac elit. Aliquam
-                lorem id in scelerisque tortor amet lacus dolor interdum.
-                Aliquam lorem id in scelerisque tortor amet lacus dolor
-                interdum.
+                Powered by students, built for community—CCubed bridges universities and partner orgs to turn ideas into action. Follow us for events, resources, and ways to get involved.
               </p>
             </div>
 
@@ -159,7 +155,7 @@ export default function Footer() {
               </div>
 
               {/* Column 3 */}
-              <div className="footer-column">
+              {/* <div className="footer-column">
                 {footerLinks.column3.map((link, index) => (
                   <Link
                     key={index}
@@ -175,7 +171,7 @@ export default function Footer() {
                     {link.name}
                   </Link>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             {/* Column 3 - Bear Mascot */}
