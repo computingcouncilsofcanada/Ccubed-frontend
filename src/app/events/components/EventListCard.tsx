@@ -853,7 +853,7 @@ export function EventListCard({
                   ? "320px"
                   : windowWidth < 1200
                   ? "340px"
-                  : "400px",
+                  : "500px",
               marginBottom:
                 windowWidth < 700
                   ? "3px"
