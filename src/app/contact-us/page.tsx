@@ -130,7 +130,7 @@ export default function ContactUs() {
                   minLength: { value: 10, message: "At least 10 characters" },
                   maxLength: { value: 1000, message: "Less than 1000 characters" },
                 })}
-                className={`bg-white w-full box-border h-[259px] rounded-[20px] p-3 mt-2
+                className={`bg-white w-full box-border h-[100px] rounded-[20px] p-3 mt-2
                           transition-all duration-300 ease-in-out
                           focus:border-2 focus:border-[#FAA336] focus:shadow-md
                           focus:outline-none ${errors.message ? "border border-red-500" : ""}`}

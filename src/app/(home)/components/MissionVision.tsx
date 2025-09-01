@@ -296,8 +296,7 @@ export default function MissionVision() {
                 variants={descriptionVariants}
                 transition={transition}
               >
-                To connect and support students through engaging events while
-                building community amongst Canadian computing student groups.
+                We bring Canada’s computing students together. Through engaging events, mentorship, and collaboration, we connect student groups across the country and create opportunities for students to learn, grow, and thrive as part of a stronger national community.
               </motion.p>
             </div>
           </div>
@@ -484,13 +483,7 @@ export default function MissionVision() {
                 variants={descriptionVariants}
                 transition={transition}
               >
-                To create a welcoming space where students can share their
-                experiences and computing student groups can share their
-                resources and knowledge to contribute to the success of the
-                community as a whole. We envision a future where networking is
-                simpler, advice is easy to come by, and computing students
-                don&apos;t have to feel alone in an increasingly virtual
-                industry.
+                We envision a Canada where every computing student feels supported, connected, and empowered. A place where student groups share knowledge and resources freely, networking happens naturally, and advice is always within reach. Together, we’re building a community where no student has to navigate the ever-changing tech world alone.
               </motion.p>
             </div>
           </div>

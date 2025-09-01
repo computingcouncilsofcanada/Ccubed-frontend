@@ -20,13 +20,13 @@ const getStats = (eventsCount: number) => [
   },
   {
     id: 3,
-    number: "400+",
-    label: "executive & volunteer leaders",
+    number: "800+",
+    label: "Event Registrants",
   },
   {
     id: 4,
-    number: "15+",
-    label: "University Chapters",
+    number: "9+",
+    label: "University",
   },
 ];
 
