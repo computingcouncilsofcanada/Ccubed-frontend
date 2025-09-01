@@ -76,8 +76,12 @@ export function EventCard({
 
   // Use smart date formatting with timezone awareness
   const formatDate = (dateString: string) => {
+    if (!dateString || dateString.trim().toUpperCase() === "TBD") return "TBD";
     return formatDateSmart(dateString, { format: "medium" });
   };
+
+  const displayTime =
+    !time || time.trim().toUpperCase() === "TBD" ? "TBD" : time;
 
   return (
     <motion.div
@@ -214,7 +218,7 @@ export function EventCard({
                       letterSpacing: "0%",
                     }}
                   >
-                    {time}
+                    {displayTime}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">

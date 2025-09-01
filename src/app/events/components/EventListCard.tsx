@@ -124,9 +124,14 @@ export function EventListCard({
       ? 6
       : 8;
 
+  // Helper for TBD
+  const isTBD = (val: string) => !val || val.trim().toUpperCase() === "TBD";
+
   // Day number and ordinal suffix for date display
-  const dayNumber = extractDay(event.date);
-  const ordinal = getOrdinalSuffix(dayNumber);
+  const dayNumber = isTBD(event.date) ? "TBD" : extractDay(event.date);
+  const ordinal = isTBD(event.date) ? "" : getOrdinalSuffix(dayNumber);
+  const monthName = isTBD(event.date) ? "" : getMonthName(event.date);
+  const displayTime = isTBD(event.time) ? "TBD" : event.time;
 
   // Suffix sizing/position (small superscript at top-right of the day number)
   const suffixFontSizeBase =
@@ -468,7 +473,7 @@ export function EventListCard({
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            {getMonthName(event.date)}
+            {isTBD(event.date) ? "TBD" : monthName}
           </motion.span>
         </motion.div>
       </motion.div>
