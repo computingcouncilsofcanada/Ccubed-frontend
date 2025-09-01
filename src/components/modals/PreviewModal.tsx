@@ -121,7 +121,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                 <p>{event.description}</p>
               </CollapsibleSection>
             </div>
-            <CollapsibleSection
+            {/* <CollapsibleSection
               title="You will Learn:"
               titleStyle="text-xl font-semibold"
             >
@@ -157,7 +157,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                 <li>Pronounce words correctly without hearing them first</li>
                 <li>Over one thousand vocabulary words from all categories</li>
               </ul>
-            </CollapsibleSection>
+            </CollapsibleSection> */}
             <div className="flex flex-col flex-1 justify-end h-full ">
               <div className="flex justify-end mt-auto ">
                 {/* <div className="flex flex-col gap-2 border-2 border-yellow-500">
