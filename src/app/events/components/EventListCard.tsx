@@ -127,22 +127,17 @@ export function EventListCard({
   // Helper for TBD events
   const isTBD = (val: string) => !val || val.trim().toUpperCase() === "TBD";
 
-  // Helper for recurring events
-  const isRecurring = (val: string) =>
-    val && val.trim().toUpperCase().includes("EVERY");
 
   // Day number and ordinal suffix for date display
   const dayNumber = isTBD(event.date)
     ? "TBD"
-    : isRecurring(event.date)
-    ? ""
     : extractDay(event.date);
   const ordinal =
-    isTBD(event.date) || isRecurring(event.date)
+    isTBD(event.date)
       ? ""
       : getOrdinalSuffix(dayNumber);
   const monthName =
-    isTBD(event.date) || isRecurring(event.date)
+    isTBD(event.date) 
       ? ""
       : getMonthName(event.date);
 
@@ -486,7 +481,7 @@ export function EventListCard({
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            {isRecurring(event.date) ? event.date.trim() : monthName}
+            {monthName}
           </motion.span>
         </motion.div>
       </motion.div>

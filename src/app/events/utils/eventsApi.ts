@@ -27,8 +27,15 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
       !isValidTimestamp(event.start_at) &&
       isValidTimestamp(event.end_at)
     ) {
-      // This is a recurring event (start_at is text like "Every Thursdays")
-      date = event.start_at.trim(); // Use the text as-is
+      const formatDateTime = (timestamp: string) => {
+        const date = new Date(parseInt(timestamp));
+        const isoDate = date.toLocaleDateString("en-CA");
+        return {
+          date: isoDate,
+          time: formatTimeSmart(timestamp, { format: "12h" }),
+        };
+      };
+      date = formatDateTime(event.end_at).date;
 
       // Store the end timestamp in the time field for proper categorization
       time = event.end_at; // Store the timestamp for processing
