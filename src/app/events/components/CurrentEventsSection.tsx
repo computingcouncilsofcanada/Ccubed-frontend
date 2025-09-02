@@ -182,6 +182,7 @@ export function CurrentEventsSection({
                           description={event.description}
                           onseeDetails={onSeeDetails}
                           onInvitationLink={onInvitationLink}
+                          originalEvent={event}
                         />
                       </div>
                     ))}
@@ -216,6 +217,7 @@ export function CurrentEventsSection({
                             description={event.description}
                             onseeDetails={onSeeDetails}
                             onInvitationLink={onInvitationLink}
+                            originalEvent={event}
                           />
                         </div>
                       ))}
@@ -252,6 +254,7 @@ export function CurrentEventsSection({
                     description={event.description}
                     onseeDetails={onSeeDetails}
                     onInvitationLink={onInvitationLink}
+                    originalEvent={event}
                   />
                 ))}
               </div>

@@ -233,6 +233,7 @@ export default function Events({ events }: EventsSectionProps) {
                             setIsModalOpen(true);
                           }}
                           onInvitationLink={handleInvite}
+                          originalEvent={event}
                         />
                       </div>
                     ))}
@@ -269,6 +270,7 @@ export default function Events({ events }: EventsSectionProps) {
                             setIsModalOpen(true);
                           }}
                           onInvitationLink={handleInvite}
+                          originalEvent={event}
                         />
                       </div>
                     ))}
@@ -316,6 +318,7 @@ export default function Events({ events }: EventsSectionProps) {
                         setIsModalOpen(true);
                       }}
                       onInvitationLink={handleInvite}
+                      originalEvent={event}
                     />
                   </motion.div>
                 ))}

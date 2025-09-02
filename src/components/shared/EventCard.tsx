@@ -15,6 +15,7 @@ type EventCardProps = {
   description: string;
   onseeDetails: (event: Events) => void;
   onInvitationLink: () => void;
+  originalEvent?: Events; // Add this prop to pass the original event object
 };
 
 // EventCard component - integrated into this section
@@ -29,6 +30,7 @@ export function EventCard({
   description,
   onseeDetails,
   onInvitationLink,
+  originalEvent,
 }: EventCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -57,18 +59,24 @@ export function EventCard({
   const handleSeeDetails = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (onseeDetails) {
-      onseeDetails({
-        id,
-        name: title,
-        description,
-        status: 0,
-        date,
-        time,
-        location,
-        images: imageSrc,
-        files: [],
-        types: [type],
-      });
+      if (originalEvent) {
+        // Use the original event object which has the correct files array
+        onseeDetails(originalEvent);
+      } else {
+        // Fallback to creating a new event object (for backward compatibility)
+        onseeDetails({
+          id,
+          name: title,
+          description,
+          status: 0,
+          date,
+          time,
+          location,
+          images: imageSrc,
+          files: [],
+          types: [type],
+        });
+      }
     }
   };
 
