@@ -32,6 +32,7 @@ type UserContextType = {
   logout: () => Promise<void>;
   isLoading: boolean;
   handleInitialLogin: (user: User) => void;
+  isHydrated: boolean;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -41,10 +42,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isInitialLogin, setIsInitialLogin] = useState(true);
   const [shouldVerifySession, setShouldVerifySession] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const router = useRouter();
 
-
+  // Handle client-side hydration
   useEffect(() => {
+    setIsHydrated(true);
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       setUser(JSON.parse(savedUser));
@@ -155,6 +158,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         logout,
         isLoading,
         handleInitialLogin,
+        isHydrated,
       }}
     >
       {children}
