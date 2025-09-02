@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const BOX_COUNT = 10;
 
@@ -9,7 +9,7 @@ function getRandom(min: number, max: number) {
 }
 
 const BackgroundBoxes = () => {
-  const [boxes, setBoxes] = useState<any[]>([]);
+  const [boxes, setBoxes] = useState<React.ReactElement[]>([]);
 
   useEffect(() => {
     // Only run on client

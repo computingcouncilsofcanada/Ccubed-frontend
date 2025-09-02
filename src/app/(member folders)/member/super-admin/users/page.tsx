@@ -3,19 +3,14 @@
 // This is the users Page
 
 import { useUser } from "@/context/UserContext";
-import { privateAxios, publicAxios } from "@/lib/axios";
-import { redirect, useRouter } from "next/navigation";
+import { privateAxios } from "@/lib/axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import {
-  verifyUserRoute,
-  banUser,
-  unBanUser,
-  changeRole,
-  changePassword,
-} from "@/services/useApiAuth";
+import { banUser, unBanUser, changeRole, changePassword } from "@/services/useApiAuth";
 import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
 import { usePasswordGenerator } from "@/hooks/usePasswordGenerator";
+import { isAxiosError } from "axios";
 
 type AllUsers = {
   username: string;
@@ -41,7 +36,6 @@ type ChangeRoleForm = {
 function UsersPage() {
   const { user, isLoading } = useUser();
   const [allUsers, setAllUsers] = useState<AllUsers[]>([]);
-  const [error, setError] = useState<string>("");
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isBanModalOpen, setIsBanModalOpen] = useState(false);
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
@@ -78,9 +72,8 @@ function UsersPage() {
     try {
       const res = await privateAxios.get("/users");
       setAllUsers(res.data.data);
-    } catch (error: any) {
-      setError(error.message);
-      console.log(error);
+    } catch (err: unknown) {
+      console.error("Error fetching users:", err);
     }
   };
 
@@ -93,9 +86,14 @@ function UsersPage() {
         await fetchUsers();
         setIsBanModalOpen(false);
       }
-    } catch (error: any) {
-      console.error("Error banning user:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error banning user:", err);
+      const message = isAxiosError(err)
+        ? err.response?.data?.message ?? err.message
+        : err instanceof Error
+        ? err.message
+        : "Error banning user";
+      alert(message);
     }
   };
 
@@ -108,9 +106,14 @@ function UsersPage() {
         await fetchUsers();
         setIsBanModalOpen(false);
       }
-    } catch (error: any) {
-      console.error("Error unbanning user:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error unbanning user:", err);
+      const message = isAxiosError(err)
+        ? err.response?.data?.message ?? err.message
+        : err instanceof Error
+        ? err.message
+        : "Error unbanning user";
+      alert(message);
     }
   };
 
@@ -124,9 +127,14 @@ function UsersPage() {
         setIsRoleModalOpen(false);
         resetRole();
       }
-    } catch (error: any) {
-      console.error("Error changing user role:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error changing user role:", err);
+      const message = isAxiosError(err)
+        ? err.response?.data?.message ?? err.message
+        : err instanceof Error
+        ? err.message
+        : "Error changing user role";
+      alert(message);
     }
   };
 
@@ -139,17 +147,31 @@ function UsersPage() {
         setIsPasswordModalOpen(false);
         resetPassword();
       }
-    } catch (error: any) {
-      console.error("Error changing password:", error);
-      alert(error?.response?.data?.errors[0].constraints.matches);
+    } catch (err: unknown) {
+      console.error("Error changing password:", err);
+      let message = "Error changing password";
+      if (isAxiosError(err)) {
+        // Try to extract detailed constraint message if present
+        const dataUnknown = err.response?.data as unknown;
+        const matchesConstraint =
+          (dataUnknown as { errors?: Array<{ constraints?: { matches?: string } }> })
+            ?.errors?.[0]?.constraints?.matches;
+        message =
+          matchesConstraint ??
+          (err.response?.data as { message?: string })?.message ??
+          err.message;
+      } else if (err instanceof Error) {
+        message = err.message;
+      }
+      alert(message);
     }
   };
 
   const openModal = (
-    user: AllUsers,
+    userParam: AllUsers,
     modalType: "password" | "ban" | "role"
   ) => {
-    setSelectedUser(user);
+    setSelectedUser(userParam);
     switch (modalType) {
       case "password":
         setIsPasswordModalOpen(true);
@@ -185,36 +207,35 @@ function UsersPage() {
     <div className="flex mt-10 gap-3 flex-col">
       <h1 className="text-3xl text-center w-full">Users Page</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5">
-        {allUsers.map((user) => (
-          <div key={user.id} className="border-2 border-blue-200 p-4">
-            <h1>UserName: {user.username}</h1>
-            <h1>User Email: {user.email}</h1>
-            <h1>User role: {user.role}</h1>
-            <h1>is verified: {user.is_verified ? "true" : "false"}</h1>
+        {allUsers.map((u) => (
+          <div key={u.id} className="border-2 border-blue-200 p-4">
+            <h1>UserName: {u.username}</h1>
+            <h1>User Email: {u.email}</h1>
+            <h1>User role: {u.role}</h1>
+            <h1>is verified: {u.is_verified ? "true" : "false"}</h1>
             <h1>
-              Year of study:{" "}
-              {user.year_of_study ? user.year_of_study : "not stated"}
+              Year of study: {u.year_of_study ? u.year_of_study : "not stated"}
             </h1>
-            <h1>Department: {user.department}</h1>
-            <h1>User Id: {user.id}</h1>
-            <h1>School ID: {user.school_id}</h1>
-            <h1>Status: {user.status == 1 ? "No Issues" : "Banned"}</h1>
+            <h1>Department: {u.department}</h1>
+            <h1>User Id: {u.id}</h1>
+            <h1>School ID: {u.school_id}</h1>
+            <h1>Status: {u.status == 1 ? "No Issues" : "Banned"}</h1>
             <div className="flex flex-col gap-2 mt-2">
               <button
                 className="border-2 border-red-600 px-2 py-1 w-30"
-                onClick={() => openModal(user, "ban")}
+                onClick={() => openModal(u, "ban")}
               >
-                {user.status == 1 ? "Ban" : "Unban"} User
+                {u.status == 1 ? "Ban" : "Unban"} User
               </button>
               <button
                 className="border-2 border-blue-600 px-2 py-1 w-30"
-                onClick={() => openModal(user, "role")}
+                onClick={() => openModal(u, "role")}
               >
                 Change Role
               </button>
               <button
                 className="border-2 border-blue-600 px-2 py-1 w-30"
-                onClick={() => openModal(user, "password")}
+                onClick={() => openModal(u, "password")}
               >
                 Change Password
               </button>

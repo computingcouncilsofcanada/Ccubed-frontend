@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
@@ -26,13 +26,27 @@ type ChangePasswordForm = {
   newPassword: string;
 };
 
-const page = () => {
+// ---- helpers to avoid `any` while preserving messages ----
+type ErrWithMessage = { message?: string };
+type AxiosErrLike = { response?: { data?: { message?: string } } };
+const getErrMsg = (err: unknown): string => {
+  if (typeof err === "object" && err !== null) {
+    const ax = err as AxiosErrLike;
+    if (ax.response?.data?.message) return String(ax.response.data.message);
+    const m = err as ErrWithMessage;
+    if (m.message) return String(m.message);
+  }
+  return "Something went wrong";
+};
+
+const Page = () => {
   // User context and state management
   const { user, setUser, isLoading } = useUser();
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [error, setError] = useState<string>("");
+
   const {
     register,
     handleSubmit,
@@ -41,32 +55,29 @@ const page = () => {
     formState: { errors },
   } = useForm<ChangePasswordForm>();
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const response = await privateAxios.get("/users/me");
       if (response.data.result) {
-        setUserData(response.data.data);
-        setUser(response.data.data);
+        setUserData(response.data.data as UserData);
+        setUser(response.data.data as UserData);
       }
-    } catch (error: any) {
-      console.error("Error fetching user data:", error);
-      setError(error.response?.data?.message || "Error fetching user data");
+    } catch (err: unknown) {
+      console.error("Error fetching user data:", err);
+      setError(getErrMsg(err));
     }
-  };
+  }, [setUser]);
+
   useEffect(() => {
     fetchUserData();
-  }, []);
-
+  }, [fetchUserData]);
 
   // Role-based access control check
   useEffect(() => {
     if (!isLoading) {
-      // Redirect to home if user is not authenticated
       if (!user) {
         router.push("/login");
-      }
-      // Redirect to member page if user is not a super admin
-      else if (user.role !== "SUPER_ADMIN") {
+      } else if (user.role !== "SUPER_ADMIN") {
         router.push("/member");
       }
     }
@@ -76,7 +87,6 @@ const page = () => {
   if (!user || user.role !== "SUPER_ADMIN") {
     return null;
   }
-
 
   const formatDate = (timestamp: string | null | undefined) => {
     if (!timestamp) return "Not available";
@@ -90,7 +100,6 @@ const page = () => {
     });
   };
 
- 
   const handleChangePassword = async (data: ChangePasswordForm) => {
     try {
       const response = await privateAxios.patch(
@@ -102,25 +111,22 @@ const page = () => {
         setIsPasswordModalOpen(false);
         reset();
       }
-    } catch (error: any) {
-      console.error("Error changing password:", error);
-      if (
-        error.response?.data?.message ===
-        "New password cannot be the same as the old password"
-      ) {
+    } catch (err: unknown) {
+      console.error("Error changing password:", err);
+      const serverMsg = (err as AxiosErrLike).response?.data?.message;
+      if (serverMsg === "New password cannot be the same as the old password") {
         setFormError("newPassword", {
           type: "manual",
-          message: "New password cannot be the same as the old password",
+          message: serverMsg,
         });
       } else {
         setFormError("newPassword", {
           type: "manual",
-          message: error.response?.data?.message || "Error changing password",
+          message: serverMsg || getErrMsg(err),
         });
       }
     }
   };
-
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6">
@@ -316,4 +322,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

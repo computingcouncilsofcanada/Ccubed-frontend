@@ -4,11 +4,8 @@ import React, { useState, useMemo } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
 import { mockMembers } from "@/data/mockMembers";
-import Image from "next/image";
 import TeamCard from "@/components/essentials/TeamCard";
 import TeamFilterBar from "./components/TeamFilterBar";
-
-import { motion } from "framer-motion";
 
 function OurTeamsPage() {
   const [teamType, setTeamType] = useState<string>("directors");

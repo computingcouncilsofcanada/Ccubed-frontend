@@ -1,13 +1,7 @@
 import React from "react";
 import { ContactForm } from "@/components/forms/ContactForm";
-import {
-  Linkedin,
-  InstagramIcon,
-  TwitterIcon,
-  Instagram,
-  LinkedinIcon,
-  LucideLinkedin,
-} from "lucide-react";
+// import {
+// } from "lucide-react";
 
 function ContactPage() {
   return (
@@ -36,9 +30,6 @@ function ContactPage() {
             </p>
           </div>
           <div className="icons flex items-center gap-10">
-            <LucideLinkedin />
-            <Instagram />
-            <TwitterIcon />
           </div>
         </div>
       </div>

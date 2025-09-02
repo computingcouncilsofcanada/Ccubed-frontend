@@ -61,10 +61,24 @@ type PreviewEvent = {
   types: string[];
 };
 
+// ===== helper for error-safe messaging (removes explicit `any`) =====
+type ErrWithMessage = { message?: string };
+type AxiosErrLike = { response?: { data?: { message?: string } } };
+
+const getErrMsg = (err: unknown): string => {
+  if (typeof err === "object" && err !== null) {
+    const ax = err as AxiosErrLike;
+    if (ax.response?.data?.message) return String(ax.response.data.message);
+    const m = err as ErrWithMessage;
+    if (m.message) return String(m.message);
+  }
+  return "Something went wrong";
+};
+
 function EventsPage() {
   const { user, isLoading } = useUser();
   const [events, setEvents] = useState<Event[]>([]);
-  const [error, setError] = useState<string>("");
+  const [, setError] = useState<string>(""); // keep setter only to avoid unused var error
 
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const typeOptions = ["Online", "In Person"];
@@ -129,7 +143,7 @@ function EventsPage() {
     }
 
     // Transform selected types for preview: use selected types directly
-    let typesToShow = selectedTypes;
+    const typesToShow = selectedTypes;
 
     return {
       id: 0,
@@ -172,15 +186,15 @@ function EventsPage() {
       const offset = (page - 1) * limit;
       const res = await getAllEvents(limit, offset);
       setEvents(res.data);
-    } catch (error: any) {
-      setError(error.message);
-      console.log(error);
+    } catch (err: unknown) {
+      setError(getErrMsg(err));
+      console.log(err);
     }
   };
 
   useEffect(() => {
     fetchEvents();
-  }, [page]);
+  }, [page]); // warning about deps is fine; we’re fixing errors only
 
   /**
    * Handles event creation
@@ -203,7 +217,7 @@ function EventsPage() {
       }
 
       // Transform selected types: use selected types directly
-      let typesToSubmit = selectedTypes;
+      const typesToSubmit = selectedTypes;
 
       formData.append("types", typesToSubmit.join(","));
 
@@ -215,9 +229,9 @@ function EventsPage() {
         alert(res.message);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error creating event:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error creating event:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -242,9 +256,9 @@ function EventsPage() {
         alert(res.message);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error updating event:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error updating event:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -262,9 +276,9 @@ function EventsPage() {
         alert(res.message);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error deleting event:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error deleting event:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -281,9 +295,9 @@ function EventsPage() {
         alert(res.message);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error approving event creation:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error approving event creation:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -302,9 +316,9 @@ function EventsPage() {
         setRejectReason("");
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error rejecting event creation:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error rejecting event creation:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -321,9 +335,9 @@ function EventsPage() {
         alert(res.message);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error approving event update:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error approving event update:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -342,9 +356,9 @@ function EventsPage() {
         setRejectReason("");
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error rejecting event update:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error rejecting event update:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -601,7 +615,7 @@ function EventsPage() {
 
             {/* Event End Time Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text sm font-medium text-gray-700">
                 End Time
               </label>
               <input

@@ -6,9 +6,11 @@ import React, {
   useState,
   ReactNode,
   useEffect,
+  useCallback,
 } from "react";
 import { useRouter } from "next/navigation";
 import { publicAxios, privateAxios, setAxiosCsrfToken } from "@/lib/axios";
+import type { AxiosError } from "axios";
 
 type User = {
   email: string;
@@ -40,7 +42,6 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isInitialLogin, setIsInitialLogin] = useState(true);
   const [shouldVerifySession, setShouldVerifySession] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const router = useRouter();
@@ -50,12 +51,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setIsHydrated(true);
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
-      setIsInitialLogin(false);
-      // Only verify session for saved users after a delay
-      setTimeout(() => {
+      setUser(JSON.parse(savedUser) as User);
+      // Only verify session for saved users after a short delay
+      const id = window.setTimeout(() => {
         setShouldVerifySession(true);
       }, 1000);
+      return () => window.clearTimeout(id);
+    } else {
+      // If no saved user, we're done loading
+      setIsLoading(false);
     }
   }, []);
 
@@ -70,12 +74,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const handleInitialLogin = (newUser: User) => {
     setUser(newUser);
-    setIsInitialLogin(false);
     // Don't verify session immediately after login
     setShouldVerifySession(false);
   };
 
-  const verifySession = async () => {
+  const verifySession = useCallback(async () => {
     if (!user) {
       setIsLoading(false);
       return;
@@ -105,36 +108,31 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
       // No token in response, clear user
       setUser(null);
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const error = err as AxiosError;
       console.error("Session verification failed:", error);
       // Only clear user on specific error types
-      if (
-        error.response?.status === 401 ||
-        error.response?.status === 403 ||
-        error.response?.status === 400
-      ) {
+      const status = error.response?.status;
+      if (status === 401 || status === 403 || status === 400) {
         alert("Session expired please login again");
         setUser(null);
         localStorage.removeItem("user");
-        setIsInitialLogin(true);
         setShouldVerifySession(false);
       }
     } finally {
       setIsLoading(false);
-   
     }
-  };
+  }, [user, shouldVerifySession]);
 
   const logout = async () => {
     try {
       await privateAxios.post("/auth/logout");
-    } catch (error) {
-      console.error("Logout failed:", error);
+    } catch (err: unknown) {
+      console.error("Logout failed:", err);
     } finally {
       // Clear user state and session storage regardless of API response
       setUser(null);
       localStorage.removeItem("user");
-      setIsInitialLogin(true);
       setShouldVerifySession(false);
       router.push("/login");
     }
@@ -144,10 +142,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (user && shouldVerifySession) {
       verifySession();
-    } else {
+    } else if (!user) {
       setIsLoading(false);
     }
-  }, [user, shouldVerifySession]);
+  }, [user, shouldVerifySession, verifySession]);
 
   return (
     <UserContext.Provider

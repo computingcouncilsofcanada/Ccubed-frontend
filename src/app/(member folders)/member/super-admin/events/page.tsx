@@ -2,7 +2,7 @@
 
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   getAllEvents,
   createEvent,
@@ -61,12 +61,26 @@ type PreviewEvent = {
   types: string[];
 };
 
+// ---- helpers to avoid `any` while preserving messages ----
+type ErrWithMessage = { message?: string };
+type AxiosErrLike = { response?: { data?: { message?: string } } };
+
+const getErrMsg = (err: unknown): string => {
+  if (typeof err === "object" && err !== null) {
+    const ax = err as AxiosErrLike;
+    if (ax.response?.data?.message) return String(ax.response.data.message);
+    const m = err as ErrWithMessage;
+    if (m.message) return String(m.message);
+  }
+  return "Something went wrong";
+};
+
 function EventsPage() {
   const { user, isLoading } = useUser();
   const [events, setEvents] = useState<Event[]>([]);
-  const [error, setError] = useState<string>("");
+  const [, setError] = useState<string>(""); // setter-only; avoids unused state var
 
-  // Add state for selected event types
+  // selected event types
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const typeOptions = ["Online", "In Person"];
 
@@ -132,8 +146,7 @@ function EventsPage() {
       }
     }
 
-    // Transform selected types for preview: use selected types directly
-    let typesToShow = selectedTypes;
+    const typesToShow = selectedTypes;
 
     return {
       id: 0,
@@ -164,20 +177,20 @@ function EventsPage() {
     setIsPreviewModalOpen(true);
   };
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       const offset = (page - 1) * limit;
       const res = await getAllEvents(limit, offset);
       setEvents(res.data);
-    } catch (error: any) {
-      setError(error.message);
-      console.log(error);
+    } catch (err: unknown) {
+      setError(getErrMsg(err));
+      console.log(err);
     }
-  };
+  }, [page]); // `limit` is constant
 
   useEffect(() => {
     fetchEvents();
-  }, [page]);
+  }, [fetchEvents]);
 
   const handleCreateEvent = async (data: EventForm) => {
     if (selectedTypes.length === 0) {
@@ -194,8 +207,7 @@ function EventsPage() {
       if (data.images?.[0]) {
         formData.append("file", data.images[0]);
       }
-      let typesToSubmit = selectedTypes;
-
+      const typesToSubmit = selectedTypes;
       formData.append("types", typesToSubmit.join(","));
 
       const res = await createEvent(formData);
@@ -206,9 +218,9 @@ function EventsPage() {
         alert(res.message);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error creating event:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error creating event:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -229,9 +241,9 @@ function EventsPage() {
         alert(res.message);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error updating event:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error updating event:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -245,9 +257,9 @@ function EventsPage() {
         setIsDeleteModalOpen(false);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error deleting event:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error deleting event:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -261,11 +273,12 @@ function EventsPage() {
         setIsApproveModalOpen(false);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error approving event creation:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error approving event creation:", err);
+      alert(getErrMsg(err));
     }
   };
+
   const handleRejectCreateEvent = async () => {
     if (!selectedEvent || !rejectReason.trim()) return;
     try {
@@ -276,11 +289,12 @@ function EventsPage() {
         setRejectReason("");
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error rejecting event creation:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error rejecting event creation:", err);
+      alert(getErrMsg(err));
     }
   };
+
   const handleApproveUpdateEvent = async () => {
     if (!selectedEvent) return;
     try {
@@ -289,11 +303,12 @@ function EventsPage() {
         alert(res.message);
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error approving event update:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error approving event update:", err);
+      alert(getErrMsg(err));
     }
   };
+
   const handleRejectUpdateEvent = async () => {
     if (!selectedEvent || !rejectReason.trim()) return;
     try {
@@ -304,9 +319,9 @@ function EventsPage() {
         setRejectReason("");
         await fetchEvents();
       }
-    } catch (error: any) {
-      console.error("Error rejecting event update:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error rejecting event update:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -407,7 +422,7 @@ function EventsPage() {
                 {new Date(parseInt(event.updated_at)).toLocaleDateString()}
               </h1>
             )}
-            {/* Event Image Display */}
+            {/* Event Image Display (warning-only, leaving <img> as-is) */}
             {event.images && (
               <div className="mt-2">
                 <img
@@ -854,6 +869,7 @@ function EventsPage() {
           </div>
         </div>
       </Modal>
+
       {/* Approve Creation Modal */}
       <Modal
         isOpen={isApproveModalOpen}
@@ -881,6 +897,7 @@ function EventsPage() {
           </div>
         </div>
       </Modal>
+
       <PreviewModal
         isOpen={isPreviewModalOpen}
         onClose={() => setIsPreviewModalOpen(false)}

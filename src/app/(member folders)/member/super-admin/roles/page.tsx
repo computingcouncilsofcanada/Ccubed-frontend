@@ -2,9 +2,10 @@
 
 import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
-import { redirect, useRouter } from "next/navigation";
-import React, { useEffect, useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { isAxiosError } from "axios";
 
 // Types
 type Role = {
@@ -44,6 +45,14 @@ function RolesPage() {
   >({});
   const [isSaving, setIsSaving] = useState(false);
 
+  const getAxiosMessage = (err: unknown, fallback = "Request failed") => {
+    if (isAxiosError(err)) {
+      return err.response?.data?.message ?? err.message ?? fallback;
+    }
+    if (err instanceof Error) return err.message;
+    return fallback;
+  };
+
   // Data fetching
   const fetchAllData = async () => {
     try {
@@ -58,31 +67,19 @@ function RolesPage() {
       setRolePermissions(
         rolePermissionsRes.data.data || rolePermissionsRes.data
       );
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to fetch data");
+    } catch (err: unknown) {
+      const msg = getAxiosMessage(err, "Failed to fetch data");
+      setError(msg);
+      // eslint-disable-next-line no-console
       console.error("Error fetching data:", err);
     }
   };
 
-  const fetchRolePermissions = async () => {
-    try {
-      const response = await privateAxios.get("/role-permission");
-      setRolePermissions(response.data.data || response.data);
-    } catch (error: any) {
-      setError(
-        error.response?.data?.message || "Failed to fetch role permissions"
-      );
-      console.error("Error fetching role permissions:", error);
-    }
-  };
-
   const groupedPermissions = useMemo(() => {
-    if (permissions.length === 0) return {};
+    if (permissions.length === 0) return {} as Record<string, Permission[]>;
     return permissions.reduce((acc, permission) => {
       const groupName = permission.name.split(".")[0];
-      if (!acc[groupName]) {
-        acc[groupName] = [];
-      }
+      if (!acc[groupName]) acc[groupName] = [];
       acc[groupName].push(permission);
       return acc;
     }, {} as Record<string, Permission[]>);
@@ -98,7 +95,7 @@ function RolesPage() {
 
   const isChecked = (roleId: string, permissionId: string) => {
     const key = getKey(roleId, permissionId);
-    if (pendingRolePermissions.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(pendingRolePermissions, key)) {
       return pendingRolePermissions[key] === 1;
     }
     return rolePermissions.some(
@@ -150,8 +147,8 @@ function RolesPage() {
       await privateAxios.patch("/role-permission", payload);
       await fetchAllData();
       setPendingRolePermissions({});
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to save changes");
+    } catch (err: unknown) {
+      setError(getAxiosMessage(err, "Failed to save changes"));
     } finally {
       setIsSaving(false);
     }

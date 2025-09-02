@@ -36,7 +36,7 @@ export default function Events({ events }: EventsSectionProps) {
     .filter((event: Events) => {
       // Filter out past recurring events (same logic as separateEventsByTime)
       const dateStr = (event.date || "").trim().toUpperCase();
-      const timeStr = (event.time || "").trim().toUpperCase();
+      // const timeStr = (event.time || "").trim().toUpperCase();
 
       // If it's a recurring event, check if it's past
       if (dateStr.includes("EVERY")) {

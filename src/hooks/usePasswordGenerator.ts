@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { useState, useCallback } from "react";
 
-interface PasswordOptions {
+export interface PasswordOptions {
   length?: number;
   includeUppercase?: boolean;
   includeLowercase?: boolean;
@@ -27,31 +27,43 @@ export const usePasswordGenerator = () => {
     const numberChars = "0123456789";
     const specialChars = "@$!%*?&";
 
-    let generatedPassword = "";
-    generatedPassword +=
-      uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)];
-    generatedPassword +=
-      lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)];
-    generatedPassword +=
-      numberChars[Math.floor(Math.random() * numberChars.length)];
-    generatedPassword +=
-      specialChars[Math.floor(Math.random() * specialChars.length)];
+    // Build enabled categories based on flags
+    const enabledSets: string[] = [];
+    if (includeUppercase) enabledSets.push(uppercaseChars);
+    if (includeLowercase) enabledSets.push(lowercaseChars);
+    if (includeNumbers) enabledSets.push(numberChars);
+    if (includeSpecialChars) enabledSets.push(specialChars);
 
-
-    const allChars =
-      uppercaseChars + lowercaseChars + numberChars + specialChars;
-    for (let i = generatedPassword.length; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * allChars.length);
-      generatedPassword += allChars[randomIndex];
+    // Fallback: ensure at least one set is enabled
+    if (enabledSets.length === 0) {
+      enabledSets.push(lowercaseChars);
     }
 
-    generatedPassword = generatedPassword
+    // Ensure we can fit at least one char from each enabled set
+    const finalLength = Math.max(length, enabledSets.length);
+
+    // Add one guaranteed char from each enabled set
+    let generated = enabledSets
+      .map((set) => set[Math.floor(Math.random() * set.length)])
+      .join("");
+
+    // Create a full pool from enabled sets
+    const pool = enabledSets.join("");
+
+    // Fill the rest
+    for (let i = generated.length; i < finalLength; i++) {
+      const idx = Math.floor(Math.random() * pool.length);
+      generated += pool[idx];
+    }
+
+    // Shuffle for randomness
+    const shuffled = generated
       .split("")
       .sort(() => Math.random() - 0.5)
       .join("");
 
-    setPassword(generatedPassword);
-    return generatedPassword;
+    setPassword(shuffled);
+    return shuffled;
   }, []);
 
   return { password, generatePassword };
