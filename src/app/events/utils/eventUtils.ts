@@ -11,28 +11,38 @@ export function separateEventsByTime(events: Events[]) {
   const pastEvents: Events[] = [];
 
   events.forEach((event) => {
+    // If event date or time is 'TBD', treat as current/future event
+    if (
+      !event.date ||
+      !event.time ||
+      event.date.trim().toUpperCase() === "TBD" ||
+      event.time.trim().toUpperCase() === "TBD"
+    ) {
+      currentEvents.push(event);
+      return;
+    }
     // Parse the event date and time to determine if it's past
     const eventDate = new Date(event.date);
-    
+
     // Extract end time from the time range (e.g., "2:00 PM - 4:00 PM")
-    const timeRange = event.time.split(' - ');
+    const timeRange = event.time.split(" - ");
     if (timeRange.length >= 2) {
       const endTimeString = timeRange[1].trim();
-      const [time, period] = endTimeString.split(' ');
-      const [hours, minutes] = time.split(':').map(Number);
-      
+      const [time, period] = endTimeString.split(" ");
+      const [hours, minutes] = time.split(":").map(Number);
+
       // Convert to 24-hour format
       let endHours = hours;
-      if (period.toUpperCase() === 'PM' && hours !== 12) {
+      if (period.toUpperCase() === "PM" && hours !== 12) {
         endHours += 12;
-      } else if (period.toUpperCase() === 'AM' && hours === 12) {
+      } else if (period.toUpperCase() === "AM" && hours === 12) {
         endHours = 0;
       }
-      
+
       // Create the full end datetime
       const eventEndTime = new Date(eventDate);
       eventEndTime.setHours(endHours, minutes, 0, 0);
-      
+
       // Compare with current time
       if (eventEndTime < now) {
         pastEvents.push(event);
@@ -47,7 +57,7 @@ export function separateEventsByTime(events: Events[]) {
 
   return {
     currentEvents,
-    pastEvents
+    pastEvents,
   };
 }
 
@@ -59,4 +69,4 @@ export function separateEventsByTime(events: Events[]) {
 export function isEventPast(event: Events): boolean {
   const { pastEvents } = separateEventsByTime([event]);
   return pastEvents.length > 0;
-} 
+}

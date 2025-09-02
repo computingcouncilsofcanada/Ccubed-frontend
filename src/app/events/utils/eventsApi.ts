@@ -4,24 +4,30 @@ import { formatTimeSmart } from "@/utils/dateUtils";
 // Transform API event data to match component format
 export function transformApiEvents(apiEvents: ApiEvent[]) {
   return apiEvents.map((event: ApiEvent) => {
-    // Handle different timestamp formats using smart timezone utilities
-    const formatDateTime = (timestamp: string) => {
-      // For API transformation, we need ISO format (YYYY-MM-DD) for date
-      // But formatDateSmart doesn't have 'iso' format, so we'll manually format it
-      const date = new Date(parseInt(timestamp));
-      const isoDate = date.toLocaleDateString("en-CA"); // YYYY-MM-DD in user's timezone
-
-      return {
-        date: isoDate,
-        time: formatTimeSmart(timestamp, { format: "12h" }), // Returns time in user's timezone
-      };
+    // Helper to check for missing or TBD
+    const isTBD = (val: string | undefined | null) => {
+      if (!val) return true;
+      const v = val.trim().toUpperCase();
+      return v === "TBD" || v === "" || v === "DATE TBD" || v === "TIME TBD";
     };
 
-    const startDateTime = formatDateTime(event.start_at);
-    const endDateTime = formatDateTime(event.end_at);
-
-    // Combine start and end times
-    const timeRange = `${startDateTime.time} - ${endDateTime.time}`;
+    let date = "TBD";
+    let time = "TBD";
+    if (!isTBD(event.start_at) && !isTBD(event.end_at)) {
+      // Only format if both are present and not TBD
+      const formatDateTime = (timestamp: string) => {
+        const date = new Date(parseInt(timestamp));
+        const isoDate = date.toLocaleDateString("en-CA");
+        return {
+          date: isoDate,
+          time: formatTimeSmart(timestamp, { format: "12h" }),
+        };
+      };
+      const startDateTime = formatDateTime(event.start_at);
+      const endDateTime = formatDateTime(event.end_at);
+      date = startDateTime.date;
+      time = `${startDateTime.time} - ${endDateTime.time}`;
+    }
 
     // Transform types array - handle comma-separated values
     const transformTypes = (types: string[]) => {
@@ -53,8 +59,8 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
       name: event.name,
       description: event.description,
       status: event.status,
-      date: startDateTime.date,
-      time: timeRange,
+      date,
+      time,
       location: event.location,
       images: "", // API doesn't have this field
       files: (event.files || []).map((file) => ({
