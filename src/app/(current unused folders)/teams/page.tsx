@@ -11,7 +11,7 @@ import TeamFilterBar from "./components/TeamFilterBar";
 import { motion } from "framer-motion";
 
 function OurTeamsPage() {
-  const [teamType, setTeamType] = useState<string>("fullteam");
+  const [teamType, setTeamType] = useState<string>("directors");
 
   // Group filtered members by their original team
   const groupedFilteredMembers = useMemo(() => {

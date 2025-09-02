@@ -23,7 +23,7 @@ export default function Hero() {
       {/* Text Content */}
       <div className="text flex flex-col gap-4 md:max-w-sm lg:max-w-lg">
         <h1 className="text-white font-extrabold text-2xl sm:text-3xl md:text-2xl lg:text-4xl">
-          Computing Councils of Canada (CCUBED)
+          Computing Councils of Canada (CCubed)
         </h1>
         <p 
           className="text-white max-w-xl sm:text-lg sm:leading-6 lg:text-xl lg:leading-7"

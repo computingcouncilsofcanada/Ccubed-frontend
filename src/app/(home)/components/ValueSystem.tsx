@@ -26,7 +26,7 @@ const benefits = [
     number: "3",
     title: "Collaboration",
     description:
-      "Cross-team engagement fuels innovation and shared achievements.",
+      "Cross-organization engagement fuels innovation and shared achievements.",
   },
   {
     id: 4,
