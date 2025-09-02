@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CollapsibleSection from "../ui/CollapsibleSection";
 import { Events } from "@/types/events";
 import Image from "next/image";
+import { formatDateSmart } from "@/utils/dateUtils";
 
 interface PreviewModalProps {
   isOpen: boolean;
@@ -48,6 +49,34 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
     };
   }, [isOpen]);
 
+  // Use smart date formatting with timezone awareness
+  const formatDate = (dateString: string) => {
+    if (!dateString || dateString.trim().toUpperCase() === "TBD") return "TBD";
+    if (dateString.trim().toUpperCase().includes("EVERY"))
+      return dateString.trim();
+    return formatDateSmart(dateString, { format: "medium" });
+  };
+
+  const displayTime = (() => {
+    if (!event?.time || event?.time.trim().toUpperCase() === "TBD")
+      return "TBD";
+
+    // Check if this is a recurring event (date contains "Every")
+    if (event?.date && event?.date.trim().toUpperCase().includes("EVERY")) {
+      // For recurring events, time contains a timestamp - format it
+      const timestamp = parseInt(event?.time);
+      if (!isNaN(timestamp)) {
+        const endDate = new Date(timestamp);
+        return `Until ${endDate.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        })}`;
+      }
+    }
+
+    return event?.time;
+  })();
   if (!isOpen || !event) return null;
 
   return (
@@ -110,7 +139,73 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
             )}
           </div>
           {/* Details */}
-          <div className="flex-1 flex flex-col gap-2">
+          <div className="flex-1 flex flex-col gap-2 ">
+            {/* top row */}
+            <div className="flex items-center gap-10 mb-4">
+              <div className="flex items-center gap-2">
+                <Image
+                  src="/FigmaFiles/eventsAssets/clock-2.svg"
+                  alt="Time"
+                  width={30}
+                  height={30}
+                  className="select-none"
+                  draggable={false}
+                  style={{ userSelect: "none" }}
+                />
+                <span
+                  style={{
+                    fontSize: "16px",
+                    fontFamily: "Roboto, sans-serif",
+                    fontWeight: "400",
+                    letterSpacing: "0%",
+                  }}
+                >
+                  {displayTime}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Image
+                  src="/FigmaFiles/eventsAssets/calendar.svg"
+                  alt="Date"
+                  width={30}
+                  height={30}
+                  className="select-none"
+                  draggable={false}
+                  style={{ userSelect: "none" }}
+                />
+                <span
+                  style={{
+                    fontSize: "16px",
+                    fontFamily: "Roboto, sans-serif",
+                    fontWeight: "400",
+                    letterSpacing: "0%",
+                  }}
+                >
+                  {formatDate(event.date)}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-white">
+                <Image
+                  src="/FigmaFiles/eventsAssets/place.svg"
+                  alt="Location"
+                  width={30}
+                  height={30}
+                  className="select-none"
+                  draggable={false}
+                  style={{ userSelect: "none" }}
+                />
+                <span
+                  style={{
+                    fontSize: "16px",
+                    fontFamily: "Roboto, sans-serif",
+                    fontWeight: "400",
+                    letterSpacing: "0%",
+                  }}
+                >
+                  {event.location}
+                </span>
+              </div>
+            </div>
             {/* Description */}
             <div>
               <CollapsibleSection
