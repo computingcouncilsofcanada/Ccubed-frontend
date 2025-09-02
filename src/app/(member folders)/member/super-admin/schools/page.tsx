@@ -13,7 +13,7 @@ import {
 } from "@/services/useApiAuth";
 import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
-
+import { isAxiosError } from "axios";
 
 type School = {
   id: string;
@@ -29,7 +29,6 @@ type School = {
   updated_by: string | null;
 };
 
-
 type SchoolForm = {
   code: string;
   name: string;
@@ -42,7 +41,6 @@ type SchoolForm = {
 function SchoolsPage() {
   const { user, isLoading } = useUser();
   const [schools, setSchools] = useState<School[]>([]);
-  const [error, setError] = useState<string>("");
 
   // Modal state management
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -70,9 +68,9 @@ function SchoolsPage() {
     try {
       const res = await getAllSchools();
       setSchools(res.data);
-    } catch (error: any) {
-      setError(error.message);
-      console.log(error);
+    } catch (err: unknown) {
+      // Errors are logged for debugging; no unused state
+      console.error("Error fetching schools:", err);
     }
   };
 
@@ -95,9 +93,14 @@ function SchoolsPage() {
         alert(res.message);
         await fetchSchools();
       }
-    } catch (error: any) {
-      console.error("Error creating school:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error creating school:", err);
+      const message = isAxiosError(err)
+        ? err.response?.data?.message ?? err.message
+        : err instanceof Error
+        ? err.message
+        : "Error creating school";
+      alert(message);
     }
   };
 
@@ -121,9 +124,14 @@ function SchoolsPage() {
       if (res.status === 201) {
         alert(res.message);
       }
-    } catch (error: any) {
-      console.error("Error updating school:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error updating school:", err);
+      const message = isAxiosError(err)
+        ? err.response?.data?.message ?? err.message
+        : err instanceof Error
+        ? err.message
+        : "Error updating school";
+      alert(message);
     }
   };
 
@@ -136,9 +144,14 @@ function SchoolsPage() {
         await fetchSchools();
         setIsDeleteModalOpen(false);
       }
-    } catch (error: any) {
-      console.error("Error deleting school:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error deleting school:", err);
+      const message = isAxiosError(err)
+        ? err.response?.data?.message ?? err.message
+        : err instanceof Error
+        ? err.message
+        : "Error deleting school";
+      alert(message);
     }
   };
 

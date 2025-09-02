@@ -25,10 +25,24 @@ type DepartmentForm = {
   name: string;
 };
 
+// ---- helpers to avoid `any` while preserving messages ----
+type ErrWithMessage = { message?: string };
+type AxiosErrLike = { response?: { data?: { message?: string } } };
+
+const getErrMsg = (err: unknown): string => {
+  if (typeof err === "object" && err !== null) {
+    const ax = err as AxiosErrLike;
+    if (ax.response?.data?.message) return String(ax.response.data.message);
+    const m = err as ErrWithMessage;
+    if (m.message) return String(m.message);
+  }
+  return "Something went wrong";
+};
+
 function DepartmentsPage() {
   const { user, isLoading } = useUser();
   const [departments, setDepartments] = useState<Department[]>([]);
-  const [error, setError] = useState<string>("");
+  const [, setError] = useState<string>(""); // setter-only to avoid unused var error
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -55,9 +69,9 @@ function DepartmentsPage() {
     try {
       const res = await getAllDepartments();
       setDepartments(res.data);
-    } catch (error: any) {
-      setError(error.message);
-      console.log(error);
+    } catch (err: unknown) {
+      setError(getErrMsg(err));
+      console.log(err);
     }
   };
 
@@ -70,9 +84,9 @@ function DepartmentsPage() {
         setIsCreateModalOpen(false);
         resetCreate();
       }
-    } catch (error: any) {
-      console.error("Error creating department:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error creating department:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -86,9 +100,9 @@ function DepartmentsPage() {
         setIsUpdateModalOpen(false);
         resetUpdate();
       }
-    } catch (error: any) {
-      console.error("Error updating department:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error updating department:", err);
+      alert(getErrMsg(err));
     }
   };
 
@@ -101,9 +115,9 @@ function DepartmentsPage() {
         await fetchDepartments();
         setIsDeleteModalOpen(false);
       }
-    } catch (error: any) {
-      console.error("Error deleting department:", error);
-      alert(error?.response?.data?.message);
+    } catch (err: unknown) {
+      console.error("Error deleting department:", err);
+      alert(getErrMsg(err));
     }
   };
 

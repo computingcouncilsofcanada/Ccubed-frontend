@@ -1,15 +1,7 @@
 "use client";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { getAllDepartments } from "@/services/useApiAuth";
+import { useState } from "react";
 import Modal from "@/components/modals/Modal";
 
 type FormFields = {
@@ -40,23 +32,25 @@ const departmentDescriptions: Record<string, string> = {
     "Please select a department to get specific information about how we can help you.",
 };
 
+// Use a constant list (no state setter = no unused-var lint error)
+const departments: Department[] = [
+  { name: "System Administration", id: 1 },
+  { name: "Communications", id: 2 },
+  { name: "Outreach", id: 3 },
+  { name: "Events", id: 4 },
+  { name: "Partnerships", id: 5 },
+];
+
 export const ContactForm = () => {
-  const [department, setDepartment] = useState<Department[]>([
-    { name: "System Administration", id: 1 },
-    { name: "Communications", id: 2 },
-    { name: "Outreach", id: 3 },
-    { name: "Events", id: 4 },
-    { name: "Partnerships", id: 5 },
-  ]);
-  const [selectedDepartmentName, setSelectedDepartmentName] =
-    useState<string>("");
+  const [selectedDepartmentName, setSelectedDepartmentName] = useState<string>("");
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const form = useForm<FormFields>({
     defaultValues: {
-      department: "admin",
+      department: "", // force the user to choose
     },
   });
+
   const {
     register,
     setValue,
@@ -64,18 +58,6 @@ export const ContactForm = () => {
     reset,
     formState: { errors, isSubmitting },
   } = form;
-
-  // useEffect(() => {
-  //   const fetchDepartment = async () => {
-  //     try {
-  //       const res = await getAllDepartments();
-  //       setDepartment(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   fetchDepartment();
-  // }, []);
 
   const onsubmit: SubmitHandler<FormFields> = async (data) => {
     console.log(data);
@@ -90,7 +72,6 @@ export const ContactForm = () => {
     setSelectedDepartmentName("");
   };
 
-  // Get the description for the selected department
   const getDepartmentDescription = (departmentName: string) => {
     const normalizedName = departmentName.toLowerCase();
     return (
@@ -179,7 +160,7 @@ export const ContactForm = () => {
               }`}
             >
               <option value="">Select a department</option>
-              {department.map(({ name, id }) => (
+              {departments.map(({ name, id }) => (
                 <option key={id} value={name}>
                   {name}
                 </option>

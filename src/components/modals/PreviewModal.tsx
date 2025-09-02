@@ -15,7 +15,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
   isOpen,
   onClose,
   event,
-  onShare,
   onInvite,
 }) => {
   const scrollLockRef = useRef(0);

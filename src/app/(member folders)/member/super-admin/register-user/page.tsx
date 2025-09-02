@@ -13,11 +13,9 @@
  * - Form validation
  * - Role-based access control
  */
-"use client"
+"use client";
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { RegisterUserForm } from "@/components/forms/RegisterUser";

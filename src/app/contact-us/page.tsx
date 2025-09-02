@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 import BackgroundBoxes from "@/components/essentials/BackgroundBoxes";
 import { DepartmentSelect } from "@/components/forms/DepartmentSelection";
 import Modal from "@/components/modals/Modal";
-import Footer from "@/components/shared/Footer"
-
+import Footer from "@/components/shared/Footer";
+import Image from "next/image";
 
 type FormFields = {
   firstName: string;
@@ -31,19 +31,19 @@ export default function ContactUs() {
 
   const onSubmit = async (data: FormFields) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-  
+
     reset();
     setSelectedDepartment("");
     try {
-    const res = await fetch("/api/send-email", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    const result = await res.json();
-    if (result.success) setIsSuccessModalOpen(true);
-  } catch (err) {
-    console.error(err);
-  }
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (result.success) setIsSuccessModalOpen(true);
+    } catch (err) {
+      console.error(err);
+    }
     console.log(data);
   };
 
@@ -52,18 +52,20 @@ export default function ContactUs() {
       <BackgroundBoxes />
 
       <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto px-15 pt-10 flex-1 relative z-10 gap-24">
- 
         <div className="md:w-1/2 w-full">
           <h1 className="text-white font-bold text-[48px] font-roboto mb-2">
-            Let's Get in Touch
+            Let&apos;s Get in Touch
           </h1>
-          <p className="text-gray-300 text-[16px] font-normal mb-8">Or just reach out manually to <span className="text-amber-400">executive@ccubed.dev</span></p>
+          <p className="text-gray-300 text-[16px] font-normal mb-8">
+            Or just reach out manually to{" "}
+            <span className="text-amber-400">executive@ccubed.dev</span>
+          </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-6">
               <label className="text-white text-[14px] font-normal ml-5">
-                Full Name <span >:</span>
+                Full Name <span>:</span>
               </label>
-              
+
               <input
                 {...register("firstName", {
                   required: "Name is required",
@@ -77,23 +79,23 @@ export default function ContactUs() {
                 placeholder="Enter Your Full Name"
               />
 
-               
-              
-              
               {errors.firstName && (
-                <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+                <p className="text-red-500 text-sm">
+                  {errors.firstName.message}
+                </p>
               )}
             </div>
 
             <div className="mb-6">
               <label className="text-white text-[14px] font-normal ml-5">
-                Email <span >:</span> 
+                Email <span>:</span>
               </label>
               <input
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    value:
+                      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                     message: "Please enter a valid email address",
                   },
                 })}
@@ -128,7 +130,10 @@ export default function ContactUs() {
                 {...register("message", {
                   required: "Message is required",
                   minLength: { value: 10, message: "At least 10 characters" },
-                  maxLength: { value: 1000, message: "Less than 1000 characters" },
+                  maxLength: {
+                    value: 1000,
+                    message: "Less than 1000 characters",
+                  },
                 })}
                 className={`bg-white w-full box-border h-[100px] rounded-[20px] p-3 mt-2
                           transition-all duration-300 ease-in-out
@@ -152,20 +157,20 @@ export default function ContactUs() {
         </div>
 
         <div className="md:w-1/2 w-full flex items-center justify-center mb-12 md:mb-40">
-          <img
+          <Image
             src="/FigmaFiles/ccubed-icon.png"
             alt="CCubed Map"
+            width={700}
+            height={700}
             className="w-auto max-w-[300px] sm:max-w-[400px] md:max-w-[600px] lg:max-w-[700px] object-contain shadow-sm"
+            priority
           />
         </div>
-    
       </div>
 
-        <div className="mt-8">
-                    <Footer/>
-
-        </div>
-   
+      <div className="mt-8">
+        <Footer />
+      </div>
 
       <Modal
         isOpen={isSuccessModalOpen}

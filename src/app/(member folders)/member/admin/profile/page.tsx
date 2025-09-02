@@ -26,7 +26,21 @@ type ChangePasswordForm = {
   newPassword: string;
 };
 
-const page = () => {
+// ---- helpers to avoid `any` while preserving messages ----
+type ErrWithMessage = { message?: string };
+type AxiosErrLike = { response?: { data?: { message?: string } } };
+
+const getErrMsg = (err: unknown): string => {
+  if (typeof err === "object" && err !== null) {
+    const ax = err as AxiosErrLike;
+    if (ax.response?.data?.message) return String(ax.response.data.message);
+    const m = err as ErrWithMessage;
+    if (m.message) return String(m.message);
+  }
+  return "Something went wrong";
+};
+
+const Page = () => {
   const { user, setUser, isLoading } = useUser();
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -60,14 +74,15 @@ const page = () => {
         setUserData(response.data.data);
         setUser(response.data.data);
       }
-    } catch (error: any) {
-      console.error("Error fetching user data:", error);
-      setError(error.response?.data?.message || "Error fetching user data");
+    } catch (err: unknown) {
+      console.error("Error fetching user data:", err);
+      setError(getErrMsg(err));
     }
   };
+
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, []); // warning about deps is fine; focusing on errors only
 
   const handleChangePassword = async (data: ChangePasswordForm) => {
     try {
@@ -80,30 +95,28 @@ const page = () => {
         setIsPasswordModalOpen(false);
         reset();
       }
-    } catch (error: any) {
-      console.error("Error changing password:", error);
-      if (
-        error.response?.data?.message ===
-        "New password cannot be the same as the old password"
-      ) {
+    } catch (err: unknown) {
+      console.error("Error changing password:", err);
+      const msg = getErrMsg(err);
+      if (msg === "New password cannot be the same as the old password") {
         setFormError("newPassword", {
           type: "manual",
-          message: "New password cannot be the same as the old password",
+          message: msg,
         });
       } else {
         setFormError("newPassword", {
           type: "manual",
-          message: error.response?.data?.message || "Error changing password",
+          message: msg,
         });
       }
     }
   };
+
   useEffect(() => {
     if (!isLoading) {
       if (!user) {
         router.push("/");
-      }
-      else if (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN") {
+      } else if (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN") {
         router.push("/member");
       }
     }
@@ -113,7 +126,6 @@ const page = () => {
   if (!user || (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN")) {
     return null;
   }
-
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6">
@@ -309,4 +321,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

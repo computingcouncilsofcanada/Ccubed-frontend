@@ -3,6 +3,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { isAxiosError } from "axios";
 
 import {
   registerUser,
@@ -23,7 +24,6 @@ import {
  * Form Fields Type Definition
  * Represents the structure of the user registration form
  */
-
 type FormFields = {
   email: string;
   password: string;
@@ -46,8 +46,8 @@ interface Department {
 }
 
 interface Roles {
-  id:string;
-  name:string;
+  id: string;
+  name: string;
 }
 
 export const RegisterUserForm = () => {
@@ -85,7 +85,7 @@ export const RegisterUserForm = () => {
   const handleCopyPassword = () => {
     const passwordInput = document.querySelector(
       'input[type="password"]'
-    ) as HTMLInputElement;
+    ) as HTMLInputElement | null;
     if (passwordInput && passwordInput.value.length > 0) {
       navigator.clipboard.writeText(passwordInput.value);
       alert("Password copied to clipboard!");
@@ -104,7 +104,7 @@ export const RegisterUserForm = () => {
         data.password,
         data.username,
         data.school_id,
-        parseInt(data.year_of_study.toString()),
+        Number(data.year_of_study),
         data.department,
         data.role.toUpperCase()
       );
@@ -114,14 +114,18 @@ export const RegisterUserForm = () => {
           router.push("/member/super-admin/users");
         }, 1000);
       }
-    } catch (err: any) {
-      console.error("Register failed:", err.response?.data || err.message);
-      alert(err.response?.data?.message || "Register failed");
+    } catch (err: unknown) {
+      const msg =
+        isAxiosError(err) && typeof err.response?.data?.message === "string"
+          ? err.response.data.message
+          : isAxiosError(err)
+          ? err.message
+          : "Register failed";
+      console.error("Register failed:", err);
+      alert(msg);
     }
   };
-  {
-    /* Registration Form */
-  }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -186,7 +190,7 @@ export const RegisterUserForm = () => {
                 value:
                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                 message:
-                  "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character from the following: @$!%*?&",
+                  "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character from @$!%*?&",
               },
             })}
             type="password"
@@ -250,18 +254,9 @@ export const RegisterUserForm = () => {
         <input
           {...register("year_of_study", {
             required: "Please enter a year of study",
-            minLength: {
-              value: 1,
-              message: "Please enter a valid year of study",
-            },
-            maxLength: {
-              value: 1,
-              message: "Please enter a valid year of study",
-            },
-            pattern: {
-              value: /^[1-5]$/,
-              message: "Year of study must be between 1 and 5",
-            },
+            valueAsNumber: true,
+            min: { value: 1, message: "Year of study must be between 1 and 5" },
+            max: { value: 5, message: "Year of study must be between 1 and 5" },
           })}
           type="number"
           placeholder="year of study"
@@ -316,13 +311,12 @@ export const RegisterUserForm = () => {
           <SelectContent className="bg-white text-black border-2 border-gray-200">
             {roles.map((role) => (
               <SelectItem
-              key={role.id}
-              id={role.id}
-              value={role.name}
-              className="cursor-pointer hover:bg-gray-100 text-black"
-            >
-              {role.name.toLowerCase()}
-            </SelectItem>
+                key={role.id}
+                value={role.name}
+                className="cursor-pointer hover:bg-gray-100 text-black"
+              >
+                {role.name.toLowerCase()}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
