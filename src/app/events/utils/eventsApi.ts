@@ -4,37 +4,36 @@ import { formatTimeSmart } from "@/utils/dateUtils";
 // Transform API event data to match component format
 export function transformApiEvents(apiEvents: ApiEvent[]) {
   return apiEvents.map((event: ApiEvent) => {
-    // Helper to check for missing, TBD, or recurring
-    const isSpecialCase = (val: string | undefined | null) => {
+    // Helper to check for missing or TBD
+    const isTBD = (val: string | undefined | null) => {
       if (!val) return true;
       const v = val.trim().toUpperCase();
-      return (
-        v === "TBD" ||
-        v === "" ||
-        v === "DATE TBD" ||
-        v === "TIME TBD" ||
-        v.includes("EVERY")
-      );
+      return v === "TBD" || v === "" || v === "DATE TBD" || v === "TIME TBD";
+    };
+
+    // Helper to check if a value is a valid timestamp
+    const isValidTimestamp = (val: string | undefined | null) => {
+      if (!val) return false;
+      const timestamp = parseInt(val);
+      return !isNaN(timestamp) && timestamp > 0;
     };
 
     let date = "TBD";
     let time = "TBD";
 
-    // Check if either start_at or end_at contains 'every'
+    // Handle recurring events where start_at is text and end_at is timestamp
     if (
       event.start_at &&
-      event.start_at.trim().toUpperCase().includes("EVERY")
+      !isValidTimestamp(event.start_at) &&
+      isValidTimestamp(event.end_at)
     ) {
-      date = event.start_at.trim();
-      time = "Recurring";
-    } else if (
-      event.end_at &&
-      event.end_at.trim().toUpperCase().includes("EVERY")
-    ) {
-      date = event.end_at.trim();
-      time = "Recurring";
-    } else if (!isSpecialCase(event.start_at) && !isSpecialCase(event.end_at)) {
-      // Only format if both are present and not special cases
+      // This is a recurring event (start_at is text like "Every Thursdays")
+      date = event.start_at.trim(); // Use the text as-is
+
+      // Store the end timestamp in the time field for proper categorization
+      time = event.end_at; // Store the timestamp for processing
+    } else if (!isTBD(event.start_at) && !isTBD(event.end_at)) {
+      // Regular event with both timestamps
       const formatDateTime = (timestamp: string) => {
         const date = new Date(parseInt(timestamp));
         const isoDate = date.toLocaleDateString("en-CA");

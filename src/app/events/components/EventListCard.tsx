@@ -124,26 +124,47 @@ export function EventListCard({
       ? 6
       : 8;
 
-  // Helper for TBD and recurring events
-  const isSpecialDate = (val: string) => {
-    if (!val) return true;
-    const upperVal = val.trim().toUpperCase();
-    return upperVal === "TBD" || upperVal.includes("EVERY");
-  };
+  // Helper for TBD events
+  const isTBD = (val: string) => !val || val.trim().toUpperCase() === "TBD";
+
+  // Helper for recurring events
+  const isRecurring = (val: string) =>
+    val && val.trim().toUpperCase().includes("EVERY");
 
   // Day number and ordinal suffix for date display
-  const dayNumber = isSpecialDate(event.date)
-    ? event.date?.trim().toUpperCase().includes("EVERY")
-      ? "" // Show nothing for "every" events
-      : "TBD"
+  const dayNumber = isTBD(event.date)
+    ? "TBD"
+    : isRecurring(event.date)
+    ? ""
     : extractDay(event.date);
-  const ordinal = isSpecialDate(event.date) ? "" : getOrdinalSuffix(dayNumber);
-  const monthName = isSpecialDate(event.date) ? "" : getMonthName(event.date);
-  const displayTime = isSpecialDate(event.time)
-    ? event.time?.trim().toUpperCase().includes("EVERY")
-      ? event.time.trim() // Show original text like "Every Thursday"
-      : "TBD"
-    : event.time;
+  const ordinal =
+    isTBD(event.date) || isRecurring(event.date)
+      ? ""
+      : getOrdinalSuffix(dayNumber);
+  const monthName =
+    isTBD(event.date) || isRecurring(event.date)
+      ? ""
+      : getMonthName(event.date);
+
+  const displayTime = (() => {
+    if (isTBD(event.time)) return "TBD";
+
+    // Check if this is a recurring event
+    if (isRecurring(event.date)) {
+      // For recurring events, time contains a timestamp - format it
+      const timestamp = parseInt(event.time);
+      if (!isNaN(timestamp)) {
+        const endDate = new Date(timestamp);
+        return `Until ${endDate.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        })}`;
+      }
+    }
+
+    return event.time;
+  })();
 
   // Suffix sizing/position (small superscript at top-right of the day number)
   const suffixFontSizeBase =
@@ -485,7 +506,7 @@ export function EventListCard({
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            {isSpecialDate(event.date) ? event.date.trim() : monthName}
+            {isRecurring(event.date) ? event.date.trim() : monthName}
           </motion.span>
         </motion.div>
       </motion.div>
@@ -654,7 +675,7 @@ export function EventListCard({
             }}
             priority={false}
             placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxAAPwCdABmX/9k="
             onError={(e) => {
               e.currentTarget.style.display = "none";
               const nextElement = e.currentTarget

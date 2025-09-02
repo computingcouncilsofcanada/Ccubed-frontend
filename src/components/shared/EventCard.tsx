@@ -82,12 +82,25 @@ export function EventCard({
     return formatDateSmart(dateString, { format: "medium" });
   };
 
-  const displayTime =
-    !time || time.trim().toUpperCase() === "TBD"
-      ? "TBD"
-      : time.trim().toUpperCase().includes("EVERY")
-      ? time.trim()
-      : time;
+  const displayTime = (() => {
+    if (!time || time.trim().toUpperCase() === "TBD") return "TBD";
+
+    // Check if this is a recurring event (date contains "Every")
+    if (date && date.trim().toUpperCase().includes("EVERY")) {
+      // For recurring events, time contains a timestamp - format it
+      const timestamp = parseInt(time);
+      if (!isNaN(timestamp)) {
+        const endDate = new Date(timestamp);
+        return `Until ${endDate.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        })}`;
+      }
+    }
+
+    return time;
+  })();
 
   return (
     <motion.div

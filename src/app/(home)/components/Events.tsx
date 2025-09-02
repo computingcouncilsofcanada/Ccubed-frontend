@@ -33,6 +33,26 @@ export default function Events({ events }: EventsSectionProps) {
   // Sort events by date (most recent first) and filter out inactive events
   const recentEvents = events
     .filter((event: Events) => event.status !== 0)
+    .filter((event: Events) => {
+      // Filter out past recurring events (same logic as separateEventsByTime)
+      const dateStr = (event.date || "").trim().toUpperCase();
+      const timeStr = (event.time || "").trim().toUpperCase();
+
+      // If it's a recurring event, check if it's past
+      if (dateStr.includes("EVERY")) {
+        const endTimestamp = parseInt(event.time);
+        if (!isNaN(endTimestamp)) {
+          const endDate = new Date(endTimestamp);
+          const now = new Date();
+          // If the recurring event has ended, exclude it from recent events
+          if (endDate < now) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    })
     .sort((a: Events, b: Events) => {
       // Convert date strings to Date objects for comparison
       const dateA = new Date(a.date);
