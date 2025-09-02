@@ -11,14 +11,17 @@ export function separateEventsByTime(events: Events[]) {
   const pastEvents: Events[] = [];
 
   events.forEach((event) => {
-    // If event date or time is 'TBD', treat as current/future event
-    if (
-      !event.date ||
-      !event.time ||
-      event.date.trim().toUpperCase() === "TBD" ||
-      event.time.trim().toUpperCase() === "TBD"
-    ) {
+    // If event date or time is 'TBD', always treat as current event
+    // If it contains 'every', exclude from both current and past events
+    const dateStr = (event.date || "").trim().toUpperCase();
+    const timeStr = (event.time || "").trim().toUpperCase();
+    if (!event.date || !event.time || dateStr === "TBD" || timeStr === "TBD") {
       currentEvents.push(event);
+      return;
+    }
+    if (dateStr.includes("EVERY") || timeStr.includes("EVERY")) {
+      // Include in pastEvents
+      pastEvents.push(event);
       return;
     }
     // Parse the event date and time to determine if it's past

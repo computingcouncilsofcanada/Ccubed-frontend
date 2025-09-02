@@ -77,11 +77,17 @@ export function EventCard({
   // Use smart date formatting with timezone awareness
   const formatDate = (dateString: string) => {
     if (!dateString || dateString.trim().toUpperCase() === "TBD") return "TBD";
+    if (dateString.trim().toUpperCase().includes("EVERY"))
+      return dateString.trim();
     return formatDateSmart(dateString, { format: "medium" });
   };
 
   const displayTime =
-    !time || time.trim().toUpperCase() === "TBD" ? "TBD" : time;
+    !time || time.trim().toUpperCase() === "TBD"
+      ? "TBD"
+      : time.trim().toUpperCase().includes("EVERY")
+      ? time.trim()
+      : time;
 
   return (
     <motion.div

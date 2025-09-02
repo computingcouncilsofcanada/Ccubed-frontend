@@ -124,14 +124,26 @@ export function EventListCard({
       ? 6
       : 8;
 
-  // Helper for TBD
-  const isTBD = (val: string) => !val || val.trim().toUpperCase() === "TBD";
+  // Helper for TBD and recurring events
+  const isSpecialDate = (val: string) => {
+    if (!val) return true;
+    const upperVal = val.trim().toUpperCase();
+    return upperVal === "TBD" || upperVal.includes("EVERY");
+  };
 
   // Day number and ordinal suffix for date display
-  const dayNumber = isTBD(event.date) ? "TBD" : extractDay(event.date);
-  const ordinal = isTBD(event.date) ? "" : getOrdinalSuffix(dayNumber);
-  const monthName = isTBD(event.date) ? "" : getMonthName(event.date);
-  const displayTime = isTBD(event.time) ? "TBD" : event.time;
+  const dayNumber = isSpecialDate(event.date)
+    ? event.date?.trim().toUpperCase().includes("EVERY")
+      ? "" // Show nothing for "every" events
+      : "TBD"
+    : extractDay(event.date);
+  const ordinal = isSpecialDate(event.date) ? "" : getOrdinalSuffix(dayNumber);
+  const monthName = isSpecialDate(event.date) ? "" : getMonthName(event.date);
+  const displayTime = isSpecialDate(event.time)
+    ? event.time?.trim().toUpperCase().includes("EVERY")
+      ? event.time.trim() // Show original text like "Every Thursday"
+      : "TBD"
+    : event.time;
 
   // Suffix sizing/position (small superscript at top-right of the day number)
   const suffixFontSizeBase =
@@ -473,7 +485,7 @@ export function EventListCard({
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            {isTBD(event.date) ? "TBD" : monthName}
+            {isSpecialDate(event.date) ? event.date.trim() : monthName}
           </motion.span>
         </motion.div>
       </motion.div>
