@@ -127,19 +127,10 @@ export function EventListCard({
   // Helper for TBD events
   const isTBD = (val: string) => !val || val.trim().toUpperCase() === "TBD";
 
-
   // Day number and ordinal suffix for date display
-  const dayNumber = isTBD(event.date)
-    ? "TBD"
-    : extractDay(event.date);
-  const ordinal =
-    isTBD(event.date)
-      ? ""
-      : getOrdinalSuffix(dayNumber);
-  const monthName =
-    isTBD(event.date) 
-      ? ""
-      : getMonthName(event.date);
+  const dayNumber = isTBD(event.date) ? "TBD" : extractDay(event.date);
+  const ordinal = isTBD(event.date) ? "" : getOrdinalSuffix(dayNumber);
+  const monthName = isTBD(event.date) ? "" : getMonthName(event.date);
 
   // Suffix sizing/position (small superscript at top-right of the day number)
   const suffixFontSizeBase =
@@ -879,9 +870,9 @@ export function EventListCard({
                   : "6px",
             }}
           >
+            {/* Background blur effect for h1 */}
             <h1
-              ref={titleRef}
-              className="text-xl sm:text-2xl md:text-4xl font-extrabold text-white"
+              className="text-xl sm:text-2xl md:text-4xl font-extrabold absolute opacity-30"
               style={{
                 fontFamily: "Roboto, sans-serif",
                 fontSize:
@@ -908,6 +899,49 @@ export function EventListCard({
                     : windowWidth < 1200
                     ? "30px"
                     : "38px",
+                background: "rgba(255, 255, 255, 0.8)",
+                filter: "blur(2px)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
+                zIndex: 1,
+                top: "2px",
+                left: "2px",
+              }}
+            >
+              {event.name}
+            </h1>
+            <h1
+              ref={titleRef}
+              className="text-xl sm:text-2xl md:text-4xl font-extrabold text-white relative"
+              style={{
+                fontFamily: "Roboto, sans-serif",
+                fontSize:
+                  windowWidth < 600
+                    ? "14px"
+                    : windowWidth < 700
+                    ? "16px"
+                    : windowWidth < 820
+                    ? "20px"
+                    : windowWidth < 1024
+                    ? "24px"
+                    : windowWidth < 1200
+                    ? "28px"
+                    : "36px",
+                lineHeight:
+                  windowWidth < 600
+                    ? "16px"
+                    : windowWidth < 700
+                    ? "18px"
+                    : windowWidth < 820
+                    ? "22px"
+                    : windowWidth < 1024
+                    ? "26px"
+                    : windowWidth < 1200
+                    ? "30px"
+                    : "38px",
+                zIndex: 2,
               }}
             >
               {event.name}
@@ -947,6 +981,7 @@ export function EventListCard({
                 backgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 color: "transparent",
+                zIndex: 3,
               }}
             >
               {event.name}
