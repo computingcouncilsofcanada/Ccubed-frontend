@@ -12,30 +12,35 @@ import Footer from "@/components/shared/Footer";
 import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import { Events as EventType } from "@/types/events";
+import { mockEvents } from "@/data/mockEvents";
 // import { mockEvents } from "@/data/mockEvents";
 
 export default function Home() {
   const [events, setEvents] = useState<EventType[]>([]);
   const [error, setError] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     // Using real API instead of mock data
-    setLoading(true);
-    privateAxios
-      .get("/events")
-      .then((res) => {
-        const transformedEvents = transformApiEvents(res.data.data);
-        setEvents(transformedEvents);
-      })
-      .catch((error) => {
-        setError(error.response?.data?.message || "Failed to fetch events");
-        console.error("Error fetching events:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    // setLoading(true);
+    // privateAxios
+    //   .get("/events")
+    //   .then((res) => {
+    //     const transformedEvents = transformApiEvents(res.data.data);
+    //     setEvents(transformedEvents);
+    //   })
+    //   .catch((error) => {
+    //     setError(error.response?.data?.message || "Failed to fetch events");
+    //     console.error("Error fetching events:", error);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
+
+    const transformedEvents = transformApiEvents(mockEvents);
+    setEvents(transformedEvents);
+  }, [mockEvents]);
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
