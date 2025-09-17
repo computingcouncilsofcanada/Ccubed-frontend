@@ -190,9 +190,9 @@ export const mockEvents = [
     updated_by: null,
     files: [
       {
-        id: "1pb_T3aYdvy-qwF77zmmBDFX2hf2_R1Gl",
-        name: "CCubed x RRC Event Post.mp4",
-        url: "https://lh3.googleusercontent.com/d/1pb_T3aYdvy-qwF77zmmBDFX2hf2_R1Gl",
+        id: "16Sg92emnJdl7k6BLFIAUkMJvQ4x0SCKK",
+        name: "Level Up in Tech Image",
+        url: "https://lh3.googleusercontent.com/d/16Sg92emnJdl7k6BLFIAUkMJvQ4x0SCKK",
       },
     ],
   },
