@@ -33,7 +33,7 @@ export const mockEvents = [
     name: "DevOps Live Series",
     description:
       "In August, we hosted a beginner-friendly live series on DevOps, designed to make concepts like Kubernetes and server management approachable. Led by Nathan, the sessions walked participants through building a small server setup (a 'homelab') from scratch, with a focus on practical learning in a relaxed, interactive environment. The series also opened the floor for broader conversations—whether about technology, career development, or graduate school—drawing on Nathan's unique perspective as a Master's graduate and former PhD candidate. Sessions ran every Thursday evening, 6–8 PM EDT, throughout the month.",
-    start_at: "Every Thursdays",
+    start_at: "1756594800000",
     end_at: "1756602000000",
     location: "Youtube Live",
     url: "",
@@ -168,13 +168,68 @@ export const mockEvents = [
       },
     ],
   },
+  {
+    id: "68caef397e8c000404c8d402",
+    name: "CCubed X BBA : Level Up in Tech",
+    description:
+      "This panel brings together students who’ve landed co-ops, launched startups, led communities, and dived into research. They’re here to share the lessons, mistakes, and game-changing insights they wish they knew in year one so you can move forward with confidence, not confusion.  🔍 Gain valuable insights into effective strategies and common pitfalls. 💬 Engage directly with panelists through a live Q&A, transparent and focused discussion. 💡 Leave equipped with practical guidance and a clear plan to advance your computer science journey.",
+    start_at: "1751490000000",
+    end_at: "1751497200000",
+    location: "Google Meet",
+    url: null,
+    ownership: null,
+    domains: null,
+    status: 1,
+    types: ["online"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758129977359",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [
+      {
+        id: "1pb_T3aYdvy-qwF77zmmBDFX2hf2_R1Gl",
+        name: "CCubed x RRC Event Post.mp4",
+        url: "https://lh3.googleusercontent.com/d/1pb_T3aYdvy-qwF77zmmBDFX2hf2_R1Gl",
+      },
+    ],
+  },
+  {
+    id: "68caf1927e8c000404c8d426",
+    name: "Inter-University CTF",
+    description:
+      "We are hosting an inter-university cybersecurity competition that brings together students from across Canada. This Capture the Flag (CTF) event will serve as a platform for universities to connect, collaborate, and showcase their talent while engaging in exciting problem-solving challenges.",
+    start_at: "TBD",
+    end_at: "TBD",
+    location: "TBD",
+    url: "",
+    ownership: null,
+    domains: null,
+    status: 1,
+    types: ["online"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [
+      {
+        id: "1ym4We9J_C8g-6e-5BhdqygCmCN-nCC_n",
+        name: "CCubed_icon.png",
+        url: "https://lh3.googleusercontent.com/d/1ym4We9J_C8g-6e-5BhdqygCmCN-nCC_n",
+      },
+    ],
+  },
 ];
 
 // Export the type for TypeScript usage
 export type MockEvent = (typeof mockEvents)[0];
 
-
-// old mock events 
+// old mock events
 
 // // Mock data for testing events implementation
 // export const mockEvents = [
@@ -334,4 +389,3 @@ export type MockEvent = (typeof mockEvents)[0];
 
 // // Export the type for TypeScript usage
 // export type MockEvent = (typeof mockEvents)[0];
-
