@@ -3,6 +3,7 @@ import { Events } from "@/types/events";
 import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import { separateEventsByTime } from "@/app/events/utils/eventUtils";
+import { mockEvents } from "@/data/mockEvents";
 
 export function useEventsData() {
   const [currentEvents, setCurrentEvents] = useState<Events[]>([]);
@@ -11,32 +12,33 @@ export function useEventsData() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setIsLoading(true);
-        const res = await privateAxios.get("/events");
-        const transformedEvents = transformApiEvents(res.data.data);
+    // const fetchEvents = async () => {
+    //   try {
+    //     setIsLoading(true);
+        // const res = await privateAxios.get("/events");
+        // const transformedEvents = transformApiEvents(res.data.data);
+        const transformedEvents = transformApiEvents(mockEvents);
         
         // Separate current and past events
         const { currentEvents: current, pastEvents: past } = separateEventsByTime(transformedEvents);
         setCurrentEvents(current);
         setPastEvents(past);
-      } catch (error: unknown) {
-        const errorMessage = error instanceof Error && 'response' in error && 
-          typeof error.response === 'object' && error.response && 
-          'data' in error.response && typeof error.response.data === 'object' && 
-          error.response.data && 'message' in error.response.data
-          ? String(error.response.data.message)
-          : "Failed to fetch events";
-        setError(errorMessage);
-        console.error("Error fetching events:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      // } catch (error: unknown) {
+      //   const errorMessage = error instanceof Error && 'response' in error && 
+      //     typeof error.response === 'object' && error.response && 
+      //     'data' in error.response && typeof error.response.data === 'object' && 
+      //     error.response.data && 'message' in error.response.data
+      //     ? String(error.response.data.message)
+      //     : "Failed to fetch events";
+      //   setError(errorMessage);
+      //   console.error("Error fetching events:", error);
+      // } finally {
+      //   setIsLoading(false);
+      // }
+    // };
 
-    fetchEvents();
-  }, []);
+    // fetchEvents();
+  }, [mockEvents]);
 
   return {
     currentEvents,

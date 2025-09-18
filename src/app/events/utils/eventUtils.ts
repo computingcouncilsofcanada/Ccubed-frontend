@@ -20,24 +20,6 @@ export function separateEventsByTime(events: Events[]) {
       return;
     }
 
-    // Handle recurring events (date contains text like "Every Thursdays")
-    if (dateStr.includes("EVERY")) {
-      // For recurring events, the time field contains the end timestamp
-      // Check if the end timestamp has passed
-      const endTimestamp = parseInt(event.time);
-      if (!isNaN(endTimestamp)) {
-        const endDate = new Date(endTimestamp);
-        if (endDate < now) {
-          pastEvents.push(event);
-        } else {
-          currentEvents.push(event);
-        }
-        return;
-      }
-      // If we can't parse the timestamp, default to current events
-      currentEvents.push(event);
-      return;
-    }
 
     // Parse the event date and time to determine if it's past
     const eventDate = new Date(event.date);
@@ -68,8 +50,12 @@ export function separateEventsByTime(events: Events[]) {
         currentEvents.push(event);
       }
     } else {
-      // If time parsing fails, default to current events
-      currentEvents.push(event);
+   // If no valid time range, compare the date directly
+   if (eventDate < now) {
+    pastEvents.push(event);
+  } else {
+    currentEvents.push(event);
+  }
     }
   });
 
