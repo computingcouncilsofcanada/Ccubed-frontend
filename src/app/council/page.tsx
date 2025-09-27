@@ -36,8 +36,13 @@ const CouncilPage = () => {
 
   return (
     // allow vertical growth; keep x hidden for aesthetics
-    <div className="min-h-screen relative w-full overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
+    <div className="min-h-screen relative w-full overflow-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
+      
+   
+      
       <BgBoxMainPage maxHeight={200} />
+
+    
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-full max-w-[1152px] mt-4">
         {/* Header */}
@@ -62,7 +67,7 @@ const CouncilPage = () => {
               />
             </div>
             <h1
-              className="text-[40px] leading-[48px] tracking-[0.01em] font-extrabold text-white"
+              className="text-[32px] sm:text-[40px] leading-[40px] sm:leading-[48px] tracking-[0.01em] font-extrabold text-white"
               style={{ fontFamily: 'Roboto, sans-serif' }}
             >
               Council
@@ -70,7 +75,7 @@ const CouncilPage = () => {
           </div>
 
           <p
-            className="text-white text-center text-[20px] font-light leading-[27px] w-[720px] mx-auto"
+            className="text-white text-center text-[16px] sm:text-[20px] font-light leading-[24px] sm:leading-[27px] w-full max-w-[60ch] mx-auto px-4"
             style={{ fontFamily: 'Roboto, sans-serif' }}
           >
             Where students, clubs, and community partners team up across Canada to build skills, run events, and share resources. Join a council, lead an initiative, or partner with us to bring real impact to your campus and beyond.
@@ -80,13 +85,16 @@ const CouncilPage = () => {
         {/* Council Sections */}
         <motion.div className="space-y-6 mb-32 flex flex-col items-center w-full max-w-[1152px] mx-auto">
           {councilSections.map((section, index) => (
-            <div key={index} className="relative flex items-start w-full">
-              {/* Background Title */}
-              <BackgroundTitle title={section.title} />
+            <div key={index} className="relative w-full">
+
+              <div className="hidden md:block">
+                <BackgroundTitle title={section.title} />
+              </div>
 
               {/* Card */}
               <motion.div
-                className="group w-full max-w-[1151px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] flex items-start cursor-pointer relative z-10"
+                className="group w-full max-w-[1151px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] cursor-pointer relative z-10
+                           flex flex-col md:flex-row md:items-start"
                 // Bring back a hover "growth" feel without fixed heights
                 whileHover={{ scale: 1.01 }}
                 transition={{ duration: 0.28, ease: "easeOut" }}
@@ -99,8 +107,8 @@ const CouncilPage = () => {
                 <div className="absolute inset-0 border border-white/20 rounded-[20px] pointer-events-none"></div>
                 <div className="absolute inset-[1px] border border-white/10 rounded-[19px] pointer-events-none"></div>
 
-                {/* Left: Image */}
-                <div className="flex-shrink-0 px-6 py-4 md:py-6 transition-all duration-300 ease-out">
+                <div className="flex-shrink-0 px-6 py-4 md:py-6 transition-all duration-300 ease-out
+                                flex justify-center md:block">
                   <motion.div
                     className="rounded-[20px] overflow-hidden"
                     layout
@@ -115,16 +123,15 @@ const CouncilPage = () => {
                   </motion.div>
                 </div>
 
-                {/* Right: Text */}
                 <motion.div
-                  className="flex-1 py-4 md:py-6 pr-6"
+                  className="flex-1 py-4 md:py-6 px-6 md:pr-6 md:pl-0"
                   layout
                   transition={{ layout: { duration: 0.28, ease: "easeOut" } }}
                 >
-                  <div className="relative">
+                  <div className="relative text-center md:text-left">
                     {/* Default title */}
                     <h2
-                      className="text-[40px] tracking-[0.01em] font-normal transition-all duration-300 group-hover:opacity-0"
+                      className="text-[28px] sm:text-[32px] md:text-[40px] leading-[36px] sm:leading-[40px] md:leading-[48px] tracking-[0.01em] font-normal transition-all duration-300 group-hover:opacity-0"
                       style={{ fontFamily: 'Roboto, sans-serif', color: 'white' }}
                     >
                       {section.title}
@@ -132,7 +139,7 @@ const CouncilPage = () => {
 
                     {/* Gradient title on hover */}
                     <h2
-                      className="text-[40px] tracking-[0.01em] font-bold absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="text-[28px] sm:text-[32px] md:text-[40px] leading-[36px] sm:leading-[40px] md:leading-[48px] tracking-[0.01em] font-bold absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       style={{
                         fontFamily: 'Roboto, sans-serif',
                         background: 'linear-gradient(to right, #FFFFFF 0%, #394A8B 35%)',
@@ -151,7 +158,7 @@ const CouncilPage = () => {
                     {hovered === index ? (
                       <motion.p
                         key="full"
-                        className="text-white leading-relaxed max-w-[900px]"
+                        className="text-white leading-relaxed max-w-[900px] text-[14px] sm:text-[16px] mt-4 text-center md:text-left"
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
@@ -162,7 +169,7 @@ const CouncilPage = () => {
                     ) : (
                       <motion.p
                         key="short"
-                        className="text-white leading-relaxed max-w-[900px]"
+                        className="text-white leading-relaxed max-w-[900px] text-[14px] sm:text-[16px] mt-4 text-center md:text-left"
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
