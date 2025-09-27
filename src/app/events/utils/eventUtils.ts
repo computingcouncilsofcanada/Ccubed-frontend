@@ -7,8 +7,8 @@ import { Events } from "@/types/events";
  */
 export function separateEventsByTime(events: Events[]) {
   const now = new Date();
-  const currentEvents: Events[] = [];
-  const pastEvents: Events[] = [];
+  let currentEvents: Events[] = [];
+  let pastEvents: Events[] = [];
 
   events.forEach((event) => {
     // If event date or time is 'TBD', always treat as current event
@@ -50,14 +50,45 @@ export function separateEventsByTime(events: Events[]) {
         currentEvents.push(event);
       }
     } else {
-   // If no valid time range, compare the date directly
-   if (eventDate < now) {
-    pastEvents.push(event);
-  } else {
-    currentEvents.push(event);
-  }
+      // If no valid time range, compare the date directly
+      if (eventDate < now) {
+        pastEvents.push(event);
+      } else {
+        currentEvents.push(event);
+      }
     }
   });
+
+  function getComparableDate(event: Events) {
+    if (!event.date) return new Date(0); // put invalid first
+    const baseDate = new Date(event.date);
+
+    if (event.time) {
+      const timeRange = event.time.split(" - ");
+      if (timeRange.length >= 2) {
+        const endTimeString = timeRange[1].trim();
+        const [time, period] = endTimeString.split(" ");
+        const [hours, minutes] = time.split(":").map(Number);
+
+        let endHours = hours;
+        if (period.toUpperCase() === "PM" && hours !== 12) endHours += 12;
+        if (period.toUpperCase() === "AM" && hours === 12) endHours = 0;
+
+        baseDate.setHours(endHours, minutes || 0, 0, 0);
+      }
+    }
+    return baseDate;
+  }
+
+  pastEvents = pastEvents.sort(
+    (a, b) => getComparableDate(b).getTime() - getComparableDate(a).getTime()
+  );
+
+  currentEvents = currentEvents.sort(
+    (a, b) => getComparableDate(b).getTime() - getComparableDate(a).getTime()
+  );
+
+
 
   return {
     currentEvents,
