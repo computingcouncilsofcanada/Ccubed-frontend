@@ -22,6 +22,8 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
   const scrollLockRef = useRef(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const slideshowIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -142,6 +144,25 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
       }
     }
   };
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    if (touchStartX.current === null) return;
+
+    const diff = touchStartX.current - touchEndX.current;
+
+    // swipe threshold
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) handleNextImage(); // swipe left → next
+      else handlePreviousImage(); // swipe right → previous
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
   // Use smart date formatting with timezone awareness
   const formatDate = (dateString: string) => {
@@ -175,17 +196,18 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
-      <div className="bg-[#D4D4D4]/10 md:rounded-2xl max-w-7xl w-full h-full md:h-9/10 p-8 relative  text-white flex flex-col gap-4  overflow-y-auto">
+      <div className="bg-[#D4D4D4]/10 md:rounded-2xl max-w-7xl w-full h-full md:h-9/10 p-8 relative  text-white  flex flex-col gap-4  overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 cursor-pointer    px-4 py-1 text-lg"
+          className="absolute top-4 right-4 md:top-6 md:right-6 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-400 hover:border-white hover:bg-white/10 text-white text-xl transition-all duration-200"
+          aria-label="Close modal"
         >
           ✕
         </button>
         {/* Header */}
-        <div className="flex gap-3 items-center  mb-2 ">
+        <div className="md:flex md:gap-3 md:items-center  mb-2 b">
           <h2
-            className="text-4xl font-bold"
+            className="text-4xl font-bold max-md:text-center"
             style={{
               background: "linear-gradient(90deg, #fff 0%, #5181F0 100%)",
               WebkitBackgroundClip: "text",
@@ -201,6 +223,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
             alt="ccubed icon"
             width={35}
             height={35}
+            className="max-md:hidden"
           ></Image>
           {/* <div className="flex gap-2">
                       {event.types &&
@@ -216,19 +239,23 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                     </div> */}
         </div>
         {/* Main Content */}
-        <div className="flex h-full flex-col  md:flex-row gap-8 ">
+        <div className="flex flex-col md:flex-row md:h-[500px] gap-8 ">
           {/* Image Box */}
-          <div className="w-100 h-96 md:h-[500px] gap-4 rounded-lg flex flex-col items-center justify-center overflow-hidden relative">
+          <div className="w-full md:w-100 h-[300px] md:h-[500px] gap-4 rounded-lg flex flex-col items-center  justify-center overflow-hidden relative flex-shrink-0">
             {event.files &&
             event.files.length > 0 &&
             event.files[currentImageIndex] ? (
-              <div className="w-full h-full rounded-lg overflow-hidden relative">
+              <div
+                className="w-full h-full rounded-lg overflow-hidden relative"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
                 <Image
                   src={event.files[currentImageIndex].url}
                   alt={event.name}
                   width={400}
                   height={400}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full md:h-full object-cover rounded-lg"
                 />
                 {/* Navigation Arrows - Only show if there are multiple images */}
                 {event.files.length > 1 && (
@@ -313,7 +340,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
           {/* Details */}
           <div className="flex-1 flex flex-col gap-2 ">
             {/* top row */}
-            <div className="flex items-center gap-10 mb-4">
+            <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-10 mb-4">
               <div className="flex items-center gap-2">
                 <Image
                   src="/FigmaFiles/eventsAssets/clock-2.svg"
@@ -425,7 +452,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
               </ul>
             </CollapsibleSection> */}
             <div className="flex flex-col flex-1 justify-end h-full ">
-              <div className="flex justify-end mt-auto ">
+              <div className="flex  justify-center md:justify-end mt-auto ">
                 {/* <div className="flex flex-col gap-2 border-2 border-yellow-500">
                   <span className="">Discord</span>
                   <span className="flex items-center gap-2 text-base">
@@ -433,7 +460,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   </span>
                 </div> */}
                 {!isEventPast(event) && (
-                  <div className="flex gap-2 items-center justify-end ">
+                  <div className="flex gap-2 items-center justify-end">
                     <button
                       onClick={onInvite}
                       className=" px-4 py-2 text-[#0B1820] bg-[#FAA336] border-[1px] border-[#FAA336] rounded-md text-center"

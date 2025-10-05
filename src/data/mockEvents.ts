@@ -26,6 +26,11 @@ export const mockEvents = [
         name: "cs pathway.png",
         url: "https://lh3.googleusercontent.com/d/1YJReI17iI2upeD5Oh_C1pL2_4Zj37Pw5",
       },
+      {
+        id: "1YJReI17iI2upeD5Oh_C1pL2_4Zj37Pw6",
+        name: "cs pathway.png",
+        url: "https://lh3.googleusercontent.com/d/1YJReI17iI2upeD5Oh_C1pL2_4Zj37Pw5",
+      },
     ],
   },
   {
