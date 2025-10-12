@@ -8,7 +8,7 @@ import TeamCard from "@/components/essentials/TeamCard";
 import TeamFilterBar from "./components/TeamFilterBar";
 
 function OurTeamsPage() {
-  const [teamType, setTeamType] = useState<string>("directors");
+  const [teamType, setTeamType] = useState<string>("fullteam");
 
   // Group filtered members by their original team
   const groupedFilteredMembers = useMemo(() => {
@@ -29,7 +29,7 @@ function OurTeamsPage() {
   return (
     <>
       <BgBoxMainPage maxHeight={100} />
-      <div className="relative w-full overflow-x-hidden -mt-30 pt-20">
+      <div className="relative w-full overflow-hidden -mt-30 pt-20">
         <div className="text-center min-h-screen">
           <h1 className="text-[40px] text-white font-bold leading-[48px] mt-[43px]">
             Meet Our Team

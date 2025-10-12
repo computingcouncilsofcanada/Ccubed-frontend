@@ -1,9 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
 import { privateAxios } from "@/lib/axios";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 // Statistics data
 // TODO: Fetch volunteer leaders count from database instead of hardcoded values
@@ -25,7 +24,7 @@ const getStats = (eventsCount: number) => [
   },
   {
     id: 4,
-    number: "9+",
+    number: "15+",
     label: "University",
   },
 ];
@@ -33,22 +32,22 @@ const getStats = (eventsCount: number) => [
 // Counter animation component
 function AnimatedCounter({ targetNumber, isInView }: { targetNumber: string, isInView: boolean }) {
   const [displayNumber, setDisplayNumber] = useState("0");
-  
+
   useEffect(() => {
     if (!isInView) return;
-    
+
     // Extract the numeric part from strings like "5+", "400+"
     const match = targetNumber.match(/(\d+)/);
     if (!match) {
       setDisplayNumber(targetNumber);
       return;
     }
-    
+
     const target = parseInt(match[1]);
     const suffix = targetNumber.replace(match[1], "");
     let current = 0;
     const increment = Math.ceil(target / 30); // Animation duration control
-    
+
     const timer = setInterval(() => {
       current += increment;
       if (current >= target) {
@@ -58,10 +57,10 @@ function AnimatedCounter({ targetNumber, isInView }: { targetNumber: string, isI
         setDisplayNumber(current + suffix);
       }
     }, 50);
-    
+
     return () => clearInterval(timer);
   }, [targetNumber, isInView]);
-  
+
   return <span>{displayNumber}</span>;
 }
 
@@ -90,7 +89,7 @@ export default function Stats() {
   const stats = getStats(eventsCount);
 
   return (
-    <section 
+    <section
       ref={ref}
       className="stats-section relative z-10 py-16 flex justify-center"
     >
@@ -101,15 +100,15 @@ export default function Stats() {
             key={stat.id}
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ 
-              duration: 0.8, 
+            transition={{
+              duration: 0.8,
               delay: index * 0.2,
-              ease: "easeOut" 
+              ease: "easeOut"
             }}
             className="flex flex-col items-start justify-center w-[200px] h-[140px] text-left pl-4"
           >
             {/* Number */}
-            <div 
+            <div
               className="text-white font-bold flex items-center mb-2"
               style={{
                 fontFamily: "Roboto, sans-serif",
@@ -119,14 +118,14 @@ export default function Stats() {
                 height: "64px",
               }}
             >
-              <AnimatedCounter 
-                targetNumber={stat.number} 
+              <AnimatedCounter
+                targetNumber={stat.number}
                 isInView={isInView}
               />
             </div>
-            
+
             {/* Label */}
-            <div 
+            <div
               className="text-white font-light text-left"
               style={{
                 fontFamily: "Roboto, sans-serif",

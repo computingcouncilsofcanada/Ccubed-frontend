@@ -10,6 +10,7 @@ import { EventCard } from "@/components/shared/EventCard";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 import PreviewModal from "@/components/modals/PreviewModal";
 
+import {  IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 // Main Events Section Component
 type EventsSectionProps = {
   events: Events[];
@@ -20,6 +21,9 @@ export default function Events({ events }: EventsSectionProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+
 
   // Use Safari-specific fallback for bear ccube image
   const bearCcubeSrc = useSafariImageFallback(
@@ -63,62 +67,39 @@ export default function Events({ events }: EventsSectionProps) {
   // Check if there are more events to show
   const hasMoreEvents = recentEvents.length > 4;
 
-  // Infinite loop scroll functionality
-  useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (!scrollContainer) return;
-
-    let isScrolling = true;
-    const scrollSpeed = 0.5; // pixels per frame
-    let animationId: number;
-
-    const autoScroll = () => {
-      if (!isScrolling || !scrollContainer) return;
-
-      // Calculate the width of one complete set of events (half of total width)
-      const oneSetWidth = scrollContainer.scrollWidth / 2;
-      const currentScroll = scrollContainer.scrollLeft;
-
-      // Reset to beginning when reaching the end of first set for seamless loop
-      if (currentScroll >= oneSetWidth) {
-        scrollContainer.scrollLeft = 0;
-      } else {
-        scrollContainer.scrollLeft += scrollSpeed;
-      }
-
-      animationId = requestAnimationFrame(autoScroll);
-    };
-
-    // Start auto scroll after a delay
-    const startDelay = setTimeout(() => {
-      autoScroll();
-    }, 2000);
-
-    // Pause on hover
-    const handleMouseEnter = () => {
-      isScrolling = false;
-      if (animationId) cancelAnimationFrame(animationId);
-    };
-
-    const handleMouseLeave = () => {
-      isScrolling = true;
-      autoScroll();
-    };
-
-    scrollContainer.addEventListener("mouseenter", handleMouseEnter);
-    scrollContainer.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      clearTimeout(startDelay);
-      if (animationId) cancelAnimationFrame(animationId);
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("mouseenter", handleMouseEnter);
-        scrollContainer.removeEventListener("mouseleave", handleMouseLeave);
-      }
-    };
-  }, [recentEvents]);
-
+  
   const handleInvite = () => alert("Registration link clicked");
+
+
+  //functionality for the arrows on events for small screens
+
+    const handlePrevious = () => {
+  const maxIndex = Math.max(0, recentEvents.length - 1);
+  setCurrentIndex(prev => prev > 0 ? prev - 1 : maxIndex);
+};
+
+const handleNext = () => {
+  const maxIndex = Math.max(0, recentEvents.length - 1);
+  setCurrentIndex(prev => prev < maxIndex ? prev + 1 : 0);
+};
+
+
+useEffect(() => {
+  const scrollContainer = scrollContainerRef.current;
+  if (!scrollContainer || recentEvents.length === 0) return;
+
+  // Calculate card width + gap (assuming 280px card + 16px gap)
+  const cardWidth = 296; // EventCard width + gap
+  const scrollPosition = currentIndex * cardWidth;
+  
+  scrollContainer.scrollTo({
+    left: scrollPosition,
+    behavior: 'smooth'
+  });
+}, [currentIndex, recentEvents.length]);
+
+
+
 
   return (
     <section className="events relative z-10">
@@ -164,7 +145,7 @@ export default function Events({ events }: EventsSectionProps) {
 
         {/* Recent Events Section Title */}
         <motion.div
-          className="flex justify-start"
+          className="flex justify-between items-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -179,6 +160,25 @@ export default function Events({ events }: EventsSectionProps) {
           >
             Recent Events
           </h2>
+
+          {recentEvents.length > 1 && (
+          <div className="flex sm:hidden gap-2">
+            <button
+              onClick={handlePrevious}
+              className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors duration-200"
+              aria-label="Previous event"
+            >
+              <IconChevronLeft size={16} color="white" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors duration-200"
+              aria-label="Next event"
+            >
+              <IconChevronRight size={16} color="white" />
+            </button>
+          </div>
+        )}
         </motion.div>
 
         {/* Events Grid */}
@@ -205,38 +205,7 @@ export default function Events({ events }: EventsSectionProps) {
                     style={{ width: "max-content" }}
                   >
                     {/* Original events */}
-                    {recentEvents.slice(0, 4).map((event) => (
-                      <div key={event.id} className="flex-shrink-0">
-                        <EventCard
-                          id={event.id}
-                          title={event.name}
-                          time={event.time}
-                          date={event.date}
-                          location={event.location}
-                          type={(() => {
-                            if (!event.types || event.types.length === 0)
-                              return "Online";
-
-                            // Return the first type or default to Online, ensuring it's the correct type
-                            const eventType = event.types[0];
-                            if (eventType === "In Person") return "In Person";
-                            return "Online";
-                          })()}
-                          imageSrc={
-                            event.files && event.files.length > 0
-                              ? event.files[0].url
-                              : "https://placehold.co/400"
-                          }
-                          description={event.description}
-                          onseeDetails={(event) => {
-                            setSelectedEvent(event);
-                            setIsModalOpen(true);
-                          }}
-                          onInvitationLink={handleInvite}
-                          originalEvent={event}
-                        />
-                      </div>
-                    ))}
+                   
 
                     {/* Duplicate events for seamless loop */}
                     {recentEvents.slice(0, 4).map((event) => (
