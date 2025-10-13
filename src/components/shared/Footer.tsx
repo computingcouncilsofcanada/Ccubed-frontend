@@ -115,14 +115,14 @@ export default function Footer() {
             </div>
 
             {/* Column 2 - Navigation Links */}
-            <div className="footer-navigation grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 lg:col-span-1">
+            <div className="footer-navigation grid grid-cols-3 sm:grid-cols-3 gap-2 xs:gap-3 sm:gap-4 lg:col-span-1">
               {/* Column 1 */}
               <div className="footer-column">
                 {footerLinks.column1.map((link, index) => (
                   <Link
                     key={index}
                     href={link.href}
-                    className="block text-white font-semibold mb-1 xs:mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-xs xs:text-sm sm:text-base"
+                    className="block text-white font-normal mb-1 xs:mb-2 sm:mb-3 hover:opacity-80 transition-opacity text-xs xs:text-sm sm:text-base"
                     style={{
                       fontFamily: "Roboto, sans-serif",
                       lineHeight: "16px",
@@ -173,7 +173,6 @@ export default function Footer() {
                 ))}
               </div> */}
             </div>
-
             {/* Column 3 - Bear Mascot */}
             <div className="footer-bear hidden lg:flex justify-center items-end relative">
               <Image
