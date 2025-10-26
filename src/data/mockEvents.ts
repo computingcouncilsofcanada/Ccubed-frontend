@@ -27,9 +27,9 @@ export const mockEvents = [
         url: "https://lh3.googleusercontent.com/d/1YJReI17iI2upeD5Oh_C1pL2_4Zj37Pw5",
       },
       {
-        id: "1YJReI17iI2upeD5Oh_C1pL2_4Zj37Pw6",
-        name: "cs pathway.png",
-        url: "https://lh3.googleusercontent.com/d/1YJReI17iI2upeD5Oh_C1pL2_4Zj37Pw5",
+        id: "113hQzDIktoEQDt7cI2TPs9f3Diy-ZkWN",
+        name: "cs pathway2.png",
+        url: "https://lh3.googleusercontent.com/d/113hQzDIktoEQDt7cI2TPs9f3Diy-ZkWN",
       },
     ],
   },
@@ -143,6 +143,11 @@ export const mockEvents = [
         name: "TechTalk_Landing_your_dream_internshpip.png",
         url: "https://lh3.googleusercontent.com/d/1d4IHBMddnLr5mOY-Sw7b5FAabc8R7x3a",
       },
+      {
+        id: "1TC47L7vESxwQJdenMRY7H262CMGxIycl",
+        name: "Screenshot 2025-10-25 at 9.31.41 PM.png",
+        url: "https://lh3.googleusercontent.com/d/1TC47L7vESxwQJdenMRY7H262CMGxIycl",
+      },
     ],
   },
   {
@@ -170,6 +175,16 @@ export const mockEvents = [
         id: "1JEN4OaAh0YxyKDQd-h0_LHibJbdPRyzY",
         name: "Cyber_bootcamp.png",
         url: "https://lh3.googleusercontent.com/d/1JEN4OaAh0YxyKDQd-h0_LHibJbdPRyzY",
+      },
+      {
+        id: "1zCgNZJbYuVawMswtZN9bYp6ZYKZ-CsDK",
+        name: "Screenshot 2025-10-25 at 9.28.29 PM.png",
+        url: "https://lh3.googleusercontent.com/d/1zCgNZJbYuVawMswtZN9bYp6ZYKZ-CsDK",
+      },
+      {
+        id: "1wG6XMgnOUq6fPyx1083pbbRmGAVOALiC",
+        name: "Screenshot 2025-10-25 at 9.29.31 PM.png",
+        url: "https://lh3.googleusercontent.com/d/1wG6XMgnOUq6fPyx1083pbbRmGAVOALiC",
       },
     ],
   },
