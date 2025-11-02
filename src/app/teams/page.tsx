@@ -6,9 +6,15 @@ import Footer from "@/components/shared/Footer";
 import { mockMembers } from "@/data/mockMembers";
 import TeamCard from "@/components/essentials/TeamCard";
 import TeamFilterBar from "./components/TeamFilterBar";
+import { useRouter } from "next/navigation";
 
 function OurTeamsPage() {
   const [teamType, setTeamType] = useState<string>("fullteam");
+  const router = useRouter();
+
+  const handleClick = (member: any) => {
+    router.push(`/teams/${member.id}/details`);
+  };
 
   // Group filtered members by their original team
   const groupedFilteredMembers = useMemo(() => {
@@ -56,7 +62,7 @@ function OurTeamsPage() {
                       role={member.role}
                       info={member.info}
                       linkedin={member.social.linkedin}
-          
+                      handleClick={() => handleClick(member)}
                     />
                   ))}
                 </div>
@@ -65,7 +71,6 @@ function OurTeamsPage() {
           </div>
         </div>
 
- 
         <div className="mt-12">
           <Footer />
         </div>
