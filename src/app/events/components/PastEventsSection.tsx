@@ -4,7 +4,7 @@ import { EventListCard } from "./EventListCard";
 type PastEventsSectionProps = {
   pastEvents: Events[];
   onSeeDetails: (event: Events) => void;
-  onInvitationLink: () => void; // Still need this prop but won't be used
+  onInvitationLink: (event: Events) => void; // Still need this prop but won't be used
 };
 
 export function PastEventsSection({ 
@@ -35,7 +35,7 @@ export function PastEventsSection({
             key={event.id + "-past"}
             event={event}
             onSeeDetails={onSeeDetails}
-            onInvitationLink={onInvitationLink}
+            onInvitationLink={() => onInvitationLink(event)}
             showInvitationButton={false} // Hide invitation button for past events
           />
         ))}

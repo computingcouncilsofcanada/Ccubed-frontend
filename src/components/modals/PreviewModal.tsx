@@ -10,7 +10,7 @@ interface PreviewModalProps {
   onClose: () => void;
   event: Events | null;
   onShare?: () => void;
-  onInvite?: () => void;
+  onInvite?:(url: string | null | undefined) => void;
 }
 
 const PreviewModal: React.FC<PreviewModalProps> = ({
@@ -87,10 +87,8 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
 
   // Handle thumbnail click
   const handleThumbnailClick = (index: number) => {
-    // Safety check to ensure index is within bounds
     if (event?.files && index >= 0 && index < event.files.length) {
       setCurrentImageIndex(index);
-      // Reset slideshow timer when user manually selects an image
       if (slideshowIntervalRef.current) {
         clearInterval(slideshowIntervalRef.current);
       }
@@ -104,14 +102,12 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
     }
   };
 
-  // Handle previous image
   const handlePreviousImage = () => {
     if (event?.files && event.files.length > 0) {
       setCurrentImageIndex(
         (prevIndex) =>
           (prevIndex - 1 + event.files!.length) % event.files!.length
       );
-      // Reset slideshow timer when user manually navigates
       if (slideshowIntervalRef.current) {
         clearInterval(slideshowIntervalRef.current);
       }
@@ -125,13 +121,11 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
     }
   };
 
-  // Handle next image
   const handleNextImage = () => {
     if (event?.files && event.files.length > 0) {
       setCurrentImageIndex(
         (prevIndex) => (prevIndex + 1) % event.files!.length
       );
-      // Reset slideshow timer when user manually navigates
       if (slideshowIntervalRef.current) {
         clearInterval(slideshowIntervalRef.current);
       }
@@ -144,6 +138,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
       }
     }
   };
+
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -154,17 +149,15 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
 
     const diff = touchStartX.current - touchEndX.current;
 
-    // swipe threshold
     if (Math.abs(diff) > 50) {
-      if (diff > 0) handleNextImage(); // swipe left → next
-      else handlePreviousImage(); // swipe right → previous
+      if (diff > 0) handleNextImage();
+      else handlePreviousImage();
     }
 
     touchStartX.current = null;
     touchEndX.current = null;
   };
 
-  // Use smart date formatting with timezone awareness
   const formatDate = (dateString: string) => {
     if (!dateString || dateString.trim().toUpperCase() === "TBD") return "TBD";
     if (dateString.trim().toUpperCase().includes("EVERY"))
@@ -176,9 +169,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
     if (!event?.time || event?.time.trim().toUpperCase() === "TBD")
       return "TBD";
 
-    // Check if this is a recurring event (date contains "Every")
     if (event?.date && event?.date.trim().toUpperCase().includes("EVERY")) {
-      // For recurring events, time contains a timestamp - format it
       const timestamp = parseInt(event?.time);
       if (!isNaN(timestamp)) {
         const endDate = new Date(timestamp);
@@ -192,6 +183,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
 
     return event?.time;
   })();
+
   if (!isOpen || !event) return null;
 
   return (
@@ -204,6 +196,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
         >
           ✕
         </button>
+
         {/* Header */}
         <div className="md:flex md:gap-3 md:items-center  mb-2 b">
           <h2
@@ -224,20 +217,9 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
             width={35}
             height={35}
             className="max-md:hidden"
-          ></Image>
-          {/* <div className="flex gap-2">
-                      {event.types &&
-                        event.types.length > 0 &&
-                        event.types.map((type, id) => (
-                          <div
-                            className="inline-block px-4 py-1 border-2 border-black rounded-full mb-2 font-patrick text-lg bg-white"
-                            key={type + id}
-                          >
-                            {type}
-                          </div>
-                        ))}
-                    </div> */}
+          />
         </div>
+
         {/* Main Content */}
         <div className="flex flex-col md:flex-row md:h-[500px] gap-8 ">
           {/* Image Box */}
@@ -257,10 +239,8 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   height={400}
                   className="w-full h-full md:h-full object-cover rounded-lg"
                 />
-                {/* Navigation Arrows - Only show if there are multiple images */}
                 {event.files.length > 1 && (
                   <>
-                    {/* Previous Arrow */}
                     <button
                       onClick={handlePreviousImage}
                       className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-200 z-10"
@@ -282,7 +262,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                         />
                       </svg>
                     </button>
-                    {/* Next Arrow */}
                     <button
                       onClick={handleNextImage}
                       className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-200 z-10"
@@ -310,11 +289,12 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
             ) : (
               <span className="text-4xl text-gray-400">🖼️</span>
             )}
-            {/* other images */}
+
+            {/* Thumbnails */}
             <div className="flex justify-center gap-2 mt-4">
               {event.files &&
                 event.files.length > 0 &&
-                event.files.map((eventt, index) => (
+                event.files.map((eventFile, index) => (
                   <div
                     className={`w-12 h-12 rounded-lg overflow-hidden cursor-pointer transition-all duration-300 ${
                       index === currentImageIndex ? "" : "opacity-50"
@@ -323,8 +303,8 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                     onClick={() => handleThumbnailClick(index)}
                   >
                     <Image
-                      src={eventt.url}
-                      alt={eventt.name}
+                      src={eventFile.url}
+                      alt={eventFile.name}
                       width={48}
                       height={48}
                       className={`w-full h-full object-cover transition-all duration-300 ${
@@ -337,9 +317,9 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                 ))}
             </div>
           </div>
+
           {/* Details */}
           <div className="flex-1 flex flex-col gap-2 ">
-            {/* top row */}
             <div className="flex flex-col md:flex-row md:items-center gap-5 md:gap-10 mb-4">
               <div className="flex items-center gap-2">
                 <Image
@@ -405,7 +385,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                 </span>
               </div>
             </div>
-            {/* Description */}
+
             <div>
               <CollapsibleSection
                 title="Description"
@@ -414,56 +394,16 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                 <p>{event.description}</p>
               </CollapsibleSection>
             </div>
-            {/* <CollapsibleSection
-              title="You will Learn:"
-              titleStyle="text-xl font-semibold"
-            >
-              <ul className="list-disc list-inside text-base">
-                <li>Lots and lots of vocabulary</li>
-                <li>Useful everyday phrases</li>
-                <li>Basic sentence structures</li>
-                <li>
-                  Basic grammar rules most beginner courses don&apos;t teach
-                </li>
-              </ul>
-            </CollapsibleSection>
-            <CollapsibleSection
-              title="What You Need:"
-              titleStyle="text-xl font-semibold"
-            >
-              <ul className="list-disc list-inside text-base">
-                <li>
-                  Greet people and introduce yourself both formally and casually
-                </li>
-                <li>Pronounce words correctly without hearing them first</li>
-                <li>Over one thousand vocabulary words from all categories</li>
-              </ul>
-            </CollapsibleSection>
-            <CollapsibleSection
-              title="Instructors"
-              titleStyle="text-xl font-semibold"
-            >
-              <ul className="list-disc list-inside text-base">
-                <li>
-                  Greet people and introduce yourself both formally and casually
-                </li>
-                <li>Pronounce words correctly without hearing them first</li>
-                <li>Over one thousand vocabulary words from all categories</li>
-              </ul>
-            </CollapsibleSection> */}
+
             <div className="flex flex-col flex-1 justify-end h-full ">
               <div className="flex  justify-center md:justify-end mt-auto ">
-                {/* <div className="flex flex-col gap-2 border-2 border-yellow-500">
-                  <span className="">Discord</span>
-                  <span className="flex items-center gap-2 text-base">
-                    <span>📅</span> March (Exact Date TBD)
-                  </span>
-                </div> */}
                 {!isEventPast(event) && (
                   <div className="flex gap-2 items-center justify-end">
                     <button
-                      onClick={onInvite}
-                      className=" px-4 py-2 text-[#0B1820] bg-[#FAA336] border-[1px] border-[#FAA336] rounded-md text-center"
+                      onClick={() =>
+                        window.open("https://forms.gle/nT29yC1LSWSz8C4f6", "_blank")
+                      }
+                      className="px-4 py-2 text-[#0B1820] bg-[#FAA336] border-[1px] border-[#FAA336] rounded-md text-center"
                       style={{
                         height: "auto",
                         minHeight: 0,
