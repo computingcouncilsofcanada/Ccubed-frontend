@@ -11,7 +11,7 @@ type CurrentEventsSectionProps = {
   showFilterEmptyState: boolean;
   eventType: string;
   onSeeDetails: (event: Events) => void;
-  onInvitationLink: () => void;
+  onInvitationLink: (url: string | null | undefined) => void;
 };
 
 export function CurrentEventsSection({
@@ -181,7 +181,7 @@ export function CurrentEventsSection({
                           }
                           description={event.description}
                           onseeDetails={onSeeDetails}
-                          onInvitationLink={onInvitationLink}
+                          onInvitationLink={() => onInvitationLink(event.url)}
                           originalEvent={event}
                         />
                       </div>
@@ -216,7 +216,7 @@ export function CurrentEventsSection({
                             }
                             description={event.description}
                             onseeDetails={onSeeDetails}
-                            onInvitationLink={onInvitationLink}
+                            onInvitationLink={() => onInvitationLink(event.url)}
                             originalEvent={event}
                           />
                         </div>
@@ -253,7 +253,7 @@ export function CurrentEventsSection({
                     }
                     description={event.description}
                     onseeDetails={onSeeDetails}
-                    onInvitationLink={onInvitationLink}
+                    onInvitationLink={() => onInvitationLink(event.url)}
                     originalEvent={event}
                   />
                 ))}
@@ -283,7 +283,7 @@ export function CurrentEventsSection({
             key={event.id}
             event={event}
             onSeeDetails={onSeeDetails}
-            onInvitationLink={onInvitationLink}
+            onInvitationLink={() => onInvitationLink(event.url)}
             showInvitationButton={true}
           />
         ))}
