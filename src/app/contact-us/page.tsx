@@ -110,7 +110,7 @@ export default function ContactUs() {
               )}
             </div>
 
-            <div className="mb-6 text-white text-lg font-normal ">
+            <div className="mb-6 text-white text-lg font-normal">
               <DepartmentSelect
                 register={register}
                 error={errors.department}
@@ -119,6 +119,7 @@ export default function ContactUs() {
                   setSelectedDepartment(val);
                   setValue("department", val);
                 }}
+         
               />
             </div>
 

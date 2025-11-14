@@ -75,6 +75,7 @@ export function EventCard({
           images: imageSrc,
           files: [],
           types: [type],
+          url: "",
         });
       }
     }

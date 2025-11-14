@@ -41,9 +41,9 @@ export const DepartmentSelect = ({
         })}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`bg-white w-full border-2 border-background px-[26px] h-[48px] outline-none bg-foreground rounded-5xl text-gray-500 ${
-          error ? "border-red-500" : ""
-        }`}
+        className={`bg-white w-full border-2 border-background px-[26px] h-[48px] pr-10 outline-none bg-foreground rounded-full text-gray-500 appearance-none 
+    bg-[url('/FigmaFiles/down-arrow.svg')] bg-no-repeat bg-[length:1.25rem_1.25rem] bg-[position:right_1rem_center]
+    ${error ? "border-red-500" : ""}`}
       >
         <option value="">Select a department</option>
         {departments.map(({ name, id }) => (
