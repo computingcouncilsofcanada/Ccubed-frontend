@@ -59,7 +59,7 @@ const EventsSection = () => {
           Council Events
         </h2>
         <p
-          className="text-white font-light text-[18px] leading-[26px] w-[845px] tracking-[0.01em]"
+          className="text-white font-light text-[18px] leading-[26px] tracking-[0.01em]"
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
           Discover the range of events organized by our council in collaboration

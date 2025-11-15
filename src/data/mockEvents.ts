@@ -220,13 +220,13 @@ export const mockEvents = [
     id: "68caf1927e8c000404c8d426",
     name: "Inter-University CTF",
     description:
-      "We are hosting an inter-university cybersecurity competition that brings together students from across Canada. This Capture the Flag (CTF) event will serve as a platform for universities to connect, collaborate, and showcase their talent while engaging in exciting problem-solving challenges.",
-    start_at: "TBD",
-    end_at: "TBD",
-    location: "TBD",
-    url: "",
+      "This mini Capture-The-Flag (CTF) event is a free opportunity for students to apply their knowledge and technical ability in the cybersecurity space. In this competition, participants from various skill backgrounds, novice or experienced, can compete to solve numerous challenges in areas such as Cryptography, Web and Binary Exploitation, Recon, and more. 4 main participating universities are Windsor, Wilfred Laurier, Carleton and Dalhousie. Cybersecurity tools may be required for certain challenges. Disclaimer - Rules and procedures will be shared at the start of the event. You can form teams upto 4. Either come in with your teams or use our discord server to meet new people and make teams!",
+    start_at: "1763215200000",
+    end_at: "1763316000000",
+    location: "Discord Server",
+    url: "https://forms.gle/nT29yC1LSWSz8C4f6",
     ownership: null,
-    domains: null,
+    domains: "Cybersecurity",
     status: 1,
     types: ["online"],
     pending_action: null,
@@ -238,9 +238,9 @@ export const mockEvents = [
     updated_by: null,
     files: [
       {
-        id: "1ym4We9J_C8g-6e-5BhdqygCmCN-nCC_n",
-        name: "CCubed_icon.png",
-        url: "https://lh3.googleusercontent.com/d/1ym4We9J_C8g-6e-5BhdqygCmCN-nCC_n",
+        "id": "16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1",
+        "name": "CTF.png",
+        "url": "https://lh3.googleusercontent.com/d/16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1"
       },
     ],
   },

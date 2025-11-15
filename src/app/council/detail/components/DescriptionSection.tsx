@@ -7,7 +7,6 @@ const DescriptionSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
-  // Replace these URLs with your actual images
   const slides = [
     { id: 0, image: "/FigmaFiles/councilAssets/bear_heart.png" },
     { id: 1, image: "/FigmaFiles/councilAssets/CCubed_icon.png" },
@@ -27,14 +26,14 @@ const DescriptionSection = () => {
     setActiveIndex((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  const goToSlide = (index) => {
+  const goToSlide = (index: number) => {
     setDirection(index > activeIndex ? 1 : -1);
     setActiveIndex(index);
   };
 
   const slideVariants = {
-    enter: (direction) => ({
-      x: direction > 0 ? '100%' : '-100%',
+    enter: (direction: number) => ({
+      x: direction > 0 ? "100%" : "-100%",
       opacity: 1,
     }),
     center: {
@@ -42,15 +41,15 @@ const DescriptionSection = () => {
       x: 0,
       opacity: 1,
     },
-    exit: (direction) => ({
+    exit: (direction: number) => ({
       zIndex: 0,
-      x: direction < 0 ? '100%' : '-100%',
+      x: direction < 0 ? "100%" : "-100%",
       opacity: 1,
     }),
   };
 
   const swipeConfidenceThreshold = 10000;
-  const swipePower = (offset, velocity) => {
+  const swipePower = (offset: number, velocity: number) => {
     return Math.abs(offset) * velocity;
   };
 
@@ -60,20 +59,21 @@ const DescriptionSection = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="mb-24"
+      className="mb-24 px-4"
     >
-      <div className="flex items-center justify-between h-[331px] gap-12">
-        {/* Left Side - Description Text */}
-        <div className="flex-shrink-0 max-w-[550px]">
+
+      <div className="w-full max-w-[1152px] mx-auto flex flex-col md:flex-row items-start md:items-center gap-6">
+
+        <div className="w-full md:w-1/2 flex-shrink-0">
           <h2
-            className="text-[36px] font-extrabold leading-[48px] tracking-[0.01em] text-white mb-4"
+            className="text-[28px] sm:text-[34px] md:text-[36px] font-extrabold leading-tight tracking-[0.01em] text-white mb-4"
             style={{ fontFamily: "Roboto, sans-serif" }}
           >
             Description
           </h2>
 
           <p
-            className="text-white font-light text-[18px] leading-[26px] tracking-[0.01em]"
+            className="text-white font-light text-[15px] sm:text-[16px] md:text-[18px] leading-[1.6] tracking-[0.01em] w-full max-w-none"
             style={{ fontFamily: "Roboto, sans-serif" }}
           >
             We and numerous Canadian universities have paired up to create this
@@ -86,9 +86,9 @@ const DescriptionSection = () => {
           </p>
         </div>
 
-        {/* Right Side - Carousel */}
-        <div className="flex flex-col items-center">
-          <div className="relative w-[550px] h-[331px] overflow-hidden rounded-[20px] bg-[#D4D4D4]/10 backdrop-blur-sm">
+
+        <div className="w-full md:w-1/2 flex flex-col items-center">
+          <div className="relative w-full max-w-[550px] md:h-[331px] h-[220px] overflow-hidden rounded-[20px] bg-[#D4D4D4]/10 backdrop-blur-sm">
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={activeIndex}
@@ -99,7 +99,7 @@ const DescriptionSection = () => {
                 exit="exit"
                 transition={{
                   x: { type: "spring", stiffness: 800, damping: 50 },
-                  opacity: { duration: 0.15 }
+                  opacity: { duration: 0.15 },
                 }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
@@ -124,27 +124,29 @@ const DescriptionSection = () => {
               </motion.div>
             </AnimatePresence>
 
-            {/* Static Border Overlay - stays in place while content slides */}
+      
             <div className="absolute inset-0 border border-white/10 rounded-[20px] pointer-events-none z-20"></div>
 
-            {/* Left Arrow */}
+
             <button
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-4 py-2 rounded-full text-white text-xl font-bold z-10"
+              className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
+              aria-label="Previous slide"
             >
               ‹
             </button>
 
-            {/* Right Arrow */}
+      
             <button
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-4 py-2 rounded-full text-white text-xl font-bold z-10"
+              className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
+              aria-label="Next slide"
             >
               ›
             </button>
           </div>
 
-          {/* Dots Indicator */}
+
           <div className="flex gap-2 mt-4">
             {slides.map((_, idx) => (
               <button
@@ -153,6 +155,7 @@ const DescriptionSection = () => {
                   activeIndex === idx ? "bg-yellow-400" : "bg-gray-500"
                 }`}
                 onClick={() => goToSlide(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
               />
             ))}
           </div>

@@ -68,7 +68,12 @@ export default function Events({ events }: EventsSectionProps) {
   const hasMoreEvents = recentEvents.length > 4;
 
   
-  const handleInvite = () => alert("Registration link clicked");
+  const handleInvite = (url: string | null | undefined) => {
+  if (!url) return;
+
+  // Open in a new tab
+  window.open(url, "_blank");
+  };
 
 
   //functionality for the arrows on events for small screens
@@ -238,7 +243,7 @@ useEffect(() => {
                             setSelectedEvent(event);
                             setIsModalOpen(true);
                           }}
-                          onInvitationLink={handleInvite}
+                          onInvitationLink={() => handleInvite(event.url)}
                           originalEvent={event}
                         />
                       </div>
@@ -286,7 +291,7 @@ useEffect(() => {
                         setSelectedEvent(event);
                         setIsModalOpen(true);
                       }}
-                      onInvitationLink={handleInvite}
+                      onInvitationLink={() => handleInvite(event.url)}
                       originalEvent={event}
                     />
                   </motion.div>
@@ -397,7 +402,7 @@ useEffect(() => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         event={selectedEvent}
-        onInvite={handleInvite}
+        // onInvite={handleInvite}
       />
     </section>
   );
