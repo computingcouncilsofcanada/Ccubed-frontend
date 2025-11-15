@@ -8,7 +8,7 @@ export const mockMembers = [
         role: "President",
         imageUrl: "/MemberPics/parth.png",
         info: "President",
-        category: "directors",
+        category: "executives",
         social: {
           linkedin: "https://www.linkedin.com/in/parthdoshiml/",
         },
