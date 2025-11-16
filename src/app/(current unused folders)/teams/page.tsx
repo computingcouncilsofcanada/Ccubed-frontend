@@ -8,7 +8,7 @@ import TeamCard from "@/components/essentials/TeamCard";
 import TeamFilterBar from "./components/TeamFilterBar";
 
 function OurTeamsPage() {
-  const [teamType, setTeamType] = useState<string>("executives");
+  const [teamType, setTeamType] = useState<string>("directors");
 
   // Group filtered members by their original team
   const groupedFilteredMembers = useMemo(() => {
