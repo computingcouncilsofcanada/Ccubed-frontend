@@ -7,6 +7,7 @@ import { CouncilHeader } from "./components/CouncilHeader";
 import { CouncilSections } from "./components/CouncilSections";
 
 const CouncilPage = () => {
+
   return (
     // allow vertical growth; keep x hidden for aesthetics
     <div className="min-h-screen relative w-full overflow-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">

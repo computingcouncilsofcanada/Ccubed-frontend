@@ -1,4 +1,4 @@
-import { motion} from "framer-motion";
+import { motion } from "framer-motion";
 import { councilSections } from "@/data/councilSections";
 import BackgroundTitle from "../BackgroundTitle";
 import { CouncilCard } from "./CouncilCard";

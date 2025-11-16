@@ -5,14 +5,20 @@ import { AnimatePresence } from "framer-motion";
 import { CouncilCardProps } from "../types/types";
 import { CouncilCardIcon } from "./CouncilCardIcon";
 import { CouncilCardContent } from "./CouncilCardContent";
+import { useRouter } from "next/navigation";
 
 export const CouncilCard = ({ section, index }: CouncilCardProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
+  const router = useRouter();
 
+  const handleClick = (section: any) => {
+    const cleanTitle = section.title.replace(/\s+/g, "");
+    router.push(`/teams/${cleanTitle}/details`);
+  };
   return (
     <motion.div
       className="group w-full max-w-[1151px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] cursor-pointer relative z-10
-                 flex flex-col md:flex-row md:items-start"
+                 flex flex-col md:flex-row md:items-start h-70"
       // Bring back a hover "growth" feel without fixed heights
       whileHover={{ scale: 1.01 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
@@ -20,6 +26,7 @@ export const CouncilCard = ({ section, index }: CouncilCardProps) => {
       layout
       onHoverStart={() => setHovered(index)}
       onHoverEnd={() => setHovered((h) => (h === index ? null : h))}
+      onClick={() => handleClick(section)}
     >
       {/* Borders */}
       <div className="absolute inset-0 border border-white/20 rounded-[20px] pointer-events-none"></div>
