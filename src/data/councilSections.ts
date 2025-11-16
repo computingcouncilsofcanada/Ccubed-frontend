@@ -9,14 +9,14 @@ export const councilSections = [
     },
     {
       title: "Artificial Intelligence Council",
-      shortDescription: "Comming Soon",
-      fullDescription: "Comming Soon",
+      shortDescription: "Coming Soon",
+      fullDescription: "Coming Soon",
       icon: "/FigmaFiles/councilAssets/CCubed_icon.png",
     },
     {
       title: "Women in Tech Council",
-      shortDescription: "Comming Soon",
-      fullDescription: "Comming Soon",
+      shortDescription: "Coming Soon",
+      fullDescription: "Coming Soon",
       icon: "/FigmaFiles/councilAssets/CCubed_icon.png",
     },
   ];

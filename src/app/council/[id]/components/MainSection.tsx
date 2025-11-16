@@ -1,7 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { CouncilSection } from "../../types/types";
 
-const MainSection = () => {
+type CouncilProps = {
+  council: CouncilSection;
+};
+
+const MainSection = ({ council }: CouncilProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -14,17 +19,14 @@ const MainSection = () => {
         className="text-3xl sm:text-4xl md:text-[64px] leading-snug md:leading-[48px] tracking-[0.01em] font-extrabold text-white mb-6"
         style={{ fontFamily: "Roboto, sans-serif" }}
       >
-        Cybersecurity
+        {council.title}
       </h1>
 
       <p
         className="text-white text-center text-[15px] sm:text-[18px] font-light leading-relaxed w-full max-w-[845px] mx-auto mb-8 px-4"
         style={{ fontFamily: "Roboto, sans-serif" }}
       >
-        Our goal is to facilitate the entry of newcomers and enthusiasts into
-        one of Tech&apos;s most important fields: cybersecurity. We believe
-        security should be taught sooner, more engagingly, and more
-        enthusiastically.
+        {council.shortDescription}
       </p>
 
       <div className="w-full max-w-[1152px] h-auto md:h-[485px] mx-auto opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] relative px-4">

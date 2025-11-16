@@ -16,7 +16,7 @@ export const CouncilCardDescription = ({
         exit={{ opacity: 0, y: -4 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
       >
-        <p className="text-white leading-relaxed max-w-[900px]text-[14px] sm:text-[16px] mt-4 text-center md:text-left">
+        <p className="text-white leading-relaxed max-w-[900px] text-[14px] sm:text-[16px] mt-4 text-center md:text-left">
           {hovered === index
             ? section.fullDescription
             : section.shortDescription}
