@@ -3,10 +3,11 @@
 import React, { useMemo } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
-import MainSection from "../[id]/components/MainSection";
-import DescriptionSection from "../[id]/components/DescriptionSection";
-import RepresentativesSection from "../[id]/components/RepresentativesSection";
-import EventsSection from "../[id]/components/EventsSection";
+import MainSection from "./components/MainSection";
+import DescriptionSection from "./components/DescriptionSection";
+import RepresentativesSection from "./components/RepresentativesSection";
+import EventsSection from "./components/EventsSection";
+import { ArticleSection } from "./components/ArticleSection";
 import { councilSections } from "@/data/councilSections";
 import { useParams } from "next/navigation";
 
@@ -21,7 +22,11 @@ const CouncilDetailPage = () => {
   }, [id]);
 
   if (!council) {
-    return <div className="text-white flex justify-center items-center ">Council not found.</div>;
+    return (
+      <div className="text-white flex justify-center items-center ">
+        Council not found.
+      </div>
+    );
   }
 
   return (
@@ -33,6 +38,7 @@ const CouncilDetailPage = () => {
         <DescriptionSection council={council} />
         <RepresentativesSection />
         <EventsSection />
+        <ArticleSection />
       </div>
 
       <Footer />

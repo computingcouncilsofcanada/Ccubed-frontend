@@ -112,3 +112,7 @@ body {
     transform: translateY(30px) scale(1.05);
   }
 }
+
+@theme {
+  --breakpoint-cope: 65.875rem;
+}
