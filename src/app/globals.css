@@ -41,6 +41,7 @@
   --font-mono: var(--font-geist-mono);
   --font-patrick: "Patrick Hand", cursive;
   --font-roboto: "Roboto", sans-serif;
+  --breakpoint-cope: 65.875rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -113,6 +114,3 @@ body {
   }
 }
 
-@theme {
-  --breakpoint-cope: 65.875rem;
-}
