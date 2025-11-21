@@ -1,5 +1,7 @@
+import { ApiEvent } from "@/types/events";
+
 // Mock data for testing events implementation
-export const mockEvents = [
+export const mockEvents: ApiEvent[] = [
   {
     id: "68b6432587ca95e683a542f1",
     name: "TechTalk: Your CS Pathway",
@@ -238,9 +240,9 @@ export const mockEvents = [
     updated_by: null,
     files: [
       {
-        "id": "16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1",
-        "name": "CTF.png",
-        "url": "https://lh3.googleusercontent.com/d/16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1"
+        id: "16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1",
+        name: "CTF.png",
+        url: "https://lh3.googleusercontent.com/d/16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1",
       },
     ],
   },

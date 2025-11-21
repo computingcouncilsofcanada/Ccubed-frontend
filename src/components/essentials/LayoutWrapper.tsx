@@ -22,7 +22,8 @@ export default function LayoutWrapper({
     
   return (
     <div className="min-h-screen w-full" style={{
-      background: 'linear-gradient(180deg, #0D1C26 0%, #0D1C26 25%, #0D1C26 40%, #1A384C 70%, #1A384C 100%)'
+      background: 'linear-gradient(180deg, #0D1C26 0%, #0D1C26 25%, #0D1C26 40%, #1A384C 70%, #1A384C 100%)',
+      border: '2px solid red'
     }}>
       {isHydrated && !isStaffRoute && <Navbar />}
       {children}

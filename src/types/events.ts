@@ -17,7 +17,7 @@ export type Events = {
   images: string;
   files: FileObject[];
   types: string[];
-  url: string;
+  url?: string;
 };
 
 // API Event type definition (raw format from API)
@@ -27,7 +27,9 @@ export type ApiEvent = {
   description: string;
   start_at: string;
   end_at: string;
-  url: string;
+  url?: string | null;
+  ownership: string | null;
+  domains: string | null;
   location: string;
   status: number;
   types: string[];

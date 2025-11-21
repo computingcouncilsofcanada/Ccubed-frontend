@@ -13,7 +13,6 @@ import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import { Events as EventType } from "@/types/events";
 import { mockEvents } from "@/data/mockEvents";
-// import { mockEvents } from "@/data/mockEvents";
 
 export default function Home() {
   const [events, setEvents] = useState<EventType[]>([]);
@@ -43,7 +42,8 @@ export default function Home() {
   }, [mockEvents]);
 
   return (
-    <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
+    // Custom Background for home page
+    <div className="h-full relative w-full overflow-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
       <BgBoxMainPage maxHeight={400} enableGlow={true} />
       <BgTextMainPage />
       {/* Page Container - unified width control */}
