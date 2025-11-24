@@ -2,8 +2,13 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { CouncilSection } from "../../types/types";
 
-const DescriptionSection = () => {
+type CouncilProps = {
+  council: CouncilSection;
+};
+
+const DescriptionSection = ({council}: CouncilProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -76,13 +81,7 @@ const DescriptionSection = () => {
             className="text-white font-light text-[15px] sm:text-[16px] md:text-[18px] leading-[1.6] tracking-[0.01em] w-full max-w-none"
             style={{ fontFamily: "Roboto, sans-serif" }}
           >
-            We and numerous Canadian universities have paired up to create this
-            very council, one that facilitates the engagement of your local
-            cyber club by introducing you with industry professionals,
-            educational events tailored to you, and ready made content for your
-            next cybersecurity workshops. No more need to spend countless hours
-            swimming through LinkedIn contacts and Internet write-ups, we've
-            got you.
+      {council.fullDescription}
           </p>
         </div>
 
