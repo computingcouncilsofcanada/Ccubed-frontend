@@ -4,21 +4,16 @@ import { VisionText } from "./bgTextComponents/VisionText";
 import { EventText } from "./bgTextComponents/EventsText";
 import { ValueSystemText } from "./bgTextComponents/ValueSystemText";
 
-// Consistent static layout using fixed pixel values
-const HEADER_HEIGHT_PX = 80; // Navbar/header height in pixels
-const HERO_HEIGHT_PX = 360; // Hero section height in pixels
-const MV_MARGIN_TOP_PX = 120; // Additional spacing before Mission/Vision
-const MV_CONTAINER_TOP_PX =
-  HEADER_HEIGHT_PX + HERO_HEIGHT_PX + MV_MARGIN_TOP_PX; // computed top
-const MV_CONTAINER_HEIGHT_PX = 600; // Mission/Vision band height
-
-const EVENTS_CONTAINER_TOP_PX_1 = 1150; // First Events band top
-const EVENTS_CONTAINER_TOP_PX_2 = 1550; // Second Events band top
-const EVENTS_CONTAINER_HEIGHT_PX = 900; // Events band height (both)
-
-const VS_CONTAINER_TOP_PX_1 = 2300; // Value System first band
-const VS_CONTAINER_TOP_PX_2 = 2650; // Value System second band
-const VS_CONTAINER_HEIGHT_PX = 900; // Value System band height
+import {
+  MV_CONTAINER_HEIGHT_PX,
+  MV_CONTAINER_TOP_PX,
+  EVENTS_CONTAINER_HEIGHT_PX,
+  EVENTS_CONTAINER_TOP_PX_1,
+  EVENTS_CONTAINER_TOP_PX_2,
+  VS_CONTAINER_HEIGHT_PX,
+  VS_CONTAINER_TOP_PX_1,
+  VS_CONTAINER_TOP_PX_2,
+} from "./bgTextComponents/Constants";
 
 const BgTextMainPage: React.FC = () => {
   return (
