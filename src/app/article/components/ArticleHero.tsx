@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const ArticleHero = () => {
   return (
-    <div className="b flex flex-col gap-7 text-white ">
+    <div className="flex flex-col gap-7 text-white ">
       <div className=" flex cope:flex-row flex-col justify-between gap-7">
         <div className="cope:w-1/2 w-full max-cope:h-100 relative rounded-xl overflow-hidden">
           <Image src="/ArticlePics/ArticleHero.png" alt="" fill></Image>
@@ -42,11 +42,15 @@ export const ArticleHero = () => {
       </div>
       <div className="flex justify-center items-center">
         <div className="flex gap-1">
-          <div className="bg-gradient-to-b from-[#FAA336] to-[#FFFFFF] rounded-full size-2"></div>
-          <div className="bg-[#D4D4D4]/10 rounded-full size-2"></div>
-          <div className="bg-[#D4D4D4]/10 rounded-full size-2"></div>
-          <div className="bg-[#D4D4D4]/10 rounded-full size-2"></div>
-          <div className="bg-[#D4D4D4]/10 rounded-full size-2"></div>
+          {Array.from({ length: 5 }, (_v, index) => (
+            <div
+              className={`${
+                index === 0
+                  ? "bg-gradient-to-b from-[#FAA336] to-[#FFFFFF]"
+                  : "bg-[#D4D4D4]/10"
+              } rounded-full size-2 `}
+            ></div>
+          ))}
         </div>
       </div>
     </div>
