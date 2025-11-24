@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { ArticleFilterBar } from "./ArticleFilterBar";
 import { useState } from "react";
+import { options } from "./Calculations";
+import { Articles } from "./Articles";
 export const LatestArticle = () => {
   const [articleType, setArticleType] = useState<string>("all");
   const [viewMode, setViewMode] = useState<string>("list");
@@ -11,7 +13,7 @@ export const LatestArticle = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-left my-16"
+        className="text-left my-16 flex flex-col gap-3"
       >
         <div className="">
           <h1
@@ -23,7 +25,7 @@ export const LatestArticle = () => {
         </div>
 
         <p
-          className="text-white text-left text-[16px] sm:text-[20px] font-light leading-[24px] sm:leading-[27px] w-full max-w-[80ch] "
+          className="text-white text-left text-lg font-light  w-full max-w-[80ch] "
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
           Discover articles crafted by the council, covering key issues and
@@ -31,12 +33,14 @@ export const LatestArticle = () => {
           happening behind the scenes.
         </p>
       </motion.div>
-      {/* <ArticleFilterBar
+      <ArticleFilterBar
         eventType={articleType}
-        onEventTypeChange={setArticleType}
+        onArticleTypeChange={setArticleType}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
-      /> */}
+        options={options}
+      />
+      <Articles />
     </div>
   );
 };
