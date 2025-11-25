@@ -1,8 +1,19 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
+import { CouncilSection } from "@/app/council/types/types";
+import { useRouter } from "next/navigation";
 
-export const ArticleHeader = () => {
+type CouncilProps = {
+  council: CouncilSection;
+};
+export const ArticleHeader = ({ council }: CouncilProps) => {
+  const router = useRouter();
+
+  const handleClick = (section: any) => {
+    const cleanTitle = section.title.toLowerCase().replace(/\s+/g, "");
+    router.push(`/council/${cleanTitle}/article`);
+  };
   return (
     <div className="text-start mb-6">
       <h2
@@ -19,37 +30,36 @@ export const ArticleHeader = () => {
           Take a quick look at our latest articles. Enjoy the content? Head to
           the Explore Articles page to discover more.
         </p>
-        <Link href="">
-          <motion.div
-            className="flex gap-2 items-center cursor-pointer"
-            whileHover="hover"
-            initial="initial"
+        <motion.div
+          className="flex gap-2 items-center cursor-pointer"
+          whileHover="hover"
+          initial="initial"
+          variants={{
+            initial: {},
+            hover: {},
+          }}
+          onClick={() => handleClick(council)}
+        >
+          <motion.p
+            className="text-white font-light text-[18px]"
+            style={{ fontFamily: "Roboto, sans-serif" }}
             variants={{
-              initial: {},
-              hover: {},
+              initial: { x: 10 },
+              hover: { x: -3 },
             }}
           >
-            <motion.p
-              className="text-white font-light text-[18px]"
-              style={{ fontFamily: "Roboto, sans-serif" }}
-              variants={{
-                initial: { x: 10 },
-                hover: { x: -3 },
-              }}
-            >
-              See All
-            </motion.p>
+            See All
+          </motion.p>
 
-            <motion.div
-              variants={{
-                initial: { opacity: 0 },
-                hover: { opacity: 1 },
-              }}
-            >
-              <MoveRight className="text-white" />
-            </motion.div>
+          <motion.div
+            variants={{
+              initial: { opacity: 0 },
+              hover: { opacity: 1 },
+            }}
+          >
+            <MoveRight className="text-white" />
           </motion.div>
-        </Link>
+        </motion.div>
       </div>
     </div>
   );
