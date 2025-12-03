@@ -2,6 +2,7 @@
 
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
   getAllEvents,
@@ -426,12 +427,12 @@ function EventsPage() {
 
       {/* Create Event Button */}
       <div className="flex justify-end px-5">
-        <button
-          onClick={() => openModal(null, "create")}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        <Link
+          href={`/member/${user?.role === "SUPER_ADMIN" ? "super-admin" : "admin"}/events/create`}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 inline-block"
         >
           Create New Event
-        </button>
+        </Link>
       </div>
 
       {/* Events Grid Display */}
