@@ -3,8 +3,8 @@ import Image from "next/image";
 export const ArticleHero = () => {
   return (
     <div className="flex flex-col gap-7 text-white ">
-      <div className=" flex cope:flex-row flex-col justify-between gap-7">
-        <div className="cope:w-1/2 w-full max-cope:h-100 relative rounded-xl overflow-hidden ">
+      <div className=" flex [@media(min-width:1054px)]:flex-row flex-col justify-between gap-7">
+        <div className="[@media(min-width:1054px)]:w-1/2 w-full max-[1054px]:h-100 relative rounded-xl overflow-hidden ">
           <Image src="/ArticlePics/ArticleHero.png" alt="Hero Image" fill></Image>
           <div className="absolute bottom-5 right-5 flex gap-2 cursor-pointer">
             <div className="p-4 w-1/2 rounded-xl border flex items-center justify-center">
@@ -15,7 +15,7 @@ export const ArticleHero = () => {
             </div>
           </div>
         </div>
-        <div className=" w-full cope:w-1/2 flex flex-col gap-4">
+        <div className=" w-full [@media(min-width:1054px)]:w-1/2 flex flex-col gap-4">
           <h1 className=" text-5xl font-bold">
             The State of Cybersecurity in 2025: What You Need to Know
           </h1>

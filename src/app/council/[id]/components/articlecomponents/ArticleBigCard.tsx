@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const ArticleBigcard = () => {
   return (
-    <div className="cope:w-1/2  relative flex flex-col gap-4">
+    <div className="[@media(min-width:1054px)]:w-1/2  relative flex flex-col gap-4">
       <div className="relative w-full h-70 rounded-4xl overflow-hidden">
         <Image
           src={"/ArticlePics/ArticleImage.png"}
