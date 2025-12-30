@@ -47,7 +47,7 @@ export const ArticleHero = () => {
             key={index}
               className={`${
                 index === 0
-                  ? "bg-gradient-to-b from-[#FAA336] to-[#FFFFFF]"
+                  ? "bg-linear-to-b from-[#FAA336] to-[#FFFFFF]"
                   : "bg-[#D4D4D4]/10"
               } rounded-full size-2 `}
             ></div>
