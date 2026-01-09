@@ -3,8 +3,8 @@
 import React from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
-import { CouncilHeader } from "./components/CouncilHeader";
-import { CouncilSections } from "./components/CouncilSections";
+import { CouncilHeader } from "./components/CouncilComponents";
+import { CouncilSections } from "./components/CouncilComponents";
 
 const CouncilPage = () => {
 

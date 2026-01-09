@@ -3,11 +3,9 @@
 import React from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
-import Image from "next/image";
 
-import { MainArticleHeader } from "./components/MainArticleHeader";
-import { MainArticleGrid } from "./components/MainArticleGrid";
-import { MainLatestArticles } from "./components/MainLatestArticles";
+import { MainArticleHeader, MainArticleGrid, MainLatestArticles } from "../../../components/MainArticleComponents";
+
 
 const ArticlePage = () => {
   return (

@@ -3,11 +3,13 @@
 import React, { useMemo } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
-import MainSection from "./components/MainSection";
-import DescriptionSection from "./components/DescriptionSection";
-import RepresentativesSection from "./components/RepresentativesSection";
-import EventsSection from "./components/EventsSection";
-import { ArticleSection } from "./components/ArticleSection";
+import {
+  MainSection,
+  DescriptionSection,
+  RepresentativesSection,
+  EventsSection,
+  ArticleSection,
+} from "../components/SpecificCouncilComponents";
 import { councilSections } from "@/data/councilSections";
 import { useParams } from "next/navigation";
 
