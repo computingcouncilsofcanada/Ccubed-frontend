@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
-import { ArticleHeader } from "./components/ArticleHeader";
-import { ArticleHero } from "./components/ArticleHero";
 import Footer from "@/components/shared/Footer";
-import { CouncilArticle } from "./components/CouncilArticle";
-import { LatestArticle } from "./components/LatestArticle";
+import {
+  ArticleHeader,
+  ArticleHero,
+  CouncilArticle,
+  LatestArticle,
+} from "./components/ArticleComponents";
 
 const ArticlePage = () => {
-
-
   return (
     <>
       <BgBoxMainPage maxHeight={100} />

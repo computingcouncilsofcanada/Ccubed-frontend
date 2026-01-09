@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { mockArticles } from "@/data/mockArticles";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -214,8 +215,8 @@ export const MainArticleGrid = () => {
           <div className=" flex flex-col gap-4 mb-4" key={article.id}>
             <div className="h-40 rounded-xl overflow-hidden relative">
               <Image
-                src="/ArticlePics/computer.png"
-                alt="computer"
+                src="/ArticlePics/ArticleComputer.png"
+                alt={article.title}
                 fill
                 objectFit="cover"
               ></Image>
@@ -252,7 +253,7 @@ export const MainArticleHeader = () => {
   return (
     <>
       <h1 className="text-6xl font-bold max-w-[900px] mt-10">
-        {article?.title}
+        {article?.title || "The State of Cybersecurity in 2025: What You Need to Know"}
       </h1>
       <div className="flex gap-3 items-center w-fit my-8">
         <div className="size-10 relative rounded-full overflow-hidden">
@@ -264,21 +265,21 @@ export const MainArticleHeader = () => {
           ></Image>
         </div>
         <div className="flex flex-col">
-          <p className="font-bold text-lg">{article?.author}</p>
-          <p>{article?.role}</p>
+          <p className="font-bold text-lg">{article?.author || "Baia Malvina"}</p>
+          <p>{article?.role || "CyberSecurity Coordinator"}</p>
         </div>
       </div>
       <div className=" my-5 flex items-center gap-2 justify-end">
         <p className="px-2 py-1 bg-[#D4D4D4]/10 rounded-2xl w-fit ">
-          {article?.title}
+          {article?.title || "Information Security"}
         </p>
-        <div className="w-4 h-px bg-white rotate-90"></div>
+        <div className="w-4 h-[1px] bg-white rotate-90"></div>
         <div className="flex gap-2 items-center">
           <img src="/ArticlePics/note.svg" alt="" />
-          <p>{article?.date}</p>
+          <p>{article?.date || "Nov 21, 2025"}</p>
         </div>
-        <div className="w-4 h-px bg-white rotate-90"></div>
-        <p>{article?.read_min}</p>
+        <div className="w-4 h-[1px] bg-white rotate-90"></div>
+        <p>{article?.read_min || "7 mins read"}</p>
       </div>
     </>
   );
@@ -297,10 +298,16 @@ export const MainLatestArticles = () => {
   );
   return (
     <div>
-      <div className="text-left my-16 flex flex-col gap-3">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="text-left my-16 flex flex-col gap-3"
+      >
         <div className="">
           <h1
-            className="text-[32px] sm:text-[40px] leading-10 sm:leading-12 tracking-[0.01em] font-extrabold text-white"
+            className="text-[32px] sm:text-[40px] leading-[40px] sm:leading-[48px] tracking-[0.01em] font-extrabold text-white"
             style={{ fontFamily: "Roboto, sans-serif" }}
           >
             Latest Articles
@@ -315,9 +322,15 @@ export const MainLatestArticles = () => {
           decisions. Get clear, reliable information to understand what&apos;s
           happening behind the scenes.
         </p>
-      </div>
-      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-16 gap-4">
-        {otherArticles.map((article) => (
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-16 gap-4"
+      >
+        {otherArticles.slice(0, 4).map((article) => (
           <div
             className=" flex flex-col gap-4 mb-4 cursor-pointer"
             key={article.id}
@@ -325,8 +338,8 @@ export const MainLatestArticles = () => {
           >
             <div className="h-40 rounded-xl overflow-hidden relative">
               <Image
-                src="/ArticlePics/computer.png"
-                alt="computer"
+                src="/ArticlePics/ArticleComputer.png"
+                alt={article.title}
                 fill
                 objectFit="cover"
               ></Image>
@@ -346,7 +359,8 @@ export const MainLatestArticles = () => {
             </div>
           </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };
+

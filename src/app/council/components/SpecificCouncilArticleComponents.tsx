@@ -76,7 +76,7 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
       >
         <div className="relative w-full h-50 rounded-4xl overflow-hidden">
           <Image
-            src={article1.img_url}
+            src="/ArticlePics/ArticleImage.png"
             alt="Article Image"
             fill
             className="object-cover"
@@ -164,12 +164,12 @@ type InformationCardProps = {
 };
 
 export const InformationCard = ({ article }: InformationCardProps) => {
-  const { img_url, title, description, read_min, date } = article;
+  const {title, description, read_min, date } = article;
   return (
     <div className="max-md:h-40 flex gap-2">
       <div className="relative w-40  h-full md:h-30 rounded-3xl overflow-hidden">
         <Image
-          src={img_url}
+          src="/ArticlePics/ArticleComputer.png"
           alt="Article Image"
           fill
           className="object-cover"
