@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export const Articles = () => {
+  const router = useRouter();
+
   return (
     <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-full max-w-[1152px] mt-4">
       <motion.div
@@ -9,10 +12,14 @@ export const Articles = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-16 gap-4"
+        className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-16 gap-4 cursor-pointer"
       >
-        {Array.from({ length: 12}, (_v, index) => (
-          <div className=" flex flex-col gap-4 mb-4" key={index}>
+        {Array.from({ length: 12 }, (_v, index) => (
+          <div
+            className=" flex flex-col gap-4 mb-4"
+            key={index}
+            onClick={() => router.push(`/article/${index + 1}`)}
+          >
             <div className="h-40 rounded-xl overflow-hidden relative">
               <Image
                 src="/ArticlePics/computer.png"
