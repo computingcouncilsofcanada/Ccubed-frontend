@@ -3,9 +3,10 @@
 import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { isAxiosError } from "axios";
+import { IconShield, IconCheck, IconX, IconDeviceFloppy } from "@tabler/icons-react";
 
 // Types
 type Role = {
@@ -54,7 +55,7 @@ function RolesPage() {
   };
 
   // Data fetching
-  const fetchAllData = async () => {
+  const fetchAllData = useCallback(async () => {
     try {
       const [rolesRes, permissionsRes, rolePermissionsRes] = await Promise.all([
         privateAxios.get("/role"),
@@ -70,10 +71,8 @@ function RolesPage() {
     } catch (err: unknown) {
       const msg = getAxiosMessage(err, "Failed to fetch data");
       setError(msg);
-      // eslint-disable-next-line no-console
-      console.error("Error fetching data:", err);
     }
-  };
+  }, []);
 
   const groupedPermissions = useMemo(() => {
     if (permissions.length === 0) return {} as Record<string, Permission[]>;
@@ -168,49 +167,68 @@ function RolesPage() {
     if (!isUserLoading && user?.role === "SUPER_ADMIN") {
       fetchAllData();
     }
-  }, [user, isUserLoading]);
+  }, [user, isUserLoading, fetchAllData]);
 
   if (!user || user.role !== "SUPER_ADMIN") {
     return null;
   }
 
-  return (
-    <div className="container mx-auto p-4 text-white">
-      <h1 className="text-3xl font-bold mb-6 text-center">
-        Role and Permission Management
-      </h1>
+  const hasPendingChanges = Object.keys(pendingRolePermissions).length > 0;
 
+  return (
+    <div className="min-h-full p-6 md:p-8">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#7C3AED] to-[#6d28d9] flex items-center justify-center shadow-lg">
+            <IconShield size={24} className="text-white" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Role & Permission Management
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Manage roles and their associated permissions
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Error Message */}
       {error && (
-        <div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded mb-6">
-          {error}
+        <div className="mb-6 bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-r-lg shadow-sm">
+          <div className="flex items-center gap-2">
+            <IconX size={20} />
+            <span className="font-medium">{error}</span>
+          </div>
         </div>
       )}
 
       {/* Save Button */}
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-6">
         <button
-          className={`px-6 py-2 rounded font-bold text-white ${
-            Object.keys(pendingRolePermissions).length === 0 || isSaving
-              ? "bg-gray-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
+          className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white shadow-lg transition-all duration-200 ${
+            !hasPendingChanges || isSaving
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#7C3AED] hover:shadow-xl transform hover:scale-105"
           }`}
           onClick={handleSave}
-          disabled={
-            Object.keys(pendingRolePermissions).length === 0 || isSaving
-          }
+          disabled={!hasPendingChanges || isSaving}
         >
-          {isSaving ? "Saving..." : "Save"}
+          <IconDeviceFloppy size={20} />
+          {isSaving ? "Saving..." : "Save Changes"}
         </button>
       </div>
 
-      <div className="bg-gray-800/50 rounded-lg overflow-hidden">
+      {/* Table Container */}
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-gray-900/70">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gradient-to-r from-[#7C3AED] to-[#6d28d9]">
               <tr>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                  className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-white"
                 >
                   Permission
                 </th>
@@ -218,24 +236,26 @@ function RolesPage() {
                   <th
                     key={role.id}
                     scope="col"
-                    className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider"
+                    className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-white"
                   >
-                    <div className="flex flex-col items-center gap-2">
-                      <span>{role.name}</span>
-                      <div className="flex gap-1">
+                    <div className="flex flex-col items-center gap-3">
+                      <span className="text-sm font-bold">{role.name}</span>
+                      <div className="flex gap-2">
                         <button
                           onClick={() => handleBulkUpdateLocal(role.id, true)}
-                          className="text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                          className="flex items-center gap-1 text-xs bg-white/20 hover:bg-white/30 text-white font-semibold py-1.5 px-3 rounded-lg transition-all duration-200 backdrop-blur-sm"
                           type="button"
                         >
-                          ✓ All
+                          <IconCheck size={14} />
+                          All
                         </button>
                         <button
                           onClick={() => handleBulkUpdateLocal(role.id, false)}
-                          className="text-xs bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded"
+                          className="flex items-center gap-1 text-xs bg-white/20 hover:bg-white/30 text-white font-semibold py-1.5 px-3 rounded-lg transition-all duration-200 backdrop-blur-sm"
                           type="button"
                         >
-                          ✕ All
+                          <IconX size={14} />
+                          All
                         </button>
                       </div>
                     </div>
@@ -243,36 +263,54 @@ function RolesPage() {
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-gray-800/50 divide-y divide-gray-700">
+            <tbody className="bg-white divide-y divide-gray-100">
               {Object.keys(groupedPermissions).map((groupName) => (
                 <React.Fragment key={groupName}>
-                  <tr>
+                  <tr className="bg-gradient-to-r from-purple-50 to-indigo-50">
                     <td
                       colSpan={displayableRoles.length + 1}
-                      className="px-6 py-4 bg-gray-900/50"
+                      className="px-6 py-4"
                     >
-                      <h3 className="text-lg font-semibold">{groupName}</h3>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1 h-6 bg-gradient-to-b from-[#7C3AED] to-[#6d28d9] rounded-full"></div>
+                        <h3 className="text-base font-bold text-gray-900">
+                          {groupName}
+                        </h3>
+                      </div>
                     </td>
                   </tr>
-                  {groupedPermissions[groupName].map((permission) => {
+                  {groupedPermissions[groupName].map((permission, permIndex) => {
+                    const isEven = permIndex % 2 === 0;
                     return (
-                      <tr key={permission.id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          {permission.name}
+                      <tr
+                        key={permission.id}
+                        className={`transition-colors ${
+                          isEven ? "bg-gray-50/50" : "bg-white"
+                        } hover:bg-purple-50/50`}
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium text-gray-700">
+                              {permission.name.split(".").slice(1).join(".") || permission.name}
+                            </span>
+                          </div>
                         </td>
                         {displayableRoles.map((role) => {
                           return (
                             <td
                               key={role.id}
-                              className="px-6 py-4 whitespace-nowrap text-sm text-center"
+                              className="px-6 py-4 whitespace-nowrap text-center"
                             >
-                              <Checkbox
-                                checked={isChecked(role.id, permission.id)}
-                                onCheckedChange={() =>
-                                  handleCheckboxChange(role.id, permission.id)
-                                }
-                                id={`${role.id}-${permission.id}`}
-                              />
+                              <div className="flex justify-center">
+                                <Checkbox
+                                  checked={isChecked(role.id, permission.id)}
+                                  onCheckedChange={() =>
+                                    handleCheckboxChange(role.id, permission.id)
+                                  }
+                                  id={`${role.id}-${permission.id}`}
+                                  className="data-[state=checked]:bg-[#7C3AED] data-[state=checked]:border-[#7C3AED]"
+                                />
+                              </div>
                             </td>
                           );
                         })}
@@ -285,6 +323,16 @@ function RolesPage() {
           </table>
         </div>
       </div>
+
+      {/* Pending Changes Indicator */}
+      {hasPendingChanges && (
+        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-amber-600 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200">
+          <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+          <span className="font-medium">
+            You have unsaved changes. Don&apos;t forget to save!
+          </span>
+        </div>
+      )}
     </div>
   );
 }
