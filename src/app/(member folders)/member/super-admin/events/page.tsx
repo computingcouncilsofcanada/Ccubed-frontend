@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   getAllEvents,
-  createEvent,
   updateEvent,
   deleteEvent,
   approveCreateEvent,
@@ -15,7 +14,31 @@ import {
 } from "@/services/useApiAuth";
 import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
-import PreviewModal from "@/components/modals/PreviewModal";
+import {
+  IconCalendar,
+  IconClock,
+  IconMapPin,
+  IconLink,
+  IconUsers,
+  IconBook,
+  IconChecklist,
+  IconTag,
+  IconFileText,
+  IconEdit,
+  IconTrash,
+  IconCheck,
+  IconX,
+  IconPlus,
+  IconArrowLeft,
+  IconArrowRight,
+} from "@tabler/icons-react";
+import Link from "next/link";
+
+type Recurrence = {
+  type: "none" | "daily" | "weekly" | "monthly" | "custom";
+  days_of_week?: string[];
+  custom_dates?: string[];
+};
 
 type Event = {
   id: string;
@@ -24,7 +47,20 @@ type Event = {
   start_at: string;
   end_at: string;
   location: string;
+  url?: string;
+  registration_link?: string;
+  learning_outcomes?: string[];
+  what_you_need?: string[];
+  instructors?: string[];
+  ownership?: string[];
+  domains?: string[];
+  recurrence?: Recurrence;
   images: string | null;
+  files?: Array<{
+    id: string;
+    name: string;
+    url: string;
+  }>;
   created_at: string;
   created_by: string;
   updated_at: string | null;
@@ -44,22 +80,6 @@ type EventForm = {
   types: string[];
 };
 
-type PreviewEvent = {
-  id: number;
-  name: string;
-  description: string;
-  status: number;
-  date: string;
-  time: string;
-  location: string;
-  images: string;
-  files: Array<{
-    id: string;
-    name: string;
-    url: string;
-  }>;
-  types: string[];
-};
 
 // ---- helpers to avoid `any` while preserving messages ----
 type ErrWithMessage = { message?: string };
@@ -80,33 +100,18 @@ function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [, setError] = useState<string>(""); // setter-only; avoids unused state var
 
-  // selected event types
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const typeOptions = ["Online", "In Person"];
-
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
   const [rejectType, setRejectType] = useState<"create" | "update">("create");
-  const [previewEvent, setPreviewEvent] = useState<PreviewEvent | null>(null);
 
   const [page, setPage] = useState(1);
   const limit = 10;
   const router = useRouter();
-
-  const {
-    register: registerCreate,
-    handleSubmit: handleCreateSubmit,
-    reset: resetCreate,
-    watch: watchCreate,
-    formState: { errors: createErrors },
-  } = useForm<EventForm>();
 
   const {
     register: registerUpdate,
@@ -114,68 +119,6 @@ function EventsPage() {
     reset: resetUpdate,
     formState: { errors: updateErrors },
   } = useForm<EventForm>();
-
-  const createFormValues = watchCreate();
-
-  const createPreviewEvent = (formData: EventForm): PreviewEvent => {
-    const name = formData.name || "Event Name";
-    const description =
-      formData.description || "Event description will appear here...";
-    const location = formData.location || "Location TBD";
-
-    let date = "Date TBD";
-    let time = "Time TBD";
-
-    if (formData.start_at && formData.end_at) {
-      try {
-        const startDate = new Date(formData.start_at);
-        const endDate = new Date(formData.end_at);
-
-        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
-          date = startDate.toLocaleDateString();
-          time = `${startDate.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })} - ${endDate.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}`;
-        }
-      } catch (error) {
-        console.error("Error parsing dates:", error);
-      }
-    }
-
-    const typesToShow = selectedTypes;
-
-    return {
-      id: 0,
-      name,
-      description,
-      status: 1,
-      date,
-      time,
-      location,
-      images: "",
-      files:
-        formData.images && formData.images.length > 0
-          ? [
-              {
-                id: "1",
-                name: formData.images[0].name,
-                url: URL.createObjectURL(formData.images[0]),
-              },
-            ]
-          : [],
-      types: typesToShow,
-    };
-  };
-
-  const handlePreviewEvent = () => {
-    const previewData = createPreviewEvent(createFormValues);
-    setPreviewEvent(previewData);
-    setIsPreviewModalOpen(true);
-  };
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -192,37 +135,6 @@ function EventsPage() {
     fetchEvents();
   }, [fetchEvents]);
 
-  const handleCreateEvent = async (data: EventForm) => {
-    if (selectedTypes.length === 0) {
-      alert("Please select at least one event type.");
-      return;
-    }
-    try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("description", data.description);
-      formData.append("start_at", new Date(data.start_at).getTime().toString());
-      formData.append("end_at", new Date(data.end_at).getTime().toString());
-      formData.append("location", data.location);
-      if (data.images?.[0]) {
-        formData.append("file", data.images[0]);
-      }
-      const typesToSubmit = selectedTypes;
-      formData.append("types", typesToSubmit.join(","));
-
-      const res = await createEvent(formData);
-      setIsCreateModalOpen(false);
-      resetCreate();
-      setSelectedTypes([]);
-      if (res.status === 201) {
-        alert(res.message);
-        await fetchEvents();
-      }
-    } catch (err: unknown) {
-      console.error("Error creating event:", err);
-      alert(getErrMsg(err));
-    }
-  };
 
   const handleUpdateEvent = async (data: EventForm) => {
     if (!selectedEvent) return;
@@ -339,7 +251,7 @@ function EventsPage() {
     setSelectedEvent(event);
     switch (type) {
       case "create":
-        setIsCreateModalOpen(true);
+        router.push("/member/super-admin/events/create");
         break;
       case "update":
         setIsUpdateModalOpen(true);
@@ -378,304 +290,309 @@ function EventsPage() {
     return null;
   }
 
-  return (
-    <div className="flex mt-10 gap-3 flex-col">
-      {/* Page Title */}
-      <h1 className="text-3xl text-center w-full">Events</h1>
+  const formatRecurrence = (recurrence?: Recurrence): string => {
+    if (!recurrence) return "One-time event";
+    switch (recurrence.type) {
+      case "none":
+        return "One-time event";
+      case "weekly":
+        return `Weekly on ${recurrence.days_of_week?.map((d) => d.charAt(0).toUpperCase() + d.slice(1)).join(", ") || "N/A"}`;
+      case "monthly":
+        return `Monthly on ${recurrence.custom_dates?.join(", ") || "N/A"}`;
+      case "custom":
+        return `Multiple dates: ${recurrence.custom_dates?.join(", ") || "N/A"}`;
+      default:
+        return "Recurring event";
+    }
+  };
 
-      {/* Create Event Button */}
-      <div className="flex justify-end px-5">
-        <button
-          onClick={() => openModal(null, "create")}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+  return (
+    <div className="p-6">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Events</h1>
+          <p className="text-gray-600">Manage and review all events</p>
+        </div>
+        <Link
+          href="/member/super-admin/events/create"
+          className="px-6 py-3 bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] text-white rounded-lg hover:from-[#6d28d9] hover:to-[#5b21b6] transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
         >
+          <IconPlus size={20} />
           Create New Event
-        </button>
+        </Link>
       </div>
 
       {/* Events Grid Display */}
-      <div className="grid grid-cols-3 gap-5 p-5">
-        {events.map((event) => (
-          <div
-            key={event.id}
-            className="border-2 border-blue-200 p-4 text-white"
+      {events.length === 0 ? (
+        <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
+          <IconCalendar size={64} className="mx-auto text-gray-400 mb-4" />
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">No events found</h3>
+          <p className="text-gray-500 mb-6">Get started by creating your first event</p>
+          <Link
+            href="/member/super-admin/events/create"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#7C3AED] text-white rounded-lg hover:bg-[#6d28d9] transition-colors"
           >
-            {/* Event Details */}
-            <h1 className="font-bold">Event Name: {event.name}</h1>
-            <h1>Description: {event.description}</h1>
-            <h1>
-              Start: {new Date(parseInt(event.start_at)).toLocaleString()}
-            </h1>
-            <h1>Types: {event.types.join(", ")}</h1>
-            <h1>End: {new Date(parseInt(event.end_at)).toLocaleString()}</h1>
-            <h1>Location: {event.location}</h1>
-            <h1>Pending action: {event.pending_action}</h1>
-            <h1>Status: {event.status}</h1>
-            <h1>
-              Created At:{" "}
-              {new Date(parseInt(event.created_at)).toLocaleDateString()}
-            </h1>
-            <h1>Created By: {event.created_by}</h1>
-            {event.updated_at && (
-              <h1>
-                Last Updated:{" "}
-                {new Date(parseInt(event.updated_at)).toLocaleDateString()}
-              </h1>
-            )}
-            {/* Event Image Display (warning-only, leaving <img> as-is) */}
-            {event.images && (
-              <div className="mt-2">
-                <img
-                  src={event.images}
-                  alt={`${event.name} image`}
-                  className="w-20 h-20 object-contain"
-                  referrerPolicy="no-referrer"
-                />
+            <IconPlus size={20} />
+            Create Event
+          </Link>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          {events.map((event) => {
+            const startDate = new Date(parseInt(event.start_at));
+            const endDate = new Date(parseInt(event.end_at));
+            const isPending = event.pending_action && event.pending_action !== "";
+
+            return (
+              <div
+                key={event.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                {/* Event Image */}
+                {event.images && (
+                  <div className="relative h-48 w-full bg-gray-100">
+                    <img
+                      src={event.images}
+                      alt={event.name}
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                    {isPending && (
+                      <div className="absolute top-3 right-3">
+                        <span className="px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded-full">
+                          Pending {event.pending_action}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Event Content */}
+                <div className="p-6">
+                  {/* Event Header */}
+                  <div className="mb-4">
+                    <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                      {event.name}
+                    </h2>
+                    <p className="text-gray-600 text-sm line-clamp-2">
+                      {event.description}
+                    </p>
+                  </div>
+
+                  {/* Event Types */}
+                  {event.types && event.types.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {event.types.map((type) => (
+                        <span
+                          key={type}
+                          className="px-3 py-1 bg-purple-50 text-[#7C3AED] text-xs font-medium rounded-full border border-purple-200"
+                        >
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Date & Time */}
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                      <IconCalendar size={18} className="text-gray-400" />
+                      <span className="font-medium">
+                        {startDate.toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                      <IconClock size={18} className="text-gray-400" />
+                      <span>
+                        {startDate.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}{" "}
+                        -{" "}
+                        {endDate.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                      <IconMapPin size={18} className="text-gray-400" />
+                      <span>{event.location}</span>
+                    </div>
+                  </div>
+
+                  {/* Recurrence */}
+                  {event.recurrence && (
+                    <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                      <p className="text-xs font-medium text-blue-800">
+                        {formatRecurrence(event.recurrence)}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Learning Outcomes */}
+                  {event.learning_outcomes && event.learning_outcomes.length > 0 && (
+                    <div className="mb-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <IconBook size={16} className="text-gray-400" />
+                        <span className="text-xs font-semibold text-gray-700 uppercase">
+                          Learning Outcomes
+                        </span>
+                      </div>
+                      <ul className="list-disc list-inside space-y-1">
+                        {event.learning_outcomes.slice(0, 3).map((outcome, idx) => (
+                          <li key={idx} className="text-xs text-gray-600 line-clamp-1">
+                            {outcome}
+                          </li>
+                        ))}
+                        {event.learning_outcomes.length > 3 && (
+                          <li className="text-xs text-gray-500 italic">
+                            +{event.learning_outcomes.length - 3} more
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Instructors */}
+                  {event.instructors && event.instructors.length > 0 && (
+                    <div className="mb-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <IconUsers size={16} className="text-gray-400" />
+                        <span className="text-xs font-semibold text-gray-700 uppercase">
+                          Instructors
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {event.instructors.slice(0, 3).map((instructor, idx) => (
+                          <span
+                            key={idx}
+                            className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
+                          >
+                            {instructor}
+                          </span>
+                        ))}
+                        {event.instructors.length > 3 && (
+                          <span className="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded">
+                            +{event.instructors.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Links */}
+                  <div className="space-y-2 mb-4">
+                    {event.registration_link && (
+                      <a
+                        href={event.registration_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm text-[#7C3AED] hover:text-[#6d28d9] transition-colors"
+                      >
+                        <IconLink size={16} />
+                        <span className="font-medium">Registration Link</span>
+                      </a>
+                    )}
+                    {event.url && (
+                      <a
+                        href={event.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                      >
+                        <IconLink size={16} />
+                        <span>Event URL</span>
+                      </a>
+                    )}
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-200">
+                    <button
+                      onClick={() => openModal(event, "update")}
+                      className="flex-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors flex items-center justify-center gap-2 text-sm font-medium"
+                    >
+                      <IconEdit size={16} />
+                      Update
+                    </button>
+                    <button
+                      onClick={() => openModal(event, "delete")}
+                      className="px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-2 text-sm font-medium"
+                    >
+                      <IconTrash size={16} />
+                    </button>
+                    {event.pending_action === "create" && (
+                      <>
+                        <button
+                          onClick={() => openModal(event, "approve-create")}
+                          className="px-3 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors flex items-center gap-2 text-sm font-medium"
+                          title="Approve Creation"
+                        >
+                          <IconCheck size={16} />
+                        </button>
+                        <button
+                          onClick={() => openModal(event, "reject-create")}
+                          className="px-3 py-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors flex items-center gap-2 text-sm font-medium"
+                          title="Reject Creation"
+                        >
+                          <IconX size={16} />
+                        </button>
+                      </>
+                    )}
+                    {event.pending_action === "update" && (
+                      <>
+                        <button
+                          onClick={() => openModal(event, "approve-update")}
+                          className="px-3 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors flex items-center gap-2 text-sm font-medium"
+                          title="Approve Update"
+                        >
+                          <IconCheck size={16} />
+                        </button>
+                        <button
+                          onClick={() => openModal(event, "reject-update")}
+                          className="px-3 py-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors flex items-center gap-2 text-sm font-medium"
+                          title="Reject Update"
+                        >
+                          <IconX size={16} />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
-            )}
-            {/* Event Action Buttons */}
-            <div className="flex flex-col gap-2 mt-2">
-              <button
-                className="border-2 border-blue-400 px-2 py-1 w-auto text-blue-300 hover:bg-blue-900 hover:text-blue-100 rounded"
-                onClick={() => openModal(event, "update")}
-              >
-                Update Event
-              </button>
-              <button
-                className="border-2 border-red-400 px-2 py-1 w-auto text-red-300 hover:bg-red-900 hover:text-red-100 rounded"
-                onClick={() => openModal(event, "delete")}
-              >
-                Delete Event
-              </button>
-              {/* Approval/Rejection buttons based on pending_action */}
-              {event.pending_action === "create" && (
-                <>
-                  <button
-                    className="border-2 border-green-400 px-2 py-1 w-auto bg-green-900 text-green-300 hover:bg-green-800 hover:text-green-100 rounded"
-                    onClick={() => openModal(event, "approve-create")}
-                  >
-                    Approve Creation
-                  </button>
-                  <button
-                    className="border-2 border-orange-400 px-2 py-1 w-auto bg-orange-900 text-orange-300 hover:bg-orange-800 hover:text-orange-100 rounded"
-                    onClick={() => openModal(event, "reject-create")}
-                  >
-                    Reject Creation
-                  </button>
-                </>
-              )}
-              {event.pending_action === "update" && (
-                <>
-                  <button
-                    className="border-2 border-green-400 px-2 py-1 w-auto bg-green-900 text-green-300 hover:bg-green-800 hover:text-green-100 rounded"
-                    onClick={() => openModal(event, "approve-update")}
-                  >
-                    Approve Update
-                  </button>
-                  <button
-                    className="border-2 border-orange-400 px-2 py-1 w-auto bg-orange-900 text-orange-300 hover:bg-orange-800 hover:text-orange-100 rounded"
-                    onClick={() => openModal(event, "reject-update")}
-                  >
-                    Reject Update
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Pagination Controls */}
-      <div className="flex justify-center gap-2 mt-4">
-        <button
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-          disabled={page === 1}
-          className="border-2 border-gray-300 px-4 py-1 rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <span className="px-4 py-1">Page {page}</span>
-        <button
-          onClick={() => setPage((p) => p + 1)}
-          disabled={events.length < limit}
-          className="border-2 border-gray-300 px-4 py-1 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      {events.length > 0 && (
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="px-4 py-2 border-2 border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 font-medium"
+          >
+            <IconArrowLeft size={18} />
+            Previous
+          </button>
+          <span className="px-6 py-2 bg-gray-100 rounded-lg font-semibold text-gray-700">
+            Page {page}
+          </span>
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            disabled={events.length < limit}
+            className="px-4 py-2 border-2 border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 font-medium"
+          >
+            Next
+            <IconArrowRight size={18} />
+          </button>
+        </div>
+      )}
 
-      {/* Create Event Modal */}
-      <Modal
-        isOpen={isCreateModalOpen}
-        onClose={() => {
-          setIsCreateModalOpen(false);
-          resetCreate();
-          setSelectedTypes([]);
-        }}
-        title="Create New Event"
-      >
-        <form onSubmit={handleCreateSubmit(handleCreateEvent)}>
-          <div className="flex flex-col gap-4">
-            {/* Event Name Input */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Event Name
-              </label>
-              <input
-                type="text"
-                {...registerCreate("name", { required: "Name is required" })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              {createErrors.name && (
-                <p className="text-red-500 text-sm">
-                  {createErrors.name.message}
-                </p>
-              )}
-            </div>
-
-            {/* Event Description Input */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Description
-              </label>
-              <textarea
-                {...registerCreate("description", {
-                  required: "Description is required",
-                })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              {createErrors.description && (
-                <p className="text-red-500 text-sm">
-                  {createErrors.description.message}
-                </p>
-              )}
-            </div>
-
-            {/* Event Start Time Input */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Start Time
-              </label>
-              <input
-                type="datetime-local"
-                {...registerCreate("start_at", {
-                  required: "Start time is required",
-                })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              {createErrors.start_at && (
-                <p className="text-red-500 text-sm">
-                  {createErrors.start_at.message}
-                </p>
-              )}
-            </div>
-
-            {/* Event End Time Input */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                End Time
-              </label>
-              <input
-                type="datetime-local"
-                {...registerCreate("end_at", {
-                  required: "End time is required",
-                })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              {createErrors.end_at && (
-                <p className="text-red-500 text-sm">
-                  {createErrors.end_at.message}
-                </p>
-              )}
-            </div>
-
-            {/* Event Location Input */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Location
-              </label>
-              <input
-                type="text"
-                {...registerCreate("location", {
-                  required: "Location is required",
-                })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              {createErrors.location && (
-                <p className="text-red-500 text-sm">
-                  {createErrors.location.message}
-                </p>
-              )}
-            </div>
-
-            {/* Event Types Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Event Types <span className="text-red-500">*</span>
-              </label>
-              <div className="flex gap-2">
-                {typeOptions.map((type) => (
-                  <label key={type} className="flex items-center gap-1">
-                    <input
-                      type="checkbox"
-                      value={type}
-                      checked={selectedTypes.includes(type)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedTypes((prev) => [...prev, type]);
-                        } else {
-                          setSelectedTypes((prev) =>
-                            prev.filter((t) => t !== type)
-                          );
-                        }
-                      }}
-                    />
-                    {type}
-                  </label>
-                ))}
-              </div>
-              {selectedTypes.length === 0 && (
-                <p className="text-red-500 text-sm">
-                  Please select at least one event type.
-                </p>
-              )}
-            </div>
-
-            {/* Event Image Upload */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Event Image
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                {...registerCreate("images")}
-                className="mt-1 block w-full"
-              />
-            </div>
-
-            <div>
-              <button
-                type="button"
-                onClick={handlePreviewEvent}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors duration-200"
-              >
-                👁️ Preview Event
-              </button>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-              disabled={selectedTypes.length === 0}
-            >
-              Create Event
-            </button>
-          </div>
-        </form>
-      </Modal>
-
+     
       {/* Update Event Modal */}
       <Modal
         isOpen={isUpdateModalOpen}
@@ -731,7 +648,13 @@ function EventsPage() {
               </label>
               <input
                 type="datetime-local"
-                defaultValue={selectedEvent?.start_at}
+                defaultValue={
+                  selectedEvent?.start_at
+                    ? new Date(parseInt(selectedEvent.start_at))
+                        .toISOString()
+                        .slice(0, 16)
+                    : undefined
+                }
                 {...registerUpdate("start_at", {
                   required: "Start time is required",
                 })}
@@ -751,7 +674,13 @@ function EventsPage() {
               </label>
               <input
                 type="datetime-local"
-                defaultValue={selectedEvent?.end_at}
+                defaultValue={
+                  selectedEvent?.end_at
+                    ? new Date(parseInt(selectedEvent.end_at))
+                        .toISOString()
+                        .slice(0, 16)
+                    : undefined
+                }
                 {...registerUpdate("end_at", {
                   required: "End time is required",
                 })}
@@ -898,11 +827,6 @@ function EventsPage() {
         </div>
       </Modal>
 
-      <PreviewModal
-        isOpen={isPreviewModalOpen}
-        onClose={() => setIsPreviewModalOpen(false)}
-        event={previewEvent}
-      />
     </div>
   );
 }
