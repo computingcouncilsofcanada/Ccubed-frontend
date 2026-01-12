@@ -454,35 +454,38 @@ export const Articles = ({articles}: {articles: IArticle[]}) => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-16 gap-4 cursor-pointer"
       >
-        {articles.map((article) => (
-          <div
-            className=" flex flex-col gap-4 mb-4"
-            key={article.id}
-            onClick={() => router.push(`/article/${article.id}`)}
-          >
-            <div className="h-40 rounded-xl overflow-hidden relative">
-              <Image
-                src="/ArticlePics/ArticleComputer.png"
-                alt={article.title}
-                fill
-                objectFit="cover"
-              />
-            </div>
-            <div className="text-white flex flex-col gap-3">
-              <p className="px-2 py-1 bg-[#D4D4D4]/10 rounded-2xl w-fit ">
-                {article.title}
-              </p>
-              <div className="flex items-center gap-3">
-                <p>{article.read_min}</p>
-                <div className="flex gap-2 items-center">
-                  <img src="/ArticlePics/note.svg" alt="" />
-                  <p>{article.date}</p>
-                </div>
-              </div>
-              <p>{article.description}</p>
-            </div>
-          </div>
-        ))}
+       {articles.map((article) => (
+  <div
+    className="relative flex flex-col gap-4 mb-4 rounded-xl p-2 cursor-pointer group transition-all duration-300"
+    key={article.id}
+    onClick={() => router.push(`/article/${article.id}`)}
+  >
+
+    <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 border border-white/6"></div>
+    
+    <div className="h-40 rounded-xl overflow-hidden relative z-10">
+      <Image
+        src="/ArticlePics/ArticleComputer.png"
+        alt={article.title}
+        fill
+        objectFit="cover"
+      />
+    </div>
+    <div className="text-white flex flex-col gap-3 relative z-10">
+      <p className="px-2 py-1 bg-[#D4D4D4]/10 rounded-2xl w-fit ">
+        {article.title}
+      </p>
+      <div className="flex items-center gap-3">
+        <p>{article.read_min}</p>
+        <div className="flex gap-2 items-center">
+          <img src="/ArticlePics/note.svg" alt="" />
+          <p>{article.date}</p>
+        </div>
+      </div>
+      <p>{article.description}</p>
+    </div>
+  </div>
+))}
       </motion.div>
     </div>
   );
@@ -524,15 +527,27 @@ export const CouncilArticle = () => {
         {CouncilArticles.map(({ name, subtext, src }) => (
           <div
             key={name}
-            className=" flex flex-col gap-2 w-full sm:w-[45%] md:w-[30%]"
+            className="group flex flex-col gap-2 w-full sm:w-[45%] md:w-[30%] cursor-pointer"
           >
-            <div className="h-60 rounded-xl overflow-hidden relative">
+            <div className="h-60 rounded-xl overflow-hidden relative transition-shadow duration-300 group-hover:shadow-[0_0_13px_rgba(255,255,255,0.3)]">
               <Image src={src} alt={name} fill />
             </div>
 
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 relative">
               <h3 className="font-bold text-xl">{name}</h3>
-              <p className="font-medium">{subtext}</p>
+              <div className="relative pr-10 pl-10 pb-3">
+                <p className="font-regular text-md  opacity-0 group-hover:opacity-100 transition-opacity duration-300">{subtext}</p>
+                <div
+                  className="absolute bottom-0 left-0 right-0 top-1/4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl"
+                  style={{
+                    borderBottom: "1px solid #9290C3",
+                    background: `
+                      linear-gradient(to top, #9290C3, transparent) left/1px 100% no-repeat,
+                      linear-gradient(to top, #9290C3, transparent) right/1px 100% no-repeat
+                    `
+                  }}
+                />
+              </div>
             </div>
           </div>
         ))}
