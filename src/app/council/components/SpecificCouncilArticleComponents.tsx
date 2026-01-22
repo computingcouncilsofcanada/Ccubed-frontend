@@ -132,8 +132,8 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
 // ARTICLE BODY COMPONENT
 // ============================================================================
 export const ArticleBody = () => {
-    const pathname = usePathname();
-    const council = pathname.split("/").pop();
+  const pathname = usePathname();
+  const council = pathname.split("/").pop();
   const otherThreeArticles = mockArticles
     .filter((article) => article.council === council)
     .slice(1, 4);
@@ -164,31 +164,148 @@ type InformationCardProps = {
 };
 
 export const InformationCard = ({ article }: InformationCardProps) => {
-  const {title, description, read_min, date } = article;
-  return (
-    <div className="max-md:h-40 flex gap-2">
-      <div className="relative w-40  h-full md:h-30 rounded-3xl overflow-hidden">
-        <Image
-          src="/ArticlePics/ArticleComputer.png"
-          alt="Article Image"
-          fill
-          className="object-cover"
-        />
-      </div>
+  const { title, description, read_min, date, bigdescription } = article;
+  const [isHovered, setIsHovered] = useState(false);
 
-      <div className="flex flex-col  md:gap-0 gap-4">
-        <div className="flex flex-col md:flex-row justify-between md:items-center items-start md:gap-0  leading-12 tracking-[0.01em] text-white">
-          <div className="flex gap-4">
-            <p>{title}</p>
-            <p>{read_min}</p>
-          </div>
-          <p>{date}</p>
+  return (
+    <motion.div
+      className="flex gap-4 cursor-pointer relative rounded-2xl p-4 transition-all"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      initial="initial"
+      animate={isHovered ? "hover" : "initial"}
+    >
+
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="
+        absolute inset-0 -z-10 rounded-2xl
+        bg-white/10
+        backdrop-blur-xl
+        border border-white/20
+        shadow-[0_8px_30px_rgba(0,0,0,0.12)]
+      "
+          />
+        )}
+      </AnimatePresence>
+
+
+      <motion.div
+        className="relative w-40 h-40 flex-shrink-0 rounded-2xl overflow-visible"
+        variants={{
+          initial: {
+            filter: "brightness(1)",
+          },
+          hover: {
+            filter: "brightness(1.2)",
+          },
+        }}
+        transition={{ duration: 0.3 }}
+        style={{
+          boxShadow: isHovered
+            ? "0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.2)"
+            : "0 0 0px rgba(255, 255, 255, 0)",
+        }}
+      >
+        <div className="relative w-full h-full rounded-2xl overflow-hidden">
+          <Image
+            src="/ArticlePics/ArticleComputer.png"
+            alt="Article Image"
+            fill
+            className="object-cover"
+          />
         </div>
-        <p className=" tracking-[0.01em] text-white  font-bold">
-          {description}
-        </p>
+      </motion.div>
+
+      <div className="flex flex-col gap-3 flex-1 relative overflow-hidden min-h-[180px]">
+        {/* Top row with category and date */}
+        <AnimatePresence>
+          {!isHovered ? (
+            <motion.div
+              initial={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col md:flex-row md:items-center md:justify-between items-start gap-2"
+            >
+              <span className=" py-1 px-3 rounded-2xl bg-[#D4D4D4]/10 text-gray-300 text-sm font-medium">
+                {title}
+              </span>
+              <span className="text-white text-sm">{date}</span>
+            </motion.div>
+          ) : (
+            <div className="h-[28px]"></div>
+          )}
+        </AnimatePresence>
+
+
+        <AnimatePresence>
+          {!isHovered ? (
+            <motion.span
+              initial={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="text-white text-sm"
+            >
+              {read_min}
+            </motion.span>
+          ) : (
+            <div className="h-[20px]"></div>
+          )}
+        </AnimatePresence>
+
+
+        <div className="relative min-h-[100px]">
+          <AnimatePresence mode="wait">
+            {!isHovered ? (
+              <motion.h3
+                key="title"
+                initial={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+                className="text-white font-bold text-lg leading-tight tracking-[0.01em] absolute inset-0"
+              >
+                {description}
+              </motion.h3>
+            ) : (
+              <motion.div
+                key="description"
+                initial={{ opacity: 0, y: 0 }}
+                animate={{ opacity: 1, y: -50 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0 flex flex-col gap-3"
+              >
+                <h3 className="
+                font-bold text-lg leading-tight tracking-[0.01em]
+                bg-gradient-to-r from-[#FDE68A] via-[#FBBF24] to-[#F59E0B]
+                bg-clip-text text-transparent
+              ">
+                  {description}
+                </h3>
+
+
+                <AnimatePresence>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.3, delay: 0.15 }}
+                    className="text-white text-sm "
+                  >
+                    {bigdescription || "Cybersecurity in 2025 is evolving faster than ever, with AI-driven attacks becoming more sophisticated and harder to detect."}
+                  </motion.p>
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
