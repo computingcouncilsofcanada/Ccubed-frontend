@@ -38,7 +38,7 @@ const CouncilDetailPage = () => {
       <div className="relative z-10 container mx-auto w-full max-w-6xl mt-6 px-4">
         <CouncilHero council={council} />
         <DescriptionSection council={council} />
-        <RepresentativesSection />
+        <RepresentativesSection council={council} />
         <EventsSection />
         <ArticleSection council={council} />
       </div>
