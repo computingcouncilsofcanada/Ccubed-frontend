@@ -3,6 +3,7 @@ export type CouncilSection = {
   shortDescription: string;
   fullDescription: string;
   icon: string;
+  comingSoon?: boolean;
 };
 
 export type CouncilCardIconProps = {
@@ -18,4 +19,5 @@ export type CouncilCardProps = {
 
 export type CouncilContentProps = {
   section: CouncilSection;
+  isComingSoon?: boolean;
 };

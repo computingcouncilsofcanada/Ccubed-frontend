@@ -12,11 +12,13 @@ export const councilSections = [
       shortDescription: "Coming Soon",
       fullDescription: "Coming Soon",
       icon: "/FigmaFiles/councilAssets/CCubed_icon.png",
+      comingSoon: true,
     },
     {
       title: "Women in Tech Council",
       shortDescription: "Coming Soon",
       fullDescription: "Coming Soon",
       icon: "/FigmaFiles/councilAssets/CCubed_icon.png",
+      comingSoon: true,
     },
   ];
