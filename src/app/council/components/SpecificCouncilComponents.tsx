@@ -326,37 +326,49 @@ export const EventsSection = () => {
 };
 
 /**
- * MainSection Component
- * Hero section displaying council title, description and placeholder image area
+ * CouncilHero Component
  */
-export const MainSection = ({ council }: CouncilProps) => {
+export const CouncilHero = ({ council }: CouncilProps) => {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center mb-24 pt-8"
-        >
-            <h1
-                className="text-3xl sm:text-4xl md:text-[64px] leading-snug md:leading-12 tracking-[0.01em] font-extrabold text-white mb-6"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-            >
-                {council.title}
-            </h1>
-
-            <p
-                className="text-white text-center text-[15px] sm:text-[18px] font-light leading-relaxed w-full max-w-[845px] mx-auto mb-8 px-4"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-            >
-                {council.shortDescription}
-            </p>
-
-            <div className="w-full max-w-6xl h-auto md:h-[485px] mx-auto opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] relative px-4">
-                <div className="absolute inset-0 border border-white/2 rounded-[20px] pointer-events-none"></div>
-                <div className="absolute inset-px border border-white/5 rounded-[19px] pointer-events-none"></div>
+        <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-center relative z-10 max-w-6xl mx-auto px-4 sm:px-6 md:px-8 xl:px-0 mb-24 pt-8">
+            {/* Text Content */}
+            <div className="text flex flex-col gap-4 md:max-w-sm lg:max-w-lg">
+                <h1
+                    className="text-white font-extrabold text-2xl sm:text-3xl md:text-2xl lg:text-5xl"
+                    style={{ fontFamily: "Roboto, sans-serif" }}
+                >
+                    {council.title}
+                </h1>
+                <p
+                    className="text-white max-w-xl sm:text-lg sm:leading-6 lg:text-xl lg:leading-7"
+                    style={{
+                        fontFamily: "Roboto, sans-serif",
+                        fontWeight: "300",
+                        lineHeight: "22px",
+                        letterSpacing: "0%",
+                    }}
+                >
+                    {council.shortDescription}
+                </p>
             </div>
-        </motion.div>
+
+            {/* Council Icon (same as council card) */}
+            <div className="image relative flex justify-center flex-shrink-0">
+                <div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[480px] lg:h-[480px]">
+                    <Image
+                        src={council.icon}
+                        alt={`${council.title} icon`}
+                        width={405}
+                        height={405}
+                        className="w-full h-full object-contain select-none"
+                        priority
+                        quality={100}
+                        draggable={false}
+                        style={{ userSelect: "none" }}
+                    />
+                </div>
+            </div>
+        </section>
     );
 };
 
