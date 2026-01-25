@@ -212,8 +212,12 @@ export const MainArticleGrid = () => {
       <div className=" h-full">
         <h1 className="text-xl font-bold mb-4">Related Articles</h1>
         {relatedArticles.map((article) => (
-          <div className=" flex flex-col gap-4 mb-4" key={article.id}>
-            <div className="h-40 rounded-xl overflow-hidden relative">
+          <div className="relative flex flex-col gap-4 mb-4 rounded-xl p-2 cursor-pointer group transition-all duration-300" key={article.id}>
+
+
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 border border-white/6"></div>
+
+            <div className="h-40 rounded-xl overflow-hidden relative z-10">
               <Image
                 src="/ArticlePics/ArticleComputer.png"
                 alt={article.title}
@@ -221,7 +225,7 @@ export const MainArticleGrid = () => {
                 objectFit="cover"
               ></Image>
             </div>
-            <div className="text-white flex flex-col gap-3">
+            <div className="text-white flex flex-col gap-3 z-10">
               <p className="px-2 py-1 bg-[#D4D4D4]/10 rounded-2xl w-fit ">
                 {article.title}
               </p>
@@ -331,12 +335,14 @@ export const MainLatestArticles = () => {
         className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-16 gap-4"
       >
         {otherArticles.slice(0, 4).map((article) => (
-          <div
-            className=" flex flex-col gap-4 mb-4 cursor-pointer"
-            key={article.id}
-            onClick={() => router.push(`/article/${article.id}`)}
-          >
-            <div className="h-40 rounded-xl overflow-hidden relative">
+           <div
+    className="relative flex flex-col gap-4 mb-4 rounded-xl p-2 cursor-pointer group transition-all duration-300"
+    key={article.id}
+    onClick={() => router.push(`/article/${article.id}`)}
+  >
+
+    <div className="absolute inset-0 bg-white/5 backdrop-blur-xl rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 border border-white/6"></div>
+            <div className="h-40 rounded-xl overflow-hidden relative z-10">
               <Image
                 src="/ArticlePics/ArticleComputer.png"
                 alt={article.title}
@@ -344,7 +350,7 @@ export const MainLatestArticles = () => {
                 objectFit="cover"
               ></Image>
             </div>
-            <div className="text-white flex flex-col gap-3">
+            <div className="text-white flex flex-col gap-3 z-10">
               <p className="px-2 py-1 bg-[#D4D4D4]/10 rounded-2xl w-fit ">
                 {article.title}
               </p>
