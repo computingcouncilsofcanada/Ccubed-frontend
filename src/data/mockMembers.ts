@@ -51,7 +51,7 @@ export const mockMembers = [
           linkedin: "https://www.linkedin.com/in/lucas-lalum/",
         },
       },
-       {
+      {
         id: 3,
         name: "Vardaan Randev",
         role: "Director of Communications",
@@ -70,7 +70,8 @@ export const mockMembers = [
         info: "Director of Systems Administration",
         category: "directors",
         social: {
-          linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
+          linkedin:
+            "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
       },
       {
@@ -96,7 +97,7 @@ export const mockMembers = [
         },
       },
       {
-        id: 34,
+        id: 6,
         name: "Rastin Aghighi",
         role: "Director of AI",
         imageUrl: "/MemberPics/Rastin.jpg",
@@ -116,21 +117,22 @@ export const mockMembers = [
         social: {
           linkedin: "https://www.linkedin.com/in/giovanna-londero/",
         },
-      }
+      },
     ],
   },
   {
     team: "System Administration Team",
     members: [
       {
-        id: 7,
+        id: 4,
         name: "Fopefoluwa Ikufisile",
         role: "Director of Systems Administration",
         imageUrl: "/MemberPics/fope.png",
         info: "Director of Systems Administration",
         category: "sysadmin",
         social: {
-          linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
+          linkedin:
+            "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
       },
       {
@@ -156,6 +158,29 @@ export const mockMembers = [
         },
       },
       {
+        id: 40,
+        name: "Vanshika Vanshika",
+        role: "UI/UX designer",
+        imageUrl: "/MemberPics/vanshika.jpeg",
+        info: "UX designer",
+        category: "sysadmin",
+        social: {
+          linkedin:
+            "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+        },
+      },
+      {
+        id: 41,
+        name: "Marianne Aguhar",
+        role: "UI/UX designer",
+        imageUrl: "/MemberPics/marianne.jpg",
+        info: "UI/UX designer",
+        category: "sysadmin",
+        social: {
+          linkedin: "https://www.linkedin.com/in/marianne-aguhar-93707b243/",
+        },
+      },
+      {
         id: 11,
         name: "Soroush Merikhy",
         role: "Lead of UI/UX Design",
@@ -169,10 +194,10 @@ export const mockMembers = [
     ],
   },
   {
-      team: "Communications Team",
-      members:[
-        {
-        id: 12,
+    team: "Communications Team",
+    members: [
+      {
+        id: 3,
         name: "Vardaan Randev",
         role: "Director of Communications",
         imageUrl: "/MemberPics/Vardaan.jpg",
@@ -190,7 +215,8 @@ export const mockMembers = [
         info: "Content creator",
         category: "communications",
         social: {
-          linkedin: "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -212,11 +238,12 @@ export const mockMembers = [
         info: "Marketing",
         category: "communications",
         social: {
-          linkedin: "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
-        id: 34,
+        id: 10,
         name: "Danielle Eng",
         role: "Graphic Design",
         imageUrl: "/MemberPics/Danielle_Eng.jpg",
@@ -226,22 +253,11 @@ export const mockMembers = [
           linkedin: "http://www.linkedin.com/in/danielle-eng-1bb865281",
         },
       },
-      ]
+    ],
   },
   {
     team: "Events Team",
     members: [
-      // {
-      //   id: 15,
-      //   name: "Divjot Singh",
-      //   role: "Director of Events",
-      //   imageUrl: "/MemberPics/divjot.png",
-      //   info: "Director of Events",
-      //   category: "events",
-      //   social: {
-      //     linkedin: "https://www.linkedin.com/in/divjotsofficial/",
-      //   },
-      // },
       {
         id: 16,
         name: "Zaid Mohiuddin",
@@ -305,14 +321,15 @@ export const mockMembers = [
         info: "Events Coordinator",
         category: "events",
         social: {
-          linkedin: "https://www.linkedin.com/in/aayanareejo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/aayanareejo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
     ],
   },
   {
     team: "Finance Team",
-    members:[
+    members: [
       {
         id: 39,
         name: "Giovanna Londero",
@@ -324,7 +341,7 @@ export const mockMembers = [
           linkedin: "https://linkedin.com/in/giovanna-londero",
         },
       },
-       {
+      {
         id: 19,
         name: "Ryan C.",
         role: "Finance Coordinator",
@@ -356,14 +373,14 @@ export const mockMembers = [
         social: {
           linkedin: "https://linkedin.com/",
         },
-      }
-    ]
+      },
+    ],
   },
   {
     team: "Outreach Team",
     members: [
       {
-        id: 21,
+        id: 2,
         name: "Lucas Lalumière",
         role: "Director of Cybersecurity",
         imageUrl: "/MemberPics/lucas.png",
@@ -374,7 +391,7 @@ export const mockMembers = [
         },
       },
       {
-        id: 34,
+        id: 28,
         name: "Pragati Puri",
         role: "Director of WITS",
         imageUrl: "/MemberPics/Pragati_Puri.jpeg",
@@ -384,9 +401,8 @@ export const mockMembers = [
           linkedin: "https://www.linkedin.com/in/pragatipuri187/",
         },
       },
-      
       {
-        id: 34,
+        id: 6,
         name: "Rastin Aghighi",
         role: "Director of AI",
         imageUrl: "/MemberPics/Rastin.jpg",
@@ -397,7 +413,7 @@ export const mockMembers = [
         },
       },
       {
-        id: 20,
+        id: 26,
         name: "Syed Ali Hashmi",
         role: "Director of Outreach",
         imageUrl: "/MemberPics/Syed_Ali_Hashmi.png",
@@ -419,7 +435,7 @@ export const mockMembers = [
         },
       },
       {
-        id: 36,
+        id: 7,
         name: "Imad Zia",
         role: "Cybersecurity Program Manager",
         imageUrl: "/MemberPics/Imad_Zia.jpg",
@@ -459,10 +475,10 @@ export const mockMembers = [
         info: "Outreach Coordinator",
         category: "outreach",
         social: {
-          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
-
     ],
   },
   {
@@ -501,7 +517,6 @@ export const mockMembers = [
           linkedin: "https://www.linkedin.com/in/evangelynkelvin/",
         },
       },
-      
     ],
   },
 ];
