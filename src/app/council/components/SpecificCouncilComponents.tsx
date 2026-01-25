@@ -8,25 +8,21 @@ import { EventCard } from "@/components/shared/EventCard";
 import { Events } from "@/types/events";
 import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
-import Image from 'next/image';
-import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
-import {
-    IconBrandLinkedin,
-    IconBrandDiscord,
-    IconBrandInstagram,
-    IconBrandTwitter,
-} from "@tabler/icons-react";
-
-interface Representative {
-    name: string;
-    title: string;
-    image: string;
-    role: string;
-}
+import Image from "next/image";
+import { IconBrandLinkedin } from "@tabler/icons-react";
+import { mockMembers } from "@/data/mockMembers";
 
 type CouncilProps = {
     council: CouncilSection;
 };
+
+function councilTitleToSlug(title: string): string | null {
+    const t = title.toLowerCase();
+    if (t.includes("cybersecurity")) return "cybersecurity";
+    if (t.includes("artificial intelligence") || t.includes("intelligence")) return "ai";
+    if (t.includes("women in tech")) return "wit";
+    return null;
+}
 
 /**
  * ArticleSection Component
@@ -326,103 +322,80 @@ export const EventsSection = () => {
 };
 
 /**
- * MainSection Component
- * Hero section displaying council title, description and placeholder image area
+ * CouncilHero Component
  */
-export const MainSection = ({ council }: CouncilProps) => {
+export const CouncilHero = ({ council }: CouncilProps) => {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center mb-24 pt-8"
-        >
-            <h1
-                className="text-3xl sm:text-4xl md:text-[64px] leading-snug md:leading-12 tracking-[0.01em] font-extrabold text-white mb-6"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-            >
-                {council.title}
-            </h1>
-
-            <p
-                className="text-white text-center text-[15px] sm:text-[18px] font-light leading-relaxed w-full max-w-[845px] mx-auto mb-8 px-4"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-            >
-                {council.shortDescription}
-            </p>
-
-            <div className="w-full max-w-6xl h-auto md:h-[485px] mx-auto opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] relative px-4">
-                <div className="absolute inset-0 border border-white/2 rounded-[20px] pointer-events-none"></div>
-                <div className="absolute inset-px border border-white/5 rounded-[19px] pointer-events-none"></div>
+        <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-start relative z-10 w-full mb-24 pt-8">
+            <div className="text flex flex-col gap-4 flex-1 min-w-0 w-full">
+                <h1
+                    className="text-white font-extrabold text-2xl sm:text-3xl md:text-2xl lg:text-5xl"
+                    style={{ fontFamily: "Roboto, sans-serif" }}
+                >
+                    {council.title}
+                </h1>
+                <p
+                    className="text-white sm:text-lg sm:leading-6 lg:text-xl lg:leading-7"
+                    style={{
+                        fontFamily: "Roboto, sans-serif",
+                        fontWeight: "300",
+                        lineHeight: "22px",
+                        letterSpacing: "0%",
+                    }}
+                >
+                    {council.shortDescription}
+                </p>
             </div>
-        </motion.div>
+
+            {/* Council Icon (same as council card) */}
+            <div className="image relative flex justify-center flex-shrink-0">
+                <div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[480px] lg:h-[480px]">
+                    <Image
+                        src={council.icon}
+                        alt={`${council.title} icon`}
+                        width={405}
+                        height={405}
+                        className="w-full h-full object-contain select-none"
+                        priority
+                        quality={100}
+                        draggable={false}
+                        style={{ userSelect: "none" }}
+                    />
+                </div>
+            </div>
+        </section>
     );
 };
 
 /**
  * RepresentativesSection Component
- * Displays council representatives with role filtering and interactive profile cards
+
  */
-export const RepresentativesSection = () => {
-    const [activeFilter, setActiveFilter] = useState("Management");
+export const RepresentativesSection = ({ council }: CouncilProps) => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
-    const representativeImgSrc = useSafariImageFallback(
-        "/FigmaFiles/councilAssets/guy.svg",
-        "/FigmaFiles/councilAssets/guy.png"
-    );
-
-    const councilRepresentatives: Representative[] = [
-        {
-            name: "Parth Doshi",
-            title: "President",
-            image: representativeImgSrc,
-            role: "Management",
-        },
-        // Add more representatives as needed
-    ];
-
-    const filterOptions = [
-        "Management",
-        "Product",
-        "Operation",
-        "Design",
-        "Marketing",
-        "Customer service",
-    ];
-
-    const socialLinks = [
-        {
-            id: 1,
-            icon: IconBrandLinkedin,
-            linkUrl: "https://www.linkedin.com/company/placeholder",
-            altText: "LinkedIn",
-            fill: false,
-        },
-        {
-            id: 2,
-            icon: IconBrandInstagram,
-            linkUrl: "https://www.instagram.com/placeholder",
-            altText: "Instagram",
-            fill: false,
-        },
-        {
-            id: 3,
-            icon: IconBrandTwitter,
-            linkUrl: "https://x.com/placeholder",
-            altText: "Twitter",
-            fill: false,
-        },
-        {
-            id: 4,
-            icon: IconBrandDiscord,
-            linkUrl: "https://discord.com/invite/placeholder",
-            altText: "Discord",
-            fill: false,
-        },
-    ];
+    const members = React.useMemo(() => {
+        const slug = councilTitleToSlug(council.title);
+        if (!slug) return [];
+      
+        const seenNames: string[] = [];
+      
+        return mockMembers.flatMap(team =>
+          team.members.filter(member => {
+            const isCorrectCouncil = member.council === slug;
+            const isNewMember = !seenNames.includes(member.name);
+      
+            if (isCorrectCouncil && isNewMember) {
+              seenNames.push(member.name);
+              return true;
+            }
+      
+            return false;
+          })
+        );
+      }, [council.title]);
+      
 
     return (
         <motion.div
@@ -432,8 +405,7 @@ export const RepresentativesSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-24 px-4 sm:px-6"
         >
-
-            <div className="text-center mb-8">
+            <div className="text-center mb-10">
                 <h2
                     className="text-[36px] md:text-[30px] sm:text-[24px] font-extrabold leading-[1.3] text-white mb-4"
                     style={{ fontFamily: "Roboto, sans-serif" }}
@@ -451,132 +423,71 @@ export const RepresentativesSection = () => {
                 </p>
             </div>
 
-
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-2 mb-8">
-                {filterOptions.map((filter) => (
-                    <button
-                        key={filter}
-                        onClick={() => setActiveFilter(filter)}
-                        className={`transition-all duration-300 ease-out h-11 sm:h-[38px] px-4 py-2 rounded-[20px] relative ${
-                            activeFilter === filter ? "font-medium" : "font-light"
-                        }`}
-                        style={{
-                            fontFamily: "Roboto, sans-serif",
-                            lineHeight: "27px",
-                            letterSpacing: "0%",
+            <div className="flex flex-wrap justify-center gap-6 md:gap-8 max-w-6xl md:mt-20 mx-auto">
+                {members.map((member, index) => (
+                    <motion.div
+                        key={member.id}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.25 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: index * 0.08,
+                            ease: "easeOut",
                         }}
+                        className="text-center shrink-0 w-[200px] sm:w-44"
                     >
-                        {activeFilter === filter && (
+                        <div className="relative h-[229px] sm:h-[180px] flex items-end justify-center mb-4">
                             <motion.div
-                                className="absolute inset-0 rounded-[20px] pointer-events-none"
-                                style={{
-                                    background:
-                                        "linear-gradient(120deg, rgba(51, 186, 197, 1) 0%, rgba(255, 255, 255, 0.1) 35%, transparent 65%)",
-                                    mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                                    maskComposite: "xor",
-                                    WebkitMask:
-                                        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                                    WebkitMaskComposite: "xor",
-                                    padding: "2px",
+                                className="overflow-hidden cursor-pointer"
+                                animate={{
+                                    width:
+                                        hoveredIndex === index || clickedIndex === index
+                                            ? "179px"
+                                            : "169px",
+                                    height:
+                                        hoveredIndex === index || clickedIndex === index
+                                            ? "229px"
+                                            : "169px",
+                                    borderRadius:
+                                        hoveredIndex === index || clickedIndex === index
+                                            ? "12px"
+                                            : "50%",
                                 }}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.3 }}
-                            />
-                        )}
-                        <span
-                            className={`relative z-10 ${
-                                activeFilter === filter ? "text-transparent" : "text-white"
-                            }`}
-                        >
-                            {activeFilter === filter ? (
-                                <span
-                                    style={{
-                                        background:
-                                            "linear-gradient(to right, #FFFFFF 0%, #33BAC5 85%)",
-                                        WebkitBackgroundClip: "text",
-                                        backgroundClip: "text",
-                                        WebkitTextFillColor: "transparent",
-                                        color: "transparent",
-                                    }}
-                                >
-                                    {filter}
-                                </span>
-                            ) : (
-                                filter
-                            )}
-                        </span>
-                    </button>
-                ))}
-            </div>
-
-            {/* Representative Cards */}
-            <div className="flex justify-center">
-                <div className="flex flex-wrap justify-center gap-6 max-w-[845px] md:max-w-[700px] sm:max-w-[95%]">
-                    {councilRepresentatives.map((rep, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.25 }}
-                            transition={{
-                                duration: 0.8,
-                                delay: index * 0.1,
-                                ease: "easeOut",
-                            }}
-                            className="text-center shrink-0 w-[200px] sm:w-40"
-                        >
-                            {/* Profile Picture */}
-                            <div className="relative h-[229px] sm:h-[180px] flex items-end justify-center mb-4">
-                                <motion.div
-                                    className="overflow-hidden cursor-pointer"
-                                    animate={{
-                                        width:
-                                            hoveredIndex === index || clickedIndex === index
-                                                ? "179px"
-                                                : "169px",
-                                        height:
-                                            hoveredIndex === index || clickedIndex === index
-                                                ? "229px"
-                                                : "169px",
-                                        borderRadius:
-                                            hoveredIndex === index || clickedIndex === index
-                                                ? "12px"
-                                                : "50%",
-                                    }}
-                                    onHoverStart={() => setHoveredIndex(index)}
-                                    onHoverEnd={() => setHoveredIndex(null)}
-                                    onClick={() =>
-                                        setClickedIndex(clickedIndex === index ? null : index)
-                                    }
-                                    transition={{
-                                        duration: 0.6,
-                                        ease: [0.25, 0.46, 0.45, 0.94],
-                                    }}
-                                >
-                                    <Image
-                                        src={rep.image}
-                                        alt={rep.name}
-                                        width={179}
-                                        height={229}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </motion.div>
-                            </div>
-
-                            <h3
-                                className="text-[24px] md:text-[20px] sm:text-[18px] font-medium text-white"
-                                style={{ fontFamily: "Roboto, sans-serif" }}
+                                onHoverStart={() => setHoveredIndex(index)}
+                                onHoverEnd={() => setHoveredIndex(null)}
+                                onClick={() =>
+                                    setClickedIndex(clickedIndex === index ? null : index)
+                                }
+                                transition={{
+                                    duration: 0.6,
+                                    ease: [0.25, 0.46, 0.45, 0.94],
+                                }}
                             >
-                                {rep.name}
-                            </h3>
-                            <p
-                                className="text-[18px] md:text-[16px] sm:text-[14px] text-white font-light mb-2"
-                                style={{ fontFamily: "Roboto, sans-serif" }}
-                            >
-                                {rep.title}
-                            </p>
+                                <Image
+                                    src={member.imageUrl}
+                                    alt={member.name}
+                                    width={179}
+                                    height={229}
+                                    className="w-full h-full object-cover"
+                                />
+                            </motion.div>
+                        </div>
 
+                        <h3
+                            className="text-[24px] md:text-[20px] sm:text-[18px] font-medium text-white"
+                            style={{ fontFamily: "Roboto, sans-serif" }}
+                        >
+                            {member.name}
+                        </h3>
+                        <p
+                            className="text-[18px] md:text-[16px] sm:text-[14px] text-white font-light mb-2"
+                            style={{ fontFamily: "Roboto, sans-serif" }}
+                        >
+                            {member.role}
+                        </p>
+
+                        {member.social?.linkedin && (
                             <motion.div
                                 className="flex items-center justify-center gap-4"
                                 initial={{ opacity: 0 }}
@@ -586,30 +497,34 @@ export const RepresentativesSection = () => {
                                 }}
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
                             >
-                                {socialLinks.map(
-                                    ({ id, linkUrl, icon: IconComponent, altText, fill }) => (
-                                        <a
-                                            href={linkUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            key={id}
-                                            aria-label={altText}
-                                            className="hover:opacity-80 transition-opacity duration-200"
-                                        >
-                                            <IconComponent
-                                                size={22}
-                                                color="#FFFFFF"
-                                                stroke={fill ? 0 : 1.5}
-                                                fill={fill ? "#FFFFFF" : "none"}
-                                            />
-                                        </a>
-                                    )
-                                )}
+                                <a
+                                    href={member.social.linkedin}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="LinkedIn"
+                                    className="hover:opacity-80 transition-opacity duration-200"
+                                >
+                                    <IconBrandLinkedin
+                                        size={22}
+                                        color="#FFFFFF"
+                                        stroke={1.5}
+                                        fill="none"
+                                    />
+                                </a>
                             </motion.div>
-                        </motion.div>
-                    ))}
-                </div>
+                        )}
+                    </motion.div>
+                ))}
             </div>
+
+            {members.length === 0 && (
+                <p
+                    className="text-white/70 text-center text-[16px] font-light"
+                    style={{ fontFamily: "Roboto, sans-serif" }}
+                >
+                    No council representatives to show yet.
+                </p>
+            )}
         </motion.div>
     );
 };

@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
 import {
-  MainSection,
+  CouncilHero,
   DescriptionSection,
   RepresentativesSection,
   EventsSection,
@@ -36,9 +36,9 @@ const CouncilDetailPage = () => {
       <BgBoxMainPage maxHeight={200} />
 
       <div className="relative z-10 container mx-auto w-full max-w-6xl mt-6 px-4">
-        <MainSection council={council} />
+        <CouncilHero council={council} />
         <DescriptionSection council={council} />
-        <RepresentativesSection />
+        <RepresentativesSection council={council} />
         <EventsSection />
         <ArticleSection council={council} />
       </div>

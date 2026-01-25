@@ -22,6 +22,7 @@ export const CouncilCard = ({ section, index }: CouncilCardProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const router = useRouter();
   const canHover = useCanHover();
+  const isComingSoon = section.comingSoon;
 
   const handleClick = (section: { title: string }) => {
     const cleanTitle = section.title.toLowerCase().replace(/\s+/g, "");
@@ -30,47 +31,48 @@ export const CouncilCard = ({ section, index }: CouncilCardProps) => {
   return (
     <div className="group w-full">
       <motion.div
-        className={`group w-full md:group-hover:w-250 max-w-[1151px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] ${canHover ? "cursor-default" : "cursor-pointer"} relative z-10
+        className={`group w-full ${!isComingSoon ? "md:group-hover:w-250" : ""} max-w-[1151px] opacity-[0.95] bg-[#D4D4D4]/10 backdrop-blur-[0.1px] rounded-[20px] ${isComingSoon || canHover ? "cursor-default" : "cursor-pointer"} relative z-10
                  flex flex-col md:flex-row md:items-start md:h-72 transition-all duration-300`}
-        // Bring back a hover "growth" feel without fixed heights
-        whileHover={{ scale: 1.01 }}
+        whileHover={isComingSoon ? undefined : { scale: 1.01 }}
         transition={{ duration: 0.28, ease: "easeOut" }}
         // Animate height/position changes smoothly when content swaps
         layout
-        onHoverStart={() => setHovered(index)}
-        onHoverEnd={() => setHovered((h) => (h === index ? null : h))}
-        onClick={canHover ? undefined : () => handleClick(section)}
+        onHoverStart={() => !isComingSoon && setHovered(index)}
+        onHoverEnd={() => !isComingSoon && setHovered((h) => (h === index ? null : h))}
+        onClick={isComingSoon ? undefined : canHover ? undefined : () => handleClick(section)}
       >
         {/* Borders */}
         <div className="absolute inset-0 border border-white/20 rounded-[20px] pointer-events-none"></div>
         <div className="absolute inset-px border border-white/10 rounded-[19px] pointer-events-none"></div>
         <CouncilCardIcon section={section} hovered={hovered} index={index} />
-        <CouncilCardContent section={section} hovered={hovered} index={index} />
+        <CouncilCardContent section={section} hovered={hovered} index={index}/>
       </motion.div>
-      <motion.div
-        className="cursor-pointer"
-        onClick={canHover ? () => handleClick(section) : undefined}
-      >
-        {/* Gradient Border Effect */}
+      {!isComingSoon && (
+        <motion.div
+          className="cursor-pointer"
+          onClick={canHover ? () => handleClick(section) : undefined}
+        >
+          {/* Gradient Border Effect */}
 
-        <motion.div className="hidden md:group-hover:flex flex-col justify-center items-center pr-6 gap-4 text-white text-center absolute right-6 top-0 h-full">
-          <span className="text-[18px] leading-none">View</span>
-          <span className="text-[18px] leading-none">Details</span>
+          <motion.div className="hidden md:group-hover:flex flex-col justify-center items-center pr-6 gap-4 text-white text-center absolute right-6 top-0 h-full">
+            <span className="text-[18px] leading-none">View</span>
+            <span className="text-[18px] leading-none">Details</span>
+          </motion.div>
+          <div
+            className="hidden md:block md:opacity-0 md:group-hover:opacity-100 absolute inset-0 rounded-[30px] pointer-events-none transition-all duration-500 "
+            style={{
+              background:
+                "linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.3) 8%, transparent 12%)",
+              mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              maskComposite: "xor",
+              WebkitMask:
+                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "xor",
+              padding: "4px",
+            }}
+          ></div>
         </motion.div>
-        <div
-          className="hidden md:block md:opacity-0 md:group-hover:opacity-100 absolute inset-0 rounded-[30px] pointer-events-none transition-all duration-500 "
-          style={{
-            background:
-              "linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.3) 8%, transparent 12%)",
-            mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-            maskComposite: "xor",
-            WebkitMask:
-              "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-            WebkitMaskComposite: "xor",
-            padding: "4px",
-          }}
-        ></div>
-      </motion.div>
+      )}
     </div>
   );
 };
@@ -79,11 +81,13 @@ export const CouncilCard = ({ section, index }: CouncilCardProps) => {
 // COUNCIL CARD CONTENT COMPONENT
 // =============================================================================
 
+type CouncilCardContentProps = CouncilCardIconProps & { isComingSoon?: boolean };
+
 export const CouncilCardContent = ({
   section,
   hovered,
   index,
-}: CouncilCardIconProps) => {
+}: CouncilCardContentProps) => {
   return (
     <motion.div
       className="flex-1 py-4 md:py-6 px-6 md:pr-6 md:pl-0"
@@ -91,12 +95,7 @@ export const CouncilCardContent = ({
       transition={{ layout: { duration: 0.28, ease: "easeOut" } }}
     >
       <CouncilCardTitle section={section} />
-      {/* Animated description swap */}
-      <CouncilCardDescription
-        section={section}
-        hovered={hovered}
-        index={index}
-      />
+      <CouncilCardDescription section={section} hovered={hovered} index={index} />
     </motion.div>
   );
 };
@@ -121,9 +120,7 @@ export const CouncilCardDescription = ({
         transition={{ duration: 0.25, ease: "easeOut" }}
       >
         <p className="text-white leading-relaxed max-w-[900px] text-[14px] sm:text-[16px] mt-4 text-center md:text-left">
-          {hovered === index
-            ? section.fullDescription
-            : section.shortDescription}
+          {hovered === index ? section.fullDescription : section.shortDescription}
         </p>
       </motion.div>
     </AnimatePresence>
@@ -134,11 +131,7 @@ export const CouncilCardDescription = ({
 // COUNCIL CARD ICON COMPONENT
 // =============================================================================
 
-export const CouncilCardIcon = ({
-  section,
-  hovered,
-  index,
-}: CouncilCardIconProps) => {
+export const CouncilCardIcon = ({ section, hovered, index }: CouncilCardIconProps) => {
   return (
     <div
       className="shrink-0 px-6 py-4 md:py-6 transition-all duration-300 ease-out
@@ -161,12 +154,12 @@ export const CouncilCardIcon = ({
 // COUNCIL CARD TITLE COMPONENT
 // =============================================================================
 
-export const CouncilCardTitle = ({ section }: CouncilContentProps) => {
+export const CouncilCardTitle = ({ section, isComingSoon }: CouncilContentProps) => {
   return (
     <div className="relative text-center md:text-left">
       {/* Default title */}
       <h2
-        className="text-[28px] sm:text-[32px] md:text-[40px] leading-9 sm:leading-10 md:leading-12 tracking-[0.01em] font-normal transition-all duration-300 group-hover:opacity-0"
+        className={`text-[28px] sm:text-[32px] md:text-[40px] leading-9 sm:leading-10 md:leading-12 tracking-[0.01em] font-normal transition-all duration-300 ${isComingSoon ? "" : "group-hover:opacity-0"}`}
         style={{
           fontFamily: "Roboto, sans-serif",
           color: "white",
@@ -175,20 +168,22 @@ export const CouncilCardTitle = ({ section }: CouncilContentProps) => {
         {section.title}
       </h2>
 
-      {/* Gradient title on hover */}
-      <h2
-        className="text-[28px] sm:text-[32px] md:text-[40px] leading-9 sm:leading-10 md:leading-12 tracking-[0.01em] font-bold absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{
-          fontFamily: "Roboto, sans-serif",
-          background: "linear-gradient(to right, #FFFFFF 0%, #394A8B 35%)",
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          color: "transparent",
-        }}
-      >
-        {section.title}
-      </h2>
+      {/* Gradient title on hover (hidden for Coming Soon councils) */}
+      {!isComingSoon && (
+        <h2
+          className="text-[28px] sm:text-[32px] md:text-[40px] leading-9 sm:leading-10 md:leading-12 tracking-[0.01em] font-bold absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            fontFamily: "Roboto, sans-serif",
+            background: "linear-gradient(to right, #FFFFFF 0%, #394A8B 35%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            color: "transparent",
+          }}
+        >
+          {section.title}
+        </h2>
+      )}
     </div>
   );
 };

@@ -9,6 +9,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/parth.png",
         info: "President",
         category: "directors",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/parthdoshiml/",
         },
@@ -25,6 +26,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/lucas.png",
         info: "Director of Cybersecurity",
         category: "directors",
+        council: "cybersecurity",
         social: {
           linkedin: "https://www.linkedin.com/in/lucas-lalum/",
         },
@@ -36,6 +38,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/naetri.png",
         info: "Director of Communications",
         category: "directors",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/naetri-niranjan/",
         },
@@ -47,6 +50,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/het.png",
         info: "Director of Outreach & Systems Administration",
         category: "directors",
+        council: "unknown",
         social: {
           linkedin: "https://linkedin.com/in/hetjivani",
         },
@@ -58,6 +62,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/divjot.png",
         info: "Director of Events",
         category: "directors",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/divjotsofficial/",
         },
@@ -74,6 +79,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/het.png",
         info: "Director of Outreach & Systems Administration",
         category: "sysadmin",
+        council: "unknown",
         social: {
           linkedin: "https://linkedin.com/in/hetjivani",
         },
@@ -85,6 +91,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/fope.png",
         info: "Web Developer",
         category: "sysadmin",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
@@ -96,6 +103,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "Web Developer",
         category: "sysadmin",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/jameshaa/",
         },
@@ -107,6 +115,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/raymond2.png",
         info: "Web Developer",
         category: "sysadmin",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/raymondlamdev/",
         },
@@ -118,6 +127,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "Web Developer",
         category: "sysadmin",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/binming-li/",
         },
@@ -129,6 +139,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/soroush.png",
         info: "Lead of UI/UX Design",
         category: "sysadmin",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/soroush-merikhy-a99875173/",
         },
@@ -145,6 +156,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/naetri.png",
         info: "Director of Communications",
         category: "communications",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/naetri-niranjan/",
         },
@@ -156,6 +168,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/jessamine.png",
         info: "Social Media Coordinator",
         category: "communications",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/jessamineli/",
         },
@@ -167,6 +180,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/esaaba.png",
         info: "Social Media Coordinator",
         category: "communications",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/esaabanyarko/",
         },
@@ -183,6 +197,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/divjot.png",
         info: "Director of Events",
         category: "events",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/divjotsofficial/",
         },
@@ -194,6 +209,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/zaid.png",
         info: "Events Coordinator",
         category: "events",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/zaid-mohiuddin-ba98462a8/",
         },
@@ -205,6 +221,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/steph.png",
         info: "Events Coordinator",
         category: "events",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/stephanie-song-700a65213/",
         },
@@ -216,6 +233,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/fatima.png",
         info: "Events Coordinator",
         category: "events",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/minahil-fatima-4201172b4/",
         },
@@ -232,6 +250,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "Finance Coordinator",
         category: "finance",
+        council: "unknown",
         social: {
           linkedin: "https://linkedin.com/in/ryanyhchar",
         },
@@ -248,6 +267,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/het.png",
         info: "Director of Outreach & Systems Administration",
         category: "outreach",
+        council: "unknown",
         social: {
           linkedin: "https://linkedin.com/in/hetjivani",
         },
@@ -259,6 +279,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/lucas.png",
         info: "Director of Cybersecurity",
         category: "outreach",
+        council: "cybersecurity",
         social: {
           linkedin: "https://www.linkedin.com/in/lucas-lalum/",
         },
@@ -270,11 +291,11 @@ export const mockMembers = [
         imageUrl: "/MemberPics/sparsh-ladani.png",
         info: "Program Coordinator",
         category: "outreach",
+        council: "cybersecurity",
         social: {
           linkedin: "https://www.linkedin.com/in/sparshladani/",
         },
-      }
-
+      },
     ],
   },
   {
@@ -287,6 +308,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/gulroob.png",
         info: "HR Coordinator",
         category: "hr",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/gulroob-saini-150922230/",
         },
@@ -298,6 +320,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "HR Coordinator",
         category: "hr",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/funmibi-olaegbe-04a437243/",
         },
@@ -309,6 +332,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "HR Coordinator",
         category: "hr",
+        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/evangelynkelvin/",
         },
