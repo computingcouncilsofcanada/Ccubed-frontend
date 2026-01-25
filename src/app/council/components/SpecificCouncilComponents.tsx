@@ -330,9 +330,8 @@ export const EventsSection = () => {
  */
 export const CouncilHero = ({ council }: CouncilProps) => {
     return (
-        <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-center relative z-10 max-w-6xl mx-auto px-4 sm:px-6 md:px-8 xl:px-0 mb-24 pt-8">
-            {/* Text Content */}
-            <div className="text flex flex-col gap-4 md:max-w-sm lg:max-w-lg">
+        <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-start relative z-10 w-full mb-24 pt-8">
+            <div className="text flex flex-col gap-4 flex-1 min-w-0 w-full">
                 <h1
                     className="text-white font-extrabold text-2xl sm:text-3xl md:text-2xl lg:text-5xl"
                     style={{ fontFamily: "Roboto, sans-serif" }}
@@ -340,7 +339,7 @@ export const CouncilHero = ({ council }: CouncilProps) => {
                     {council.title}
                 </h1>
                 <p
-                    className="text-white max-w-xl sm:text-lg sm:leading-6 lg:text-xl lg:leading-7"
+                    className="text-white sm:text-lg sm:leading-6 lg:text-xl lg:leading-7"
                     style={{
                         fontFamily: "Roboto, sans-serif",
                         fontWeight: "300",
