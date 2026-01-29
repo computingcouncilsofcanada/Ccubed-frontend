@@ -3,6 +3,12 @@ export type CouncilSection = {
   shortDescription: string;
   fullDescription: string;
   icon: string;
+  universities?: {
+    id: number;
+    name: string;
+    description: string;
+    imageUrl: string;
+  }[];
   comingSoon?: boolean;
 };
 

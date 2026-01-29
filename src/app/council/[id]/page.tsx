@@ -39,7 +39,7 @@ const CouncilDetailPage = () => {
         <CouncilHero council={council} />
         <DescriptionSection council={council} />
         <RepresentativesSection council={council} />
-        <EventsSection />
+        <EventsSection council={council} />
         <ArticleSection council={council} />
       </div>
 

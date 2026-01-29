@@ -88,12 +88,14 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
       date,
       time,
       location: event.location,
+      domains: event.domains,
       images: "", // API doesn't have this field
       files: (event.files || []).map((file) => ({
         ...file,
         // Keep file.id as string (Google Drive IDs are strings)
       })),
       types: transformTypes(event.types),
+      url : event.url
     };
   });
 }
