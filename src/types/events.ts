@@ -8,9 +8,6 @@ export type FileObject = {
   url: string;
 };
 
-<<<<<<< Updated upstream
-export interface Event {
-=======
 export type Events = {
   id: number;
   name: string;
@@ -27,7 +24,6 @@ export type Events = {
 
 // API Event type definition (raw format from API)
 export type ApiEvent = {
->>>>>>> Stashed changes
   id: string;
   name: string;
   description: string;
@@ -52,6 +48,9 @@ export type ApiEvent = {
     url: string;
   }>;
 };
+
+/** Admin/API event shape (used by super-admin). Same as ApiEvent. */
+export type Event = ApiEvent;
 
 export interface EventStatsResponse extends ApiResponse<EventStats> {
   data: EventStats;

@@ -237,7 +237,13 @@ export default function EventsPage() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 }}
         >
-          <CalendarSection events={[...currentEvents, ...pastEvents]} />
+          <CalendarSection
+            events={[...currentEvents, ...pastEvents]}
+            onEventClick={(event) => {
+              setSelectedEvent(event);
+              setIsModalOpen(true);
+            }}
+          />
         </motion.div>
       </div>
 
