@@ -1,44 +1,22 @@
 import { motion } from "framer-motion";
-import { IconList, IconApps } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { mockArticles } from "@/data/mockArticles";
 import { IArticle } from "@/data/mockArticles";
-
+import { councilSections } from "@/data/councilSections";
 
 // ============================================================================
 // DATA AND CONSTANTS
 // ============================================================================
 
+// Filter options derived from councilSections so values match article.council normalization
 export const options = [
   { label: "All", value: "all" },
-  { label: "Artificial Intelligence", value: "artificialintelligence" },
-  { label: "CyberSecurity", value: "cybersecurity" },
-  { label: "Women In Tech", value: "womenintech" },
-];
-
-export const councilSections = [
-  {
-    title: "Cybersecurity Council",
-    shortDescription:
-      "Our goal is to facilitate the entry of newcomers and enthusiasts into one of Tech's most important fields: cybersecurity. We believe security should be taught sooner, more engagingly, and more enthusiastically.",
-    fullDescription:
-      " Our goal is to facilitate the entry of newcomers and enthusiasts into one of Tech's most important fields: cybersecurity. We believe security should be taught sooner, more engagingly, and more enthusiastically. We and numerous Canadian universities have paired up to create this very council, one that facilitates the engagement of your local cyber club by introducing you with industry professionals, educational events tailored to you, and ready made content for your next cybersecurity workshops. No more need to spend countless hours swimming through LinkedIn contacts and Internet write-ups, we've got you.",
-    icon: "/FigmaFiles/councilAssets/Cybersecurity_council.png",
-  },
-  {
-    title: "Artificial Intelligence Council",
-    shortDescription: "Coming Soon",
-    fullDescription: "Coming Soon",
-    icon: "/FigmaFiles/councilAssets/CCubed_icon.png",
-  },
-  {
-    title: "Women in Tech Council",
-    shortDescription: "Coming Soon",
-    fullDescription: "Coming Soon",
-    icon: "/FigmaFiles/councilAssets/CCubed_icon.png",
-  },
+  ...councilSections.map((section) => ({
+    label: section.title.replace(" Council", ""),
+    value: section.title.toLowerCase().replace(/\s+/g, ""),
+  })),
 ];
 
 const CONTAINER_WIDTH = 600; // px
@@ -46,44 +24,9 @@ const PADDING = 8; // p-1 x2
 const INNER_WIDTH = CONTAINER_WIDTH - PADDING;
 const OPTION_WIDTH = INNER_WIDTH / options.length;
 
-const VIEW_OPTIONS = ["list", "grid"];
-const VIEW_CONTAINER_WIDTH = 108; // px
-const VIEW_PADDING = 8; // p-1 x2
-const VIEW_INNER_WIDTH = VIEW_CONTAINER_WIDTH - VIEW_PADDING;
-const VIEW_OPTION_WIDTH = VIEW_INNER_WIDTH / VIEW_OPTIONS.length;
-
-type CouncilArticleType = {
-  src: string;
-  name: string;
-  subtext: string;
-};
-
-const CouncilArticles: CouncilArticleType[] = [
-  {
-    src: "/ArticlePics/ArticleHero.png",
-    name: "Women In Tech",
-    subtext:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit Reprehenderit voluptate temporibus aut ipsum unde consequatur minima ex libero iusto quo.",
-  },
-  {
-    src: "/ArticlePics/ArticleHero.png",
-    name: "Artificial Intelligence",
-    subtext:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit Reprehenderit voluptate temporibus aut ipsum unde consequatur minima ex libero iusto quo.",
-  },
-  {
-    src: "/ArticlePics/ArticleHero.png",
-    name: "CyberSecurity",
-    subtext:
-      "Cybersecurity in 2025 is evolving faster than ever, with AI-driven attacks becoming more sophisticated and harder to detect. New global regulations and security frameworks ",
-  },
-];
-
-type ArticleHeaderProps = {
+type ArticleFilterBarProps = {
   eventType: string;
   onArticleTypeChange: (type: string) => void;
-  viewMode: string;
-  onViewModeChange: (mode: string) => void;
   options: { label: string; value: string }[];
 };
 
@@ -94,10 +37,8 @@ type ArticleHeaderProps = {
 export function ArticleFilterBar({
   eventType,
   onArticleTypeChange,
-  viewMode,
-  onViewModeChange,
   options,
-}: ArticleHeaderProps) {
+}: ArticleFilterBarProps) {
   const index = options.findIndex((o) => o.value === eventType);
 
   const COLS = 2; // always 2 columns on mobile
@@ -255,89 +196,6 @@ export function ArticleFilterBar({
           </motion.label>
         ))}
       </div>
-
-      {/* View Mode Toggle */}
-      <div
-        className="flex gap-1 rounded-lg p-1 bg-[#0B161E] relative"
-        style={{ width: `${VIEW_CONTAINER_WIDTH}px`, height: "56px" }}
-      >
-        {/* Sliding Background Indicator */}
-        <motion.div
-          className="absolute top-1 rounded-lg"
-          style={{
-            height: "48px",
-            width: VIEW_OPTION_WIDTH,
-            backgroundColor: "rgba(19, 40, 54, 0.8)",
-            borderRadius: "8px",
-          }}
-          animate={{
-            x: VIEW_OPTION_WIDTH * VIEW_OPTIONS.indexOf(viewMode),
-          }}
-          transition={{
-            duration: 0.5,
-            ease: [0.4, 0, 0.2, 1],
-          }}
-        />
-
-        {/* Sliding Gradient Border */}
-        <motion.div
-          className="absolute top-1 rounded-lg pointer-events-none"
-          style={{
-            height: "48px",
-            width: VIEW_OPTION_WIDTH,
-            borderRadius: "8px",
-            background:
-              "linear-gradient(to top, rgba(61, 131, 178, 1) 0%, rgba(26, 56, 76, 0) 100%)",
-            mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-            maskComposite: "xor",
-            WebkitMask:
-              "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-            WebkitMaskComposite: "xor",
-            padding: "1.5px",
-          }}
-          animate={{
-            x: VIEW_OPTION_WIDTH * VIEW_OPTIONS.indexOf(viewMode),
-          }}
-          transition={{
-            duration: 0.5,
-            ease: [0.4, 0, 0.2, 1],
-          }}
-        />
-
-        {[
-          { icon: IconList, value: "list" },
-          { icon: IconApps, value: "grid" },
-        ].map(({ icon: Icon, value }) => (
-          <motion.button
-            key={value}
-            className="relative z-10"
-            style={{
-              width: VIEW_OPTION_WIDTH,
-              height: "48px",
-              borderRadius: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              border: "none",
-              background: "transparent",
-              padding: 0,
-              margin: 0,
-            }}
-            onClick={() => onViewModeChange(value)}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Icon
-              size={24}
-              stroke={1.5}
-              color={
-                viewMode === value ? "#FFFFFF" : "rgba(255, 255, 255, 0.7)"
-              }
-            />
-          </motion.button>
-        ))}
-      </div>
     </div>
   );
 }
@@ -378,63 +236,105 @@ export const ArticleHeader = () => {
 };
 
 // ============================================================================
-// ARTICLE HERO COMPONENT
+// ARTICLE HERO COMPONENT (sliding image + text from mockArticles)
 // ============================================================================
 
 export const ArticleHero = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const heroArticles = mockArticles.slice(0, 5);
+
+  const handlePrevious = () => {
+    setCurrentIndex((prev) =>
+      prev === 0 ? heroArticles.length - 1 : prev - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) =>
+      prev === heroArticles.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  // No articles – empty state (same styling as latest articles section)
+  if (heroArticles.length === 0) {
+    return (
+      <div className="text-center text-white/60 py-8 my-16">
+        <p>No other articles available at the moment.</p>
+      </div>
+    );
+  }
+
+  const currentArticle = heroArticles[currentIndex];
+  const hasMultipleArticles = heroArticles.length > 1;
+
   return (
-    <div className="flex flex-col gap-7 text-white ">
-      <div className=" flex [@media(min-width:1054px)]:flex-row flex-col justify-between gap-7">
-        <div className="[@media(min-width:1054px)]:w-1/2 w-full max-[1054px]:h-100 relative rounded-xl overflow-hidden ">
-          <Image src="/ArticlePics/ArticleHero.png" alt="Hero Image" fill />
-          <div className="absolute bottom-5 right-5 flex gap-2 cursor-pointer">
-            <div className="p-4 w-1/2 rounded-xl border flex items-center justify-center">
-              <img src="/ArticlePics/arrowLeft.svg" alt="" />
+    <div className="flex flex-col gap-7 text-white">
+      <div className="flex [@media(min-width:1054px)]:flex-row flex-col justify-between gap-7">
+        <div className="[@media(min-width:1054px)]:w-1/2 w-full max-[1054px]:h-100 relative rounded-xl overflow-hidden h-[400px]">
+          <Image
+            src={currentArticle.img_url || "/ArticlePics/ArticleHero.png"}
+            alt={currentArticle.title}
+            fill
+            className="object-cover"
+          />
+          {hasMultipleArticles && (
+            <div className="absolute bottom-5 right-5 flex gap-2">
+              <button
+                onClick={handlePrevious}
+                className="p-4 rounded-xl border border-white/20 bg-black/30 backdrop-blur-sm flex items-center justify-center hover:bg-black/50 transition-all"
+                aria-label="Previous article"
+              >
+                <img src="/ArticlePics/arrowLeft.svg" alt="Previous" />
+              </button>
+              <button
+                onClick={handleNext}
+                className="p-4 rounded-xl border border-white/20 bg-black/30 backdrop-blur-sm flex items-center justify-center hover:bg-black/50 transition-all"
+                aria-label="Next article"
+              >
+                <img src="/ArticlePics/arrowRight.svg" alt="Next" />
+              </button>
             </div>
-            <div className="p-4 w-1/2 rounded-xl border flex items-center justify-center">
-              <img src="/ArticlePics/arrowRight.svg" alt="" />
-            </div>
-          </div>
+          )}
         </div>
-        <div className=" w-full [@media(min-width:1054px)]:w-1/2 flex flex-col gap-4">
-          <h1 className=" text-5xl font-bold">
-            The State of Cybersecurity in 2025: What You Need to Know
+        <div className="w-full [@media(min-width:1054px)]:w-1/2 flex flex-col gap-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+            {currentArticle.title}
           </h1>
-          <div className="flex gap-5 items-center">
-            <p className="px-2 py-1 bg-[#D4D4D4]/10 rounded-2xl w-fit ">
-              Information Security
+          <div className="flex gap-5 items-center flex-wrap">
+            <p className="px-2 py-1 bg-[#D4D4D4]/10 rounded-2xl w-fit text-sm">
+              {currentArticle.title || "Article"}
             </p>
-            <p>7 mins read</p>
+            <p className="text-sm">{currentArticle.read_min}</p>
             <div className="flex gap-2 items-center">
               <img src="/ArticlePics/note.svg" alt="" />
-              <p>Nov 21, 2025</p>
+              <p className="text-sm">{currentArticle.date || "Recent"}</p>
             </div>
           </div>
           <p className="font-medium">
-            Cybersecurity in 2025 is evolving faster than ever, with AI-driven
-            attacks becoming more sophisticated and harder to detect. New global
-            regulations and security frameworks are pushing organizations to
-            rethink how they protect data and manage digital risks. To stay
-            ahead, individuals and businesses must adopt stronger
-            authentication, continuous monitoring, and proactive
-            threat-prevention strategies.
+            {currentArticle.bigdescription ||
+              "Cybersecurity in 2025 is evolving faster than ever, with AI-driven attacks becoming more sophisticated and harder to detect. New global regulations and security frameworks are pushing organizations to rethink how they protect data and manage digital risks."}
           </p>
         </div>
       </div>
-      <div className="flex justify-center items-center">
-        <div className="flex gap-1">
-          {Array.from({ length: 5 }, (_v, index) => (
-            <div
-              key={index}
-              className={`${
-                index === 0
-                  ? "bg-linear-to-b from-[#FAA336] to-[#FFFFFF]"
-                  : "bg-[#D4D4D4]/10"
-              } rounded-full size-2 `}
-            ></div>
-          ))}
+      {hasMultipleArticles && (
+        <div className="flex justify-center items-center">
+          <div className="flex gap-1">
+            {heroArticles.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`${
+                  index === currentIndex
+                    ? "bg-gradient-to-b from-[#FAA336] to-[#FFFFFF]"
+                    : "bg-[#D4D4D4]/10"
+                } rounded-full size-2 transition-all cursor-pointer`}
+                aria-label={`Go to article ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -496,6 +396,7 @@ export const Articles = ({articles}: {articles: IArticle[]}) => {
 // ============================================================================
 
 export const CouncilArticle = () => {
+  const router = useRouter();
   return (
     <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-full max-w-6xl mt-4">
       <motion.div
@@ -524,19 +425,30 @@ export const CouncilArticle = () => {
         </p>
       </motion.div>
       <div className="flex flex-wrap justify-center gap-4 text-white">
-        {CouncilArticles.map(({ name, subtext, src }) => (
+        {councilSections.map((section) => (
           <div
-            key={name}
-            className="group flex flex-col gap-2 w-full sm:w-[45%] md:w-[30%] cursor-pointer"
+            key={section.title}
+            className={`group flex flex-col gap-2 w-full sm:w-[45%] md:w-[30%] ${
+              !section.comingSoon ? "cursor-pointer" : "cursor-default"
+            }`}
+            onClick={() => {
+              if (!section.comingSoon) {
+                router.push(
+                  `/council/${section.title.toLowerCase().replace(/\s+/g, "")}/article`
+                );
+              }
+            }}
           >
             <div className="h-60 rounded-xl overflow-hidden relative transition-shadow duration-300 group-hover:shadow-[0_0_13px_rgba(255,255,255,0.3)]">
-              <Image src={src} alt={name} fill />
+              <Image src={section.icon} alt={section.title} fill />
             </div>
 
             <div className="flex flex-col gap-6 relative">
-              <h3 className="font-bold text-xl">{name}</h3>
+              <h3 className="font-bold text-xl">{section.title}</h3>
               <div className="relative pr-10 pl-10 pb-3">
-                <p className="font-regular text-md  opacity-0 group-hover:opacity-100 transition-opacity duration-300">{subtext}</p>
+                <p className="font-regular text-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {section.shortDescription}
+                </p>
                 <div
                   className="absolute bottom-0 left-0 right-0 top-1/4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl"
                   style={{
@@ -544,7 +456,7 @@ export const CouncilArticle = () => {
                     background: `
                       linear-gradient(to top, #9290C3, transparent) left/1px 100% no-repeat,
                       linear-gradient(to top, #9290C3, transparent) right/1px 100% no-repeat
-                    `
+                    `,
                   }}
                 />
               </div>
@@ -562,15 +474,15 @@ export const CouncilArticle = () => {
 
 export const LatestArticle = () => {
   const [articleType, setArticleType] = useState<string>("all");
-  const [viewMode, setViewMode] = useState<string>("list");
 
-  // Filter articles based on selected type
-  const filteredArticles = articleType === "all" 
-    ? mockArticles 
-    : mockArticles.filter((article) => {
-        const councilValue = article.council.toLowerCase().replace(/\s+/g, "");
-        return councilValue === articleType;
-      });
+  // Filter articles based on selected type (council filter)
+  const filteredArticles =
+    articleType === "all"
+      ? mockArticles
+      : mockArticles.filter((article) => {
+          const councilValue = article.council.toLowerCase().replace(/\s+/g, "");
+          return councilValue === articleType;
+        });
 
   return (
     <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 xl:px-2 w-full max-w-6xl mt-4">
@@ -602,11 +514,15 @@ export const LatestArticle = () => {
       <ArticleFilterBar
         eventType={articleType}
         onArticleTypeChange={setArticleType}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
         options={options}
       />
-      <Articles articles={filteredArticles} />
+      {filteredArticles.length > 0 ? (
+        <Articles articles={filteredArticles} />
+      ) : (
+        <div className="text-center text-white/60 py-8 my-16">
+          <p>No other articles available at the moment.</p>
+        </div>
+      )}
     </div>
   );
 };

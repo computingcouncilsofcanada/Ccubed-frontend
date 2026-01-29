@@ -45,10 +45,13 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
     setIsExpanded(!isExpanded);
   };
 
-  const article1 = mockArticles.find((article) => article.council === council);
+  const article1 = mockArticles.find((article) => {
+    const articleCouncilSlug = article.council.toLowerCase().replace(/\s+/g, "");
+    return articleCouncilSlug === council;
+  });
 
   if (!article1) {
-    return null
+    return null;
   }
 
   return (
@@ -133,19 +136,30 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
 // ============================================================================
 export const ArticleBody = () => {
   const pathname = usePathname();
-  const council = pathname.split("/").pop();
-  const otherThreeArticles = mockArticles
-    .filter((article) => article.council === council)
-    .slice(1, 4);
+  const councilSlug = pathname.split("/")[2];
+  const councilArticles = mockArticles.filter((article) => {
+    const articleCouncilSlug = article.council.toLowerCase().replace(/\s+/g, "");
+    return articleCouncilSlug === councilSlug;
+  });
+  const otherThreeArticles = councilArticles.slice(1, 4);
 
-  if (!council) {
-    return <div>Loading...</div>;
+  if (!councilSlug) {
+    return <div className="text-white">Loading...</div>;
+  }
+
+  // No articles for this council - show empty state (same styling as /article/[id] latest articles)
+  if (councilArticles.length === 0) {
+    return (
+      <div className="text-center text-white/60 py-8 my-16">
+        <p>No other articles available at the moment.</p>
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-col [@media(min-width:1054px)]:flex-row gap-7">
-      <ArticleBigcard council={council} />
-      <div className="[@media(min-width:1054px)]:w-1/2 max-[1054px]:items-center flex flex-col gap-9 max-md:mt-8">
+      <ArticleBigcard council={councilSlug} />
+      <div className="[@media(min-width:1054px)]:w-1/2 max-[1054px]:items-center flex flex-col gap-2 max-md:mt-8">
         {otherThreeArticles.map((article) => (
           <React.Fragment key={`article-${article.id}`}>
             <InformationCard article={article} />
@@ -169,7 +183,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
 
   return (
     <motion.div
-      className="flex gap-4 cursor-pointer relative rounded-2xl p-4 transition-all"
+      className="flex gap-4 cursor-pointer relative rounded-2xl px-2  py-0.5 transition-all "
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       initial="initial"
@@ -183,7 +197,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="
+            className=" 
         absolute inset-0 -z-10 rounded-2xl
         bg-white/10
         backdrop-blur-xl
@@ -196,7 +210,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
 
 
       <motion.div
-        className="relative w-40 h-40 flex-shrink-0 rounded-2xl overflow-visible"
+        className="relative w-40 h-40 flex-shrink-0 rounded-2xl mt-1.5 overflow-visible"
         variants={{
           initial: {
             filter: "brightness(1)",

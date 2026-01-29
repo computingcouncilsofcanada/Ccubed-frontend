@@ -7,8 +7,8 @@ import {
   ArticleHero,
   CouncilArticle,
   LatestArticle,
-  councilSections,
 } from "../../components/ArticleComponents";
+import { councilSections } from "@/data/councilSections";
 import Footer from "@/components/shared/Footer";
 import { useParams } from "next/navigation";
 
