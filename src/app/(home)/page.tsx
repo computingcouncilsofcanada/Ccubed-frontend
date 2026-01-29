@@ -9,6 +9,7 @@ import ValueSystem from "./components/ValueSystem";
 import MissionVision from "./components/MissionVision";
 import Stats from "./components/Stats";
 import Footer from "@/components/shared/Footer";
+import PreviewModal from "@/components/modals/PreviewModal";
 import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import { Events as EventType } from "@/types/events";
@@ -20,6 +21,8 @@ export default function Home() {
   const [error, setError] = useState<string>("");
   // const [loading, setLoading] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
+  const [isEventModalOpen, setIsEventModalOpen] = useState(false);
 
   useEffect(() => {
     // Using real API instead of mock data
@@ -70,7 +73,13 @@ export default function Home() {
             <div className="text-white text-lg">Loading events...</div>
           </div>
         ) : (
-          <Events events={events} />
+          <Events
+            events={events}
+            onOpenEventDetail={(event) => {
+              setSelectedEvent(event);
+              setIsEventModalOpen(true);
+            }}
+          />
         )}
 
         {/* Stats Section */}
@@ -82,6 +91,13 @@ export default function Home() {
 
       {/* Footer Section - Outside container for custom width */}
       <Footer />
+
+      {/* Event detail modal rendered at page level so it stacks above all sections */}
+      <PreviewModal
+        isOpen={isEventModalOpen}
+        onClose={() => setIsEventModalOpen(false)}
+        event={selectedEvent}
+      />
     </div>
   );
 }

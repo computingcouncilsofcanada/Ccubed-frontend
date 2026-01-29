@@ -2,7 +2,6 @@
 
 import React, { useMemo, useState, useCallback } from "react";
 import { Events as EventItem } from "@/types/events";
-import PreviewModal from "@/components/modals/PreviewModal";
 import { MonthYearPickerModal } from "./MonthYearPickerModal";
 
 type CalendarEvent = {
@@ -64,18 +63,16 @@ function getMonthGrid(year: number, monthIndexZeroBased: number): DayCell[] {
 
 type CalendarSectionProps = {
   events: EventItem[];
+  onEventClick?: (event: EventItem) => void;
 };
 
-export function CalendarSection({ events }: CalendarSectionProps) {
+export function CalendarSection({ events, onEventClick }: CalendarSectionProps) {
   // State for selected month/year
   const [selectedDate, setSelectedDate] = useState(() => {
     const now = new Date();
     return { year: now.getFullYear(), month: now.getMonth() };
   });
 
-  // State for modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   const { year: targetYear, month: targetMonthIndex } = selectedDate;
@@ -133,17 +130,13 @@ export function CalendarSection({ events }: CalendarSectionProps) {
     return map;
   }, [calendarEvents]);
 
-  // Handle event click
-  const handleEventClick = (event: CalendarEvent) => {
-    setSelectedEvent(event.originalEvent);
-    setIsModalOpen(true);
-  };
-
-  // Handle modal close
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedEvent(null);
-  };
+  // Handle event click — notify parent (events page) to open preview modal
+  const handleEventClick = useCallback(
+    (event: CalendarEvent) => {
+      onEventClick?.(event.originalEvent);
+    },
+    [onEventClick]
+  );
 
   // Month navigation handlers
   const handlePrevMonth = () => {
@@ -366,12 +359,6 @@ export function CalendarSection({ events }: CalendarSectionProps) {
           );
         })}
       </div>
-      <PreviewModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        event={selectedEvent}
-        onInvite={() => alert("Registration link clicked")}
-      />
     </div>
   );
 }
