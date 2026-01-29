@@ -1,4 +1,27 @@
-export const mockMembers = [
+// Types
+type SocialLinks = {
+  linkedin?: string;
+  // Add other social platforms as needed
+};
+
+type Member = {
+  id: number;
+  name: string;
+  role: string;
+  imageUrl: string;
+  info: string;
+  category: string;
+  council?: string; // Optional field
+  social: SocialLinks;
+};
+
+type Team = {
+  team: string;
+  members: Member[];
+};
+
+// Fixed mock data
+export const mockMembers: Team[] = [
   {
     team: "Executive Leadership Team",
     members: [
@@ -20,7 +43,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/parth.png",
         info: "President",
         category: "directors",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/parthdoshiml/",
         },
@@ -60,7 +82,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/Vardaan.jpg",
         info: "Director of Communications",
         category: "directors",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/vardaan-r-ab9ba436b/",
         },
@@ -72,10 +93,8 @@ export const mockMembers = [
         imageUrl: "/MemberPics/fope.png",
         info: "Director of Systems Administration",
         category: "directors",
-        council: "unknown",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
+          linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
       },
       {
@@ -85,7 +104,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/Syed_Ali_Hashmi.png",
         info: "Director of Outreach",
         category: "directors",
-        council: "unknown",
         social: {
           linkedin: "http://linkedin.com/in/syed-ali-hashmi",
         },
@@ -102,13 +120,12 @@ export const mockMembers = [
         },
       },
       {
-        id: 6,
-        name: "Het Jivani",
-        role: "Director of Outreach & Systems Administration",
-        imageUrl: "/MemberPics/het.png",
-        info: "Director of Outreach & Systems Administration",
-        category: "sysadmin",
-        council: "unknown",
+        id: 34,
+        name: "Rastin Aghighi",
+        role: "Director of AI",
+        imageUrl: "/MemberPics/Rastin.jpg",
+        info: "Director of AI",
+        category: "directors",
         social: {
           linkedin: "https://www.linkedin.com/in/rastinaghighi/",
         },
@@ -136,10 +153,8 @@ export const mockMembers = [
         imageUrl: "/MemberPics/fope.png",
         info: "Director of Systems Administration",
         category: "sysadmin",
-        council: "unknown",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
+          linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
       },
       {
@@ -149,7 +164,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "Web Developer",
         category: "sysadmin",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/jameshaa/",
         },
@@ -161,7 +175,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/raymond2.png",
         info: "Web Developer",
         category: "sysadmin",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/raymondlamdev/",
         },
@@ -173,10 +186,8 @@ export const mockMembers = [
         imageUrl: "/MemberPics/vanshika.jpeg",
         info: "UX designer",
         category: "sysadmin",
-        council: "unknown",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin: "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -197,7 +208,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/soroush.png",
         info: "Lead of UI/UX Design",
         category: "sysadmin",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/soroush-merikhy-a99875173/",
         },
@@ -214,7 +224,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/Vardaan.jpg",
         info: "Director of Communications",
         category: "communications",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/vardaan-r-ab9ba436b/",
         },
@@ -226,10 +235,8 @@ export const mockMembers = [
         imageUrl: "/MemberPics/Ruth_Nyambeki.jpeg",
         info: "Content creator",
         category: "communications",
-        council: "unknown",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin: "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -239,22 +246,19 @@ export const mockMembers = [
         imageUrl: "/MemberPics/Temirlan_Rashid.png",
         info: "Content Creator",
         category: "communications",
-        council: "unknown",
         social: {
           linkedin: "http://www.linkedin.com/in/temirlan-rashid",
         },
       },
       {
-        id: 15,
-        name: "Divjot Singh",
-        role: "Director of Events",
-        imageUrl: "/MemberPics/divjot.png",
-        info: "Director of Events",
-        category: "events",
-        council: "unknown",
+        id: 27,
+        name: "Anish Dhaubanjar",
+        role: "Marketing",
+        imageUrl: "/MemberPics/no-picture.png",
+        info: "Marketing",
+        category: "communications",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin: "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -280,7 +284,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/zaid.png",
         info: "Events Coordinator",
         category: "events",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/zaid-mohiuddin-ba98462a8/",
         },
@@ -292,7 +295,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/steph.png",
         info: "Events Coordinator",
         category: "events",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/stephanie-song-700a65213/",
         },
@@ -304,7 +306,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/fatima.png",
         info: "Events Coordinator",
         category: "events",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/minahil-fatima-4201172b4/",
         },
@@ -339,8 +340,7 @@ export const mockMembers = [
         info: "Events Coordinator",
         category: "events",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/aayanareejo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin: "https://www.linkedin.com/in/aayanareejo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
     ],
@@ -366,19 +366,17 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "Finance Coordinator",
         category: "finance",
-        council: "unknown",
         social: {
           linkedin: "https://linkedin.com/in/ryanyhchar",
         },
       },
       {
-        id: 20,
-        name: "Het Jivani",
-        role: "Director of Outreach & Systems Administration",
-        imageUrl: "/MemberPics/het.png",
-        info: "Director of Outreach & Systems Administration",
-        category: "outreach",
-        council: "unknown",
+        id: 33,
+        name: "Michael Ugwu",
+        role: "Finance Coordinator",
+        imageUrl: "/MemberPics/Michael_Ugwu.jpg",
+        info: "Finance Coordinator",
+        category: "finance",
         social: {
           linkedin: "https://linkedin.com/in/",
         },
@@ -456,6 +454,50 @@ export const mockMembers = [
           linkedin: "https://www.linkedin.com/in/sparshladani/",
         },
       },
+      {
+        id: 36,
+        name: "Imad Zia",
+        role: "Cybersecurity Program Manager",
+        imageUrl: "/MemberPics/Imad_Zia.jpg",
+        info: "Cybersecurity Program Manager",
+        category: "outreach",
+        social: {
+          linkedin: "https://www.linkedin.com/in/imadzia/",
+        },
+      },
+      {
+        id: 35,
+        name: "Zahra Hussain",
+        role: "WITS Program Manager",
+        imageUrl: "/MemberPics/zahra_hussain.png",
+        info: "WITS Program Manager",
+        category: "outreach",
+        social: {
+          linkedin: "http://www.linkedin.com/in/zahrahussain1",
+        },
+      },
+      {
+        id: 37,
+        name: "Roshan Banisetti",
+        role: "AI Program Manager",
+        imageUrl: "/MemberPics/Roshan.jpg",
+        info: "AI Program Manager",
+        category: "outreach",
+        social: {
+          linkedin: "https://www.linkedin.com/in/roshan-banisetti/",
+        },
+      },
+      {
+        id: 42,
+        name: "Dhruv Thakar",
+        role: "Outreach Coordinator",
+        imageUrl: "/MemberPics/Dhruv.jpeg",
+        info: "Outreach Coordinator",
+        category: "outreach",
+        social: {
+          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+        },
+      },
     ],
   },
   {
@@ -468,7 +510,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/gulroob.png",
         info: "HR Coordinator",
         category: "hr",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/gulroob-saini-150922230/",
         },
@@ -480,7 +521,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "HR Coordinator",
         category: "hr",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/funmibi-olaegbe-04a437243/",
         },
@@ -492,7 +532,6 @@ export const mockMembers = [
         imageUrl: "/MemberPics/no-picture.png",
         info: "HR Coordinator",
         category: "hr",
-        council: "unknown",
         social: {
           linkedin: "https://www.linkedin.com/in/evangelynkelvin/",
         },
