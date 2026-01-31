@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { ArticleHeader } from "./SpecificCouncilArticleComponents";
 import { ArticleBody } from "./SpecificCouncilArticleComponents";
 import { CouncilSection } from "../types/types";
@@ -15,8 +14,9 @@ import { mockEvents } from "@/data/mockEvents";
 
 type CouncilProps = {
   council: CouncilSection;
+  setSelectedEvent?: (event: Events) => void;
+  setIsModalOpen?: (isOpen: boolean) => void;
 };
-
 
 /**
  * ArticleSection Component
@@ -42,59 +42,61 @@ export const ArticleSection = ({ council }: CouncilProps) => {
  * Shows council description text alongside an image carousel
  */
 export const DescriptionSection = ({ council }: CouncilProps) => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [direction, setDirection] = useState(0);
-  
-    // Get universities from the council data
-    const universities = council.universities || [];
-    const hasUniversities = universities.length > 0;
-  
-    const nextSlide = () => {
-      setDirection(1);
-      setActiveIndex((prev) => (prev + 1) % universities.length);
-    };
-  
-    const prevSlide = () => {
-      setDirection(-1);
-      setActiveIndex((prev) => (prev - 1 + universities.length) % universities.length);
-    };
-  
-    const goToSlide = (index: number) => {
-      setDirection(index > activeIndex ? 1 : -1);
-      setActiveIndex(index);
-    };
-  
-    const slideVariants = {
-      enter: (direction: number) => ({
-        x: direction > 0 ? "100%" : "-100%",
-        opacity: 1,
-      }),
-      center: {
-        zIndex: 1,
-        x: 0,
-        opacity: 1,
-      },
-      exit: (direction: number) => ({
-        zIndex: 0,
-        x: direction < 0 ? "100%" : "-100%",
-        opacity: 1,
-      }),
-    };
-  
-    const swipeConfidenceThreshold = 10000;
-    const swipePower = (offset: number, velocity: number) => {
-      return Math.abs(offset) * velocity;
-    };
-  
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="mb-24 px-4"
-      >
-              <div className="text-start mb-6">
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+
+  // Get universities from the council data
+  const universities = council.universities || [];
+  const hasUniversities = universities.length > 0;
+
+  const nextSlide = () => {
+    setDirection(1);
+    setActiveIndex((prev) => (prev + 1) % universities.length);
+  };
+
+  const prevSlide = () => {
+    setDirection(-1);
+    setActiveIndex(
+      (prev) => (prev - 1 + universities.length) % universities.length
+    );
+  };
+
+  const goToSlide = (index: number) => {
+    setDirection(index > activeIndex ? 1 : -1);
+    setActiveIndex(index);
+  };
+
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 1,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? "100%" : "-100%",
+      opacity: 1,
+    }),
+  };
+
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="mb-24 px-4"
+    >
+      <div className="text-start mb-6">
         <h2
           className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"
           style={{ fontFamily: "Roboto, sans-serif" }}
@@ -102,134 +104,130 @@ export const DescriptionSection = ({ council }: CouncilProps) => {
           Council Universities
         </h2>
       </div>
-        <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-6">
-          <div className="w-full md:w-1/2 shrink-0">  
-            {/* Display current university description if available */}
-            {hasUniversities && (
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10"
+      <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-6">
+        <div className="w-full md:w-1/2 shrink-0">
+          {/* Display current university description if available */}
+          {hasUniversities && (
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10"
+            >
+              <h3
+                className="text-white font-semibold text-[18px] mb-2"
+                style={{ fontFamily: "Roboto, sans-serif" }}
               >
-                <h3
-                  className="text-white font-semibold text-[18px] mb-2"
-                  style={{ fontFamily: "Roboto, sans-serif" }}
-                >
-                  {universities[activeIndex].name}
-                </h3>
-                <p
-                  className="text-white/80 font-light text-[18px] leading-[1.5]"
-                  style={{ fontFamily: "Roboto, sans-serif" }}
-                >
-                  {universities[activeIndex].description}
-                </p>
-              </motion.div>
-            )}
-          </div>
-  
-          <div className="w-full md:w-1/2 flex flex-col items-center">
-            {hasUniversities ? (
-              <>
-                <div className="relative md:mt-10 w-full max-w-[550px] md:h-[280px] h-[220px] overflow-hidden ">
-                  <AnimatePresence initial={false} custom={direction}>
-                    <motion.div
-                      key={activeIndex}
-                      custom={direction}
-                      variants={slideVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{
-                        x: { type: "spring", stiffness: 800, damping: 50 },
-                        opacity: { duration: 0.15 },
-                      }}
-                      drag="x"
-                      dragConstraints={{ left: 0, right: 0 }}
-                      dragElastic={1}
-                      onDragEnd={(_, { offset, velocity }) => {
-                        const swipe = swipePower(offset.x, velocity.x);
-  
-                        if (swipe < -swipeConfidenceThreshold) {
-                          nextSlide();
-                        } else if (swipe > swipeConfidenceThreshold) {
-                          prevSlide();
-                        }
-                      }}
-                      className="absolute inset-0 flex items-center justify-center rounded-[20px] cursor-grab active:cursor-grabbing"
-                    >
-                      <img
-                        src={universities[activeIndex].imageUrl}
-                        alt={universities[activeIndex].name}
-                        className="w-full h-full object-contain rounded-[20px] pointer-events-none select-none"
-                        draggable={false}
-                      />
-                    </motion.div>
-                  </AnimatePresence>
-  
-  
-                  {universities.length > 1 && (
-                    <>
-                      <button
-                        onClick={prevSlide}
-                        className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
-                        aria-label="Previous slide"
-                      >
-                        ‹
-                      </button>
-  
-                      <button
-                        onClick={nextSlide}
-                        className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
-                        aria-label="Next slide"
-                      >
-                        ›
-                      </button>
-                    </>
-                  )}
-                </div>
-  
-                {universities.length > 1 && (
-                  <div className="flex gap-2 mt-4">
-                    {universities.map((_, idx) => (
-                      <button
-                        key={idx}
-                        className={`h-2 w-2 rounded-full transition-colors duration-200 ${
-                          activeIndex === idx ? "bg-yellow-400" : "bg-gray-500"
-                        }`}
-                        onClick={() => goToSlide(idx)}
-                        aria-label={`Go to slide ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="w-full max-w-[550px] md:h-[331px] h-[220px] flex items-center justify-center rounded-[20px] bg-[#D4D4D4]/10 backdrop-blur-sm border border-white/10">
-                <p
-                  className="text-white/50 text-center px-6"
-                  style={{ fontFamily: "Roboto, sans-serif" }}
-                >
-                  Partner universities coming soon
-                </p>
-              </div>
-            )}
-          </div>
+                {universities[activeIndex].name}
+              </h3>
+              <p
+                className="text-white/80 font-light text-[18px] leading-[1.5]"
+                style={{ fontFamily: "Roboto, sans-serif" }}
+              >
+                {universities[activeIndex].description}
+              </p>
+            </motion.div>
+          )}
         </div>
-      </motion.div>
-    );
-  };
+
+        <div className="w-full md:w-1/2 flex flex-col items-center">
+          {hasUniversities ? (
+            <>
+              <div className="relative md:mt-10 w-full max-w-[550px] md:h-[280px] h-[220px] overflow-hidden ">
+                <AnimatePresence initial={false} custom={direction}>
+                  <motion.div
+                    key={activeIndex}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      x: { type: "spring", stiffness: 800, damping: 50 },
+                      opacity: { duration: 0.15 },
+                    }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={1}
+                    onDragEnd={(_, { offset, velocity }) => {
+                      const swipe = swipePower(offset.x, velocity.x);
+
+                      if (swipe < -swipeConfidenceThreshold) {
+                        nextSlide();
+                      } else if (swipe > swipeConfidenceThreshold) {
+                        prevSlide();
+                      }
+                    }}
+                    className="absolute inset-0 flex items-center justify-center rounded-[20px] cursor-grab active:cursor-grabbing"
+                  >
+                    <img
+                      src={universities[activeIndex].imageUrl}
+                      alt={universities[activeIndex].name}
+                      className="w-full h-full object-contain rounded-[20px] pointer-events-none select-none"
+                      draggable={false}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                {universities.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevSlide}
+                      className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
+                      aria-label="Previous slide"
+                    >
+                      ‹
+                    </button>
+
+                    <button
+                      onClick={nextSlide}
+                      className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
+                      aria-label="Next slide"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {universities.length > 1 && (
+                <div className="flex gap-2 mt-4">
+                  {universities.map((_, idx) => (
+                    <button
+                      key={idx}
+                      className={`h-2 w-2 rounded-full transition-colors duration-200 ${
+                        activeIndex === idx ? "bg-yellow-400" : "bg-gray-500"
+                      }`}
+                      onClick={() => goToSlide(idx)}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="w-full max-w-[550px] md:h-[331px] h-[220px] flex items-center justify-center rounded-[20px] bg-[#D4D4D4]/10 backdrop-blur-sm border border-white/10">
+              <p
+                className="text-white/50 text-center px-6"
+                style={{ fontFamily: "Roboto, sans-serif" }}
+              >
+                Partner universities coming soon
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 /**
  * EventsSection Component
  * Fetches and displays upcoming council events in a grid layout
  */
-export const EventsSection = ({
-  council,
-}: CouncilProps) => {
+export const EventsSection = ({ council, setSelectedEvent, setIsModalOpen }: CouncilProps) => {
   const [councilEvents, setCouncilEvents] = useState<Events[]>([]);
   //   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   // Fetch events from backend
   useEffect(() => {
@@ -254,7 +252,8 @@ export const EventsSection = ({
       .filter((event) => {
         const events = event.domains && event.domains.includes(council.title);
         return events;
-      }).slice(0,4);
+      })
+      .slice(0, 4);
 
     setCouncilEvents(councilEvents);
 
@@ -342,7 +341,10 @@ export const EventsSection = ({
                     : "https://placehold.co/400"
                 }
                 description={event.description}
-                onseeDetails={() => router.push(`/events/${event.id}`)}
+                onseeDetails={(event) => {
+                  setSelectedEvent?.(event);
+                  setIsModalOpen?.(true);
+                }}
                 onInvitationLink={() =>
                   console.log("Invitation link clicked for event:", event.id)
                 }
@@ -419,7 +421,11 @@ export const RepresentativesSection = ({ council }: CouncilProps) => {
   const members = React.useMemo(() => {
     const mapCouncilToSlug = (councilTitle: string) => {
       if (councilTitle.includes("Cybersecurity")) return "cybersecurity";
-      if (councilTitle.includes("Artificial Intelligence") || councilTitle.includes("Intelligence")) return "ai";
+      if (
+        councilTitle.includes("Artificial Intelligence") ||
+        councilTitle.includes("Intelligence")
+      )
+        return "ai";
       if (councilTitle.includes("Women in Tech")) return "wit";
       return councilTitle.toLowerCase();
     };
