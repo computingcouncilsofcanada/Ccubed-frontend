@@ -13,35 +13,35 @@ export const councilSections: CouncilSection[] = [
         id: 1,
         name: "Western University",
         description:
-          "A collaborative student council at Western University dedicated to cybersecurity, bringing students together through workshops, talks, competitions, and industry connections.",
+          "Western University is a proud member of the Cybersecurity Council, committed to fostering cybersecurity education and building a strong security community on campus.",
         imageUrl: "/UniversityImages/western-university-logo.png",
       },
       {
         id: 2,
         name: "Dalhousie University",
         description:
-          "A collaborative student council at Dalhousie University dedicated to cybersecurity, bringing students together through workshops, talks, competitions, and industry connections.",
+          "Dalhousie University participates in the Cybersecurity Council to connect students with cybersecurity opportunities and build awareness around security practices.",
         imageUrl: "/UniversityImages/Dalhouse-university-logo.png",
       },
       {
         id: 3,
         name: "Laurier University",
         description:
-          "A collaborative student council at Laurier University dedicated to cybersecurity, bringing students together through workshops, talks, competitions, and industry connections.",
+          "Laurier University joins the Cybersecurity Council to help students explore cybersecurity topics and connect with peers across Canada's universities.",
         imageUrl: "/UniversityImages/laurier-university-logo.png",
       },
       {
         id: 4,
         name: "McGill University",
         description:
-          "A collaborative student council at McGill University dedicated to cybersecurity, bringing students together through workshops, talks, competitions, and industry connections.",
+          "McGill University is part of the Cybersecurity Council, supporting student engagement in cybersecurity through collaborative learning and community building.",
         imageUrl: "/UniversityImages/mcgill-university-logo.jpg",
       },
       {
         id: 5,
         name: "University of Ottawa",
         description:
-          "A collaborative student council at University of Ottawa dedicated to cybersecurity, bringing students together through workshops, talks, competitions, and industry connections.",
+          "The University of Ottawa contributes to the Cybersecurity Council by promoting cybersecurity awareness and creating networking opportunities for students.",
         imageUrl: "/UniversityImages/ottawa-university-logo.png",
       },
     ],
