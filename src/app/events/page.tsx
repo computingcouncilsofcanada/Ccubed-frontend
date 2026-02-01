@@ -6,7 +6,7 @@ import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import PreviewModal from "@/components/modals/PreviewModal";
-import { Events } from "@/types/events";
+import { Event as EventType } from "@/types/events";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 import { PastEventsSection } from "./components/PastEventsSection";
@@ -41,7 +41,7 @@ export default function EventsPage() {
 
   const [eventType, setEventType] = useState<string>("all");
   const [viewMode, setViewMode] = useState<string>("list");
-  const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -226,7 +226,7 @@ export default function EventsPage() {
               setSelectedEvent(event);
               setIsModalOpen(true);
             }}
-            onInvitationLink=" "
+            onInvitationLink={() => {}}
           />
         </motion.div>
 
@@ -248,7 +248,7 @@ export default function EventsPage() {
         onClose={() => setIsModalOpen(false)}
         event={selectedEvent}
         onShare={handleShare}
-        onInvite={() => handleInvite(selectedEvent?.url ?? null)}
+        onInvite={() => handleInvite(selectedEvent?.registration_link ?? selectedEvent?.url ?? null)}
       />
     </div>
   );

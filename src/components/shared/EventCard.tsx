@@ -72,10 +72,10 @@ export function EventCard({
           date,
           time,
           location,
-          images: imageSrc,
           files: [],
           types: [type],
           url: "",
+          registration_link: "",
         });
       }
     }

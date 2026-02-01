@@ -67,15 +67,7 @@ const CouncilPage = () => {
               />
             </div>
             <h1
-              className="text-[32px] sm:text-[40px] leading-[40px] sm:leading-[48px] tracking-[0.01em] font-extrabold text-white"
-              style={{ fontFamily: 'Roboto, sans-serif' }}
-            >
-              Council
-            </h1>
-          </div>
-
-          <p
-            className="text-white text-center text-[16px] sm:text-[20px] font-light leading-[24px] sm:leading-[27px] w-full max-w-[60ch] mx-auto px-4"
+              className="text-[32px] sm:text-[40px] leading-[40px] sm:leading-[48px] tracking-[0.01em] font-extrabold text-white" style={{ fontFamily: 'Roboto, sans-serif' }} > Council </h1> </div> <p className="text-white text-center text-[16px] sm:text-[20px] font-light leading-[24px] sm:leading-[27px] w-full max-w-[60ch] mx-auto px-4"
             style={{ fontFamily: 'Roboto, sans-serif' }}
           >
             Where students, clubs, and community partners team up across Canada to build skills, run events, and share resources. Join a council, lead an initiative, or partner with us to bring real impact to your campus and beyond.
@@ -104,9 +96,7 @@ const CouncilPage = () => {
                 onHoverEnd={() => setHovered((h) => (h === index ? null : h))}
               >
                 {/* Borders */}
-                <div className="absolute inset-0 border border-white/20 rounded-[20px] pointer-events-none"></div>
-                <div className="absolute inset-[1px] border border-white/10 rounded-[19px] pointer-events-none"></div>
-
+                <div className="absolute inset-0 border border-white/20 rounded-[20px] pointer-events-none"></div> <div className="absolute inset-[1px] border border-white/10 rounded-[19px] pointer-events-none"></div>
                 <div className="flex-shrink-0 px-6 py-4 md:py-6 transition-all duration-300 ease-out
                                 flex justify-center md:block">
                   <motion.div
