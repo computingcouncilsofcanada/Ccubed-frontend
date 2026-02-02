@@ -8,9 +8,9 @@ import { Events } from "@/types/events";
 // import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import Image from "next/image";
-import { IconBrandLinkedin } from "@tabler/icons-react";
 import { mockMembers } from "@/data/mockMembers";
 import { mockEvents } from "@/data/mockEvents";
+import TeamCard from "@/components/essentials/TeamCard";
 
 type CouncilProps = {
   council: CouncilSection;
@@ -412,12 +412,9 @@ export const CouncilHero = ({ council }: CouncilProps) => {
 
 /**
  * RepresentativesSection Component
-
+ * Same structure and design as the normal teams page; filtering logic stays council-specific.
  */
 export const RepresentativesSection = ({ council }: CouncilProps) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
-
   const members = React.useMemo(() => {
     const mapCouncilToSlug = (councilTitle: string) => {
       if (councilTitle.includes("Cybersecurity")) return "cybersecurity";
@@ -449,22 +446,16 @@ export const RepresentativesSection = ({ council }: CouncilProps) => {
   }, [council.title]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="mb-24 px-4 sm:px-6"
-    >
-      <div className="text-center mb-10">
+    <div className="mb-24 px-4 sm:px-6">
+      <div className="text-start mb-6">
         <h2
-          className="text-[36px] md:text-[30px] sm:text-[24px] font-extrabold leading-[1.3] text-white mb-4"
+          className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
           Council Representatives
         </h2>
         <p
-          className="text-white font-light text-[18px] md:text-[16px] sm:text-[14px] leading-[26px] max-w-[845px] md:max-w-[700px] sm:max-w-[95%] mx-auto"
+          className="text-white font-light text-[18px] leading-[26px] tracking-[0.01em]"
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
           Meet the key members of our council, including main directors and
@@ -474,108 +465,24 @@ export const RepresentativesSection = ({ council }: CouncilProps) => {
         </p>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-6 md:gap-8 max-w-6xl md:mt-20 mx-auto">
-        {members.map((member, index) => (
-          <motion.div
+      <div className="flex flex-wrap justify-center gap-9 gap-y-17">
+        {members.map((member) => (
+          <TeamCard
             key={member.id}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{
-              duration: 0.8,
-              delay: index * 0.08,
-              ease: "easeOut",
-            }}
-            className="text-center shrink-0 w-[200px] sm:w-44"
-          >
-            <div className="relative h-[229px] sm:h-[180px] flex items-end justify-center mb-4">
-              <motion.div
-                className="overflow-hidden cursor-pointer"
-                animate={{
-                  width:
-                    hoveredIndex === index || clickedIndex === index
-                      ? "179px"
-                      : "169px",
-                  height:
-                    hoveredIndex === index || clickedIndex === index
-                      ? "229px"
-                      : "169px",
-                  borderRadius:
-                    hoveredIndex === index || clickedIndex === index
-                      ? "12px"
-                      : "50%",
-                }}
-                onHoverStart={() => setHoveredIndex(index)}
-                onHoverEnd={() => setHoveredIndex(null)}
-                onClick={() =>
-                  setClickedIndex(clickedIndex === index ? null : index)
-                }
-                transition={{
-                  duration: 0.6,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
-              >
-                <Image
-                  src={member.imageUrl}
-                  alt={member.name}
-                  width={179}
-                  height={229}
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
-            </div>
-
-            <h3
-              className="text-[24px] md:text-[20px] sm:text-[18px] font-medium text-white"
-              style={{ fontFamily: "Roboto, sans-serif" }}
-            >
-              {member.name}
-            </h3>
-            <p
-              className="text-[18px] md:text-[16px] sm:text-[14px] text-white font-light mb-2"
-              style={{ fontFamily: "Roboto, sans-serif" }}
-            >
-              {member.role}
-            </p>
-
-            {member.social?.linkedin && (
-              <motion.div
-                className="flex items-center justify-center gap-4"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity:
-                    hoveredIndex === index || clickedIndex === index ? 1 : 0,
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-              >
-                <a
-                  href={member.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  className="hover:opacity-80 transition-opacity duration-200"
-                >
-                  <IconBrandLinkedin
-                    size={22}
-                    color="#FFFFFF"
-                    stroke={1.5}
-                    fill="none"
-                  />
-                </a>
-              </motion.div>
-            )}
-          </motion.div>
+            imageUrl={member.imageUrl}
+            name={member.name}
+            role={member.role}
+            info={member.info}
+            linkedin={member.social?.linkedin ?? ""}
+          />
         ))}
       </div>
 
       {members.length === 0 && (
-        <p
-          className="text-white/70 text-center text-[16px] font-light"
-          style={{ fontFamily: "Roboto, sans-serif" }}
-        >
+        <p className="text-white/70 text-center text-[16px] font-light">
           No council representatives to show yet.
         </p>
       )}
-    </motion.div>
+    </div>
   );
 };

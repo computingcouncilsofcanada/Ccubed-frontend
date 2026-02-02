@@ -98,14 +98,14 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 26,
-        name: "Syed Ali Hashmi",
+        id: 42,
+        name: "Dhruv Thakar",
         role: "Director of Outreach",
-        imageUrl: "/MemberPics/Syed_Ali_Hashmi.png",
+        imageUrl: "/MemberPics/Dhruv.jpeg",
         info: "Director of Outreach",
         category: "directors",
         social: {
-          linkedin: "http://linkedin.com/in/syed-ali-hashmi",
+          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -432,14 +432,14 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 26,
-        name: "Syed Ali Hashmi",
+        id: 42,
+        name: "Dhruv Thakar",
         role: "Director of Outreach",
-        imageUrl: "/MemberPics/Syed_Ali_Hashmi.png",
+        imageUrl: "/MemberPics/Dhruv.jpeg",
         info: "Director of Outreach",
         category: "outreach",
         social: {
-          linkedin: "http://linkedin.com/in/syed-ali-hashmi",
+          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -485,17 +485,6 @@ export const mockMembers: Team[] = [
         category: "outreach",
         social: {
           linkedin: "https://www.linkedin.com/in/roshan-banisetti/",
-        },
-      },
-      {
-        id: 42,
-        name: "Dhruv Thakar",
-        role: "Outreach Coordinator",
-        imageUrl: "/MemberPics/Dhruv.jpeg",
-        info: "Outreach Coordinator",
-        category: "outreach",
-        social: {
-          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
     ],
