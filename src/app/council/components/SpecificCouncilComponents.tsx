@@ -134,7 +134,7 @@ export const DescriptionSection = ({ council }: CouncilProps) => {
         <div className="w-full md:w-1/2 flex flex-col items-center">
           {hasUniversities ? (
             <>
-              <div className="relative md:mt-10 w-full max-w-[550px] md:h-[280px] h-[220px] overflow-hidden ">
+              <div className="relative md:mt-12 w-full max-w-[550px] md:h-[280px] h-[220px] overflow-hidden ">
                 <AnimatePresence initial={false} custom={direction}>
                   <motion.div
                     key={activeIndex}
