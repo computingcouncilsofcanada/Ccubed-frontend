@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Event } from "../types";
+import { Event } from "@/types/events";
 import {
   IconCalendar,
   IconClock,

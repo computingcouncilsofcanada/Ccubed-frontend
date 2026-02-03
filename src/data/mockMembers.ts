@@ -1,4 +1,27 @@
-export const mockMembers = [
+// Types
+type SocialLinks = {
+  linkedin?: string;
+  // Add other social platforms as needed
+};
+
+type Member = {
+  id: number;
+  name: string;
+  role: string;
+  imageUrl: string;
+  info: string;
+  category: string;
+  council?: string; // Optional field
+  social: SocialLinks;
+};
+
+type Team = {
+  team: string;
+  members: Member[];
+};
+
+// Fixed mock data
+export const mockMembers: Team[] = [
   {
     team: "Executive Leadership Team",
     members: [
@@ -47,6 +70,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/lucas.png",
         info: "Director of Cybersecurity",
         category: "directors",
+        council: "cybersecurity",
         social: {
           linkedin: "https://www.linkedin.com/in/lucas-lalum/",
         },
@@ -70,19 +94,18 @@ export const mockMembers = [
         info: "Director of Systems Administration",
         category: "directors",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
+          linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
       },
       {
-        id: 26,
-        name: "Syed Ali Hashmi",
+        id: 42,
+        name: "Dhruv Thakar",
         role: "Director of Outreach",
-        imageUrl: "/MemberPics/Syed_Ali_Hashmi.png",
+        imageUrl: "/MemberPics/Dhruv.jpeg",
         info: "Director of Outreach",
         category: "directors",
         social: {
-          linkedin: "http://linkedin.com/in/syed-ali-hashmi",
+          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -97,7 +120,7 @@ export const mockMembers = [
         },
       },
       {
-        id: 6,
+        id: 34,
         name: "Rastin Aghighi",
         role: "Director of AI",
         imageUrl: "/MemberPics/Rastin.jpg",
@@ -131,8 +154,7 @@ export const mockMembers = [
         info: "Director of Systems Administration",
         category: "sysadmin",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
+          linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
       },
       {
@@ -165,8 +187,7 @@ export const mockMembers = [
         info: "UX designer",
         category: "sysadmin",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin: "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -215,8 +236,7 @@ export const mockMembers = [
         info: "Content creator",
         category: "communications",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin: "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -238,8 +258,7 @@ export const mockMembers = [
         info: "Marketing",
         category: "communications",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin: "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -321,8 +340,7 @@ export const mockMembers = [
         info: "Events Coordinator",
         category: "events",
         social: {
-          linkedin:
-            "https://www.linkedin.com/in/aayanareejo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin: "https://www.linkedin.com/in/aayanareejo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
     ],
@@ -386,6 +404,7 @@ export const mockMembers = [
         imageUrl: "/MemberPics/lucas.png",
         info: "Director of Cybersecurity",
         category: "outreach",
+        council: "cybersecurity",
         social: {
           linkedin: "https://www.linkedin.com/in/lucas-lalum/",
         },
@@ -413,14 +432,14 @@ export const mockMembers = [
         },
       },
       {
-        id: 26,
-        name: "Syed Ali Hashmi",
+        id: 42,
+        name: "Dhruv Thakar",
         role: "Director of Outreach",
-        imageUrl: "/MemberPics/Syed_Ali_Hashmi.png",
+        imageUrl: "/MemberPics/Dhruv.jpeg",
         info: "Director of Outreach",
         category: "outreach",
         social: {
-          linkedin: "http://linkedin.com/in/syed-ali-hashmi",
+          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -430,12 +449,13 @@ export const mockMembers = [
         imageUrl: "/MemberPics/sparsh-ladani.png",
         info: "Cybersecurity Program Manager",
         category: "outreach",
+        council: "cybersecurity",
         social: {
           linkedin: "https://www.linkedin.com/in/sparshladani/",
         },
       },
       {
-        id: 7,
+        id: 36,
         name: "Imad Zia",
         role: "Cybersecurity Program Manager",
         imageUrl: "/MemberPics/Imad_Zia.jpg",
@@ -457,7 +477,7 @@ export const mockMembers = [
         },
       },
       {
-        id: 36,
+        id: 37,
         name: "Roshan Banisetti",
         role: "AI Program Manager",
         imageUrl: "/MemberPics/Roshan.jpg",
@@ -465,18 +485,6 @@ export const mockMembers = [
         category: "outreach",
         social: {
           linkedin: "https://www.linkedin.com/in/roshan-banisetti/",
-        },
-      },
-      {
-        id: 37,
-        name: "Dhruv Thakar",
-        role: "Outreach Coordinator",
-        imageUrl: "/MemberPics/Dhruv.jpeg",
-        info: "Outreach Coordinator",
-        category: "outreach",
-        social: {
-          linkedin:
-            "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
     ],

@@ -8,14 +8,31 @@ export type FileObject = {
   url: string;
 };
 
-export interface Event {
+export type Events = {
+  id: number;
+  name: string;
+  description: string;
+  status: number;
+  date: string;
+  time: string;
+  location: string;
+  images: string;
+  files: FileObject[];
+  types: string[];
+  url: string | null;
+};
+
+// API Event type definition (raw format from API)
+export type ApiEvent = {
   id: string;
   name: string;
   description: string;
   start_at: string;
   end_at: string;
-  url: string;
   location: string;
+  url: string | null;
+  ownership: null;
+  domains: string[] | null
   status: number;
   types: string[];
   pending_action: string | null;
@@ -31,6 +48,9 @@ export interface Event {
     url: string;
   }>;
 };
+
+/** Admin/API event shape (used by super-admin). Same as ApiEvent. */
+export type Event = ApiEvent;
 
 export interface EventStatsResponse extends ApiResponse<EventStats> {
   data: EventStats;

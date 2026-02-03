@@ -10,7 +10,7 @@ export const mockEvents = [
     location: "Discord",
     url: null,
     ownership: null,
-    domains: null,
+    domains: ["cybersecurity"],
     status: 1,
     types: ["Online"],
     pending_action: null,
@@ -43,7 +43,7 @@ export const mockEvents = [
     location: "Youtube Live",
     url: "",
     ownership: null,
-    domains: null,
+    domains: ["ai"],
     status: 1,
     types: ["online"],
     pending_action: null,
@@ -71,7 +71,7 @@ export const mockEvents = [
     location: "Google meet",
     url: null,
     ownership: null,
-    domains: null,
+    domains: ["cybersecurity"],
     status: 1,
     types: ["Online"],
     pending_action: null,
@@ -99,7 +99,7 @@ export const mockEvents = [
     location: "TBD",
     url: "",
     ownership: null,
-    domains: null,
+    domains: [],
     status: 1,
     types: ["online"],
     pending_action: null,
@@ -127,7 +127,7 @@ export const mockEvents = [
     location: "Discord Server",
     url: null,
     ownership: null,
-    domains: null,
+    domains: [],
     status: 1,
     types: ["Online"],
     pending_action: null,
@@ -145,7 +145,7 @@ export const mockEvents = [
       },
       {
         id: "1TC47L7vESxwQJdenMRY7H262CMGxIycl",
-        name: "Screenshot 2025-10-25 at 9.31.41 PM.png",
+        name: "Screenshot 2025-10-25 at 9.31.41 PM.png",
         url: "https://lh3.googleusercontent.com/d/1TC47L7vESxwQJdenMRY7H262CMGxIycl",
       },
     ],
@@ -160,7 +160,7 @@ export const mockEvents = [
     location: "Google Meet and Youtube",
     url: null,
     ownership: null,
-    domains: null,
+    domains: ["cybersecurity"],
     status: 1,
     types: ["Online"],
     pending_action: null,
@@ -178,12 +178,12 @@ export const mockEvents = [
       },
       {
         id: "1zCgNZJbYuVawMswtZN9bYp6ZYKZ-CsDK",
-        name: "Screenshot 2025-10-25 at 9.28.29 PM.png",
+        name: "Screenshot 2025-10-25 at 9.28.29 PM.png",
         url: "https://lh3.googleusercontent.com/d/1zCgNZJbYuVawMswtZN9bYp6ZYKZ-CsDK",
       },
       {
         id: "1wG6XMgnOUq6fPyx1083pbbRmGAVOALiC",
-        name: "Screenshot 2025-10-25 at 9.29.31 PM.png",
+        name: "Screenshot 2025-10-25 at 9.29.31 PM.png",
         url: "https://lh3.googleusercontent.com/d/1wG6XMgnOUq6fPyx1083pbbRmGAVOALiC",
       },
     ],
@@ -192,13 +192,13 @@ export const mockEvents = [
     id: "68caef397e8c000404c8d402",
     name: "CCubed X BBA : Level Up in Tech",
     description:
-      "This panel brings together students who’ve landed co-ops, launched startups, led communities, and dived into research. They’re here to share the lessons, mistakes, and game-changing insights they wish they knew in year one so you can move forward with confidence, not confusion.  🔍 Gain valuable insights into effective strategies and common pitfalls. 💬 Engage directly with panelists through a live Q&A, transparent and focused discussion. 💡 Leave equipped with practical guidance and a clear plan to advance your computer science journey.",
+      "This panel brings together students who've landed co-ops, launched startups, led communities, and dived into research. They're here to share the lessons, mistakes, and game-changing insights they wish they knew in year one so you can move forward with confidence, not confusion.  🔍 Gain valuable insights into effective strategies and common pitfalls. 💬 Engage directly with panelists through a live Q&A, transparent and focused discussion. 💡 Leave equipped with practical guidance and a clear plan to advance your computer science journey.",
     start_at: "1751490000000",
     end_at: "1751497200000",
     location: "Google Meet",
     url: null,
     ownership: null,
-    domains: null,
+    domains: [],
     status: 1,
     types: ["online"],
     pending_action: null,
@@ -226,7 +226,7 @@ export const mockEvents = [
     location: "Discord Server",
     url: "https://forms.gle/nT29yC1LSWSz8C4f6",
     ownership: null,
-    domains: "Cybersecurity",
+    domains: ["cybersecurity"],
     status: 1,
     types: ["online"],
     pending_action: null,
@@ -238,9 +238,9 @@ export const mockEvents = [
     updated_by: null,
     files: [
       {
-        "id": "16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1",
-        "name": "CTF.png",
-        "url": "https://lh3.googleusercontent.com/d/16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1"
+        id: "16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1",
+        name: "CTF.png",
+        url: "https://lh3.googleusercontent.com/d/16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1",
       },
     ],
   },
@@ -248,164 +248,3 @@ export const mockEvents = [
 
 // Export the type for TypeScript usage
 export type MockEvent = (typeof mockEvents)[0];
-
-// old mock events
-
-// // Mock data for testing events implementation
-// export const mockEvents = [
-//   {
-//     id: 1,
-//     name: "Tech Talk: AI & the Future of Jobs",
-//     description:
-//       "Join industry experts as they discuss how AI is reshaping the job market. Get insights on staying relevant and building future-proof skills.",
-//     status: 1,
-//     date: "2025-08-10",
-//     time: "3:00 PM - 5:00 PM",
-//     location: "Google Meet",
-//     images: "",
-//     files: [
-//       {
-//         id: 1,
-//         name: "event-image-1.jpg",
-//         url: "/FigmaFiles/eventsAssets/discord.svg",
-//       },
-//     ],
-//     types: ["Online"],
-//   },
-//   {
-//     id: 2,
-//     name: "Beginner Coding Bootcamp: Web Dev",
-//     description:
-//       "Perfect for beginners! Learn the fundamentals of web development in this hands-on bootcamp.",
-//     status: 1,
-//     date: "2025-08-29",
-//     time: "2:00 PM - 6:00 PM",
-//     location: "Dawson College - Lab B203",
-//     images: "",
-//     files: [
-//       {
-//         id: 2,
-//         name: "event-image-2.jpg",
-//         url: "/FigmaFiles/eventsAssets/ppl.svg",
-//       },
-//     ],
-//     types: ["In Person"],
-//   },
-//   {
-//     id: 3,
-//     name: "React Workshop: Building Modern UIs",
-//     description:
-//       "Learn to build modern user interfaces with React. Hands-on workshop covering components, hooks, and state management.",
-//     status: 1,
-//     date: "2025-09-05",
-//     time: "10:00 AM - 4:00 PM",
-//     location: "Toronto Tech Hub",
-//     images: "",
-//     files: [
-//       {
-//         id: 3,
-//         name: "event-image-3.jpg",
-//         url: "/FigmaFiles/eventsAssets/discord.svg",
-//       },
-//     ],
-//     types: ["In Person"],
-//   },
-//   {
-//     id: 4,
-//     name: "Networking Night: Computing Students Connect",
-//     description:
-//       "Join fellow computing students for an evening of networking, sharing experiences, and building connections.",
-//     status: 1,
-//     date: "2025-09-12",
-//     time: "6:00 PM - 9:00 PM",
-//     location: "Discord Community Server",
-//     images: "",
-//     files: [
-//       {
-//         id: 4,
-//         name: "event-image-4.jpg",
-//         url: "/FigmaFiles/eventsAssets/discord.svg",
-//       },
-//     ],
-//     types: ["Online"],
-//   },
-//   {
-//     id: 5,
-//     name: "Python Data Science Fundamentals",
-//     description:
-//       "Introduction to data science using Python. Learn pandas, numpy, and basic machine learning concepts.",
-//     status: 1,
-//     date: "2025-09-20",
-//     time: "1:00 PM - 5:00 PM",
-//     location: "University of Toronto - BA Building",
-//     images: "",
-//     files: [
-//       {
-//         id: 5,
-//         name: "event-image-5.jpg",
-//         url: "/FigmaFiles/eventsAssets/ppl.svg",
-//       },
-//     ],
-//     types: ["In Person"],
-//   },
-//   {
-//     id: 6,
-//     name: "Cybersecurity Workshop: Protecting Your Code",
-//     description:
-//       "Learn essential cybersecurity practices for developers. Secure coding, authentication, and vulnerability assessment.",
-//     status: 1,
-//     date: "2025-10-01",
-//     time: "2:00 PM - 6:00 PM",
-//     location: "Google Meet & Local Labs",
-//     images: "",
-//     files: [
-//       {
-//         id: 6,
-//         name: "event-image-6.jpg",
-//         url: "/FigmaFiles/eventsAssets/discord.svg",
-//       },
-//     ],
-//     types: ["Online"],
-//   },
-//   {
-//     id: 7,
-//     name: "Open Source Contribution Workshop",
-//     description:
-//       "Learn how to contribute to open source projects. Git workflows, issue tracking, and community collaboration.",
-//     status: 1,
-//     date: "2025-10-10",
-//     time: "11:00 AM - 3:00 PM",
-//     location: "GitHub Virtual Event",
-//     images: "",
-//     files: [
-//       {
-//         id: 7,
-//         name: "event-image-7.jpg",
-//         url: "/FigmaFiles/eventsAssets/ppl.svg",
-//       },
-//     ],
-//     types: ["Online"],
-//   },
-//   {
-//     id: 8,
-//     name: "Mobile App Development with Flutter",
-//     description:
-//       "Build cross-platform mobile applications using Flutter. From setup to deployment on app stores.",
-//     status: 1,
-//     date: "2025-10-18",
-//     time: "9:00 AM - 5:00 PM",
-//     location: "McGill University - Engineering Building",
-//     images: "",
-//     files: [
-//       {
-//         id: 8,
-//         name: "event-image-8.jpg",
-//         url: "/FigmaFiles/eventsAssets/ppl.svg",
-//       },
-//     ],
-//     types: ["In Person"],
-//   },
-// ];
-
-// // Export the type for TypeScript usage
-// export type MockEvent = (typeof mockEvents)[0];
