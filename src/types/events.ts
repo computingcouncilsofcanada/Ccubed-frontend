@@ -65,6 +65,7 @@ export interface Event {
   url?: string | null;
   status: number;
   types: string[];
+  domains?: string[] | null;
   pending_action?: string | null;
   reject_reason?: string | null;
   approved_by?: string[] | null;

@@ -238,9 +238,13 @@ export const EventsSection = ({ council, setSelectedEvent, setIsModalOpen }: Cou
     const transformedEvents = transformApiEvents(mockEvents);
 
     const mapDomainToCouncil = (domain: string) => {
-      if (domain === "cybersecurity") return "Cybersecurity Council";
-      if (domain === "ai") return "Artificial Intelligence Council";
-      if (domain === "wit") return "Women In Tech Council";
+      const normalized = domain.toLowerCase();
+
+      if (normalized === "cybersecurity") return "Cybersecurity Council";
+      if (normalized === "ai") return "Artificial Intelligence Council";
+      if (normalized === "wit" || normalized === "women in tech")
+        return "Women in Tech Council";
+
       return domain; // fallback
     };
 
@@ -250,8 +254,7 @@ export const EventsSection = ({ council, setSelectedEvent, setIsModalOpen }: Cou
         domains: (event.domains ?? []).map(mapDomainToCouncil),
       }))
       .filter((event) => {
-        const events = event.domains && event.domains.includes(council.title);
-        return events;
+        return event.domains?.includes(council.title);
       })
       .slice(0, 4);
 

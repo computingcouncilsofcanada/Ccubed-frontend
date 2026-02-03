@@ -97,6 +97,7 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
       url: event.url ?? null,
       status: event.status,
       types: transformTypes(event.types),
+      domains: event.domains ?? null,
       files: (event.files || []).map((file) => ({
         id: file.id,
         name: file.name,
