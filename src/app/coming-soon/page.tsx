@@ -184,6 +184,7 @@ const ComingSoon = () => {
               stroke={2}
               color="#354052"
               className="absolute left-3 sm:left-4 md:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 opacity-30"
+            />
             <input
               type="email"
               placeholder="Email Address"
