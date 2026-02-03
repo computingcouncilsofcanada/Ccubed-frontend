@@ -395,13 +395,203 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
               </CollapsibleSection>
             </div>
 
+            {event.learning_outcomes && event.learning_outcomes.length > 0 && (
+              <div>
+                <CollapsibleSection
+                  title="Learning outcomes"
+                  titleStyle="text-2xl font-bold"
+                >
+                  <ul className="list-disc list-inside space-y-1">
+                    {event.learning_outcomes.map((outcome, i) => (
+                      <li key={i}>{outcome}</li>
+                    ))}
+                  </ul>
+                </CollapsibleSection>
+              </div>
+            )}
+
+            {event.what_you_need && event.what_you_need.length > 0 && (
+              <div>
+                <CollapsibleSection
+                  title="What you need"
+                  titleStyle="text-2xl font-bold"
+                >
+                  <ul className="list-disc list-inside space-y-1">
+                    {event.what_you_need.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </CollapsibleSection>
+              </div>
+            )}
+
+            {event.instructors && event.instructors.length > 0 && (
+              <div>
+                <CollapsibleSection
+                  title="Instructors"
+                  titleStyle="text-2xl font-bold"
+                >
+                  <ul className="list-disc list-inside space-y-1">
+                    {event.instructors.map((name, i) => (
+                      <li key={i}>{name}</li>
+                    ))}
+                  </ul>
+                </CollapsibleSection>
+              </div>
+            )}
+
+            {event.content && event.content.trim() && (
+              <div>
+                <CollapsibleSection
+                  title="Event details"
+                  titleStyle="text-2xl font-bold"
+                >
+                  <div className="prose prose-invert prose-sm max-w-none space-y-3 [&_h2]:text-lg [&_h2]:font-bold [&_h2]:mt-4 [&_h2]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:my-0.5 [&_strong]:text-[#FAA336]">
+                    {event.content.split(/\n\n+/).map((block, i) => {
+                      const trimmed = block.trim();
+                      if (!trimmed) return null;
+                      if (/^##\s/.test(trimmed)) {
+                        const text = trimmed.replace(/^##\s*/, "");
+                        const parts = text.split(/(\*\*.+?\*\*)/g);
+                        return (
+                          <h2 key={i}>
+                            {parts.map((part, k) =>
+                              /^\*\*.+?\*\*$/.test(part) ? (
+                                <strong key={k} className="text-[#FAA336]">{part.slice(2, -2)}</strong>
+                              ) : (
+                                part
+                              )
+                            )}
+                          </h2>
+                        );
+                      }
+                      if (/^###\s/.test(trimmed)) {
+                        const text = trimmed.replace(/^###\s*/, "");
+                        const parts = text.split(/(\*\*.+?\*\*)/g);
+                        return (
+                          <h3 key={i} className="text-base font-semibold mt-3 mb-1">
+                            {parts.map((part, k) =>
+                              /^\*\*.+?\*\*$/.test(part) ? (
+                                <strong key={k} className="text-[#FAA336]">{part.slice(2, -2)}</strong>
+                              ) : (
+                                part
+                              )
+                            )}
+                          </h3>
+                        );
+                      }
+                      if (/^-\s/m.test(trimmed)) {
+                        const items = trimmed.split(/\n/).filter((l) => /^-\s/.test(l));
+                        return (
+                          <ul key={i}>
+                            {items.map((line, j) => {
+                              const text = line.replace(/^-\s*/, "");
+                              const parts = text.split(/(\*\*.+?\*\*)/g);
+                              return (
+                                <li key={j}>
+                                  {parts.map((part, k) =>
+                                    /^\*\*.+?\*\*$/.test(part) ? (
+                                      <strong key={k} className="text-[#FAA336]">
+                                        {part.slice(2, -2)}
+                                      </strong>
+                                    ) : (
+                                      part
+                                    )
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        );
+                      }
+                      return (
+                        <p key={i} className="text-white/90">
+                          {trimmed.split(/(\*\*.+?\*\*)/g).map((part, j) =>
+                            /^\*\*.+?\*\*$/.test(part) ? (
+                              <strong key={j} className="text-[#FAA336]">
+                                {part.slice(2, -2)}
+                              </strong>
+                            ) : (
+                              part
+                            )
+                          )}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </CollapsibleSection>
+              </div>
+            )}
+
+            {event.recurrence && event.recurrence.type !== "none" && (
+              <div>
+                <CollapsibleSection
+                  title="Recurrence"
+                  titleStyle="text-2xl font-bold"
+                >
+                  <div className="space-y-2">
+                    {event.recurrence.type === "daily" && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-[#FAA336]">📅</span>
+                        <p>This event occurs <span className="font-semibold">daily</span></p>
+                      </div>
+                    )}
+                    
+                    {event.recurrence.type === "weekly" && (
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[#FAA336]">📅</span>
+                          <p>This event occurs <span className="font-semibold">weekly</span></p>
+                        </div>
+                        {event.recurrence.days_of_week && event.recurrence.days_of_week.length > 0 && (
+                          <p className="ml-7 text-white/80">
+                            Every {event.recurrence.days_of_week.join(", ")}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    
+                    {event.recurrence.type === "monthly" && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-[#FAA336]">📅</span>
+                        <p>This event occurs <span className="font-semibold">monthly</span></p>
+                      </div>
+                    )}
+                    
+                    {event.recurrence.type === "custom" && (
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[#FAA336]">📅</span>
+                          <p>This event occurs on <span className="font-semibold">specific dates</span></p>
+                        </div>
+                        {event.recurrence.custom_dates && event.recurrence.custom_dates.length > 0 && (
+                          <div className="ml-7 space-y-1">
+                            {event.recurrence.custom_dates.map((date, idx) => (
+                              <p key={idx} className="text-white/80">
+                                • {new Date(date).toLocaleDateString('en-US', { 
+                                  weekday: 'long', 
+                                  year: 'numeric', 
+                                  month: 'long', 
+                                  day: 'numeric' 
+                                })}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </CollapsibleSection>
+              </div>
+            )}
+
             <div className="flex flex-col flex-1 justify-end h-full ">
               <div className="flex  justify-center md:justify-end mt-auto ">
-                {!isEventPast(event) && (
+                {!isEventPast(event) && (event.registration_link || event.url) && (
                   <div className="flex gap-2 items-center justify-end">
                     <button
                       onClick={() =>
-                        window.open("https://forms.gle/nT29yC1LSWSz8C4f6", "_blank")
+                        onInvite?.(event.registration_link || event.url ? event.registration_link || event.url : null)
                       }
                       className="px-4 py-2 text-[#0B1820] bg-[#FAA336] border-[1px] border-[#FAA336] rounded-md text-center"
                       style={{

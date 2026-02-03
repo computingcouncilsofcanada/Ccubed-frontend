@@ -5,7 +5,7 @@ import { formatDateSmart } from "@/utils/dateUtils";
 import { Events } from "@/types/events";
 
 type EventCardProps = {
-  id: number;
+  id: string | number;
   title: string;
   time: string;
   date: string;
@@ -72,10 +72,10 @@ export function EventCard({
           date,
           time,
           location,
-          images: imageSrc,
           files: [],
           types: [type],
           url: "",
+          registration_link: "",
         });
       }
     }

@@ -181,7 +181,7 @@ export function CurrentEventsSection({
                           }
                           description={event.description}
                           onseeDetails={onSeeDetails}
-                          onInvitationLink={() => onInvitationLink(event.url)}
+                          onInvitationLink={() => onInvitationLink(event.registration_link || event.url)}
                           originalEvent={event}
                         />
                       </div>
@@ -216,7 +216,7 @@ export function CurrentEventsSection({
                             }
                             description={event.description}
                             onseeDetails={onSeeDetails}
-                            onInvitationLink={() => onInvitationLink(event.url)}
+                            onInvitationLink={() => onInvitationLink(event.registration_link || event.url)}
                             originalEvent={event}
                           />
                         </div>
@@ -253,7 +253,7 @@ export function CurrentEventsSection({
                     }
                     description={event.description}
                     onseeDetails={onSeeDetails}
-                    onInvitationLink={() => onInvitationLink(event.url)}
+                    onInvitationLink={() => onInvitationLink(event.registration_link || event.url)}
                     originalEvent={event}
                   />
                 ))}
@@ -283,8 +283,8 @@ export function CurrentEventsSection({
             key={event.id}
             event={event}
             onSeeDetails={onSeeDetails}
-            onInvitationLink={() => onInvitationLink(event.url)}
-            showInvitationButton={true}
+            onInvitationLink={() => onInvitationLink(event.registration_link || event.url)}
+            showInvitationButton={!!(event.registration_link || event.url)}
           />
         ))}
     </div>

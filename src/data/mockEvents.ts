@@ -5,8 +5,17 @@ export const mockEvents = [
     name: "TechTalk: Your CS Pathway",
     description:
       "We hosted a tech panel featuring top students from diverse domains—co-op, leadership, entrepreneurship, and research—who shared their unique perspectives on what computer science means beyond big tech and social media. Attendees had the opportunity to ask questions directly, gaining insights into the panelists' learning styles, backgrounds, journeys, and networking approaches. The session highlighted the many pathways in CS and offered valuable advice on building skills, resumes, and connections.",
+    learning_outcomes: [
+      "Understand diverse CS career paths beyond big tech",
+      "Learn networking and resume strategies from panelists",
+      "Gain insights into co-op, research, and entrepreneurship in CS",
+    ],
+    what_you_need: ["Discord account", "Curiosity and questions"],
+    instructors: ["CCubed Panel Team"],
+    registration_link: "https://forms.gle/example-cs-pathway",
     start_at: "1728082800000",
     end_at: "1728090000000",
+    recurrence: { type: "none" },
     location: "Discord",
     url: null,
     ownership: null,
@@ -38,8 +47,17 @@ export const mockEvents = [
     name: "DevOps Live Series",
     description:
       "In August, we hosted a beginner-friendly live series on DevOps, designed to make concepts like Kubernetes and server management approachable. Led by Nathan, the sessions walked participants through building a small server setup (a 'homelab') from scratch, with a focus on practical learning in a relaxed, interactive environment. The series also opened the floor for broader conversations—whether about technology, career development, or graduate school—drawing on Nathan's unique perspective as a Master's graduate and former PhD candidate. Sessions ran every Thursday evening, 6–8 PM EDT, throughout the month.",
+    learning_outcomes: [
+      "Build a homelab server from scratch",
+      "Understand Kubernetes and container basics",
+      "Discuss career and grad school with an industry expert",
+    ],
+    what_you_need: ["YouTube access", "Computer with terminal", "Interest in DevOps"],
+    instructors: ["Nathan"],
+    registration_link: "",
     start_at: "1756594800000",
     end_at: "1756602000000",
+    recurrence: { type: "weekly", days_of_week: ["Thursday"] },
     location: "Youtube Live",
     url: "",
     ownership: null,
@@ -66,8 +84,17 @@ export const mockEvents = [
     name: "Intro to CTF",
     description:
       "We hosted an introductory Capture the Flag (CTF) workshop to help students get started with cybersecurity competitions. The session began with an overview of what CTFs are and how they work, followed by hands-on practice with beginner-friendly challenges on PicoCTF. Our team guided participants through the problem-solving process, offering hints and support as they tackled real-world inspired security puzzles.",
+    learning_outcomes: [
+      "Understand what CTFs are and how they work",
+      "Solve beginner challenges on PicoCTF",
+      "Apply basic security and forensics concepts",
+    ],
+    what_you_need: ["Google Meet link", "PicoCTF account", "Web browser"],
+    instructors: ["CCubed Security Team"],
+    registration_link: "https://forms.gle/example-ctf-intro",
     start_at: "1751238000000",
     end_at: "1751238000000",
+    recurrence: { type: "none" },
     location: "Google meet",
     url: null,
     ownership: null,
@@ -94,8 +121,13 @@ export const mockEvents = [
     name: "Networking Event",
     description:
       "We bring to you Canada's top 9 startups from different domains. Further details TBD",
+    learning_outcomes: null,
+    what_you_need: null,
+    instructors: null,
+    registration_link: "",
     start_at: "TBD",
     end_at: "TBD",
+    recurrence: null,
     location: "TBD",
     url: "",
     ownership: null,
@@ -122,8 +154,17 @@ export const mockEvents = [
     name: "TechTalk: Landing Your dream internship",
     description:
       "TechTalk: Landing Your Dream Internship brought together top student panelists with experience at companies like Google, Amazon, Tesla, Meta, and more. Hosted in partnership with universities across Canada, the session gave attendees a chance to hear first-hand internship experiences, tips on applications, and navigating the recruitment process. Students also engaged directly with panelists to learn about resumes, interviews, and building the right connections to land their dream roles.\r\n",
+    learning_outcomes: [
+      "Hear first-hand internship experiences from top companies",
+      "Get tips on applications and recruitment process",
+      "Learn about resumes, interviews, and networking",
+    ],
+    what_you_need: ["Discord account", "Questions for panelists"],
+    instructors: ["Student panelists from Google, Amazon, Tesla, Meta"],
+    registration_link: "https://forms.gle/example-internship-talk",
     start_at: "1736553600000",
     end_at: "1736560800000",
+    recurrence: { type: "weekly", days_of_week: ["Monday", "Wednesday"] },
     location: "Discord Server",
     url: null,
     ownership: null,
@@ -155,8 +196,24 @@ export const mockEvents = [
     name: "Cybersecurity Bootcamp: Level Up with CCubed Day 1",
     description:
       "We hosted a 5-day intensive Cybersecurity Bootcamp designed for beginners, starting from the fundamentals and building up to hands-on challenges. Participants learned the essentials of cybersecurity, including the CIA triad and core security principles, before putting their skills to the test in a Capture the Flag (CTF) competition.\r\n\r\nThe program was enriched by guest sessions from two industry leaders: Azzam Hamdan, Security Engineer at AWS (previously at Tesla), and Dominic Vogel, a veteran cybersecurity entrepreneur with over 20 years of experience. The bootcamp was facilitated by Lucas, who brought his expertise from working in cybersecurity with leading organizations like Kirkland and RBC.",
+    learning_outcomes: [
+      "Understand CIA triad and core security principles",
+      "Participate in a Capture the Flag (CTF) competition",
+      "Learn from industry leaders at AWS, Tesla, and beyond",
+    ],
+    what_you_need: [
+      "Google Meet link",
+      "Laptop with terminal",
+      "Basic command-line familiarity",
+    ],
+    instructors: ["Lucas", "Azzam Hamdan (AWS)", "Dominic Vogel"],
+    registration_link: "https://forms.gle/example-cyber-bootcamp",
     start_at: "1750460400000",
     end_at: "1750467600000",
+    recurrence: {
+      type: "custom",
+      custom_dates: ["2025-06-20", "2025-06-21", "2025-06-22", "2025-06-23", "2025-06-24"],
+    },
     location: "Google Meet and Youtube",
     url: null,
     ownership: null,
@@ -192,9 +249,18 @@ export const mockEvents = [
     id: "68caef397e8c000404c8d402",
     name: "CCubed X BBA : Level Up in Tech",
     description:
-      "This panel brings together students who've landed co-ops, launched startups, led communities, and dived into research. They're here to share the lessons, mistakes, and game-changing insights they wish they knew in year one so you can move forward with confidence, not confusion.  🔍 Gain valuable insights into effective strategies and common pitfalls. 💬 Engage directly with panelists through a live Q&A, transparent and focused discussion. 💡 Leave equipped with practical guidance and a clear plan to advance your computer science journey.",
+      "This panel brings together students who’ve landed co-ops, launched startups, led communities, and dived into research. They’re here to share the lessons, mistakes, and game-changing insights they wish they knew in year one so you can move forward with confidence, not confusion.  🔍 Gain valuable insights into effective strategies and common pitfalls. 💬 Engage directly with panelists through a live Q&A, transparent and focused discussion. 💡 Leave equipped with practical guidance and a clear plan to advance your computer science journey.",
+    learning_outcomes: [
+      "Gain insights into co-op, startups, and research from students",
+      "Learn effective strategies and common pitfalls",
+      "Get practical guidance to advance your CS journey",
+    ],
+    what_you_need: ["Google Meet link", "Questions for panelists"],
+    instructors: ["BBA x CCubed Panelists"],
+    registration_link: "https://forms.gle/example-bba-levelup",
     start_at: "1751490000000",
     end_at: "1751497200000",
+    recurrence: { type: "monthly" },
     location: "Google Meet",
     url: null,
     ownership: null,
@@ -221,12 +287,25 @@ export const mockEvents = [
     name: "Inter-University CTF",
     description:
       "This mini Capture-The-Flag (CTF) event is a free opportunity for students to apply their knowledge and technical ability in the cybersecurity space. In this competition, participants from various skill backgrounds, novice or experienced, can compete to solve numerous challenges in areas such as Cryptography, Web and Binary Exploitation, Recon, and more. 4 main participating universities are Windsor, Wilfred Laurier, Carleton and Dalhousie. Cybersecurity tools may be required for certain challenges. Disclaimer - Rules and procedures will be shared at the start of the event. You can form teams upto 4. Either come in with your teams or use our discord server to meet new people and make teams!",
+    learning_outcomes: [
+      "Solve challenges in Cryptography, Web and Binary Exploitation, Recon",
+      "Compete with students from Windsor, Laurier, Carleton, Dalhousie",
+      "Apply cybersecurity tools in a team setting (teams up to 4)",
+    ],
+    what_you_need: [
+      "Discord account",
+      "Cybersecurity tools (as required per challenge)",
+      "Team of up to 4 or find teammates on our Discord",
+    ],
+    instructors: ["CCubed CTF Organizers"],
+    registration_link: "https://forms.gle/nT29yC1LSWSz8C4f6",
     start_at: "1763215200000",
     end_at: "1763316000000",
+    recurrence: { type: "daily" },
     location: "Discord Server",
     url: "https://forms.gle/nT29yC1LSWSz8C4f6",
     ownership: null,
-    domains: ["cybersecurity"],
+    domains: ["Cybersecurity"],
     status: 1,
     types: ["online"],
     pending_action: null,
@@ -243,6 +322,156 @@ export const mockEvents = [
         url: "https://lh3.googleusercontent.com/d/16pzeDa_wwncIMEH7kmLZqbCz7BNKRHw1",
       },
     ],
+  },
+  {
+    id: "68caf1927e8c000404c8d427",
+    name: "Women in Tech Speed Networking",
+    description:
+      "A virtual Women in Tech Speed Networking event for university students across Canada. Join ~80–100 peers for structured breakout sessions with career mentors, quick rotations, and fun icebreakers. Discuss career journeys, breaking into tech, internships, and day-to-day life in the industry.",
+    learning_outcomes: [
+      "Connect with professionals and peers in a structured speed-networking format",
+      "Gain insights on career journeys, internships, and first roles in tech",
+      "Practice informal Q&A and build connections across Canada",
+    ],
+    what_you_need: [
+      "Virtual meeting link (to be shared)",
+      "Camera and mic for breakout rooms",
+      "Curiosity and questions for mentors",
+    ],
+    instructors: null,
+    registration_link: "",
+    start_at: "1779634800000",
+    end_at: "1779638400000",
+    recurrence: { type: "none" },
+    location: "Virtual (online)",
+    url: "",
+    ownership: null,
+    domains: ["women in tech", "networking"],
+    status: 1,
+    types: ["Online"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [
+      {
+        id: "1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+        name: "CCubed_icon.png",
+        url: "https://lh3.googleusercontent.com/d/1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+      },
+    ],
+    content: `## Format
+(Virtual) Women in Tech Speed Networking event. Expected audience: **~80–100 university students** from across Canada. Duration: **1–1.5 hours** (2:00 PM – 3:00 PM ET).
+
+## Session structure
+
+### 1. Main room – intros
+- All speakers briefly introduce themselves (**30–45 seconds each**).
+
+### 2. Breakout rooms (3–4 rooms, or more depending on professionals)
+- Each room is hosted by a speaker who acts as a **career mentor**.
+- **Informal conversations and Q&A** with students.
+- Students **rotate between rooms every 5–10 minutes**.
+- **3 rotations** in total to keep discussions engaging and avoid repetition.
+
+### 3. Icebreaker 1 (between 2nd and 3rd rotation)
+- **One-word check-in**: questions that require a one-word answer.
+- **3–4 min** short fun activity.
+- Participants respond via **chat/poll**.
+
+### 4. Icebreaker 2 (between 2nd and 3rd rotation)
+- **Two truths and a lie** – 3–4 min optional activity.
+- Host shares **3 statements** (tech or career): 2 true, 1 false.
+- Students guess the lie in chat. Quick and fun.
+
+### 5. Discussion focus
+- Career journeys and early decisions
+- Breaking into tech and internships/first roles
+- Day-to-day work, challenges, and growth in tech
+
+### 6. Wrap-up
+- Return to the **main room** for key takeaways, feedback, and closing remarks.`,
+  },
+  {
+    id: "68caf1937e8c000404c8d428",
+    name: "Cybersecurity Jeopardy Style event in Montreal & Windsor",
+    description: "Upcoming event. Details TBD.",
+    learning_outcomes: null,
+    what_you_need: null,
+    instructors: null,
+    registration_link: "",
+    start_at: "TBD",
+    end_at: "TBD",
+    recurrence: null,
+    location: "Montreal & Windsor",
+    url: null,
+    ownership: null,
+    domains: [],
+    status: 1,
+    types: ["In Person"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [],
+  },
+  {
+    id: "68caf1947e8c000404c8d429",
+    name: "AI Podcast Series - Toronto",
+    description: "Upcoming event. Details TBD.",
+    learning_outcomes: null,
+    what_you_need: null,
+    instructors: null,
+    registration_link: "",
+    start_at: "TBD",
+    end_at: "TBD",
+    recurrence: null,
+    location: "Toronto",
+    url: null,
+    ownership: null,
+    domains: [],
+    status: 1,
+    types: ["In Person"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [],
+  },
+  {
+    id: "68caf1957e8c000404c8d42a",
+    name: "Resume Roast with recruiter - online",
+    description: "Upcoming event. Details TBD.",
+    learning_outcomes: null,
+    what_you_need: null,
+    instructors: null,
+    registration_link: "",
+    start_at: "TBD",
+    end_at: "TBD",
+    recurrence: null,
+    location: "Online",
+    url: null,
+    ownership: null,
+    domains: [],
+    status: 1,
+    types: ["Online"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [],
   },
 ];
 

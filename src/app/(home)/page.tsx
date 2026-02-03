@@ -12,7 +12,7 @@ import Footer from "@/components/shared/Footer";
 import PreviewModal from "@/components/modals/PreviewModal";
 import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
-import { Events as EventType } from "@/types/events";
+import { ApiEvent, Events as EventType } from "@/types/events";
 import { mockEvents } from "@/data/mockEvents";
 // import { mockEvents } from "@/data/mockEvents";
 
@@ -41,7 +41,7 @@ export default function Home() {
     //     setLoading(false);
     //   });
 
-    const transformedEvents = transformApiEvents(mockEvents);
+    const transformedEvents = transformApiEvents(mockEvents as ApiEvent[]);
     setEvents(transformedEvents);
   }, [mockEvents]);
 
@@ -75,10 +75,10 @@ export default function Home() {
         ) : (
           <Events
             events={events}
-            onOpenEventDetail={(event) => {
-              setSelectedEvent(event);
-              setIsEventModalOpen(true);
-            }}
+            // onOpenEventDetail={(event) => {
+            //   setSelectedEvent(event);
+            //   setIsEventModalOpen(true);
+            // }}
           />
         )}
 

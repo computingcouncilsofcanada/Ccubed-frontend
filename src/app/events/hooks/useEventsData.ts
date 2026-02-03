@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Events } from "@/types/events";
+import { ApiEvent, Events } from "@/types/events";
 import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import { separateEventsByTime } from "@/app/events/utils/eventUtils";
@@ -17,7 +17,7 @@ export function useEventsData() {
     //     setIsLoading(true);
         // const res = await privateAxios.get("/events");
         // const transformedEvents = transformApiEvents(res.data.data);
-        const transformedEvents = transformApiEvents(mockEvents);
+        const transformedEvents = transformApiEvents(mockEvents as ApiEvent[]);
         
         // Separate current and past events
         const { currentEvents: current, pastEvents: past } = separateEventsByTime(transformedEvents);

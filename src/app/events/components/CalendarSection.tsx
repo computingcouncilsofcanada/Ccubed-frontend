@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState } from "react";
 import { Events as EventItem } from "@/types/events";
-import { MonthYearPickerModal } from "./MonthYearPickerModal";
+import PreviewModal from "@/components/modals/PreviewModal";
 
 type CalendarEvent = {
   id: string | number;
@@ -63,17 +63,18 @@ function getMonthGrid(year: number, monthIndexZeroBased: number): DayCell[] {
 
 type CalendarSectionProps = {
   events: EventItem[];
-  onEventClick?: (event: EventItem) => void;
 };
 
-export function CalendarSection({ events, onEventClick }: CalendarSectionProps) {
+export function CalendarSection({ events }: CalendarSectionProps) {
   // State for selected month/year
   const [selectedDate, setSelectedDate] = useState(() => {
     const now = new Date();
     return { year: now.getFullYear(), month: now.getMonth() };
   });
 
-  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  // State for modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
 
   const { year: targetYear, month: targetMonthIndex } = selectedDate;
 
@@ -130,13 +131,17 @@ export function CalendarSection({ events, onEventClick }: CalendarSectionProps) 
     return map;
   }, [calendarEvents]);
 
-  // Handle event click — notify parent (events page) to open preview modal
-  const handleEventClick = useCallback(
-    (event: CalendarEvent) => {
-      onEventClick?.(event.originalEvent);
-    },
-    [onEventClick]
-  );
+  // Handle event click
+  const handleEventClick = (event: CalendarEvent) => {
+    setSelectedEvent(event.originalEvent);
+    setIsModalOpen(true);
+  };
+
+  // Handle modal close
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
 
   // Month navigation handlers
   const handlePrevMonth = () => {
@@ -162,19 +167,6 @@ export function CalendarSection({ events, onEventClick }: CalendarSectionProps) 
     });
   };
 
-  const handleGoToToday = useCallback(() => {
-    const now = new Date();
-    setSelectedDate({ year: now.getFullYear(), month: now.getMonth() });
-  }, []);
-
-  const handleMonthYearSelect = useCallback((newMonth: number, newYear: number) => {
-    setSelectedDate({ year: newYear, month: newMonth });
-  }, []);
-
-  const isCurrentMonth =
-    targetYear === new Date().getFullYear() &&
-    targetMonthIndex === new Date().getMonth();
-
   return (
     <div className="max-w-6xl w-full mx-auto px-2 relative z-10 mt-8">
       {/* Calendar header */}
@@ -185,117 +177,67 @@ export function CalendarSection({ events, onEventClick }: CalendarSectionProps) 
         </h2>
 
         {/* Description and month row */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-3">
+        <div className="flex items-end justify-between mb-3">
           <div className="max-w-2xl">
             <p className="text-sm font-light leading-[18px]">
               Plan ahead with CCubed: learn, connect, and take your next step.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
-            <div className="w-full sm:w-auto text-xl leading-none font-semibold flex items-center gap-2">
-              <button
-                aria-label="Previous Month"
-                onClick={handlePrevMonth}
-                className="flex-shrink-0 px-2 py-2 sm:px-1 sm:py-0.5 rounded hover:bg-white/10 transition-colors flex items-center justify-center min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                type="button"
+          <div className="text-xl leading-none font-semibold flex items-center gap-2">
+            <button
+              aria-label="Previous Month"
+              onClick={handlePrevMonth}
+              className="px-1 py-0.5 rounded hover:bg-white/10 transition-colors flex items-center justify-center"
+              type="button"
+            >
+              {/* Left chevron SVG */}
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
+                <polyline
+                  points="13,4 7,10 13,16"
+                  stroke="white"
+                  strokeWidth="2"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <polyline
-                    points="13,4 7,10 13,16"
-                    stroke="white"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <button
-                onClick={() => setIsPickerOpen(true)}
-                type="button"
-                aria-label="Select month and year"
-                className="group flex-1 min-w-0 flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 min-w-[160px] sm:min-w-[200px]"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <span>
+              {monthLabel} {targetYear}
+            </span>
+            <button
+              aria-label="Next Month"
+              onClick={handleNextMonth}
+              className="px-1 py-0.5 rounded hover:bg-white/10 transition-colors flex items-center justify-center"
+              type="button"
+            >
+              {/* Right chevron SVG */}
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <span className="text-lg sm:text-xl font-semibold whitespace-nowrap truncate">
-                  {monthLabel} {targetYear}
-                </span>
-                <svg
-                  className="w-4 h-4 text-white/60 group-hover:text-white transition-colors flex-shrink-0"
+                <polyline
+                  points="7,4 13,10 7,16"
+                  stroke="white"
+                  strokeWidth="2"
                   fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              <button
-                aria-label="Next Month"
-                onClick={handleNextMonth}
-                className="flex-shrink-0 px-2 py-2 sm:px-1 sm:py-0.5 rounded hover:bg-white/10 transition-colors flex items-center justify-center min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
-                type="button"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <polyline
-                    points="7,4 13,10 7,16"
-                    stroke="white"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
-            {!isCurrentMonth && (
-              <button
-                onClick={handleGoToToday}
-                type="button"
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-[#0B1820] bg-[#FAA336] hover:bg-[#e8922a] shadow-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-roboto"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <span className="hidden xs:inline">Go to</span> Today
-              </button>
-            )}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
-
-      <MonthYearPickerModal
-        isOpen={isPickerOpen}
-        onClose={() => setIsPickerOpen(false)}
-        currentMonth={targetMonthIndex}
-        currentYear={targetYear}
-        onSelect={handleMonthYearSelect}
-      />
 
       {/* Weekday labels */}
       <div className="grid grid-cols-7 gap-1 text-white mb-0 font-roboto text-xs font-light">
@@ -359,6 +301,12 @@ export function CalendarSection({ events, onEventClick }: CalendarSectionProps) 
           );
         })}
       </div>
+      <PreviewModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        event={selectedEvent}
+        onInvite={() => alert("Registration link clicked")}
+      />
     </div>
   );
 }

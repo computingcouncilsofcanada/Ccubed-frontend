@@ -1,14 +1,14 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Event } from "@/types/events";
 import {
-  IconCalendar,
-  IconClock,
-  IconMapPin,
-  IconEdit,
-  IconTrash,
-  IconCheck,
-  IconX,
-} from "@tabler/icons-react";
+  Calendar,
+  Clock,
+  MapPin,
+  Edit,
+  Trash,
+  Check,
+  X,
+} from "lucide-react";
 
 export function createEventTableColumns(
   openModal: (event: Event | null, type: "update" | "delete" | "approve-create" | "reject-create" | "approve-update" | "reject-update") => void
@@ -33,16 +33,16 @@ export function createEventTableColumns(
       header: "Date & Time",
       cell: ({ row }) => {
         const event = row.original;
-        const startDate = new Date(parseInt(event.start_at));
-        const endDate = new Date(parseInt(event.end_at));
+        const startDate = new Date(parseInt(event.start_at || "0"));
+        const endDate = new Date(parseInt(event.end_at || "0"));
         return (
           <div className="space-y-1">
             <div className="flex items-center gap-1.5 text-sm text-gray-700">
-              <IconCalendar size={14} className="text-gray-400" />
+              <Calendar size={14} className="text-gray-400" />
               <span>{startDate.toLocaleDateString()}</span>
             </div>
             <div className="flex items-center gap-1.5 text-xs text-gray-500">
-              <IconClock size={14} className="text-gray-400" />
+              <Clock size={14} className="text-gray-400" />
               <span>
                 {startDate.toLocaleTimeString([], {
                   hour: "2-digit",
@@ -67,7 +67,7 @@ export function createEventTableColumns(
         const event = row.original;
         return (
           <div className="flex items-center gap-1.5 text-sm text-gray-700">
-            <IconMapPin size={16} className="text-gray-400" />
+            <MapPin size={16} className="text-gray-400" />
             <span className="max-w-xs truncate">{event.location}</span>
           </div>
         );
@@ -131,14 +131,14 @@ export function createEventTableColumns(
               className="p-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
               title="Update"
             >
-              <IconEdit size={16} />
+              <Edit size={16} />
             </button>
             <button
               onClick={() => openModal(event, "delete")}
               className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
               title="Delete"
             >
-              <IconTrash size={16} />
+              <Trash size={16} />
             </button>
             {event.pending_action === "create" && (
               <>
@@ -147,14 +147,14 @@ export function createEventTableColumns(
                   className="p-1.5 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors"
                   title="Approve Creation"
                 >
-                  <IconCheck size={16} />
+                  <Check size={16} />
                 </button>
                 <button
                   onClick={() => openModal(event, "reject-create")}
                   className="p-1.5 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors"
                   title="Reject Creation"
                 >
-                  <IconX size={16} />
+                  <X size={16} />
                 </button>
               </>
             )}
@@ -165,14 +165,14 @@ export function createEventTableColumns(
                   className="p-1.5 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors"
                   title="Approve Update"
                 >
-                  <IconCheck size={16} />
+                  <Check size={16} />
                 </button>
                 <button
                   onClick={() => openModal(event, "reject-update")}
                   className="p-1.5 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors"
                   title="Reject Update"
                 >
-                  <IconX size={16} />
+                  <X size={16} />
                 </button>
               </>
             )}
