@@ -102,6 +102,7 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
         name: file.name,
         url: file.url,
       })),
+      content: event.content ?? null,
     };
   });
 }

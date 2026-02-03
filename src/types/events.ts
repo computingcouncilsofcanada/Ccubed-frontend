@@ -41,6 +41,8 @@ export interface ApiEvent {
   created_by: string;
   updated_by?: string | null;
   files?: FileObject[];
+  /** Optional markdown string for extra structured content (session structure, agenda, etc.) */
+  content?: string | null;
 }
 
 /** Frontend display event (with computed date/time, used in UI) */
@@ -71,6 +73,8 @@ export interface Event {
   created_by?: string;
   updated_by?: string | null;
   files: FileObject[];
+  /** Optional markdown string for extra structured content (session structure, agenda, etc.) */
+  content?: string | null;
 }
 
 /** Alias used across events components */

@@ -160,7 +160,7 @@ export function CurrentEventsSection({
                     {filteredCurrentEvents.map((event: Events) => (
                       <div key={event.id} className="flex-shrink-0">
                         <EventCard
-                          id={Number(event.id)}
+                          id={event.id}
                           title={event.name}
                           time={event.time}
                           date={event.date}
@@ -195,7 +195,7 @@ export function CurrentEventsSection({
                           className="flex-shrink-0"
                         >
                           <EventCard
-                            id={Number(event.id)}
+                            id={event.id}
                             title={event.name}
                             time={event.time}
                             date={event.date}
@@ -232,7 +232,7 @@ export function CurrentEventsSection({
                 {filteredCurrentEvents.map((event: Events) => (
                   <EventCard
                     key={event.id}
-                    id={Number(event.id)}
+                    id={event.id}
                     title={event.name}
                     time={event.time}
                     date={event.date}
@@ -280,7 +280,7 @@ export function CurrentEventsSection({
         filteredCurrentEvents.length > 0 &&
         filteredCurrentEvents.map((event: Events) => (
           <EventListCard
-            key={Number(event.id)}
+            key={event.id}
             event={event}
             onSeeDetails={onSeeDetails}
             onInvitationLink={() => onInvitationLink(event.registration_link || event.url)}

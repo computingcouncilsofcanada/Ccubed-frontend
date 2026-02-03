@@ -323,6 +323,156 @@ export const mockEvents = [
       },
     ],
   },
+  {
+    id: "68caf1927e8c000404c8d427",
+    name: "Women in Tech Speed Networking",
+    description:
+      "A virtual Women in Tech Speed Networking event for university students across Canada. Join ~80–100 peers for structured breakout sessions with career mentors, quick rotations, and fun icebreakers. Discuss career journeys, breaking into tech, internships, and day-to-day life in the industry.",
+    learning_outcomes: [
+      "Connect with professionals and peers in a structured speed-networking format",
+      "Gain insights on career journeys, internships, and first roles in tech",
+      "Practice informal Q&A and build connections across Canada",
+    ],
+    what_you_need: [
+      "Virtual meeting link (to be shared)",
+      "Camera and mic for breakout rooms",
+      "Curiosity and questions for mentors",
+    ],
+    instructors: null,
+    registration_link: "",
+    start_at: "1779634800000",
+    end_at: "1779638400000",
+    recurrence: { type: "none" },
+    location: "Virtual (online)",
+    url: "",
+    ownership: null,
+    domains: ["women in tech", "networking"],
+    status: 1,
+    types: ["Online"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [
+      {
+        id: "1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+        name: "CCubed_icon.png",
+        url: "https://lh3.googleusercontent.com/d/1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+      },
+    ],
+    content: `## Format
+(Virtual) Women in Tech Speed Networking event. Expected audience: **~80–100 university students** from across Canada. Duration: **1–1.5 hours** (2:00 PM – 3:00 PM ET).
+
+## Session structure
+
+### 1. Main room – intros
+- All speakers briefly introduce themselves (**30–45 seconds each**).
+
+### 2. Breakout rooms (3–4 rooms, or more depending on professionals)
+- Each room is hosted by a speaker who acts as a **career mentor**.
+- **Informal conversations and Q&A** with students.
+- Students **rotate between rooms every 5–10 minutes**.
+- **3 rotations** in total to keep discussions engaging and avoid repetition.
+
+### 3. Icebreaker 1 (between 2nd and 3rd rotation)
+- **One-word check-in**: questions that require a one-word answer.
+- **3–4 min** short fun activity.
+- Participants respond via **chat/poll**.
+
+### 4. Icebreaker 2 (between 2nd and 3rd rotation)
+- **Two truths and a lie** – 3–4 min optional activity.
+- Host shares **3 statements** (tech or career): 2 true, 1 false.
+- Students guess the lie in chat. Quick and fun.
+
+### 5. Discussion focus
+- Career journeys and early decisions
+- Breaking into tech and internships/first roles
+- Day-to-day work, challenges, and growth in tech
+
+### 6. Wrap-up
+- Return to the **main room** for key takeaways, feedback, and closing remarks.`,
+  },
+  {
+    id: "68caf1937e8c000404c8d428",
+    name: "Cybersecurity Jeopardy Style event in Montreal & Windsor",
+    description: "Upcoming event. Details TBD.",
+    learning_outcomes: null,
+    what_you_need: null,
+    instructors: null,
+    registration_link: "",
+    start_at: "TBD",
+    end_at: "TBD",
+    recurrence: null,
+    location: "Montreal & Windsor",
+    url: null,
+    ownership: null,
+    domains: [],
+    status: 1,
+    types: ["In Person"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [],
+  },
+  {
+    id: "68caf1947e8c000404c8d429",
+    name: "AI Podcast Series - Toronto",
+    description: "Upcoming event. Details TBD.",
+    learning_outcomes: null,
+    what_you_need: null,
+    instructors: null,
+    registration_link: "",
+    start_at: "TBD",
+    end_at: "TBD",
+    recurrence: null,
+    location: "Toronto",
+    url: null,
+    ownership: null,
+    domains: [],
+    status: 1,
+    types: ["In Person"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [],
+  },
+  {
+    id: "68caf1957e8c000404c8d42a",
+    name: "Resume Roast with recruiter - online",
+    description: "Upcoming event. Details TBD.",
+    learning_outcomes: null,
+    what_you_need: null,
+    instructors: null,
+    registration_link: "",
+    start_at: "TBD",
+    end_at: "TBD",
+    recurrence: null,
+    location: "Online",
+    url: null,
+    ownership: null,
+    domains: [],
+    status: 1,
+    types: ["Online"],
+    pending_action: null,
+    reject_reason: null,
+    approved_by: ["68265e87e5ce4193721424e0"],
+    created_at: "1758130578539",
+    updated_at: null,
+    created_by: "68265e87e5ce4193721424e0",
+    updated_by: null,
+    files: [],
+  },
 ];
 
 // Export the type for TypeScript usage

@@ -440,6 +440,89 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
               </div>
             )}
 
+            {event.content && event.content.trim() && (
+              <div>
+                <CollapsibleSection
+                  title="Event details"
+                  titleStyle="text-2xl font-bold"
+                >
+                  <div className="prose prose-invert prose-sm max-w-none space-y-3 [&_h2]:text-lg [&_h2]:font-bold [&_h2]:mt-4 [&_h2]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:my-0.5 [&_strong]:text-[#FAA336]">
+                    {event.content.split(/\n\n+/).map((block, i) => {
+                      const trimmed = block.trim();
+                      if (!trimmed) return null;
+                      if (/^##\s/.test(trimmed)) {
+                        const text = trimmed.replace(/^##\s*/, "");
+                        const parts = text.split(/(\*\*.+?\*\*)/g);
+                        return (
+                          <h2 key={i}>
+                            {parts.map((part, k) =>
+                              /^\*\*.+?\*\*$/.test(part) ? (
+                                <strong key={k} className="text-[#FAA336]">{part.slice(2, -2)}</strong>
+                              ) : (
+                                part
+                              )
+                            )}
+                          </h2>
+                        );
+                      }
+                      if (/^###\s/.test(trimmed)) {
+                        const text = trimmed.replace(/^###\s*/, "");
+                        const parts = text.split(/(\*\*.+?\*\*)/g);
+                        return (
+                          <h3 key={i} className="text-base font-semibold mt-3 mb-1">
+                            {parts.map((part, k) =>
+                              /^\*\*.+?\*\*$/.test(part) ? (
+                                <strong key={k} className="text-[#FAA336]">{part.slice(2, -2)}</strong>
+                              ) : (
+                                part
+                              )
+                            )}
+                          </h3>
+                        );
+                      }
+                      if (/^-\s/m.test(trimmed)) {
+                        const items = trimmed.split(/\n/).filter((l) => /^-\s/.test(l));
+                        return (
+                          <ul key={i}>
+                            {items.map((line, j) => {
+                              const text = line.replace(/^-\s*/, "");
+                              const parts = text.split(/(\*\*.+?\*\*)/g);
+                              return (
+                                <li key={j}>
+                                  {parts.map((part, k) =>
+                                    /^\*\*.+?\*\*$/.test(part) ? (
+                                      <strong key={k} className="text-[#FAA336]">
+                                        {part.slice(2, -2)}
+                                      </strong>
+                                    ) : (
+                                      part
+                                    )
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        );
+                      }
+                      return (
+                        <p key={i} className="text-white/90">
+                          {trimmed.split(/(\*\*.+?\*\*)/g).map((part, j) =>
+                            /^\*\*.+?\*\*$/.test(part) ? (
+                              <strong key={j} className="text-[#FAA336]">
+                                {part.slice(2, -2)}
+                              </strong>
+                            ) : (
+                              part
+                            )
+                          )}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </CollapsibleSection>
+              </div>
+            )}
+
             {event.recurrence && event.recurrence.type !== "none" && (
               <div>
                 <CollapsibleSection
