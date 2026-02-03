@@ -75,10 +75,10 @@ export default function Home() {
         ) : (
           <Events
             events={events}
-            // onOpenEventDetail={(event) => {
-            //   setSelectedEvent(event);
-            //   setIsEventModalOpen(true);
-            // }}
+            onOpenEventDetail={(event) => {
+              setSelectedEvent(event);
+              setIsEventModalOpen(true);
+            }}
           />
         )}
 

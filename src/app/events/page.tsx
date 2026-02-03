@@ -12,7 +12,6 @@ import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 import { PastEventsSection } from "./components/PastEventsSection";
 import { EventsHeader } from "./components/EventsHeader";
 import { CurrentEventsSection } from "./components/CurrentEventsSection";
-import React from "react";
 import { useEventsData } from "./hooks/useEventsData";
 import { useEventsFilter } from "./hooks/useEventsFilter";
 import { CalendarSection } from "./components/CalendarSection";
@@ -59,10 +58,10 @@ export default function EventsPage() {
   const handleShare = () => alert("Share link clicked");
 
   const handleInvite = (url: string | null | undefined) => {
-  if (!url) {
-    console.warn("No registration URL for this event");
-    return;
-  }
+    if (!url) {
+      console.warn("No registration URL for this event");
+      return;
+    }
 
     window.open(url, "_blank");
   };
@@ -75,7 +74,7 @@ export default function EventsPage() {
       {isHydrated && <BgBoxMainPage maxHeight={400} />}
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
-        <div className="image relative flex justify-center flex-shrink-0">
+        <div className="image relative flex justify-center shrink-0">
           <motion.div className="relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] lg:w-[405px] lg:h-[405px]">
             <Image
               src={heroImgSrc}
@@ -136,7 +135,7 @@ export default function EventsPage() {
             Events
           </h1>
           <motion.div
-            className="relative flex-shrink-0"
+            className="relative shrink-0"
             style={{
               marginLeft: windowWidth < 640 ? "-70px" : "-60px",
               marginBottom: windowWidth < 640 ? "-40px" : "-25px",
@@ -237,7 +236,13 @@ export default function EventsPage() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 }}
         >
-          <CalendarSection events={[...currentEvents, ...pastEvents]} />
+          <CalendarSection
+            events={[...currentEvents, ...pastEvents]}
+            onEventClick={(event) => {
+              setSelectedEvent(event);
+              setIsModalOpen(true);
+            }}
+          />
         </motion.div>
       </div>
 

@@ -8,15 +8,15 @@ import type { Events } from "@/types/events";
 import { useRouter } from "next/navigation";
 import { EventCard } from "@/components/shared/EventCard";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
-import PreviewModal from "@/components/modals/PreviewModal";
 
 import {  ChevronLeft, ChevronRight } from "lucide-react";
 // Main Events Section Component
 type EventsSectionProps = {
   events: Events[];
+  onOpenEventDetail: (event: Events) => void;
 };
 
-export default function Events({ events }: EventsSectionProps) {
+export default function Events({ events, onOpenEventDetail }: EventsSectionProps) {
   const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -239,10 +239,7 @@ useEffect(() => {
                               : "https://placehold.co/400"
                           }
                           description={event.description}
-                          onseeDetails={(event) => {
-                            setSelectedEvent(event);
-                            setIsModalOpen(true);
-                          }}
+                          onseeDetails={(event) => onOpenEventDetail(event)}
                           onInvitationLink={() => handleInvite(event.url)}
                           originalEvent={event}
                         />
@@ -287,10 +284,7 @@ useEffect(() => {
                           : "https://placehold.co/400"
                       }
                       description={event.description}
-                      onseeDetails={(event) => {
-                        setSelectedEvent(event);
-                        setIsModalOpen(true);
-                      }}
+                      onseeDetails={(event) => onOpenEventDetail(event)}
                       onInvitationLink={() => handleInvite(event.url)}
                       originalEvent={event}
                     />
@@ -398,12 +392,6 @@ useEffect(() => {
           </div>
         )}
       </div>
-      <PreviewModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        event={selectedEvent}
-        // onInvite={handleInvite}
-      />
     </section>
   );
 }
