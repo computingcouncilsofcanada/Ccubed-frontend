@@ -35,7 +35,7 @@ export const councilSections: CouncilSection[] = [
         name: "Cyber Engineering McGill",
         description:
           "McGill University is part of the Cybersecurity Council, supporting student engagement in cybersecurity through collaborative learning and community building. The club has a strong asset in reverse engineering, finding information in competitions via freely available sources in the internet, web application security, showcasing how to exploit vulnerable C binaries, exploiting cryptographic failures in comptetions like Capture the Flag and human attack vectors cultivating a strong cybersecurity culture across the campus.",
-        imageUrl: "/UniversityImages/mcgill-university-logo.jpg",
+        imageUrl: "/UniversityImages/mcgill-university-logo.png",
       },
       {
         id: 5,
@@ -71,6 +71,13 @@ export const councilSections: CouncilSection[] = [
         description:
           "The University of Windsor plays an important role in the Cybersecurity Council by promoting real-world security operations and applied cybersecurity skills. The club has strong competencies in Security Operations Center (SOC) practices, reverse engineering, and scripting, helping students build practical, industry-ready cybersecurity expertise across campus.",
         imageUrl: "/UniversityImages/windsor-university-logo.png",
+      },
+      {
+        id: 10,
+        name: "Sait CyberSec Club",
+        description:
+          "The University of Windsor plays an important role in the Cybersecurity Council by promoting real-world security operations and applied cybersecurity skills. The club has strong competencies in Security Operations Center (SOC) practices, reverse engineering, and scripting, helping students build practical, industry-ready cybersecurity expertise across campus.",
+        imageUrl: "/UniversityImages/sait-university-logo.png",
       },
     ],
   },

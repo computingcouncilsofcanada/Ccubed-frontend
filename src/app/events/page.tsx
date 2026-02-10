@@ -36,11 +36,36 @@ export default function EventsPage() {
       // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/adobe.png", alt: "Adobe", left: 94, top: 38 },
       // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/International Business Machines Corporation.png", alt: "IBM", left: 94, top: 62 },
       // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Best Buy Co., Inc..png", alt: "Best Buy", left: 77, top: 82 },
-      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Royal_Bank_of_Canada-Logo.wine 1.png", alt: "RBC", left: 50, top: 90 },
-      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/meta.png", alt: "Meta", left: 23, top: 82 },
-      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/amazon.png", alt: "Amazon", left: 6, top: 62 },
-      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/playstation-png-logo-pic-4625 1.png", alt: "PlayStation", left: 6, top: 38 },
-      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/windows.png", alt: "Windows", left: 18, top: 15 },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Royal_Bank_of_Canada-Logo.wine 1.png",
+        alt: "RBC",
+        left: 50,
+        top: 90,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/meta.png",
+        alt: "Meta",
+        left: 93,
+        top: 66,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/amazon.png",
+        alt: "Amazon",
+        left: 4,
+        top: 63,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/playstation-png-logo-pic-4625 1.png",
+        alt: "PlayStation",
+        left: 17,
+        top: 16,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/windows.png",
+        alt: "Windows",
+        left: 61,
+        top: 4,
+      },
     ];
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -92,7 +117,7 @@ export default function EventsPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 1, 0] }}
               transition={{
-                duration: 1.5,
+                duration: 3,
                 ease: "easeInOut",
                 repeat: Infinity,
                 repeatType: "loop",
@@ -116,7 +141,7 @@ export default function EventsPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 1, 0] }}
               transition={{
-                duration: 1.5,
+                duration: 3,
                 ease: "easeInOut",
                 repeat: Infinity,
                 repeatType: "loop",
@@ -140,7 +165,7 @@ export default function EventsPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 1, 0] }}
               transition={{
-                duration: 1.5,
+                duration: 3,
                 ease: "easeInOut",
                 repeat: Infinity,
                 repeatType: "loop",
