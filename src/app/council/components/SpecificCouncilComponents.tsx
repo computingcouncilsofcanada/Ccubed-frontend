@@ -10,6 +10,7 @@ import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import Image from "next/image";
 import { mockMembers } from "@/data/mockMembers";
 import { mockEvents } from "@/data/mockEvents";
+import { mockArticles } from "@/data/mockArticles";
 import TeamCard from "@/components/essentials/TeamCard";
 
 type CouncilProps = {
@@ -23,25 +24,33 @@ type CouncilProps = {
  * Displays the main article content with header and body
  */
 export const ArticleSection = ({ council }: CouncilProps) => {
+  const cleanedCouncil = council.title.toLowerCase().replace(/\s+/g, "");
+
+  const hasArticles = mockArticles.filter(
+    (article) => article.council === cleanedCouncil
+  );
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="mb-32"
-    >
-      <ArticleHeader council={council} />
-      <ArticleBody />
-    </motion.div>
+    hasArticles.length > 0 && (
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="mb-32"
+      >
+        <ArticleHeader council={council} />
+        <ArticleBody />
+      </motion.div>
+    )
   );
 };
 
 /**
- * DescriptionSection Component
+ * UniversitiesSection Component
  * Shows council description text alongside an image carousel
  */
-export const DescriptionSection = ({ council }: CouncilProps) => {
+export const UniversitiesSection = ({ council }: CouncilProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -104,19 +113,19 @@ export const DescriptionSection = ({ council }: CouncilProps) => {
           Council Universities
         </h2>
       </div>
-      <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-6">
-        <div className="w-full md:w-1/2 shrink-0">
-          {/* Display current university description if available */}
+      <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row md:items-end gap-6">
+        <div className="w-full md:w-1/2 shrink-0 ">
+          {/* Display current university description – same aspect-ratio as image so heights match on desktop; dots excluded */}
           {hasUniversities && (
             <motion.div
               key={activeIndex}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10"
+              className=" md:mt-0 w-full  md:aspect-[500/280] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
             >
               <h3
-                className="text-white font-semibold text-[18px] mb-2"
+                className="text-white font-semibold text-[18px] mb-2 shrink-0"
                 style={{ fontFamily: "Roboto, sans-serif" }}
               >
                 {universities[activeIndex].name}
@@ -134,7 +143,8 @@ export const DescriptionSection = ({ council }: CouncilProps) => {
         <div className="w-full md:w-1/2 flex flex-col items-center">
           {hasUniversities ? (
             <>
-              <div className="relative md:mt-12 w-full max-w-[550px] md:h-[280px] h-[220px] overflow-hidden ">
+              {/* Image only – same aspect-ratio as description; dark bg so no white letterboxing; dots are below */}
+              <div className="relative w-full max-w-[550px] h-[220px] md:h-auto md:aspect-[550/280] overflow-hidden rounded-[20px]  shrink-0">
                 <AnimatePresence initial={false} custom={direction}>
                   <motion.div
                     key={activeIndex}
@@ -164,7 +174,7 @@ export const DescriptionSection = ({ council }: CouncilProps) => {
                     <img
                       src={universities[activeIndex].imageUrl}
                       alt={universities[activeIndex].name}
-                      className="w-full h-full object-contain rounded-[20px] pointer-events-none select-none"
+                      className="max-w-full max-h-full w-auto h-auto object-contain rounded-[20px] pointer-events-none select-none"
                       draggable={false}
                     />
                   </motion.div>
@@ -192,7 +202,7 @@ export const DescriptionSection = ({ council }: CouncilProps) => {
               </div>
 
               {universities.length > 1 && (
-                <div className="flex gap-2 mt-4">
+                <div className="flex gap-2 mt-4 flex-shrink-0">
                   {universities.map((_, idx) => (
                     <button
                       key={idx}
@@ -225,7 +235,11 @@ export const DescriptionSection = ({ council }: CouncilProps) => {
  * EventsSection Component
  * Fetches and displays upcoming council events in a grid layout
  */
-export const EventsSection = ({ council, setSelectedEvent, setIsModalOpen }: CouncilProps) => {
+export const EventsSection = ({
+  council,
+  setSelectedEvent,
+  setIsModalOpen,
+}: CouncilProps) => {
   const [councilEvents, setCouncilEvents] = useState<Events[]>([]);
   //   const [loading, setLoading] = useState(true);
 
@@ -344,8 +358,9 @@ export const EventsSection = ({ council, setSelectedEvent, setIsModalOpen }: Cou
                     : "https://placehold.co/400"
                 }
                 description={event.description}
-                onseeDetails={(event) => {
-                  setSelectedEvent?.(event);
+                originalEvent={event}
+                onseeDetails={(ev) => {
+                  setSelectedEvent?.(ev);
                   setIsModalOpen?.(true);
                 }}
                 onInvitationLink={() =>
