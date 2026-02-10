@@ -461,6 +461,7 @@ export const mockMembers: Team[] = [
         imageUrl: "/MemberPics/Imad_Zia.jpg",
         info: "Cybersecurity Program Manager",
         category: "outreach",
+        council: "cybersecurity",
         social: {
           linkedin: "https://www.linkedin.com/in/imadzia/",
         },
