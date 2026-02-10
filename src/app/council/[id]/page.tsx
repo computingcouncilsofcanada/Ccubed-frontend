@@ -5,7 +5,7 @@ import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
 import {
   CouncilHero,
-  DescriptionSection,
+  UniversitiesSection,
   RepresentativesSection,
   EventsSection,
   ArticleSection,
@@ -50,7 +50,7 @@ const CouncilDetailPage = () => {
 
       <div className="relative z-10 container mx-auto w-full max-w-6xl mt-6 px-4">
         <CouncilHero council={council} />
-        <DescriptionSection council={council} />
+        <UniversitiesSection council={council} />
         <RepresentativesSection council={council} />
         <EventsSection council={council} setSelectedEvent={setSelectedEvent} setIsModalOpen={setIsModalOpen}/>
         <ArticleSection council={council} />

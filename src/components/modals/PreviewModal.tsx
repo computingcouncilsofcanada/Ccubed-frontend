@@ -21,7 +21,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
 }) => {
   const scrollLockRef = useRef(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const slideshowIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
@@ -54,51 +53,13 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
     };
   }, [isOpen, scrollLockRef]);
 
-  // Slideshow functionality
   useEffect(() => {
-    if (isOpen && event?.files) {
-      // Always reset to first image when modal opens
-      setCurrentImageIndex(0);
-
-      // Clear any existing interval
-      if (slideshowIntervalRef.current) {
-        clearInterval(slideshowIntervalRef.current);
-      }
-
-      // Start slideshow only if there are multiple images
-      if (event.files.length > 1) {
-        slideshowIntervalRef.current = setInterval(() => {
-          setCurrentImageIndex(
-            (prevIndex) => (prevIndex + 1) % event.files!.length
-          );
-        }, 4000);
-      }
-    } else {
-      // Reset index when modal is closed
-      setCurrentImageIndex(0);
-    }
-
-    return () => {
-      if (slideshowIntervalRef.current) {
-        clearInterval(slideshowIntervalRef.current);
-      }
-    };
+    if (isOpen) setCurrentImageIndex(0);
   }, [isOpen, event?.files]);
 
-  // Handle thumbnail click
   const handleThumbnailClick = (index: number) => {
     if (event?.files && index >= 0 && index < event.files.length) {
       setCurrentImageIndex(index);
-      if (slideshowIntervalRef.current) {
-        clearInterval(slideshowIntervalRef.current);
-      }
-      if (event.files.length > 1) {
-        slideshowIntervalRef.current = setInterval(() => {
-          setCurrentImageIndex(
-            (prevIndex) => (prevIndex + 1) % event.files!.length
-          );
-        }, 4000);
-      }
     }
   };
 
@@ -108,16 +69,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
         (prevIndex) =>
           (prevIndex - 1 + event.files!.length) % event.files!.length
       );
-      if (slideshowIntervalRef.current) {
-        clearInterval(slideshowIntervalRef.current);
-      }
-      if (event.files.length > 1) {
-        slideshowIntervalRef.current = setInterval(() => {
-          setCurrentImageIndex(
-            (prevIndex) => (prevIndex + 1) % event.files!.length
-          );
-        }, 4000);
-      }
     }
   };
 
@@ -126,16 +77,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
       setCurrentImageIndex(
         (prevIndex) => (prevIndex + 1) % event.files!.length
       );
-      if (slideshowIntervalRef.current) {
-        clearInterval(slideshowIntervalRef.current);
-      }
-      if (event.files.length > 1) {
-        slideshowIntervalRef.current = setInterval(() => {
-          setCurrentImageIndex(
-            (prevIndex) => (prevIndex + 1) % event.files!.length
-          );
-        }, 4000);
-      }
     }
   };
 

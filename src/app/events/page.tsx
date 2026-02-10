@@ -17,21 +17,56 @@ import { useEventsFilter } from "./hooks/useEventsFilter";
 import { CalendarSection } from "./components/CalendarSection";
 
 export default function EventsPage() {
-  // Safari fallback for images
-  const heroImgSrc = useSafariImageFallback(
-    "/FigmaFiles/mainPageAssets/hero-img.svg",
-    "/FigmaFiles/mainPageAssets/hero-img.png"
-  );
-
-  const heroImg2Src = useSafariImageFallback(
-    "/FigmaFiles/mainPageAssets/hero-img-2.svg",
-    "/FigmaFiles/mainPageAssets/hero-img-2.png"
+  // Event page hero assets (orbit design)
+  const ccubedIconSrc = useSafariImageFallback(
+    "/FigmaFiles/eventPageAssets/CCubed_icon.png",
+    "/FigmaFiles/eventPageAssets/CCubed_icon.png"
   );
 
   const bearImgSrc = useSafariImageFallback(
-    "/FigmaFiles/mainPageAssets/bear_form.svg",
-    "/FigmaFiles/mainPageAssets/bear_form.png"
+    "/FigmaFiles/eventPageAssets/bear-img.svg",
+    "/FigmaFiles/eventPageAssets/bear-img.svg"
   );
+
+  // Orbiting company icons — left/top are percentages (tweak to reposition)
+  const orbitIcons: { src: string; alt: string; left: number; top: number }[] =
+    [
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Apple Inc..png", alt: "Apple", left: 61, top: 3 },
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Starbucks Corporation.png", alt: "Starbucks", left: 77, top: 18 },
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/adobe.png", alt: "Adobe", left: 94, top: 38 },
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/International Business Machines Corporation.png", alt: "IBM", left: 94, top: 62 },
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Best Buy Co., Inc..png", alt: "Best Buy", left: 77, top: 82 },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Royal_Bank_of_Canada-Logo.wine 1.png",
+        alt: "RBC",
+        left: 50,
+        top: 90,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/meta.png",
+        alt: "Meta",
+        left: 93,
+        top: 66,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/amazon.png",
+        alt: "Amazon",
+        left: 4,
+        top: 63,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/playstation-png-logo-pic-4625 1.png",
+        alt: "PlayStation",
+        left: 17,
+        top: 16,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/windows.png",
+        alt: "Windows",
+        left: 61,
+        top: 4,
+      },
+    ];
 
   const [windowWidth, setWindowWidth] = useState(0);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -75,43 +110,115 @@ export default function EventsPage() {
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
         <div className="image relative flex justify-center shrink-0">
-          <motion.div className="relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] lg:w-[405px] lg:h-[405px]">
-            <Image
-              src={heroImgSrc}
-              alt="Hero Image"
-              width={505}
-              height={505}
-              className="w-full h-full object-contain select-none"
-              priority
-              quality={100}
-              draggable={false}
-              style={{ userSelect: "none" }}
-            />
-
-            {isHydrated && (
-              <motion.div
-                className="absolute inset-0"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 0] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
+          <motion.div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] lg:w-[480px] lg:h-[480px]">
+            {/* Orbital lines (faint layer)*/}
+            <motion.div
+              className="absolute inset-0 w-full h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 1, 0] }}
+              transition={{
+                duration: 3,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatType: "loop",
+              }}
+            >
+              <Image
+                src="/FigmaFiles/eventPageAssets/hero-lines-faint.png"
+                alt=""
+                width={480}
+                height={480}
+                className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
+                priority
+                quality={100}
+                draggable={false}
+                aria-hidden
+              />
+            </motion.div>
+            {/* Orbital lines (bold layer) */}
+            <motion.div
+              className="absolute inset-0 w-full h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 1, 0] }}
+              transition={{
+                duration: 3,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatType: "loop",
+              }}
+            >
+              <Image
+                src="/FigmaFiles/eventPageAssets/hero-lines-bold.png"
+                alt=""
+                width={480}
+                height={480}
+                className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none rotate-30"
+                priority
+                quality={100}
+                draggable={false}
+                aria-hidden
+              />
+            </motion.div>
+            {/* Orbital lines (bold layer) */}
+            <motion.div
+              className="absolute inset-0 w-full h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 1, 0] }}
+              transition={{
+                duration: 3,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatType: "loop",
+              }}
+            >
+              <Image
+                src="/FigmaFiles/eventPageAssets/hero-lines-bold.png"
+                alt=""
+                width={480}
+                height={480}
+                className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none rotate-150"
+                priority
+                quality={100}
+                draggable={false}
+                aria-hidden
+              />
+            </motion.div>
+            {/* Central CCubed icon */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Image
+                src={ccubedIconSrc}
+                alt="CCubed"
+                width={140}
+                height={140}
+                className="w-[22%] h-[22%] min-w-[80px] min-h-[80px] max-w-[140px] max-h-[140px] object-contain select-none"
+                priority
+                quality={100}
+                draggable={false}
+                style={{ userSelect: "none" }}
+              />
+            </div>
+            {/* Orbiting company icons */}
+            {orbitIcons.map((icon) => (
+              <div
+                key={icon.alt}
+                className="absolute w-[10%] h-[10%] min-w-[24px] min-h-[24px] max-w-[44px] max-h-[44px] flex items-center justify-center"
+                style={{
+                  left: `${icon.left}%`,
+                  top: `${icon.top}%`,
+                  transform: "translate(-50%, -50%)",
                 }}
               >
                 <Image
-                  src={heroImg2Src}
-                  alt="Hero Image with Texture"
-                  width={505}
-                  height={505}
+                  src={icon.src}
+                  alt={icon.alt}
+                  width={44}
+                  height={44}
                   className="w-full h-full object-contain select-none"
-                  priority
-                  quality={100}
                   draggable={false}
                   style={{ userSelect: "none" }}
                 />
-              </motion.div>
-            )}
+              </div>
+            ))}
           </motion.div>
         </div>
 
@@ -253,7 +360,11 @@ export default function EventsPage() {
         onClose={() => setIsModalOpen(false)}
         event={selectedEvent}
         onShare={handleShare}
-        onInvite={() => handleInvite(selectedEvent?.registration_link ?? selectedEvent?.url ?? null)}
+        onInvite={() =>
+          handleInvite(
+            selectedEvent?.registration_link ?? selectedEvent?.url ?? null
+          )
+        }
       />
     </div>
   );
