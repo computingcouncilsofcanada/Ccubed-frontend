@@ -419,7 +419,13 @@ export const mockEvents = [
     updated_at: null,
     created_by: "68265e87e5ce4193721424e0",
     updated_by: null,
-    files: [],
+    files: [
+      {
+        id: "1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+        name: "CCubed_icon.png",
+        url: "https://lh3.googleusercontent.com/d/1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+      },
+    ],
   },
   {
     id: "68caf1947e8c000404c8d429",
@@ -445,7 +451,13 @@ export const mockEvents = [
     updated_at: null,
     created_by: "68265e87e5ce4193721424e0",
     updated_by: null,
-    files: [],
+    files: [
+      {
+        id: "1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+        name: "CCubed_icon.png",
+        url: "https://lh3.googleusercontent.com/d/1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+      },
+    ],
   },
   {
     id: "68caf1957e8c000404c8d42a",
@@ -471,7 +483,13 @@ export const mockEvents = [
     updated_at: null,
     created_by: "68265e87e5ce4193721424e0",
     updated_by: null,
-    files: [],
+    files: [
+      {
+        id: "1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+        name: "CCubed_icon.png",
+        url: "https://lh3.googleusercontent.com/d/1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+      },
+    ],
   },
 ];
 
