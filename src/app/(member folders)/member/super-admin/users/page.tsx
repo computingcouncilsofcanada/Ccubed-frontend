@@ -267,7 +267,7 @@ function UsersPage() {
         </div>
 
         {/* Users Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
           {allUsers.map((u) => (
             <div
               key={u.id}
@@ -405,11 +405,11 @@ function UsersPage() {
           onSubmit={handlePasswordSubmit(handleChangePassword)}
           className="space-y-6"
         >
-          <div>
+          <div className="bg-white p-3">
             <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
               New Password for {selectedUser?.username}
             </label>
-            <div className="flex gap-2">
+            <div>
               <input
                 type="password"
                 id="password"
@@ -426,16 +426,19 @@ function UsersPage() {
                       "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character (@$!%*?&)",
                   },
                 })}
-                className="flex-1 border-2 border-gray-300 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+                className="flex-1 border-2 text-black border-gray-300 px-4 py-2.5 rounded-xl  transition-all"
                 placeholder="Enter new password"
               />
+              <div className="flex justify-center gap-10 pt-2">
+
+           
               <button
                 type="button"
                 onClick={() => {
                   const newPassword = generatePassword();
                   setPasswordValue("password", newPassword);
                 }}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] text-white rounded-xl hover:shadow-lg transition-all duration-200 font-semibold"
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#152E3F] text-white rounded-xl hover:shadow-lg transition-all duration-200 font-semibold"
               >
                 <IconRefresh size={18} />
                 Generate
@@ -443,11 +446,12 @@ function UsersPage() {
               <button
                 type="button"
                 onClick={handleCopyPassword}
-                className="flex items-center gap-2 px-4 py-2.5 bg-green-500 text-white rounded-xl hover:bg-green-600 hover:shadow-lg transition-all duration-200 font-semibold"
+                className="flex items-center gap-2 px-4 py-2.5 bg-[#152E3F] text-white rounded-xl  hover:shadow-lg transition-all duration-200 font-semibold"
               >
                 <IconCopy size={18} />
                 Copy
               </button>
+                 </div>
             </div>
             {passwordErrors.password && (
               <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
@@ -463,13 +467,13 @@ function UsersPage() {
                 setIsPasswordModalOpen(false);
                 resetPassword();
               }}
-              className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
+              className="px-10 py-2 border-2 border-[#FAA336] text-[#FAA336] rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] text-white rounded-xl hover:shadow-lg font-semibold transition-all duration-200 flex items-center gap-2"
+              className="px-10 py-2  bg-[#FAA336] text-white rounded-xl hover:shadow-lg font-semibold transition-all duration-200 flex items-center gap-2"
             >
               <IconKey size={18} />
               Change Password
@@ -485,9 +489,9 @@ function UsersPage() {
         title={selectedUser?.status === 1 ? "Ban User" : "Unban User"}
       >
         <div className="space-y-6">
-          <div className={`p-4 rounded-xl ${
+          <div className={`p-4 ${
             selectedUser?.status === 1 
-              ? "bg-red-50 border border-red-200" 
+              ? "bg-white" 
               : "bg-green-50 border border-green-200"
           }`}>
             <p className="text-gray-700 font-medium">
@@ -495,14 +499,13 @@ function UsersPage() {
               <span className="font-bold">
                 {selectedUser?.status === 1 ? "ban" : "unban"}
               </span>{" "}
-              <span className="font-semibold text-[#7C3AED]">
+              <span className="font-semibold text-[#FAA336]">
                 {selectedUser?.username}
               </span>
               ?
             </p>
             {selectedUser?.status === 1 && (
               <p className="text-sm text-red-600 mt-2 flex items-center gap-1">
-                <IconAlertTriangle size={16} />
                 This action will prevent the user from accessing the system.
               </p>
             )}
@@ -510,7 +513,7 @@ function UsersPage() {
           <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
             <button
               onClick={() => setIsBanModalOpen(false)}
-              className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
+              className="px-10 py-2 border-2 border-[#FAA336] text-[#FAA336] rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
             >
               Cancel
             </button>
@@ -553,7 +556,7 @@ function UsersPage() {
           onSubmit={handleRoleSubmit(handleChangeRole)}
           className="space-y-6"
         >
-          <div>
+          <div className="bg-white p-3 rounded">
             <label htmlFor="role" className="block text-sm font-semibold text-gray-700 mb-2">
               Select New Role for {selectedUser?.username}
             </label>
@@ -562,12 +565,12 @@ function UsersPage() {
               {...registerRole("role", {
                 required: "Role is required",
               })}
-              className="w-full border-2 border-gray-300 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all font-medium"
+              className="w-full text-black border-2 border-gray-300 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all font-medium"
               defaultValue={selectedUser?.role}
             >
-              <option value="SUPER_ADMIN">Super Admin</option>
-              <option value="ADMIN">Admin</option>
-              <option value="STAFF">Staff</option>
+              <option value="SUPER_ADMIN" className="text-black">Super Admin</option>
+              <option value="ADMIN" className="text-black">Admin</option>
+              <option value="STAFF" className="text-black">Staff</option>
             </select>
             {roleErrors.role && (
               <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
@@ -575,10 +578,10 @@ function UsersPage() {
                 {roleErrors.role.message}
               </p>
             )}
-            <div className="mt-3 p-3 bg-purple-50 border border-purple-200 rounded-lg">
-              <p className="text-xs text-gray-600">
+            <div className="mt-3 p-3 bg-[#152E3F] rounded-lg">
+              <p className="text-xs text-white">
                 <strong>Current Role:</strong>{" "}
-                <span className="font-semibold text-[#7C3AED]">
+                <span className="font-semibold text-[#FAA336]">
                   {selectedUser?.role.replace("_", " ")}
                 </span>
               </p>
@@ -591,13 +594,13 @@ function UsersPage() {
                 setIsRoleModalOpen(false);
                 resetRole();
               }}
-              className="px-6 py-2.5 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
+              className="px-10 py-2 border-2 border-[#FAA336] text-[#FAA336] rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] text-white rounded-xl hover:shadow-lg font-semibold transition-all duration-200 flex items-center gap-2"
+              className="px-10 py-2 bg-[#FAA336] text-white rounded-xl hover:shadow-lg font-semibold transition-all duration-200 flex items-center gap-2"
             >
               <IconShield size={18} />
               Change Role
