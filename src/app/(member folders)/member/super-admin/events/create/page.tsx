@@ -22,6 +22,7 @@ export default function CreateEventPage() {
   const router = useRouter();
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const {
     register,
@@ -38,6 +39,23 @@ export default function CreateEventPage() {
       types: [],
     },
   });
+
+  const files = watch("files");
+
+  React.useEffect(() => {
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file && file.type && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onloadend = () => setImagePreview(reader.result as string);
+        reader.readAsDataURL(file);
+      } else {
+        setImagePreview(null);
+      }
+    } else {
+      setImagePreview(null);
+    }
+  }, [files]);
 
   const {
     fields: learningOutcomeFields,
@@ -258,11 +276,15 @@ export default function CreateEventPage() {
 
           <div className="hidden lg:flex lg:col-span-1">
             <div className="w-full h-64 rounded-xl overflow-hidden bg-white/80 border border-white/10 shadow-md flex items-center justify-center">
-              {/* Placeholder — replace with Image component or src as needed */}
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
-                <rect x="3" y="3" width="18" height="18" rx="6" fill="#F3F4F6" />
-                <path d="M8 13.5L10.5 10L13 13.5L16.5 9.5L21 15V18H3V15L8 13.5Z" fill="#E5E7EB" />
-              </svg>
+              {imagePreview ? (
+                <img src={imagePreview} alt="Event preview" className="w-full h-full object-cover" />
+              ) : (
+                // Placeholder — replace with Image component or src as needed
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                  <rect x="3" y="3" width="18" height="18" rx="6" fill="#F3F4F6" />
+                  <path d="M8 13.5L10.5 10L13 13.5L16.5 9.5L21 15V18H3V15L8 13.5Z" fill="#E5E7EB" />
+                </svg>
+              )}
             </div>
           </div>
         </div>
