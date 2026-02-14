@@ -29,16 +29,13 @@ export default function EventDetailsCard({
   removeInstructor,
 }: EventDetailsCardProps) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-        <IconBook size={24} className="text-[#7C3AED]" />
-        Event Details
-      </h2>
+    <div className="border-b border-white/10 py-6 last:border-b-0">
+      <h2 className="text-lg font-semibold text-white mb-5">Event Details</h2>
       <div className="space-y-6">
         {/* Learning Outcomes */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
-            Learning Outcomes <span className="text-red-500">*</span>
+          <label className="block text-sm font-semibold text-gray-200 mb-3">
+            Learning Outcomes <span className="text-[#FF7474]">*</span>
           </label>
           <div className="space-y-3">
             {learningOutcomeFields.map((field, index) => (
@@ -48,7 +45,7 @@ export default function EventDetailsCard({
                   {...register(`learning_outcomes.${index}.value` as const, {
                     required: index === 0 ? "At least one learning outcome is required" : false,
                   })}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+                  className="flex-1 px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2  focus:border-transparent transition-all"
                   placeholder="Enter learning outcome"
                 />
                 {learningOutcomeFields.length > 1 && (
@@ -65,7 +62,7 @@ export default function EventDetailsCard({
             <button
               type="button"
               onClick={() => appendLearningOutcome({ value: "" })}
-              className="w-full px-4 py-3 bg-purple-50 text-[#7C3AED] rounded-lg hover:bg-purple-100 transition-colors flex items-center justify-center gap-2 border border-purple-200 font-medium"
+              className="w-full px-4 py-3 bg-white text-black rounded-lg  transition-colors flex items-center justify-center gap-2 border border-purple-200 font-medium"
             >
               <IconPlus size={18} />
               Add Learning Outcome
@@ -75,8 +72,8 @@ export default function EventDetailsCard({
 
         {/* What You Need */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
-            What You Need <span className="text-red-500">*</span>
+          <label className="block text-sm font-semibold text-gray-200 mb-3">
+            What You Need <span className="text-[#FF7474]">*</span>
           </label>
           <div className="space-y-3">
             {whatYouNeedFields.map((field, index) => (
@@ -86,7 +83,7 @@ export default function EventDetailsCard({
                   {...register(`what_you_need.${index}.value` as const, {
                     required: index === 0 ? "At least one item is required" : false,
                   })}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+                  className="flex-1 px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
                   placeholder="Enter requirement"
                 />
                 {whatYouNeedFields.length > 1 && (
@@ -103,7 +100,7 @@ export default function EventDetailsCard({
             <button
               type="button"
               onClick={() => appendWhatYouNeed({ value: "" })}
-              className="w-full px-4 py-3 bg-purple-50 text-[#7C3AED] rounded-lg hover:bg-purple-100 transition-colors flex items-center justify-center gap-2 border border-purple-200 font-medium"
+              className="w-full px-4 py-3 bg-white text-black rounded-lg transition-colors flex items-center justify-center gap-2 border border-purple-200 font-medium"
             >
               <IconPlus size={18} />
               Add Requirement
@@ -113,9 +110,9 @@ export default function EventDetailsCard({
 
         {/* Instructors */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-            <IconUsers size={18} className="text-gray-500" />
-            Instructors <span className="text-red-500">*</span>
+          <label className="block text-sm font-semibold text-gray-200 mb-3 flex items-center gap-2">
+  
+            Instructors <span className="text-[#FF7474]">*</span>
           </label>
           <div className="space-y-3">
             {instructorFields.map((field, index) => (
@@ -125,7 +122,7 @@ export default function EventDetailsCard({
                   {...register(`instructors.${index}.value` as const, {
                     required: index === 0 ? "At least one instructor is required" : false,
                   })}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+                  className="flex-1 px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
                   placeholder="Enter instructor name"
                 />
                 {instructorFields.length > 1 && (
@@ -142,7 +139,7 @@ export default function EventDetailsCard({
             <button
               type="button"
               onClick={() => appendInstructor({ value: "" })}
-              className="w-full px-4 py-3 bg-purple-50 text-[#7C3AED] rounded-lg hover:bg-purple-100 transition-colors flex items-center justify-center gap-2 border border-purple-200 font-medium"
+              className="w-full px-4 py-3 bg-white text-black rounded-lg transition-colors flex items-center justify-center gap-2 border border-purple-200 font-medium"
             >
               <IconPlus size={18} />
               Add Instructor

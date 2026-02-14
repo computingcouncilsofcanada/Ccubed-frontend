@@ -13,22 +13,18 @@ export default function LocationLinksCard({
   errors,
 }: LocationLinksCardProps) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-        <IconMapPin size={24} className="text-[#7C3AED]" />
-        Location & Links
-      </h2>
+    <div className="border-b border-white/10 py-6 last:border-b-0">
+      <h2 className="text-lg font-semibold text-white mb-5">Location & Links</h2>
       <div className="space-y-5">
         {/* Location */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-            <IconMapPin size={18} className="text-gray-500" />
-            Location <span className="text-red-500">*</span>
+          <label className="block text-sm font-semibold text-gray-200 mb-2 flex items-center gap-2">
+            Location <span className="text-[#FF7474]">*</span>
           </label>
           <input
             type="text"
             {...register("location", { required: "Location is required" })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+            className="w-full px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
             placeholder="Enter event location"
           />
           {errors.location && (
@@ -41,23 +37,23 @@ export default function LocationLinksCard({
 
         {/* URL (Optional) */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-            <IconLink size={18} className="text-gray-500" />
+          <label className="block text-sm font-semibold text-white mb-2 flex items-center gap-2">
+
             URL (Optional)
           </label>
           <input
             type="url"
             {...register("url")}
             placeholder="https://example.com"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+            className="w-full px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
           />
         </div>
 
         {/* Registration Link */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-            <IconLink size={18} className="text-gray-500" />
-            Registration Link <span className="text-red-500">*</span>
+          <label className="block text-sm font-semibold text-white mb-2 flex items-center gap-2">
+
+            Registration Link <span className="text-[#FF7474]">*</span>
           </label>
           <input
             type="url"
@@ -65,7 +61,7 @@ export default function LocationLinksCard({
               required: "Registration link is required",
             })}
             placeholder="https://example.com/register"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+            className="w-full px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
           />
           {errors.registration_link && (
             <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">
