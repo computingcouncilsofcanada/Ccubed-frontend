@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
 import { EventForm } from "@/types/events";
-import { IconTag, IconChecklist, IconUpload, IconX } from "@tabler/icons-react";
+import { IconTag, IconChecklist, IconUpload, IconX, IconCheck } from "@tabler/icons-react";
 import { typeOptions } from "../create/constants";
 
 interface AdditionalInformationCardProps {
@@ -16,25 +16,24 @@ export default function AdditionalInformationCard({
   setSelectedTypes,
 }: AdditionalInformationCardProps) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-        <IconTag size={24} className="text-[#7C3AED]" />
+    <div className="bg-white/5 backdrop-blur-sm rounded-xl shadow-sm border border-white/10 p-6">
+      <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
         Additional Information
       </h2>
       <div className="space-y-5">
         {/* Event Types */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
-            Event Types <span className="text-red-500">*</span>
+          <label className="block text-sm font-semibold text-gray-200 mb-3">
+            Event Types <span className="text-[#FF7474]">*</span>
           </label>
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {typeOptions.map((type) => (
               <label
                 key={type}
-                className={`flex items-center gap-2 px-4 py-3 rounded-lg border-2 cursor-pointer transition-all ${
+                className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 cursor-pointer transition-all ${
                   selectedTypes.includes(type)
-                    ? "border-[#7C3AED] bg-purple-50 text-[#7C3AED]"
-                    : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
+                    ? "border-[#FAA336] bg-[#FAA336] text-black"
+                    : "border-[#FAA336] bg-transparent text-[#FAA336] hover:bg-[#FAA336]/10"
                 }`}
               >
                 <input
@@ -50,7 +49,7 @@ export default function AdditionalInformationCard({
                   }}
                   className="sr-only"
                 />
-                <IconChecklist size={18} />
+                {selectedTypes.includes(type) && <IconCheck size={18} />}
                 <span className="font-medium">{type}</span>
               </label>
             ))}
@@ -65,8 +64,8 @@ export default function AdditionalInformationCard({
 
         {/* Ownership (Optional) */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Ownership (Optional)
+          <label className="block text-sm font-semibold text-white mb-2">
+            Ownership <span className="text-[#FF7474]">*</span>
           </label>
           <input
             type="text"
@@ -77,7 +76,7 @@ export default function AdditionalInformationCard({
                 return value.split(",").map((item) => item.trim()).filter(Boolean);
               },
             })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+            className="w-full px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
           />
           <p className="text-sm text-gray-500 mt-2">
             Separate multiple values with commas
@@ -86,8 +85,8 @@ export default function AdditionalInformationCard({
 
         {/* Domains (Optional) */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Domains (Optional)
+          <label className="block text-sm font-semibold text-white mb-2">
+            Domains <span className="text-[#FF7474]">*</span>
           </label>
           <input
             type="text"
@@ -98,7 +97,7 @@ export default function AdditionalInformationCard({
                 return value.split(",").map((item) => item.trim()).filter(Boolean);
               },
             })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+            className="w-full px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
           />
           <p className="text-sm text-gray-500 mt-2">
             Separate multiple values with commas
@@ -107,11 +106,10 @@ export default function AdditionalInformationCard({
 
         {/* Files */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-            <IconUpload size={18} className="text-gray-500" />
-            Event Files (Optional)
+          <label className="block text-sm font-semibold text-white mb-2 flex items-center gap-2">
+            Event Files<span className="text-[#FF7474]">*</span>
           </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#7C3AED] transition-colors">
+          <div className="border-2  border-gray-300 rounded-lg p-6 text-center transition-colors bg-white">
             <input
               type="file"
               multiple
@@ -125,11 +123,11 @@ export default function AdditionalInformationCard({
               className="cursor-pointer flex flex-col items-center gap-2"
             >
               <IconUpload size={32} className="text-gray-400" />
-              <span className="text-sm text-gray-600 font-medium">
+              <span className="text-sm text-black font-medium">
                 Click to upload or drag and drop
               </span>
-              <span className="text-xs text-gray-500">
-                Images, PDFs, and documents supported
+              <span className="text-xs text-gray-600">
+                Images .png and .jpg
               </span>
             </label>
           </div>

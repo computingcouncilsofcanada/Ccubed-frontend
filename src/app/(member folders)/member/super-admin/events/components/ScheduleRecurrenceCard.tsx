@@ -16,20 +16,17 @@ export default function ScheduleRecurrenceCard({
   eventType,
 }: ScheduleRecurrenceCardProps) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-        <IconCalendar size={24} className="text-[#7C3AED]" />
-        Schedule & Recurrence
-      </h2>
+    <div className="border-b border-white/10 pb-6 last:border-b-0">
+      <h2 className="text-lg font-semibold text-white mb-5">Schedule & Recurrence</h2>
       <div className="space-y-5">
         {/* Event Type Selection */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Event Type <span className="text-red-500">*</span>
+          <label className="block text-sm font-semibold text-gray-200 mb-2">
+            Event Type <span className="text-[#FF7474]">*</span>
           </label>
           <select
             {...register("eventType", { required: true })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all bg-white"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all bg-white"
           >
             <option value="one-day">One-Day Event</option>
             <option value="weekly">Weekly Recurring</option>
@@ -41,14 +38,14 @@ export default function ScheduleRecurrenceCard({
         {/* Start and End Time */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-              <IconClock size={18} className="text-gray-500" />
-              Start Date & Time <span className="text-red-500">*</span>
+            <label className="block text-sm font-semibold text-gray-200 mb-2 flex items-center gap-2">
+       
+              Start Date & Time <span className="text-[#FF7474]">*</span>
             </label>
             <input
               type="datetime-local"
               {...register("start_at", { required: "Start time is required" })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+              className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
             />
             {errors.start_at && (
               <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">
@@ -59,14 +56,14 @@ export default function ScheduleRecurrenceCard({
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-              <IconClock size={18} className="text-gray-500" />
-              End Date & Time <span className="text-red-500">*</span>
+            <label className="block text-sm font-semibold text-white mb-2 flex items-center gap-2">
+        
+              End Date & Time <span className="text-[#FF7474]">*</span>
             </label>
             <input
               type="datetime-local"
               {...register("end_at", { required: "End time is required" })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+              className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
             />
             {errors.end_at && (
               <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">
@@ -80,14 +77,14 @@ export default function ScheduleRecurrenceCard({
         {/* Weekly: Day of Week */}
         {eventType === "weekly" && (
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Day of Week <span className="text-red-500">*</span>
+              <label className="block text-sm font-semibold text-gray-200 mb-2">
+              Day of Week <span className="text-[#FF7474]">*</span>
             </label>
             <select
               {...register("selectedDayOfWeek", {
                 required: eventType === "weekly",
               })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all bg-white"
+              className="w-full px-4 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all bg-white"
             >
               <option value="">Select a day</option>
               {daysOfWeek.map((day) => (
@@ -103,7 +100,7 @@ export default function ScheduleRecurrenceCard({
         {eventType === "monthly" && (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Date (DD-MM-YYYY) <span className="text-red-500">*</span>
+              Date (DD-MM-YYYY) <span className="text-[#FF7474]">*</span>
             </label>
             <input
               type="text"
@@ -115,7 +112,7 @@ export default function ScheduleRecurrenceCard({
                   message: "Date must be in DD-MM-YYYY format",
                 },
               })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all"
+              className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
             />
             {errors.monthlyDate && (
               <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">
@@ -130,7 +127,7 @@ export default function ScheduleRecurrenceCard({
         {eventType === "multiple-day" && (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Dates (DD-MM-YYYY, one per line) <span className="text-red-500">*</span>
+              Dates (DD-MM-YYYY, one per line) <span className="text-[#FF7474]">*</span>
             </label>
             <textarea
               placeholder="21-08-2025&#10;23-12-2025"
@@ -152,7 +149,7 @@ export default function ScheduleRecurrenceCard({
                 },
               })}
               rows={4}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-all resize-none"
+              className="w-full px-4 py-1 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all resize-none"
             />
             <p className="text-sm text-gray-500 mt-2">
               Enter one date per line in DD-MM-YYYY format
