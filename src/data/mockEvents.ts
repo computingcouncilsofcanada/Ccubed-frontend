@@ -325,7 +325,7 @@ export const mockEvents = [
   },
   {
     id: "68caf1927e8c000404c8d427",
-    name: "Women in Tech Speed Networking",
+    name: "WITS Connect",
     description:
       "A virtual Women in Tech Speed Networking event for university students across Canada. Join ~80–100 peers for structured breakout sessions with career mentors, quick rotations, and fun icebreakers. Discuss career journeys, breaking into tech, internships, and day-to-day life in the industry.",
     learning_outcomes: [
@@ -358,10 +358,10 @@ export const mockEvents = [
     updated_by: null,
     files: [
       {
-        id: "1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
-        name: "CCubed_icon.png",
-        url: "https://lh3.googleusercontent.com/d/1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
-      },
+        "id": "1DdvJ2eWNaVmnIubogg5rm6yA0izJvzvw",
+        "name": "WITS Speed Networking.png",
+        "url": "https://lh3.googleusercontent.com/d/1DdvJ2eWNaVmnIubogg5rm6yA0izJvzvw"
+      }
     ],
     content: `## Format
 (Virtual) Women in Tech Speed Networking event. Expected audience: **~80–100 university students** from across Canada. Duration: **1–1.5 hours** (2:00 PM – 3:00 PM ET).
@@ -397,7 +397,7 @@ export const mockEvents = [
   },
   {
     id: "68caf1937e8c000404c8d428",
-    name: "Cybersecurity Jeopardy Style event in Montreal & Windsor",
+    name: "Jeopardy Style Cybersecurity event",
     description: "Upcoming event. Details TBD.",
     learning_outcomes: null,
     what_you_need: null,
@@ -429,7 +429,7 @@ export const mockEvents = [
   },
   {
     id: "68caf1947e8c000404c8d429",
-    name: "AI Podcast Series - Toronto",
+    name: "AI Podcast Series",
     description: "Upcoming event. Details TBD.",
     learning_outcomes: null,
     what_you_need: null,
@@ -461,7 +461,7 @@ export const mockEvents = [
   },
   {
     id: "68caf1957e8c000404c8d42a",
-    name: "Resume Roast with recruiter - online",
+    name: "Resume Roast with recruiter",
     description: "Upcoming event. Details TBD.",
     learning_outcomes: null,
     what_you_need: null,

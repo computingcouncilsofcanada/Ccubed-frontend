@@ -63,18 +63,18 @@ export const mockMembers: Team[] = [
   {
     team: "Board of Directors",
     members: [
-      {
-        id: 2,
-        name: "Lucas Lalumière",
-        role: "Director of Cybersecurity",
-        imageUrl: "/MemberPics/lucas.png",
-        info: "Director of Cybersecurity",
-        category: "directors",
-        council: "cybersecurity",
-        social: {
-          linkedin: "https://www.linkedin.com/in/lucas-lalum/",
-        },
-      },
+      // {
+      //   id: 2,
+      //   name: "Lucas Lalumière",
+      //   role: "Director of Cybersecurity",
+      //   imageUrl: "/MemberPics/lucas.png",
+      //   info: "Director of Cybersecurity",
+      //   category: "directors",
+      //   council: "cybersecurity",
+      //   social: {
+      //     linkedin: "https://www.linkedin.com/in/lucas-lalum/",
+      //   },
+      // },
       {
         id: 3,
         name: "Vardaan Randev",
@@ -397,18 +397,18 @@ export const mockMembers: Team[] = [
   {
     team: "Outreach Team",
     members: [
-      {
-        id: 2,
-        name: "Lucas Lalumière",
-        role: "Director of Cybersecurity",
-        imageUrl: "/MemberPics/lucas.png",
-        info: "Director of Cybersecurity",
-        category: "outreach",
-        council: "cybersecurity",
-        social: {
-          linkedin: "https://www.linkedin.com/in/lucas-lalum/",
-        },
-      },
+      // {
+      //   id: 2,
+      //   name: "Lucas Lalumière",
+      //   role: "Director of Cybersecurity",
+      //   imageUrl: "/MemberPics/lucas.png",
+      //   info: "Director of Cybersecurity",
+      //   category: "outreach",
+      //   council: "cybersecurity",
+      //   social: {
+      //     linkedin: "https://www.linkedin.com/in/lucas-lalum/",
+      //   },
+      // },
       {
         id: 28,
         name: "Pragati Puri",

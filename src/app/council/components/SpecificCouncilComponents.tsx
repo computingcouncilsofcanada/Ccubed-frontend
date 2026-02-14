@@ -122,7 +122,7 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className=" md:mt-0 w-full  md:aspect-[500/280] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
+              className=" md:mt-0 w-full  md:aspect-[480/280] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
             >
               <h3
                 className="text-white font-semibold text-[18px] mb-2 shrink-0"
@@ -400,6 +400,7 @@ export const CouncilHero = ({ council }: CouncilProps) => {
           style={{
             fontFamily: "Roboto, sans-serif",
             fontWeight: "300",
+            fontSize: "16px",
             lineHeight: "22px",
             letterSpacing: "0%",
           }}
@@ -465,7 +466,7 @@ export const RepresentativesSection = ({ council }: CouncilProps) => {
 
   return (
     <div className="mb-24 px-4 sm:px-6">
-      <div className="text-start mb-6">
+      <div className="text-start mb-20">
         <h2
           className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"
           style={{ fontFamily: "Roboto, sans-serif" }}
