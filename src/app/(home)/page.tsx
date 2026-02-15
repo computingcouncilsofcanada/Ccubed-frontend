@@ -10,7 +10,6 @@ import MissionVision from "./components/MissionVision";
 import Stats from "./components/Stats";
 import Footer from "@/components/shared/Footer";
 import PreviewModal from "@/components/modals/PreviewModal";
-import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import { ApiEvent, Events as EventType } from "@/types/events";
 import { mockEvents } from "@/data/mockEvents";
@@ -18,9 +17,9 @@ import { mockEvents } from "@/data/mockEvents";
 
 export default function Home() {
   const [events, setEvents] = useState<EventType[]>([]);
-  const [error, setError] = useState<string>("");
+  const [error,] = useState<string>("");
   // const [loading, setLoading] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, ] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
 

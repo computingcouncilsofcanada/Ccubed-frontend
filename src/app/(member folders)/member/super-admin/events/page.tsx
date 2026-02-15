@@ -70,7 +70,7 @@ function EventsPage() {
     if (!selectedEvent) return;
 
     try {
-      const res = await updateEvent(selectedEvent.id, {
+      const res = await updateEvent(selectedEvent.id.toString(), {
         name: data.name,
         description: data.description,
         start_at: new Date(data.start_at).getTime().toString(),
@@ -93,7 +93,7 @@ function EventsPage() {
     if (!selectedEvent) return;
 
     try {
-      const res = await deleteEvent(selectedEvent.id);
+      const res = await deleteEvent(selectedEvent.id.toString());
       if (res.status === 200) {
         alert(res.message);
         setIsDeleteModalOpen(false);
@@ -108,7 +108,7 @@ function EventsPage() {
   const handleApproveCreateEvent = async () => {
     if (!selectedEvent) return;
     try {
-      const res = await approveCreateEvent(selectedEvent.id);
+      const res = await approveCreateEvent(selectedEvent.id.toString());
       if (res.status === 200) {
         alert(res.message);
         setIsApproveModalOpen(false);
@@ -123,7 +123,7 @@ function EventsPage() {
   const handleRejectCreateEvent = async (reason: string) => {
     if (!selectedEvent) return;
     try {
-      const res = await rejectCreateEvent(selectedEvent.id, reason);
+      const res = await rejectCreateEvent(selectedEvent.id.toString(), reason);
       if (res.status === 200) {
         alert(res.message);
         setIsRejectModalOpen(false);
@@ -138,7 +138,7 @@ function EventsPage() {
   const handleApproveUpdateEvent = async () => {
     if (!selectedEvent) return;
     try {
-      const res = await approveUpdateEvent(selectedEvent.id);
+      const res = await approveUpdateEvent(selectedEvent.id.toString());
       if (res.status === 200) {
         alert(res.message);
         await fetchEvents();
@@ -152,7 +152,7 @@ function EventsPage() {
   const handleRejectUpdateEvent = async (reason: string) => {
     if (!selectedEvent) return;
     try {
-      const res = await rejectUpdateEvent(selectedEvent.id, reason);
+      const res = await rejectUpdateEvent(selectedEvent.id.toString(), reason);
       if (res.status === 200) {
         alert(res.message);
         setIsRejectModalOpen(false);

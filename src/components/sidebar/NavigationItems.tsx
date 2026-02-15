@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { NavigationItem } from "../types";
+import { NavigationItem } from "./types";
 
 interface NavigationItemsProps {
   items: NavigationItem[];
