@@ -18,9 +18,9 @@ export const councilSections: CouncilSection[] = [
       },
       {
         id: 2,
-        name: "Dalhousie University",
+        name: "Dalhousie University's CTF Society",
         description:
-          "Dalhousie University participates in the Cybersecurity Council to connect students with cybersecurity opportunities and build awareness around security practices.",
+          "Dalhousie University participates in the Cybersecurity Council to connect students with cybersecurity opportunities and build awareness around security practices. The club has a speciality in reverse engineering and finding information in competitions via freely available sources in the internet, fostering an environment for growth in competitions like Capture the Flag challenges across the campus",
         imageUrl: "/UniversityImages/Dalhouse-university-logo.png",
       },
       {
@@ -76,7 +76,7 @@ export const councilSections: CouncilSection[] = [
         id: 10,
         name: "Sait CyberSec Club",
         description:
-          "The University of Windsor plays an important role in the Cybersecurity Council by promoting real-world security operations and applied cybersecurity skills. The club has strong competencies in Security Operations Center (SOC) practices, reverse engineering, and scripting, helping students build practical, industry-ready cybersecurity expertise across campus.",
+          "SAIT is a proud member of the Cybersecurity Council, committed to strengthening cybersecurity education and practical preparedness across campus. The club demonstrates strong competencies in cybersecurity awareness, post-incident response and recovery, and managing cybersecurity human risk, promoting a proactive and resilient security culture among students",
         imageUrl: "/UniversityImages/sait-university-logo.png",
       },
     ],

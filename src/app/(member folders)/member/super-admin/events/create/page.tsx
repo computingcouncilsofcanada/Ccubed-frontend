@@ -15,12 +15,14 @@ import ScheduleRecurrenceCard from "../components/ScheduleRecurrenceCard";
 import LocationLinksCard from "../components/LocationLinksCard";
 import EventDetailsCard from "../components/EventDetailsCard";
 import AdditionalInformationCard from "../components/AdditionalInformationCard";
+import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 
 export default function CreateEventPage() {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const {
     register,
@@ -37,6 +39,23 @@ export default function CreateEventPage() {
       types: [],
     },
   });
+
+  const files = watch("files");
+
+  React.useEffect(() => {
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file && file.type && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onloadend = () => setImagePreview(reader.result as string);
+        reader.readAsDataURL(file);
+      } else {
+        setImagePreview(null);
+      }
+    } else {
+      setImagePreview(null);
+    }
+  }, [files]);
 
   const {
     fields: learningOutcomeFields,
@@ -227,46 +246,72 @@ export default function CreateEventPage() {
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      {/* Header */}
+    <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-30">
+      <BgBoxMainPage maxHeight={400} enableGlow={true} />
+      
+      <div className="p-6 max-w-5xl mx-auto relative z-10">
+ 
+        {/* Header */}
       <div className="mb-8">
         <Link
           href={`/member/${user?.role === "SUPER_ADMIN" ? "super-admin" : "admin"}/events`}
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-[#7C3AED] transition-colors mb-4 group"
+          className="inline-flex items-center gap-2 text-gray-300 hover:text-[#7C3AED] transition-colors mb-4 group"
         >
           <IconArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
           <span className="font-medium">Back to Events</span>
         </Link>
         <div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Create New Event</h1>
-          <p className="text-gray-600">Fill in the details below to create a new event</p>
+          <h1 className="text-5xl font-bold text-white mb-2">Create New Event</h1>
+          <p className="text-lg text-gray-200">Fill in the details below to create a new event</p>
         </div>
       </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <BasicInformationCard register={register} errors={errors} />
+        {/* First row: Basic Info + right-side preview on large screens */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+          <div className="lg:col-span-2">
+            <BasicInformationCard register={register} errors={errors} />
+          </div>
 
-        <ScheduleRecurrenceCard
-          register={register}
-          errors={errors}
-          eventType={eventType}
-        />
+          <div className="hidden lg:flex lg:col-span-1">
+            <div className="w-full h-64 rounded-xl overflow-hidden bg-white/80 border border-white/10 shadow-md flex items-center justify-center">
+              {imagePreview ? (
+                <img src={imagePreview} alt="Event preview" className="w-full h-full object-cover" />
+              ) : (
+                // Placeholder — replace with Image component or src as needed
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                  <rect x="3" y="3" width="18" height="18" rx="6" fill="#F3F4F6" />
+                  <path d="M8 13.5L10.5 10L13 13.5L16.5 9.5L21 15V18H3V15L8 13.5Z" fill="#E5E7EB" />
+                </svg>
+              )}
+            </div>
+          </div>
+        </div>
 
-        <LocationLinksCard register={register} errors={errors} />
+        {/* Combined Card: Schedule, Location & Details */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl shadow-sm border border-white/10 p-6">
+          <ScheduleRecurrenceCard
+            register={register}
+            errors={errors}
+            eventType={eventType}
+          />
 
-        <EventDetailsCard
-          register={register}
-          learningOutcomeFields={learningOutcomeFields}
-          appendLearningOutcome={appendLearningOutcome}
-          removeLearningOutcome={removeLearningOutcome}
-          whatYouNeedFields={whatYouNeedFields}
-          appendWhatYouNeed={appendWhatYouNeed}
-          removeWhatYouNeed={removeWhatYouNeed}
-          instructorFields={instructorFields}
-          appendInstructor={appendInstructor}
-          removeInstructor={removeInstructor}
-        />
+          <LocationLinksCard register={register} errors={errors} />
+
+          <EventDetailsCard
+            register={register}
+            learningOutcomeFields={learningOutcomeFields}
+            appendLearningOutcome={appendLearningOutcome}
+            removeLearningOutcome={removeLearningOutcome}
+            whatYouNeedFields={whatYouNeedFields}
+            appendWhatYouNeed={appendWhatYouNeed}
+            removeWhatYouNeed={removeWhatYouNeed}
+            instructorFields={instructorFields}
+            appendInstructor={appendInstructor}
+            removeInstructor={removeInstructor}
+          />
+        </div>
 
         <AdditionalInformationCard
           register={register}
@@ -275,17 +320,17 @@ export default function CreateEventPage() {
         />
 
         {/* Submit Button */}
-        <div className="flex gap-4 pt-4 border-t border-gray-200">
+        <div className="flex gap-4 pt-4">
           <Link
             href={`/member/${user?.role === "SUPER_ADMIN" ? "super-admin" : "admin"}/events`}
-            className="px-6 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium text-gray-700 flex items-center justify-center"
+            className="basis-[30%] px-6 py-3 border-2 border-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 transition-colors font-medium text-[#FAA336] flex items-center justify-center"
           >
             Cancel
           </Link>
           <button
             type="submit"
             disabled={isSubmitting || selectedTypes.length === 0}
-            className="flex-1 px-6 py-3 bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] text-white rounded-lg hover:from-[#6d28d9] hover:to-[#5b21b6] disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+            className="basis-[70%] px-6 py-3 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
@@ -313,6 +358,9 @@ export default function CreateEventPage() {
           </button>
         </div>
       </form>
+      
+      </div>
     </div>
+
   );
 }

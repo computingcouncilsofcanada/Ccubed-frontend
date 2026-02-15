@@ -364,6 +364,7 @@ export function EventCard({
                     >
                       Registration Link
                     </button>
+
                     <button
                       className="text-white text-xs font-medium rounded-lg transition-all duration-200"
                       style={{
