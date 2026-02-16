@@ -7,6 +7,7 @@ import { Calendar } from "lucide-react";
 import type { Events } from "@/types/events";
 import { useRouter } from "next/navigation";
 import { EventCard } from "@/components/shared/EventCard";
+import { isEventPast } from "@/app/events/utils/eventUtils";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 import {  ChevronLeft, ChevronRight } from "lucide-react";
@@ -240,8 +241,9 @@ useEffect(() => {
                           }
                           description={event.description}
                           onseeDetails={(event) => onOpenEventDetail(event)}
-                          onInvitationLink={() => handleInvite(event.url)}
+                          onInvitationLink={() => handleInvite(event.registration_link ?? event.url)}
                           originalEvent={event}
+                          showInvitationButton={!isEventPast(event)}
                         />
                       </div>
                     ))}
@@ -285,8 +287,9 @@ useEffect(() => {
                       }
                       description={event.description}
                       onseeDetails={(event) => onOpenEventDetail(event)}
-                      onInvitationLink={() => handleInvite(event.url)}
+                      onInvitationLink={() => handleInvite(event.registration_link ?? event.url)}
                       originalEvent={event}
+                      showInvitationButton={!isEventPast(event)}
                     />
                   </motion.div>
                 ))}

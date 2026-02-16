@@ -7,6 +7,7 @@ import { EventCard } from "@/components/shared/EventCard";
 import { Events } from "@/types/events";
 // import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
+import { isEventPast } from "@/app/events/utils/eventUtils";
 import Image from "next/image";
 import { mockMembers } from "@/data/mockMembers";
 import { mockEvents } from "@/data/mockEvents";
@@ -366,6 +367,7 @@ export const EventsSection = ({
                 onInvitationLink={() =>
                   console.log("Invitation link clicked for event:", event.id)
                 }
+                showInvitationButton={!isEventPast(event)}
               />
             </motion.div>
           ))}
