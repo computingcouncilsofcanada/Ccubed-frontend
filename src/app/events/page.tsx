@@ -66,6 +66,30 @@ export default function EventsPage() {
         left: 61,
         top: 4,
       },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/cineplex.png",
+        alt: "Cineplex",
+        left: 21,
+        top: 42,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/tesla.png",
+        alt: "Tesla",
+        left: 71,
+        top: 30,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/pandg.png",
+        alt: "P&G",
+        left: 16,
+        top: 80,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/autodesk.png",
+        alt: "Autodesk",
+        left: 95,
+        top: 38,
+      },
     ];
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -109,7 +133,7 @@ export default function EventsPage() {
       {isHydrated && <BgBoxMainPage maxHeight={400} />}
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
-        <div className="image relative flex justify-center shrink-0">
+        <div className="image relative flex justify-center shrink-0 my-6">
           <motion.div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] lg:w-[480px] lg:h-[480px]">
             {/* Orbital lines (faint layer)*/}
             <motion.div
@@ -201,7 +225,7 @@ export default function EventsPage() {
             {orbitIcons.map((icon) => (
               <div
                 key={icon.alt}
-                className="absolute w-[10%] h-[10%] min-w-[24px] min-h-[24px] max-w-[44px] max-h-[44px] flex items-center justify-center"
+                className="absolute w-[10%] h-[10%] min-w-[24px] min-h-[24px] max-w-[44px] max-h-[44px] flex items-center justify-center rounded-full bg-[#d4d4d4]/10 p-2"
                 style={{
                   left: `${icon.left}%`,
                   top: `${icon.top}%`,
