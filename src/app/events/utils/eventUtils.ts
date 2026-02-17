@@ -59,6 +59,17 @@ export function separateEventsByTime(events: Events[]) {
     }
   });
 
+  function isTBD(event: Events) {
+    const dateStr = (event.date || "").trim().toUpperCase();
+    const timeStr = (event.time || "").trim().toUpperCase();
+    return (
+      !event.date ||
+      !event.time ||
+      dateStr === "TBD" ||
+      timeStr === "TBD"
+    );
+  }
+
   function getComparableDate(event: Events) {
     if (!event.date) return new Date(0); // put invalid first
     const baseDate = new Date(event.date);
@@ -84,9 +95,12 @@ export function separateEventsByTime(events: Events[]) {
     (a, b) => getComparableDate(b).getTime() - getComparableDate(a).getTime()
   );
 
-  currentEvents = currentEvents.sort(
-    (a, b) => getComparableDate(b).getTime() - getComparableDate(a).getTime()
-  );
+  currentEvents = currentEvents.sort((a, b) => {
+    const aTBD = isTBD(a);
+    const bTBD = isTBD(b);
+    if (aTBD !== bTBD) return aTBD ? 1 : -1; 
+    return getComparableDate(b).getTime() - getComparableDate(a).getTime();
+  });
 
 
 
