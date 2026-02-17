@@ -277,8 +277,7 @@ export const EventsSection = ({
         const aTBD = !a.date || dateStrA === "TBD";
         const bTBD = !b.date || dateStrB === "TBD";
         if (aTBD && bTBD) return 0;
-        if (aTBD) return 1;
-        if (bTBD) return -1;
+        if (aTBD) return -1;
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
         return dateB.getTime() - dateA.getTime();
@@ -424,7 +423,7 @@ export const CouncilHero = ({ council }: CouncilProps) => {
       </div>
 
       {/* Council Icon (same as council card) */}
-      <div className="image relative flex justify-center flex-shrink-0 md:-ml-6">
+      <div className="image relative flex justify-center shrink-0 md:-translate-x-29">
         <div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[320px] lg:h-[320px]">
           <Image
             src={council.icon}
