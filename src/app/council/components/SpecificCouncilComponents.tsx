@@ -271,6 +271,18 @@ export const EventsSection = ({
       .filter((event) => {
         return event.domains?.includes(council.title);
       })
+      .sort((a, b) => {
+        const dateStrA = (a.date || "").trim().toUpperCase();
+        const dateStrB = (b.date || "").trim().toUpperCase();
+        const aTBD = !a.date || dateStrA === "TBD";
+        const bTBD = !b.date || dateStrB === "TBD";
+        if (aTBD && bTBD) return 0;
+        if (aTBD) return 1;
+        if (bTBD) return -1;
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB.getTime() - dateA.getTime();
+      })
       .slice(0, 4);
 
     setCouncilEvents(councilEvents);
@@ -389,7 +401,7 @@ export const EventsSection = ({
  */
 export const CouncilHero = ({ council }: CouncilProps) => {
   return (
-    <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-start relative z-10 w-full mb-24 pt-8">
+    <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-start relative z-10 w-full mb-8 pt-8">
       <div className="text flex flex-col gap-4 flex-1 min-w-0 w-full">
         <h1
           className="text-white font-extrabold text-2xl sm:text-3xl md:text-2xl lg:text-5xl"
@@ -398,7 +410,7 @@ export const CouncilHero = ({ council }: CouncilProps) => {
           {council.title}
         </h1>
         <p
-          className="text-white sm:text-lg sm:leading-6 lg:text-xl lg:leading-7"
+          className="text-white sm:text-lg sm:leading-6 lg:text-xl lg:leading-7 max-w-160"
           style={{
             fontFamily: "Roboto, sans-serif",
             fontWeight: "300",
@@ -413,12 +425,12 @@ export const CouncilHero = ({ council }: CouncilProps) => {
 
       {/* Council Icon (same as council card) */}
       <div className="image relative flex justify-center flex-shrink-0">
-        <div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[480px] lg:h-[480px]">
+        <div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[320px] lg:h-[320px]">
           <Image
             src={council.icon}
             alt={`${council.title} icon`}
-            width={405}
-            height={405}
+            width={205}
+            height={205}
             className="w-full h-full object-contain select-none"
             priority
             quality={100}

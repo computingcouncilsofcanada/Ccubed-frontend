@@ -84,7 +84,11 @@ export const mockEvents = [
       "Understand Kubernetes and container basics",
       "Discuss career and grad school with an industry expert",
     ],
-    what_you_need: ["YouTube access", "Computer with terminal", "Interest in DevOps"],
+    what_you_need: [
+      "YouTube access",
+      "Computer with terminal",
+      "Interest in DevOps",
+    ],
     instructors: ["Nathan"],
     registration_link: "",
     start_at: "1756594800000",
@@ -244,7 +248,13 @@ export const mockEvents = [
     end_at: "1750467600000",
     recurrence: {
       type: "custom",
-      custom_dates: ["2025-06-20", "2025-06-21", "2025-06-22", "2025-06-23", "2025-06-24"],
+      custom_dates: [
+        "2025-06-20",
+        "2025-06-21",
+        "2025-06-22",
+        "2025-06-23",
+        "2025-06-24",
+      ],
     },
     location: "Google Meet and Youtube",
     url: null,
@@ -372,8 +382,8 @@ export const mockEvents = [
     ],
     instructors: null,
     registration_link: "",
-    start_at: "1779645600000",
-    end_at: "1779649200000",
+    start_at: "1771700400000",
+    end_at: "1771704000000",
     recurrence: { type: "none" },
     location: "Virtual (online) - Discord",
     url: "",
@@ -390,10 +400,10 @@ export const mockEvents = [
     updated_by: null,
     files: [
       {
-        "id": "1DdvJ2eWNaVmnIubogg5rm6yA0izJvzvw",
-        "name": "WITS Speed Networking.png",
-        "url": "https://lh3.googleusercontent.com/d/1DdvJ2eWNaVmnIubogg5rm6yA0izJvzvw"
-      }
+        id: "1DdvJ2eWNaVmnIubogg5rm6yA0izJvzvw",
+        name: "WITS Speed Networking.png",
+        url: "https://lh3.googleusercontent.com/d/1DdvJ2eWNaVmnIubogg5rm6yA0izJvzvw",
+      },
     ],
     content: `## Format
 (Virtual) Women in Tech Speed Networking event. Expected audience: **~80–100 university students** from across Canada. Duration: **1–1.5 hours** (2:00 PM – 3:00 PM ET).
@@ -441,7 +451,7 @@ export const mockEvents = [
     location: "McGill University, Montreal",
     url: null,
     ownership: null,
-    domains: ['cybersecurity'],
+    domains: ["cybersecurity"],
     status: 1,
     types: ["In Person"],
     pending_action: null,
