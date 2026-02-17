@@ -47,34 +47,11 @@ export const mockMembers: Team[] = [
           linkedin: "https://www.linkedin.com/in/parthdoshiml/",
         },
       },
-      {
-        id: 5,
-        name: "Divjot Singh",
-        role: "Vice President",
-        imageUrl: "/MemberPics/divjot.png",
-        info: "Vice President",
-        category: "directors",
-        social: {
-          linkedin: "https://www.linkedin.com/in/divjotsofficial/",
-        },
-      },
     ],
   },
   {
     team: "Board of Directors",
     members: [
-      // {
-      //   id: 2,
-      //   name: "Lucas Lalumière",
-      //   role: "Director of Cybersecurity",
-      //   imageUrl: "/MemberPics/lucas.png",
-      //   info: "Director of Cybersecurity",
-      //   category: "directors",
-      //   council: "cybersecurity",
-      //   social: {
-      //     linkedin: "https://www.linkedin.com/in/lucas-lalum/",
-      //   },
-      // },
       {
         id: 3,
         name: "Vardaan Randev",
@@ -360,17 +337,6 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 19,
-        name: "Ryan C.",
-        role: "Finance Coordinator",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Finance Coordinator",
-        category: "finance",
-        social: {
-          linkedin: "https://linkedin.com/in/ryanyhchar",
-        },
-      },
-      {
         id: 33,
         name: "Michael Ugwu",
         role: "Finance Coordinator",
@@ -397,18 +363,6 @@ export const mockMembers: Team[] = [
   {
     team: "Outreach Team",
     members: [
-      // {
-      //   id: 2,
-      //   name: "Lucas Lalumière",
-      //   role: "Director of Cybersecurity",
-      //   imageUrl: "/MemberPics/lucas.png",
-      //   info: "Director of Cybersecurity",
-      //   category: "outreach",
-      //   council: "cybersecurity",
-      //   social: {
-      //     linkedin: "https://www.linkedin.com/in/lucas-lalum/",
-      //   },
-      // },
       {
         id: 28,
         name: "Pragati Puri",
@@ -493,28 +447,6 @@ export const mockMembers: Team[] = [
   {
     team: "Human Resources Team",
     members: [
-      {
-        id: 23,
-        name: "Gulroob Saini",
-        role: "HR Coordinator",
-        imageUrl: "/MemberPics/gulroob.png",
-        info: "HR Coordinator",
-        category: "hr",
-        social: {
-          linkedin: "https://www.linkedin.com/in/gulroob-saini-150922230/",
-        },
-      },
-      {
-        id: 24,
-        name: "Funmibi Olaegbe",
-        role: "HR Coordinator",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "HR Coordinator",
-        category: "hr",
-        social: {
-          linkedin: "https://www.linkedin.com/in/funmibi-olaegbe-04a437243/",
-        },
-      },
       {
         id: 25,
         name: "Evangelyn Kelvin",
