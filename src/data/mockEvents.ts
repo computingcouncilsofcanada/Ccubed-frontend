@@ -3,7 +3,8 @@ export const mockEvents = [
   {
     id: "68caf1937e8c000404c8d428",
     name: "The RED Flag 🚩 ",
-    description: "An exciting twist to traditional CTFs, where instead of questions requiring hands-on exploitation, your goal is to use your intuition and danger sense to locate cybersecurity red flags in a given scenario. Provided some form of media (i.e. a screenshot or picture), you will analyze the scenario, and its up to you to point out the red flag and WHY its a red flag before your competition🏃‍♂️‍➡️ 🏃‍➡️ . This event will attempt to resemble a gameshow/jeopardy format instead of a flag submission format, requiring contestants to compete live in order to get the top spot.",
+    description:
+      "An exciting twist to traditional CTFs, where instead of questions requiring hands-on exploitation, your goal is to use your intuition and danger sense to locate cybersecurity red flags in a given scenario. Provided some form of media (i.e. a screenshot or picture), you will analyze the scenario, and its up to you to point out the red flag and WHY its a red flag before your competition🏃‍♂️‍➡️ 🏃‍➡️ . This event will attempt to resemble a gameshow/jeopardy format instead of a flag submission format, requiring contestants to compete live in order to get the top spot.",
     learning_outcomes: null,
     what_you_need: null,
     instructors: null,
@@ -14,7 +15,7 @@ export const mockEvents = [
     location: "McGill University, Montreal",
     url: null,
     ownership: null,
-    domains: ['cybersecurity'],
+    domains: ["cybersecurity"],
     status: 1,
     types: ["In Person"],
     pending_action: null,
@@ -436,38 +437,6 @@ export const mockEvents = [
 
 ### 6. Wrap-up
 - Return to the **main room** for key takeaways, feedback, and closing remarks.`,
-  },
-  {
-    id: "68caf1937e8c000404c8d428",
-    name: "The RED Flag 🚩 ",
-    description: "An exciting twist to traditional CTFs, where instead of questions requiring hands-on exploitation, your goal is to use your intuition and danger sense to locate cybersecurity red flags in a given scenario. Provided some form of media (i.e. a screenshot or picture), you will analyze the scenario, and its up to you to point out the red flag and WHY its a red flag before your competition🏃‍♂️‍➡️ 🏃‍➡️ . This event will attempt to resemble a gameshow/jeopardy format instead of a flag submission format, requiring contestants to compete live in order to get the top spot.",
-    learning_outcomes: null,
-    what_you_need: null,
-    instructors: null,
-    registration_link: "",
-    start_at: "TBD",
-    end_at: "TBD",
-    recurrence: null,
-    location: "McGill University, Montreal",
-    url: null,
-    ownership: null,
-    domains: ["cybersecurity"],
-    status: 1,
-    types: ["In Person"],
-    pending_action: null,
-    reject_reason: null,
-    approved_by: ["68265e87e5ce4193721424e0"],
-    created_at: "1758130578539",
-    updated_at: null,
-    created_by: "68265e87e5ce4193721424e0",
-    updated_by: null,
-    files: [
-      {
-        id: "1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
-        name: "CCubed_icon.png",
-        url: "https://lh3.googleusercontent.com/d/1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
-      },
-    ],
   },
   {
     id: "68caf1947e8c000404c8d429",

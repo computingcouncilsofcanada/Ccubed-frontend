@@ -424,7 +424,7 @@ export const CouncilHero = ({ council }: CouncilProps) => {
       </div>
 
       {/* Council Icon (same as council card) */}
-      <div className="image relative flex justify-center flex-shrink-0">
+      <div className="image relative flex justify-center flex-shrink-0 md:-ml-6">
         <div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[320px] lg:h-[320px]">
           <Image
             src={council.icon}

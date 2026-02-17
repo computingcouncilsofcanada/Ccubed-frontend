@@ -129,7 +129,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
-      <div className="bg-[#D4D4D4]/10 md:rounded-2xl max-w-7xl w-full h-full md:h-9/10 p-8 relative  text-white  flex flex-col gap-4  overflow-y-auto">
+      <div className="preview-modal-scroll bg-[#D4D4D4]/10 md:rounded-2xl max-w-7xl w-full h-full md:h-9/10 p-8 relative text-white flex flex-col gap-4 overflow-y-auto">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 md:top-6 md:right-6 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-400 hover:border-white hover:bg-white/10 text-white text-xl transition-all duration-200"

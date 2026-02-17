@@ -29,8 +29,14 @@ export default function EventsPage() {
   );
 
   // Orbiting company icons — left/top are percentages (tweak to reposition)
-  const orbitIcons: { src: string; alt: string; left: number; top: number }[] =
-    [
+  const orbitIcons: {
+    src: string;
+    alt: string;
+    left: number;
+    top: number;
+    large?: boolean;
+    contrastBg?: boolean;
+  }[] = [
       // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Apple Inc..png", alt: "Apple", left: 61, top: 3 },
       // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Starbucks Corporation.png", alt: "Starbucks", left: 77, top: 18 },
       // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/adobe.png", alt: "Adobe", left: 94, top: 38 },
@@ -71,12 +77,14 @@ export default function EventsPage() {
         alt: "Cineplex",
         left: 21,
         top: 42,
+        large: true,
       },
       {
         src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/tesla.png",
         alt: "Tesla",
         left: 71,
         top: 30,
+        contrastBg: true,
       },
       {
         src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/pandg.png",
@@ -89,6 +97,7 @@ export default function EventsPage() {
         alt: "Autodesk",
         left: 95,
         top: 38,
+        contrastBg: true,
       },
     ];
 
@@ -134,79 +143,49 @@ export default function EventsPage() {
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
         <div className="image relative flex justify-center shrink-0 my-6">
-          <motion.div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] lg:w-[480px] lg:h-[480px]">
+          <div className="relative w-[300px] h-[300px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] lg:w-[520px] lg:h-[520px]">
             {/* Orbital lines (faint layer)*/}
-            <motion.div
-              className="absolute inset-0 w-full h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{
-                duration: 3,
-                ease: "easeInOut",
-                repeat: Infinity,
-                repeatType: "loop",
-              }}
-            >
+            <div className="absolute inset-0 w-full h-full opacity-100">
               <Image
                 src="/FigmaFiles/eventPageAssets/hero-lines-faint.png"
                 alt=""
-                width={480}
-                height={480}
+                width={520}
+                height={520}
                 className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
                 priority
                 quality={100}
                 draggable={false}
                 aria-hidden
               />
-            </motion.div>
+            </div>
             {/* Orbital lines (bold layer) */}
-            <motion.div
-              className="absolute inset-0 w-full h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{
-                duration: 3,
-                ease: "easeInOut",
-                repeat: Infinity,
-                repeatType: "loop",
-              }}
-            >
+            <div className="absolute inset-0 w-full h-full opacity-100">
               <Image
                 src="/FigmaFiles/eventPageAssets/hero-lines-bold.png"
                 alt=""
-                width={480}
-                height={480}
+                width={520}
+                height={520}
                 className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none rotate-30"
                 priority
                 quality={100}
                 draggable={false}
                 aria-hidden
               />
-            </motion.div>
+            </div>
             {/* Orbital lines (bold layer) */}
-            <motion.div
-              className="absolute inset-0 w-full h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{
-                duration: 3,
-                ease: "easeInOut",
-                repeat: Infinity,
-                repeatType: "loop",
-              }}
-            >
+            <div className="absolute inset-0 w-full h-full opacity-100">
               <Image
                 src="/FigmaFiles/eventPageAssets/hero-lines-bold.png"
                 alt=""
-                width={480}
-                height={480}
+                width={520}
+                height={520}
                 className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none rotate-150"
                 priority
                 quality={100}
                 draggable={false}
                 aria-hidden
               />
-            </motion.div>
+            </div>
             {/* Central CCubed icon */}
             <div className="absolute inset-0 flex items-center justify-center">
               <Image
@@ -225,7 +204,11 @@ export default function EventsPage() {
             {orbitIcons.map((icon) => (
               <div
                 key={icon.alt}
-                className="absolute w-[10%] h-[10%] min-w-[24px] min-h-[24px] max-w-[44px] max-h-[44px] flex items-center justify-center rounded-full bg-[#d4d4d4]/10 p-2"
+                className={`absolute flex items-center justify-center rounded-full p-2 ${
+                  icon.large
+                    ? "w-[14%] h-[14%] min-w-[36px] min-h-[36px] max-w-[58px] max-h-[58px]"
+                    : "w-[10%] h-[10%] min-w-[24px] min-h-[24px] max-w-[44px] max-h-[44px]"
+                } ${icon.contrastBg ? "bg-white/90" : "bg-[#d4d4d4]/10"}`}
                 style={{
                   left: `${icon.left}%`,
                   top: `${icon.top}%`,
@@ -235,15 +218,15 @@ export default function EventsPage() {
                 <Image
                   src={icon.src}
                   alt={icon.alt}
-                  width={44}
-                  height={44}
+                  width={icon.large ? 58 : 44}
+                  height={icon.large ? 58 : 44}
                   className="w-full h-full object-contain select-none"
                   draggable={false}
                   style={{ userSelect: "none" }}
                 />
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         <motion.div
