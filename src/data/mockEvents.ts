@@ -382,7 +382,7 @@ export const mockEvents = [
       "Curiosity and questions for mentors",
     ],
     instructors: null,
-    registration_link: "",
+    registration_link: "https://docs.google.com/forms/d/e/1FAIpQLSfTy_LBTxAdhiaB9NoxXoX6UYvGSQPkNyb5QGRPKp8O1ierng/viewform",
     start_at: "1771700400000",
     end_at: "1771704000000",
     recurrence: { type: "none" },
