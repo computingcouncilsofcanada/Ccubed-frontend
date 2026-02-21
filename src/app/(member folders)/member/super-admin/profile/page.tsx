@@ -4,6 +4,7 @@ import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import UpdateUserForm from "./components/UpdateUserForm";
 
 type UserData = {
   school_id: string | null;
@@ -19,6 +20,19 @@ type UserData = {
   verify_token: string;
   number_of_login_failed: number;
   id: string;
+  // Profile fields (if returned by /users/me)
+  instagram_url?: string;
+  twitter_url?: string;
+  avatar_url?: string;
+  about_me?: string;
+  fun_fact?: string;
+  linkedin_url?: string;
+  domains?: string[];
+  hobbies?: string[];
+  favorite_song?: string;
+  journey_at_ccubed?: string;
+  favorite_quote?: string;
+  discord_url?: string;
 };
 
 type ChangePasswordForm = {
@@ -239,6 +253,32 @@ const Page = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Update profile (social, about, domains, hobbies) */}
+      <div className="mt-10">
+        <h1 className="text-3xl font-bold text-center text-black mb-6">
+          Update profile
+        </h1>
+        <UpdateUserForm
+          key={userData?.id ?? "loading"}
+          initialData={{
+            username: userData?.username ?? "",
+            instagram_url: userData?.instagram_url ?? "",
+            twitter_url: userData?.twitter_url ?? "",
+            avatar_url: userData?.avatar_url ?? "",
+            about_me: userData?.about_me ?? "",
+            fun_fact: userData?.fun_fact ?? "",
+            linkedin_url: userData?.linkedin_url ?? "",
+            discord_url: userData?.discord_url ?? "",
+            domains: userData?.domains ?? [],
+            hobbies: userData?.hobbies ?? [],
+            favorite_song: userData?.favorite_song ?? "",
+            journey_at_ccubed: userData?.journey_at_ccubed ?? "",
+            favorite_quote: userData?.favorite_quote ?? "",
+          }}
+          onSuccess={fetchUserData}
+        />
       </div>
 
       {/* Change Password Modal */}

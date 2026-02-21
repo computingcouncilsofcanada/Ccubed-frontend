@@ -154,7 +154,7 @@ export default function ValueSystem() {
       {/* Benefits Cards - Cascading Layout */}
       <div
         className="relative max-w-6xl mx-auto px-4 z-10"
-        style={{ height: "800px" }}
+        style={{ height: `${isMobile ? "1000px" : "800px"}` }}
       >
         <AnimatePresence>
           {benefits.map((benefit, index) => (
@@ -182,7 +182,7 @@ export default function ValueSystem() {
               `}
               style={{
                 height: "222px",
-                top: `${index * 160}px`,
+                top: `${isMobile ? index * 240 : index * 160}px`,
                 zIndex: 10 + index,
                 opacity: 1.0,
               }}
@@ -354,9 +354,31 @@ export default function ValueSystem() {
                 </div>
               </div>
 
-              {/* Hover Border Effect */}
+              {/* Hover Border Effect - Desktop */}
               <div
-                className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transform -translate-y-5 group-hover:translate-y-0 transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+                className="max-sm:hidden absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transform -translate-y-5 group-hover:translate-y-0 transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] "
+                style={{
+                  background: `${
+                    benefit.id === 1
+                      ? "linear-gradient(135deg, rgba(173, 216, 230, 0.8) 0%, rgba(173, 216, 230, 0.6) 20%, rgba(173, 216, 230, 0.3) 40%, transparent 60%)"
+                      : benefit.id === 2
+                      ? "linear-gradient(305deg, rgba(248, 176, 65, 0.8) 0%, rgba(248, 176, 65, 0.6) 30%, rgba(248, 176, 65, 0.4) 50%, transparent 70%)"
+                      : benefit.id === 3
+                      ? "linear-gradient(135deg, rgba(255, 63, 51, 0.8) 0%, rgba(255, 63, 51, 0.6) 20%, rgba(255, 63, 51, 0.4) 40%, transparent 60%)"
+                      : "linear-gradient(335deg, rgba(57, 74, 139, 0.8) 0%, rgba(57, 74, 139, 0.7) 25%, rgba(57, 74, 139, 0.5) 50%, rgba(255, 255, 255, 0.4) 60%, rgba(255, 255, 255, 0.2) 65%, transparent 75%)"
+                  }`,
+                  mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  maskComposite: "xor",
+                  WebkitMask:
+                    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  padding: "3px",
+                }}
+              />
+
+              {/* Hover Border Effect - Mobile */}
+              <div
+                className="sm:hidden absolute inset-0 rounded-2xl pointer-events-none  translate-y-0  "
                 style={{
                   background: `${
                     benefit.id === 1

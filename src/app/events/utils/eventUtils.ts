@@ -1,5 +1,18 @@
 import { Events } from "@/types/events";
 
+const isValidTimestamp = (val: string | undefined | null): boolean => {
+  if (!val) return false;
+  const timestamp = parseInt(val, 10);
+  return !isNaN(timestamp) && timestamp > 0;
+};
+
+function parseDateAsLocal(dateStr: string): Date {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr.trim())) {
+    return new Date(dateStr + "T12:00:00");
+  }
+  return new Date(dateStr);
+}
+
 /**
  * Separates events into current and past based on their end time
  * @param events Array of all events
@@ -20,49 +33,61 @@ export function separateEventsByTime(events: Events[]) {
       return;
     }
 
+    let eventEndTime: Date;
 
-    // Parse the event date and time to determine if it's past
-    const eventDate = new Date(event.date);
-
-    // Extract end time from the time range (e.g., "2:00 PM - 4:00 PM")
-    const timeRange = event.time.split(" - ");
-    if (timeRange.length >= 2) {
-      const endTimeString = timeRange[1].trim();
-      const [time, period] = endTimeString.split(" ");
-      const [hours, minutes] = time.split(":").map(Number);
-
-      // Convert to 24-hour format
-      let endHours = hours;
-      if (period.toUpperCase() === "PM" && hours !== 12) {
-        endHours += 12;
-      } else if (period.toUpperCase() === "AM" && hours === 12) {
-        endHours = 0;
-      }
-
-      // Create the full end datetime
-      const eventEndTime = new Date(eventDate);
-      eventEndTime.setHours(endHours, minutes, 0, 0);
-
-      // Compare with current time
-      if (eventEndTime < now) {
-        pastEvents.push(event);
-      } else {
-        currentEvents.push(event);
-      }
+    // Use end_at timestamp when available (avoids timezone/parsing issues)
+    if (isValidTimestamp(event.end_at)) {
+      eventEndTime = new Date(parseInt(event.end_at!, 10));
+    } else if (isValidTimestamp(event.time)) {
+      // Recurring events store end timestamp in time field
+      eventEndTime = new Date(parseInt(event.time, 10));
     } else {
-      // If no valid time range, compare the date directly
-      if (eventDate < now) {
-        pastEvents.push(event);
+      // Parse date and time range; use local date parsing to avoid UTC midnight shift
+      const eventDate = parseDateAsLocal(event.date);
+      const timeRange = event.time.split(" - ");
+      if (timeRange.length >= 2) {
+        const endTimeString = timeRange[1].trim();
+        const [time, period] = endTimeString.split(" ");
+        const [hours, minutes] = time.split(":").map(Number);
+
+        let endHours = hours;
+        if (period.toUpperCase() === "PM" && hours !== 12) {
+          endHours += 12;
+        } else if (period.toUpperCase() === "AM" && hours === 12) {
+          endHours = 0;
+        }
+
+        eventEndTime = new Date(eventDate);
+        eventEndTime.setHours(endHours, minutes, 0, 0);
       } else {
-        currentEvents.push(event);
+        eventEndTime = eventDate;
       }
+    }
+
+    if (eventEndTime < now) {
+      pastEvents.push(event);
+    } else {
+      currentEvents.push(event);
     }
   });
 
+  function isTBD(event: Events) {
+    const dateStr = (event.date || "").trim().toUpperCase();
+    const timeStr = (event.time || "").trim().toUpperCase();
+    return (
+      !event.date ||
+      !event.time ||
+      dateStr === "TBD" ||
+      timeStr === "TBD"
+    );
+  }
+
   function getComparableDate(event: Events) {
     if (!event.date) return new Date(0); // put invalid first
-    const baseDate = new Date(event.date);
+    if (isValidTimestamp(event.end_at)) return new Date(parseInt(event.end_at!, 10));
+    if (isValidTimestamp(event.time)) return new Date(parseInt(event.time, 10));
 
+    const baseDate = parseDateAsLocal(event.date);
     if (event.time) {
       const timeRange = event.time.split(" - ");
       if (timeRange.length >= 2) {
@@ -84,9 +109,12 @@ export function separateEventsByTime(events: Events[]) {
     (a, b) => getComparableDate(b).getTime() - getComparableDate(a).getTime()
   );
 
-  currentEvents = currentEvents.sort(
-    (a, b) => getComparableDate(b).getTime() - getComparableDate(a).getTime()
-  );
+  currentEvents = currentEvents.sort((a, b) => {
+    const aTBD = isTBD(a);
+    const bTBD = isTBD(b);
+    if (aTBD !== bTBD) return aTBD ? 1 : -1; 
+    return getComparableDate(b).getTime() - getComparableDate(a).getTime();
+  });
 
 
 

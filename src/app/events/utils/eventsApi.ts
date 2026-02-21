@@ -35,10 +35,10 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
           time: formatTimeSmart(timestamp, { format: "12h" }),
         };
       };
-      date = formatDateTime(event.end_at).date;
+      date = formatDateTime(event.end_at ?? "").date;
 
       // Store the end timestamp in the time field for proper categorization
-      time = event.end_at; // Store the timestamp for processing
+      time = event.end_at ?? ""; // Store the timestamp for processing
     } else if (!isTBD(event.start_at) && !isTBD(event.end_at)) {
       // Regular event with both timestamps
       const formatDateTime = (timestamp: string) => {
@@ -49,8 +49,8 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
           time: formatTimeSmart(timestamp, { format: "12h" }),
         };
       };
-      const startDateTime = formatDateTime(event.start_at);
-      const endDateTime = formatDateTime(event.end_at);
+      const startDateTime = formatDateTime(event.start_at ?? "");
+      const endDateTime = formatDateTime(event.end_at ?? "");
       date = startDateTime.date;
       time = `${startDateTime.time} - ${endDateTime.time}`;
     }
@@ -81,19 +81,29 @@ export function transformApiEvents(apiEvents: ApiEvent[]) {
     };
 
     return {
-      id: typeof event.id === "string" ? parseInt(event.id, 16) : event.id, // Convert hex string to number if needed
+      id: event.id,
       name: event.name,
       description: event.description,
-      status: event.status,
       date,
       time,
+      start_at: event.start_at ?? null,
+      end_at: event.end_at ?? null,
+      registration_link: event.registration_link ?? event.url ?? "",
+      learning_outcomes: event.learning_outcomes ?? null,
+      what_you_need: event.what_you_need ?? null,
+      instructors: event.instructors ?? null,
+      recurrence: event.recurrence ?? null,
       location: event.location,
-      images: "", // API doesn't have this field
-      files: (event.files || []).map((file) => ({
-        ...file,
-        // Keep file.id as string (Google Drive IDs are strings)
-      })),
+      url: event.url ?? null,
+      status: event.status,
       types: transformTypes(event.types),
+      domains: event.domains ?? null,
+      files: (event.files || []).map((file) => ({
+        id: file.id,
+        name: file.name,
+        url: file.url,
+      })),
+      content: event.content ?? null,
     };
   });
 }

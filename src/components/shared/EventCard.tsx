@@ -5,7 +5,7 @@ import { formatDateSmart } from "@/utils/dateUtils";
 import { Events } from "@/types/events";
 
 type EventCardProps = {
-  id: number;
+  id: string | number;
   title: string;
   time: string;
   date: string;
@@ -16,6 +16,7 @@ type EventCardProps = {
   onseeDetails: (event: Events) => void;
   onInvitationLink: () => void;
   originalEvent?: Events; // Add this prop to pass the original event object
+  showInvitationButton?: boolean; // Hide registration/invitation button for past events (same as EventListCard)
 };
 
 // EventCard component - integrated into this section
@@ -31,6 +32,7 @@ export function EventCard({
   onseeDetails,
   onInvitationLink,
   originalEvent,
+  showInvitationButton = true,
 }: EventCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -72,10 +74,10 @@ export function EventCard({
           date,
           time,
           location,
-          images: imageSrc,
           files: [],
           types: [type],
           url: "",
+          registration_link: "",
         });
       }
     }
@@ -340,30 +342,33 @@ export function EventCard({
                           : "16px",
                     }}
                   >
-                    <button
-                      className="text-white text-xs font-medium rounded-lg transition-all duration-200"
-                      style={{
-                        flex: "1",
-                        height:
-                          windowWidth < 640
-                            ? "30px"
-                            : windowWidth < 1024
-                            ? "33px"
-                            : "36px",
-                        backgroundColor: "#FAA336",
-                        borderRadius: "8px",
-                        opacity: "100%",
-                        fontFamily: "Roboto, sans-serif",
-                        fontWeight: "400",
-                        fontSize: windowWidth < 640 ? "12px" : "14px",
-                        lineHeight: windowWidth < 640 ? "16px" : "20px",
-                        letterSpacing: "0%",
-                        color: "#152E3F",
-                      }}
-                      onClick={onInvitationLink}
-                    >
-                      Registration Link
-                    </button>
+                    {showInvitationButton && (
+                      <button
+                        className="text-white text-xs font-medium rounded-lg transition-all duration-200"
+                        style={{
+                          flex: "1",
+                          height:
+                            windowWidth < 640
+                              ? "30px"
+                              : windowWidth < 1024
+                              ? "33px"
+                              : "36px",
+                          backgroundColor: "#FAA336",
+                          borderRadius: "8px",
+                          opacity: "100%",
+                          fontFamily: "Roboto, sans-serif",
+                          fontWeight: "400",
+                          fontSize: windowWidth < 640 ? "12px" : "14px",
+                          lineHeight: windowWidth < 640 ? "16px" : "20px",
+                          letterSpacing: "0%",
+                          color: "#152E3F",
+                        }}
+                        onClick={onInvitationLink}
+                      >
+                        Registration Link
+                      </button>
+                    )}
+
                     <button
                       className="text-white text-xs font-medium rounded-lg transition-all duration-200"
                       style={{

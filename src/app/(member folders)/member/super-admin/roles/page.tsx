@@ -1,290 +1,159 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
-import { privateAxios } from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { isAxiosError } from "axios";
-
-// Types
-type Role = {
-  id: string;
-  name: string;
-  created_at?: string;
-  updated_at?: string;
-};
-
-type Permission = {
-  id: string;
-  name: string;
-  created_at?: string;
-  updated_at?: string;
-};
-
-type RolePermission = {
-  id: string;
-  role_id: string;
-  permission_id: string;
-  status: number; // 0 for not allowed, 1 for allowed
-  role?: Role;
-  permission?: Permission;
-};
+import React, { useCallback, useEffect, useState } from "react";
+import { getAllRoles, updateRole, deleteRole } from "@/services/useApiRole";
+import { useForm } from "react-hook-form";
+import { IconPlus } from "@tabler/icons-react";
+import Link from "next/link";
+import { DataTable } from "@/components/data-table/data-table";
+import { getErrMsg } from "@/utils/errorMessage";
+import { Role } from "@/types/roles.interface";
+import EmptyRolesState from "./components/EmptyRolesState";
+import { createRoleTableColumns } from "./components/RoleTableColumns";
+import UpdateRoleModal, { RoleForm } from "./components/modals/UpdateRoleModal";
+import DeleteRoleModal from "./components/modals/DeleteRoleModal";
 
 function RolesPage() {
-  const { user, isLoading: isUserLoading } = useUser();
+  const { user, isLoading } = useUser();
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [, setError] = useState<string>("");
+
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+
   const router = useRouter();
 
-  // State
-  const [roles, setRoles] = useState<Role[]>([]);
-  const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [rolePermissions, setRolePermissions] = useState<RolePermission[]>([]);
-  const [error, setError] = useState<string>("");
-  const [pendingRolePermissions, setPendingRolePermissions] = useState<
-    Record<string, number>
-  >({});
-  const [isSaving, setIsSaving] = useState(false);
+  const {
+    register: registerUpdate,
+    handleSubmit: handleUpdateSubmit,
+    reset: resetUpdate,
+    formState: { errors: updateErrors },
+  } = useForm<RoleForm>();
 
-  const getAxiosMessage = (err: unknown, fallback = "Request failed") => {
-    if (isAxiosError(err)) {
-      return err.response?.data?.message ?? err.message ?? fallback;
-    }
-    if (err instanceof Error) return err.message;
-    return fallback;
-  };
-
-  // Data fetching
-  const fetchAllData = async () => {
+  const fetchRoles = useCallback(async () => {
     try {
-      const [rolesRes, permissionsRes, rolePermissionsRes] = await Promise.all([
-        privateAxios.get("/role"),
-        privateAxios.get("/permission"),
-        privateAxios.get("/role-permission"),
-      ]);
-
-      setRoles(rolesRes.data.data || rolesRes.data);
-      setPermissions(permissionsRes.data.data || permissionsRes.data);
-      setRolePermissions(
-        rolePermissionsRes.data.data || rolePermissionsRes.data
-      );
+      const res = await getAllRoles();
+      const data = Array.isArray(res) ? res : (res as { data?: Role[] })?.data ?? [];
+      setRoles(data);
     } catch (err: unknown) {
-      const msg = getAxiosMessage(err, "Failed to fetch data");
-      setError(msg);
-      // eslint-disable-next-line no-console
-      console.error("Error fetching data:", err);
+      setError(getErrMsg(err));
+      console.error(err);
     }
-  };
+  }, []);
 
-  const groupedPermissions = useMemo(() => {
-    if (permissions.length === 0) return {} as Record<string, Permission[]>;
-    return permissions.reduce((acc, permission) => {
-      const groupName = permission.name.split(".")[0];
-      if (!acc[groupName]) acc[groupName] = [];
-      acc[groupName].push(permission);
-      return acc;
-    }, {} as Record<string, Permission[]>);
-  }, [permissions]);
+  useEffect(() => {
+    fetchRoles();
+  }, [fetchRoles]);
 
-  const displayableRoles = useMemo(
-    () => roles.filter((role) => role.name !== "SUPER_ADMIN"),
-    [roles]
-  );
+  const handleUpdateRole = async (data: RoleForm) => {
+    if (!selectedRole) return;
 
-  const getKey = (roleId: string, permissionId: string) =>
-    `${roleId}__${permissionId}`;
-
-  const isChecked = (roleId: string, permissionId: string) => {
-    const key = getKey(roleId, permissionId);
-    if (Object.prototype.hasOwnProperty.call(pendingRolePermissions, key)) {
-      return pendingRolePermissions[key] === 1;
-    }
-    return rolePermissions.some(
-      (rp) =>
-        rp.role_id === roleId &&
-        rp.permission_id === permissionId &&
-        rp.status === 1
-    );
-  };
-
-  const handleCheckboxChange = (roleId: string, permissionId: string) => {
-    const key = getKey(roleId, permissionId);
-    const currentlyChecked = isChecked(roleId, permissionId);
-    setPendingRolePermissions((prev) => ({
-      ...prev,
-      [key]: currentlyChecked ? 0 : 1,
-    }));
-  };
-
-  const handleBulkUpdateLocal = (roleId: string, check: boolean) => {
-    const newStatus = check ? 1 : 0;
-    setPendingRolePermissions((prev) => {
-      const updated = { ...prev };
-      permissions.forEach((permission) => {
-        const key = getKey(roleId, permission.id);
-        // Only update if the current (pending or backend) status is different
-        if (isChecked(roleId, permission.id) !== check) {
-          updated[key] = newStatus;
-        }
-      });
-      return updated;
-    });
-  };
-
-  const handleSave = async () => {
-    setIsSaving(true);
-    setError("");
     try {
-      const payload = Object.entries(pendingRolePermissions).map(
-        ([key, status]) => {
-          const [role_id, permission_id] = key.split("__");
-          return { role_id, permission_id, status };
-        }
-      );
-      if (payload.length === 0) {
-        setIsSaving(false);
-        return;
-      }
-      await privateAxios.patch("/role-permission", payload);
-      await fetchAllData();
-      setPendingRolePermissions({});
+      await updateRole(selectedRole.id, data.name);
+      setIsUpdateModalOpen(false);
+      setSelectedRole(null);
+      resetUpdate();
+      await fetchRoles();
     } catch (err: unknown) {
-      setError(getAxiosMessage(err, "Failed to save changes"));
-    } finally {
-      setIsSaving(false);
+      console.error("Error updating role:", err);
+      alert(getErrMsg(err));
+    }
+  };
+
+  const handleDeleteRole = async () => {
+    if (!selectedRole) return;
+
+    try {
+      await deleteRole(selectedRole.id);
+      setIsDeleteModalOpen(false);
+      setSelectedRole(null);
+      await fetchRoles();
+    } catch (err: unknown) {
+      console.error("Error deleting role:", err);
+      alert(getErrMsg(err));
+    }
+  };
+
+  const openModal = (role: Role | null, type: "update" | "delete") => {
+    setSelectedRole(role);
+    switch (type) {
+      case "update":
+        setIsUpdateModalOpen(true);
+        break;
+      case "delete":
+        setIsDeleteModalOpen(true);
+        break;
     }
   };
 
   useEffect(() => {
-    if (!isUserLoading) {
+    if (!isLoading) {
       if (!user) {
         router.push("/");
       } else if (user.role !== "SUPER_ADMIN") {
         router.push("/member");
       }
     }
-  }, [user, isUserLoading, router]);
-
-  useEffect(() => {
-    if (!isUserLoading && user?.role === "SUPER_ADMIN") {
-      fetchAllData();
-    }
-  }, [user, isUserLoading]);
+  }, [user, isLoading, router]);
 
   if (!user || user.role !== "SUPER_ADMIN") {
     return null;
   }
 
-  return (
-    <div className="container mx-auto p-4 text-white">
-      <h1 className="text-3xl font-bold mb-6 text-center">
-        Role and Permission Management
-      </h1>
+  const columns = createRoleTableColumns(openModal);
 
-      {error && (
-        <div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded mb-6">
-          {error}
+  return (
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Roles</h1>
+          <p className="text-gray-600">Manage roles</p>
         </div>
+        <Link
+          href="/member/super-admin/roles/create"
+          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+        >
+          <IconPlus size={20} />
+          Create Role
+        </Link>
+      </div>
+
+      {roles.length === 0 ? (
+        <EmptyRolesState />
+      ) : (
+        <DataTable
+          columns={columns}
+          data={roles}
+          headerVariant="purple"
+          sort={true}
+        />
       )}
 
-      {/* Save Button */}
-      <div className="flex justify-end mb-4">
-        <button
-          className={`px-6 py-2 rounded font-bold text-white ${
-            Object.keys(pendingRolePermissions).length === 0 || isSaving
-              ? "bg-gray-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
-          }`}
-          onClick={handleSave}
-          disabled={
-            Object.keys(pendingRolePermissions).length === 0 || isSaving
-          }
-        >
-          {isSaving ? "Saving..." : "Save"}
-        </button>
-      </div>
+      <UpdateRoleModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => {
+          setIsUpdateModalOpen(false);
+          setSelectedRole(null);
+          resetUpdate();
+        }}
+        selectedRole={selectedRole}
+        register={registerUpdate}
+        handleSubmit={handleUpdateSubmit}
+        onSubmit={handleUpdateRole}
+        errors={updateErrors}
+      />
 
-      <div className="bg-gray-800/50 rounded-lg overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-gray-900/70">
-              <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-                >
-                  Permission
-                </th>
-                {displayableRoles.map((role) => (
-                  <th
-                    key={role.id}
-                    scope="col"
-                    className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider"
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <span>{role.name}</span>
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => handleBulkUpdateLocal(role.id, true)}
-                          className="text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                          type="button"
-                        >
-                          ✓ All
-                        </button>
-                        <button
-                          onClick={() => handleBulkUpdateLocal(role.id, false)}
-                          className="text-xs bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded"
-                          type="button"
-                        >
-                          ✕ All
-                        </button>
-                      </div>
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="bg-gray-800/50 divide-y divide-gray-700">
-              {Object.keys(groupedPermissions).map((groupName) => (
-                <React.Fragment key={groupName}>
-                  <tr>
-                    <td
-                      colSpan={displayableRoles.length + 1}
-                      className="px-6 py-4 bg-gray-900/50"
-                    >
-                      <h3 className="text-lg font-semibold">{groupName}</h3>
-                    </td>
-                  </tr>
-                  {groupedPermissions[groupName].map((permission) => {
-                    return (
-                      <tr key={permission.id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          {permission.name}
-                        </td>
-                        {displayableRoles.map((role) => {
-                          return (
-                            <td
-                              key={role.id}
-                              className="px-6 py-4 whitespace-nowrap text-sm text-center"
-                            >
-                              <Checkbox
-                                checked={isChecked(role.id, permission.id)}
-                                onCheckedChange={() =>
-                                  handleCheckboxChange(role.id, permission.id)
-                                }
-                                id={`${role.id}-${permission.id}`}
-                              />
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    );
-                  })}
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <DeleteRoleModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setSelectedRole(null);
+        }}
+        onConfirm={handleDeleteRole}
+      />
     </div>
   );
 }

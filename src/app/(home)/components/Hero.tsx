@@ -68,7 +68,7 @@ export default function Hero() {
             </div>
             
             <Link
-              href="/"
+              href="/events"
               className="absolute inset-0 flex items-center justify-center rounded-lg z-10"
               style={{
               color: "#0E1E29",
@@ -79,7 +79,7 @@ export default function Hero() {
               letterSpacing: "1%"
             }}
           >
-            Get Started
+            View Events
           </Link>
           </div>
           <Link

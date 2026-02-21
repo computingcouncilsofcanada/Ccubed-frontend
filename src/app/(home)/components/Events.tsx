@@ -3,20 +3,21 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { IconCalendar } from "@tabler/icons-react";
+import { Calendar } from "lucide-react";
 import type { Events } from "@/types/events";
 import { useRouter } from "next/navigation";
 import { EventCard } from "@/components/shared/EventCard";
+import { isEventPast } from "@/app/events/utils/eventUtils";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
-import PreviewModal from "@/components/modals/PreviewModal";
 
-import {  IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import {  ChevronLeft, ChevronRight } from "lucide-react";
 // Main Events Section Component
 type EventsSectionProps = {
   events: Events[];
+  onOpenEventDetail: (event: Events) => void;
 };
 
-export default function Events({ events }: EventsSectionProps) {
+export default function Events({ events, onOpenEventDetail }: EventsSectionProps) {
   const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -173,14 +174,14 @@ useEffect(() => {
               className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors duration-200"
               aria-label="Previous event"
             >
-              <IconChevronLeft size={16} color="white" />
+              <ChevronLeft size={16} color="white" />
             </button>
             <button
               onClick={handleNext}
               className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors duration-200"
               aria-label="Next event"
             >
-              <IconChevronRight size={16} color="white" />
+              <ChevronRight size={16} color="white" />
             </button>
           </div>
         )}
@@ -219,7 +220,7 @@ useEffect(() => {
                         className="flex-shrink-0"
                       >
                         <EventCard
-                          id={event.id}
+                          id={Number(event.id)}
                           title={event.name}
                           time={event.time}
                           date={event.date}
@@ -239,12 +240,10 @@ useEffect(() => {
                               : "https://placehold.co/400"
                           }
                           description={event.description}
-                          onseeDetails={(event) => {
-                            setSelectedEvent(event);
-                            setIsModalOpen(true);
-                          }}
-                          onInvitationLink={() => handleInvite(event.url)}
+                          onseeDetails={(event) => onOpenEventDetail(event)}
+                          onInvitationLink={() => handleInvite(event.registration_link ?? event.url)}
                           originalEvent={event}
+                          showInvitationButton={!isEventPast(event)}
                         />
                       </div>
                     ))}
@@ -267,7 +266,7 @@ useEffect(() => {
                     }}
                   >
                     <EventCard
-                      id={event.id}
+                      id={Number(event.id)}
                       title={event.name}
                       time={event.time}
                       date={event.date}
@@ -287,12 +286,10 @@ useEffect(() => {
                           : "https://placehold.co/400"
                       }
                       description={event.description}
-                      onseeDetails={(event) => {
-                        setSelectedEvent(event);
-                        setIsModalOpen(true);
-                      }}
-                      onInvitationLink={() => handleInvite(event.url)}
+                      onseeDetails={(event) => onOpenEventDetail(event)}
+                      onInvitationLink={() => handleInvite(event.registration_link ?? event.url)}
                       originalEvent={event}
+                      showInvitationButton={!isEventPast(event)}
                     />
                   </motion.div>
                 ))}
@@ -331,9 +328,9 @@ useEffect(() => {
                       boxShadow: "0 4px 12px rgba(255, 255, 255, 0.1)",
                     }}
                   >
-                    <IconCalendar
+                    <Calendar
                       size={32}
-                      stroke={1.5}
+                      stroke="1.5"
                       color="rgba(255, 255, 255, 0.7)"
                     />
                   </div>
@@ -398,12 +395,6 @@ useEffect(() => {
           </div>
         )}
       </div>
-      <PreviewModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        event={selectedEvent}
-        // onInvite={handleInvite}
-      />
     </section>
   );
 }

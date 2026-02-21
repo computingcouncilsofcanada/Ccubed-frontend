@@ -6,33 +6,100 @@ import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import { motion } from "framer-motion";
 import Footer from "@/components/shared/Footer";
 import PreviewModal from "@/components/modals/PreviewModal";
-import { Events } from "@/types/events";
+import { Event as EventType } from "@/types/events";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 
 import { PastEventsSection } from "./components/PastEventsSection";
 import { EventsHeader } from "./components/EventsHeader";
 import { CurrentEventsSection } from "./components/CurrentEventsSection";
-import React from "react";
 import { useEventsData } from "./hooks/useEventsData";
 import { useEventsFilter } from "./hooks/useEventsFilter";
 import { CalendarSection } from "./components/CalendarSection";
 
 export default function EventsPage() {
-  // Safari fallback for images
-  const heroImgSrc = useSafariImageFallback(
-    "/FigmaFiles/mainPageAssets/hero-img.svg",
-    "/FigmaFiles/mainPageAssets/hero-img.png"
-  );
-
-  const heroImg2Src = useSafariImageFallback(
-    "/FigmaFiles/mainPageAssets/hero-img-2.svg",
-    "/FigmaFiles/mainPageAssets/hero-img-2.png"
+  // Event page hero assets (orbit design)
+  const ccubedIconSrc = useSafariImageFallback(
+    "/FigmaFiles/eventPageAssets/CCubed_icon.png",
+    "/FigmaFiles/eventPageAssets/CCubed_icon.png"
   );
 
   const bearImgSrc = useSafariImageFallback(
-    "/FigmaFiles/mainPageAssets/bear_form.svg",
-    "/FigmaFiles/mainPageAssets/bear_form.png"
+    "/FigmaFiles/eventPageAssets/bear-img.svg",
+    "/FigmaFiles/eventPageAssets/bear-img.svg"
   );
+
+  // Orbiting company icons — left/top are percentages (tweak to reposition)
+  const orbitIcons: {
+    src: string;
+    alt: string;
+    left: number;
+    top: number;
+    large?: boolean;
+    contrastBg?: boolean;
+  }[] = [
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Apple Inc..png", alt: "Apple", left: 61, top: 3 },
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Starbucks Corporation.png", alt: "Starbucks", left: 77, top: 18 },
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/adobe.png", alt: "Adobe", left: 94, top: 38 },
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/International Business Machines Corporation.png", alt: "IBM", left: 94, top: 62 },
+      // { src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Best Buy Co., Inc..png", alt: "Best Buy", left: 77, top: 82 },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/Royal_Bank_of_Canada-Logo.wine 1.png",
+        alt: "RBC",
+        left: 50,
+        top: 90,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/meta.png",
+        alt: "Meta",
+        left: 93,
+        top: 66,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/amazon.png",
+        alt: "Amazon",
+        left: 4,
+        top: 63,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/playstation-png-logo-pic-4625 1.png",
+        alt: "PlayStation",
+        left: 17,
+        top: 16,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/windows.png",
+        alt: "Windows",
+        left: 61,
+        top: 4,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/cineplex.png",
+        alt: "Cineplex",
+        left: 21,
+        top: 42,
+        large: true,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/tesla.png",
+        alt: "Tesla",
+        left: 71,
+        top: 30,
+        contrastBg: true,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/pandg.png",
+        alt: "P&G",
+        left: 16,
+        top: 80,
+      },
+      {
+        src: "/FigmaFiles/eventPageAssets/iconsAroundGlobe/autodesk.png",
+        alt: "Autodesk",
+        left: 95,
+        top: 38,
+        contrastBg: true,
+      },
+    ];
 
   const [windowWidth, setWindowWidth] = useState(0);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -41,7 +108,7 @@ export default function EventsPage() {
 
   const [eventType, setEventType] = useState<string>("all");
   const [viewMode, setViewMode] = useState<string>("list");
-  const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -59,10 +126,10 @@ export default function EventsPage() {
   const handleShare = () => alert("Share link clicked");
 
   const handleInvite = (url: string | null | undefined) => {
-  if (!url) {
-    console.warn("No registration URL for this event");
-    return;
-  }
+    if (!url) {
+      console.warn("No registration URL for this event");
+      return;
+    }
 
     window.open(url, "_blank");
   };
@@ -75,45 +142,91 @@ export default function EventsPage() {
       {isHydrated && <BgBoxMainPage maxHeight={400} />}
 
       <div className="max-w-6xl w-full mx-auto py-10 px-5 relative z-10 mb-32">
-        <div className="image relative flex justify-center flex-shrink-0">
-          <motion.div className="relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] lg:w-[405px] lg:h-[405px]">
-            <Image
-              src={heroImgSrc}
-              alt="Hero Image"
-              width={505}
-              height={505}
-              className="w-full h-full object-contain select-none"
-              priority
-              quality={100}
-              draggable={false}
-              style={{ userSelect: "none" }}
-            />
-
-            {isHydrated && (
-              <motion.div
-                className="absolute inset-0"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 0] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
+        <div className="image relative flex justify-center shrink-0 my-6">
+          <div className="relative w-[300px] h-[300px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] lg:w-[520px] lg:h-[520px]">
+            {/* Orbital lines (faint layer)*/}
+            <div className="absolute inset-0 w-full h-full opacity-100">
+              <Image
+                src="/FigmaFiles/eventPageAssets/hero-lines-faint.png"
+                alt=""
+                width={520}
+                height={520}
+                className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
+                priority
+                quality={100}
+                draggable={false}
+                aria-hidden
+              />
+            </div>
+            {/* Orbital lines (bold layer) */}
+            <div className="absolute inset-0 w-full h-full opacity-100">
+              <Image
+                src="/FigmaFiles/eventPageAssets/hero-lines-bold.png"
+                alt=""
+                width={520}
+                height={520}
+                className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none rotate-30"
+                priority
+                quality={100}
+                draggable={false}
+                aria-hidden
+              />
+            </div>
+            {/* Orbital lines (bold layer) */}
+            <div className="absolute inset-0 w-full h-full opacity-100">
+              <Image
+                src="/FigmaFiles/eventPageAssets/hero-lines-bold.png"
+                alt=""
+                width={520}
+                height={520}
+                className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none rotate-150"
+                priority
+                quality={100}
+                draggable={false}
+                aria-hidden
+              />
+            </div>
+            {/* Central CCubed icon */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Image
+                src={ccubedIconSrc}
+                alt="CCubed"
+                width={140}
+                height={140}
+                className="w-[22%] h-[22%] min-w-[80px] min-h-[80px] max-w-[140px] max-h-[140px] object-contain select-none"
+                priority
+                quality={100}
+                draggable={false}
+                style={{ userSelect: "none" }}
+              />
+            </div>
+            {/* Orbiting company icons */}
+            {orbitIcons.map((icon) => (
+              <div
+                key={icon.alt}
+                className={`absolute flex items-center justify-center rounded-full p-2 ${
+                  icon.large
+                    ? "w-[14%] h-[14%] min-w-[36px] min-h-[36px] max-w-[58px] max-h-[58px]"
+                    : "w-[10%] h-[10%] min-w-[24px] min-h-[24px] max-w-[44px] max-h-[44px]"
+                } ${icon.contrastBg ? "bg-white/90" : "bg-[#d4d4d4]/10"}`}
+                style={{
+                  left: `${icon.left}%`,
+                  top: `${icon.top}%`,
+                  transform: "translate(-50%, -50%)",
                 }}
               >
                 <Image
-                  src={heroImg2Src}
-                  alt="Hero Image with Texture"
-                  width={505}
-                  height={505}
+                  src={icon.src}
+                  alt={icon.alt}
+                  width={icon.large ? 58 : 44}
+                  height={icon.large ? 58 : 44}
                   className="w-full h-full object-contain select-none"
-                  priority
-                  quality={100}
                   draggable={false}
                   style={{ userSelect: "none" }}
                 />
-              </motion.div>
-            )}
-          </motion.div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <motion.div
@@ -136,7 +249,7 @@ export default function EventsPage() {
             Events
           </h1>
           <motion.div
-            className="relative flex-shrink-0"
+            className="relative shrink-0"
             style={{
               marginLeft: windowWidth < 640 ? "-70px" : "-60px",
               marginBottom: windowWidth < 640 ? "-40px" : "-25px",
@@ -226,7 +339,7 @@ export default function EventsPage() {
               setSelectedEvent(event);
               setIsModalOpen(true);
             }}
-            onInvitationLink=" "
+            onInvitationLink={() => {}}
           />
         </motion.div>
 
@@ -237,7 +350,13 @@ export default function EventsPage() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 }}
         >
-          <CalendarSection events={[...currentEvents, ...pastEvents]} />
+          <CalendarSection
+            events={[...currentEvents, ...pastEvents]}
+            onEventClick={(event) => {
+              setSelectedEvent(event);
+              setIsModalOpen(true);
+            }}
+          />
         </motion.div>
       </div>
 
@@ -248,7 +367,11 @@ export default function EventsPage() {
         onClose={() => setIsModalOpen(false)}
         event={selectedEvent}
         onShare={handleShare}
-        onInvite={() => handleInvite(selectedEvent?.url ?? null)}
+        onInvite={() =>
+          handleInvite(
+            selectedEvent?.registration_link ?? selectedEvent?.url ?? null
+          )
+        }
       />
     </div>
   );

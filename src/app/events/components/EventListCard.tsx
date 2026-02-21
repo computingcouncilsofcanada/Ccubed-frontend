@@ -1129,7 +1129,7 @@ export function EventListCard({
                 lineHeight: "auto",
                 letterSpacing: "0%",
               }}
-              onClick={() => window.open("https://forms.gle/nT29yC1LSWSz8C4f6", "_blank")}
+              onClick={onInvitationLink}
             >
               Registration Link
             </button>
