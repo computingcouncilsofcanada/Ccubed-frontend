@@ -3,6 +3,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { isAxiosError } from "axios";
 
 import {
@@ -12,6 +13,8 @@ import {
   getAllRoles,
 } from "@/services/useApiAuth";
 import { usePasswordGenerator } from "@/hooks/usePasswordGenerator";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
+import BackgroundBoxes from "@/components/essentials/BackgroundBoxes";
 import {
   Select,
   SelectContent,
@@ -53,6 +56,10 @@ interface Roles {
 export const RegisterUserForm = () => {
   const { generatePassword } = usePasswordGenerator();
   const router = useRouter();
+  const logoSrc = useSafariImageFallback(
+    "/FigmaFiles/ccubed-icon.svg",
+    "/FigmaFiles/ccubed-icon.png"
+  );
 
   const [schools, setSchools] = useState<School[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -127,16 +134,45 @@ export const RegisterUserForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mt-10 mx-auto border-white border-2 shadow-2xl flex flex-col gap-4 w-full max-w-md p-5"
-    >
+    <div className="relative w-full h-screen flex items-center justify-center">
+     
+      <BackgroundBoxes />
+   
+      <div className="absolute top-8 left-50 flex items-center gap-3 z-20">
+        <Image src={logoSrc}
+          alt="CCubed Icon"
+          width={40}
+          height={40}
+          quality={100}
+          draggable={false}
+          style={{ userSelect: "none" }}
+        />
+        <h1 className="text-white font-bold">CCUBED</h1>
+      </div>
+
+      <h1 
+        className="absolute bottom-8 left-50 z-20"
+        style={{
+          fontFamily: "Roboto, sans-serif",
+          fontWeight: "600",
+          fontSize: "15px",
+          letterSpacing: "0%",
+          color: "#FFFFFF",
+          opacity: "40%"
+        }}
+      >
+        COMPUTING COUNCILS OF CANADA
+      </h1>
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="relative z-10 flex flex-col gap-4 w-full max-w-lg p-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl"
+      >
       {/* Form Header */}
-      <h1 className="text-center">CCUBED</h1>
-      <p className="text-center">Register a new user</p>
+      <h1 className="text-white font-bold text-4xl mb-4">Register</h1>
 
       {/* Username Input */}
-      <label htmlFor="username" className="font-bold flex flex-col gap-2">
+      <label htmlFor="username" className="font-bold flex flex-col gap-2 text-white">
         Username
         <input
           {...register("username", {
@@ -147,16 +183,16 @@ export const RegisterUserForm = () => {
             },
           })}
           type="text"
-          placeholder="username"
-          className="font-normal text-foreground"
+          placeholder="Username"
+          className="font-normal bg-white text-foreground rounded-full py-2 px-3 placeholder-gray-400 text-sm"
         />
         {errors.username && (
-          <div className="text-red-600">{errors.username.message}</div>
+          <div className="text-white text-sm">{errors.username.message}</div>
         )}
       </label>
 
       {/* Email Input */}
-      <label htmlFor="email" className="font-bold flex flex-col gap-2">
+      <label htmlFor="email" className="font-bold flex flex-col gap-2 text-white">
         Email
         <input
           {...register("email", {
@@ -167,16 +203,16 @@ export const RegisterUserForm = () => {
             },
           })}
           type="email"
-          placeholder="email"
-          className="font-normal text-foreground"
+          placeholder="Email Address"
+          className="font-normal bg-white text-foreground rounded-full py-2 px-3 placeholder-gray-400 text-sm"
         />
         {errors.email && (
-          <div className="text-red-600">{errors.email.message}</div>
+          <div className="text-white text-sm">{errors.email.message}</div>
         )}
       </label>
 
       {/* Password Input with Generation and Copy Options */}
-      <label htmlFor="password" className="font-bold flex flex-col gap-2">
+      <label htmlFor="password" className="font-bold flex flex-col gap-2 text-white">
         Password
         <div className="flex gap-2 flex-col">
           <input
@@ -194,92 +230,95 @@ export const RegisterUserForm = () => {
               },
             })}
             type="password"
-            placeholder="password"
-            className="font-normal text-foreground flex-1"
+            placeholder="Password"
+            className="font-normal bg-white text-foreground rounded-full py-2 px-3 placeholder-gray-400 flex-1 text-sm"
           />
           <div className="flex gap-2">
             <button
               type="button"
               onClick={handleGeneratePassword}
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="px-3 py-1 bg-gray-600 text-white rounded-full hover:bg-gray-700 text-xs"
             >
               Generate
             </button>
             <button
               type="button"
               onClick={handleCopyPassword}
-              className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+              className="px-3 py-1 bg-gray-600 text-white rounded-full hover:bg-gray-700 text-xs"
             >
               Copy
             </button>
           </div>
         </div>
         {errors.password && (
-          <div className="text-red-600">{errors.password.message}</div>
+          <div className="text-white text-sm">{errors.password.message}</div>
         )}
       </label>
 
-      {/* School Selection */}
-      <div className="font-bold flex flex-col gap-2">
-        <label htmlFor="school_id">School</label>
-        <Select
-          onValueChange={(value) => setValue("school_id", value)}
-          {...register("school_id", {
-            required: "Please select a school",
-          })}
-        >
-          <SelectTrigger className="w-full border-2 border-gray-200 p-2 rounded-md outline-none bg-background text-foreground">
-            <SelectValue placeholder="Select a school" />
-          </SelectTrigger>
-          <SelectContent className="bg-white text-black border-2 border-gray-200">
-            {schools.map((school) => (
-              <SelectItem
-                key={school.id}
-                value={school.id}
-                className="cursor-pointer hover:bg-gray-100 text-black"
-              >
-                {school.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {errors.school_id && (
-          <div className="text-red-600">{errors.school_id.message}</div>
-        )}
+      {/* School and Year of Study - Side by Side */}
+      <div className="flex gap-4">
+        {/* School Selection */}
+        <div className="font-bold flex flex-col gap-2 flex-1">
+          <label htmlFor="school_id" className="text-white">School</label>
+          <Select
+            onValueChange={(value) => setValue("school_id", value)}
+            {...register("school_id", {
+              required: "Please select a school",
+            })}
+          >
+            <SelectTrigger className="w-full bg-white text-gray-400 rounded-full py-2 px-3 outline-none text-sm">
+              <SelectValue placeholder="Select a school" />
+            </SelectTrigger>
+            <SelectContent className="bg-white text-black">
+              {schools.map((school) => (
+                <SelectItem
+                  key={school.id}
+                  value={school.id}
+                  className="cursor-pointer hover:bg-gray-100 text-black"
+                >
+                  {school.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.school_id && (
+            <div className="text-white text-sm">{errors.school_id.message}</div>
+          )}
+        </div>
+
+        {/* Year of Study Input */}
+        <div className="font-bold flex flex-col gap-2 flex-1">
+          <label htmlFor="year_of_study" className="text-white">Year of Study</label>
+          <input
+            {...register("year_of_study", {
+              required: "Please enter a year of study",
+              valueAsNumber: true,
+              min: { value: 1, message: "Year of study must be between 1 and 5" },
+              max: { value: 5, message: "Year of study must be between 1 and 5" },
+            })}
+            type="number"
+            placeholder="Select a year"
+            className="font-normal bg-white text-foreground rounded-full py-2 px-3 placeholder-gray-400 text-sm"
+          />
+          {errors.year_of_study && (
+            <div className="text-white text-sm">{errors.year_of_study.message}</div>
+          )}
+        </div>
       </div>
-
-      {/* Year of Study Input */}
-      <label htmlFor="year_of_study" className="font-bold flex flex-col gap-2">
-        Year of Study
-        <input
-          {...register("year_of_study", {
-            required: "Please enter a year of study",
-            valueAsNumber: true,
-            min: { value: 1, message: "Year of study must be between 1 and 5" },
-            max: { value: 5, message: "Year of study must be between 1 and 5" },
-          })}
-          type="number"
-          placeholder="year of study"
-          className="font-normal text-foreground"
-        />
-        {errors.year_of_study && (
-          <div className="text-red-600">{errors.year_of_study.message}</div>
-        )}
-      </label>
 
       {/* Department Selection */}
       <div className="font-bold flex flex-col gap-2">
-        <label htmlFor="department">Department</label>
+        <label htmlFor="department" className="text-white ">Department</label>
         <Select
           onValueChange={(value) => setValue("department", value)}
           {...register("department", {
             required: "Please select a department",
           })}
         >
-          <SelectTrigger className="w-full border-2 border-gray-200 p-2 rounded-md outline-none bg-background text-foreground">
+          <SelectTrigger className="w-full bg-white text-gray-400 rounded-full py-2 px-3 outline-none text-sm">
             <SelectValue placeholder="Select a department" />
           </SelectTrigger>
-          <SelectContent className="bg-white text-black border-2 border-gray-200">
+          <SelectContent className="bg-white text-black">
             {departments.map((department) => (
               <SelectItem
                 key={department.id}
@@ -292,23 +331,23 @@ export const RegisterUserForm = () => {
           </SelectContent>
         </Select>
         {errors.department && (
-          <div className="text-red-600">{errors.department.message}</div>
+          <div className="text-white text-sm">{errors.department.message}</div>
         )}
       </div>
 
       {/* Role Selection */}
       <div className="font-bold flex flex-col gap-2">
-        <label htmlFor="role">Role</label>
+        <label htmlFor="role" className="text-white">Role</label>
         <Select
           onValueChange={(value) => setValue("role", value)}
           {...register("role", {
             required: "Please select a role",
           })}
         >
-          <SelectTrigger className="w-full border-2 border-gray-200 p-2 rounded-md outline-none bg-background text-foreground">
+          <SelectTrigger className="w-full bg-white text-gray-400 rounded-full py-2 px-3 outline-none text-sm">
             <SelectValue placeholder="Select a role" />
           </SelectTrigger>
-          <SelectContent className="bg-white text-black border-2 border-gray-200">
+          <SelectContent className="bg-white text-black">
             {roles.map((role) => (
               <SelectItem
                 key={role.id}
@@ -321,7 +360,7 @@ export const RegisterUserForm = () => {
           </SelectContent>
         </Select>
         {errors.role && (
-          <div className="text-red-600">{errors.role.message}</div>
+          <div className="text-white text-sm">{errors.role.message}</div>
         )}
       </div>
 
@@ -329,10 +368,12 @@ export const RegisterUserForm = () => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+        className="bg-[#FAA336] text-white px-4 py-3 rounded-full hover:bg-[#f39522] disabled:opacity-50 font-semibold text-lg mt-4"
       >
         {isSubmitting ? "Registering..." : "Register"}
       </button>
-    </form>
+      </form>
+      
+    </div>
   );
 };
