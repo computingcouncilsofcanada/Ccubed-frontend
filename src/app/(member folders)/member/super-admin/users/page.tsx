@@ -239,7 +239,7 @@ function UsersPage() {
   }
 
   return (
-    <div className="relative w-full overflow-hidden overflow-x-hidden min-h-full p-6 md:p-8 bg-gradient-to-b from-[#10212E] to-[#162C3D]">
+    <div className="relative w-full overflow-hidden overflow-x-hidden min-h-full p-6 md:p-8">
       <div className="absolute inset-2 z-0">
         <BgBoxMainPage maxHeight={400}  />
       </div>
@@ -405,8 +405,8 @@ function UsersPage() {
           onSubmit={handlePasswordSubmit(handleChangePassword)}
           className="space-y-6"
         >
-          <div className="bg-white p-3">
-            <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+          <div className="bg-[#45505a] p-3">
+            <label htmlFor="password" className="block text-sm font-semibold text-white mb-2">
               New Password for {selectedUser?.username}
             </label>
             <div>
@@ -426,7 +426,7 @@ function UsersPage() {
                       "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character (@$!%*?&)",
                   },
                 })}
-                className="flex-1 border-2 text-black border-gray-300 px-4 py-2.5 rounded-xl  transition-all"
+                className="flex-1 border-2 text-black bg-white border-gray-300 px-4 py-2.5 rounded-lg  transition-all"
                 placeholder="Enter new password"
               />
               <div className="flex justify-center gap-10 pt-2">
@@ -486,7 +486,7 @@ function UsersPage() {
       <Modal
         isOpen={isBanModalOpen}
         onClose={() => setIsBanModalOpen(false)}
-        title={selectedUser?.status === 1 ? "Ban User" : "Unban User"}
+        title={selectedUser?.status === 1 ? "Deactivate User" : "Unban User"}
       >
         <div className="space-y-6">
           <div className={`p-4 ${
@@ -497,7 +497,7 @@ function UsersPage() {
             <p className="text-gray-700 font-medium">
               Are you sure you want to{" "}
               <span className="font-bold">
-                {selectedUser?.status === 1 ? "ban" : "unban"}
+                {selectedUser?.status === 1 ? "deactivate" : "unban"}
               </span>{" "}
               <span className="font-semibold text-[#FAA336]">
                 {selectedUser?.username}
@@ -529,8 +529,8 @@ function UsersPage() {
             >
               {selectedUser?.status === 1 ? (
                 <>
-                  <IconBan size={18} />
-                  Ban User
+              
+                  Proceed
                 </>
               ) : (
                 <>
@@ -556,8 +556,8 @@ function UsersPage() {
           onSubmit={handleRoleSubmit(handleChangeRole)}
           className="space-y-6"
         >
-          <div className="bg-white p-3 rounded">
-            <label htmlFor="role" className="block text-sm font-semibold text-gray-700 mb-2">
+          <div className="bg-[#45505a] p-3 rounded">
+            <label htmlFor="role" className="block text-sm font-semibold mb-2">
               Select New Role for {selectedUser?.username}
             </label>
             <select
@@ -565,7 +565,7 @@ function UsersPage() {
               {...registerRole("role", {
                 required: "Role is required",
               })}
-              className="w-full text-black border-2 border-gray-300 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all font-medium"
+              className="w-full text-black border-2 bg-white border-gray-300 px-4 py-2.5 rounded-lg font-medium"
               defaultValue={selectedUser?.role}
             >
               <option value="SUPER_ADMIN" className="text-black">Super Admin</option>

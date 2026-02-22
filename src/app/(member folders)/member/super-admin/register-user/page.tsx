@@ -46,7 +46,7 @@ const RegisterUser = () => {
   }
 
   return (
-    <div className="">
+    <div className="flex items-center justify-center min-h-screen">
       <RegisterUserForm />
     </div>
   );
