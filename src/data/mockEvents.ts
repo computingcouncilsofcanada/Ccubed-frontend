@@ -2,7 +2,7 @@
 export const mockEvents = [
   {
     id: "68caf1937e8c000404c8d428",
-    name: "The RED Flag 🚩 ",
+    name: "Capture The RED Flag 🚩 ",
     description:
       "An exciting twist to traditional CTFs, where instead of questions requiring hands-on exploitation, your goal is to use your intuition and danger sense to locate cybersecurity red flags in a given scenario. Provided some form of media (i.e. a screenshot or picture), you will analyze the scenario, and its up to you to point out the red flag and WHY its a red flag before your competition🏃‍♂️‍➡️ 🏃‍➡️ . This event will attempt to resemble a gameshow/jeopardy format instead of a flag submission format, requiring contestants to compete live in order to get the top spot.",
     learning_outcomes: null,
@@ -98,7 +98,7 @@ export const mockEvents = [
     location: "Youtube Live",
     url: "",
     ownership: null,
-    domains: ["ai"],
+    domains: [],
     status: 1,
     types: ["online"],
     pending_action: null,
@@ -452,7 +452,7 @@ export const mockEvents = [
     location: "Toronto",
     url: null,
     ownership: null,
-    domains: [],
+    domains: ["ai"],
     status: 1,
     types: ["In Person"],
     pending_action: null,
