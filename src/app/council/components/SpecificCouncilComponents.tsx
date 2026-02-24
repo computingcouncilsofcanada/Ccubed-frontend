@@ -173,7 +173,7 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
                       }}
                       className="absolute inset-0 flex items-center justify-center rounded-[20px] cursor-grab active:cursor-grabbing"
                     >
-                      <img
+                       <img
                         src={universities[activeIndex].imageUrl}
                         alt={universities[activeIndex].name}
                         className="max-w-full max-h-full w-auto h-auto object-contain rounded-[20px] pointer-events-none select-none"
