@@ -105,6 +105,7 @@ export const mockMembers: Team[] = [
         imageUrl: "/MemberPics/Rastin.jpg",
         info: "Director of AI",
         category: "directors",
+        council: "ai",
         social: {
           linkedin: "https://www.linkedin.com/in/rastinaghighi/",
         },
@@ -388,6 +389,7 @@ export const mockMembers: Team[] = [
         imageUrl: "/MemberPics/Rastin.jpg",
         info: "Director of AI",
         category: "outreach",
+        council: "ai",
         social: {
           linkedin: "https://www.linkedin.com/in/rastinaghighi/",
         },
@@ -446,6 +448,7 @@ export const mockMembers: Team[] = [
         imageUrl: "/MemberPics/Roshan.jpg",
         info: "AI Program Manager",
         category: "outreach",
+        council: "ai",
         social: {
           linkedin: "https://www.linkedin.com/in/roshan-banisetti/",
         },

@@ -105,7 +105,7 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="mb-24 px-4"
+        className="mb-32"
       >
         <div className="text-start mb-6">
           <h2
@@ -480,7 +480,7 @@ export const RepresentativesSection = ({ council }: CouncilProps) => {
   }, [council.title]);
 
   return (
-    <div className="mb-24 px-4 sm:px-6">
+    <div className="mb-32">
       <div className="text-start mb-20">
         <h2
           className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"
