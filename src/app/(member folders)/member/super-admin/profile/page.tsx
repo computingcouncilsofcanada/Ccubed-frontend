@@ -5,6 +5,7 @@ import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import UpdateUserForm from "./components/UpdateUserForm";
+import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 
 type UserData = {
   school_id: string | null;
@@ -142,125 +143,179 @@ const Page = () => {
     }
   };
 
+  const displayName =
+    userData?.username ?? userData?.email?.split("@")[0] ?? "User";
+
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6">
-      {/* Profile Information Card */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        {/* Header with Change Password Button */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-center text-black">
-            Profile Information
-          </h1>
-          <button
-            onClick={() => setIsPasswordModalOpen(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Change Password
-          </button>
-        </div>
-
-        {/* Error Message Display */}
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
-
-        {/* Profile Information Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Left Column - Basic Information */}
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">Username</h2>
-              <p className="text-xl text-blue-500">{userData?.username}</p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">Email</h2>
-              <p className="text-xl text-blue-500">{userData?.email}</p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">Role</h2>
-              <p className="text-xl text-blue-500">{userData?.role}</p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">Status</h2>
-              <p className="text-xl text-blue-500">
-                {userData?.status === 1 ? "Active" : "Banned"}
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">School ID</h2>
-              <p className="text-xl text-blue-500">
-                {userData?.school_id || "Not provided"}
-              </p>
-            </div>
-          </div>
-
-          {/* Right Column - Additional Information */}
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">
-                Account Status
-              </h2>
-              <p className="text-xl text-blue-500">
-                {userData?.is_verified ? "Verified" : "Not Verified"}
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">
-                Year of Study
-              </h2>
-              <p className="text-xl text-blue-500">
-                {userData?.year_of_study || "Not provided"}
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">
-                Department
-              </h2>
-              <p className="text-xl text-blue-500">
-                {userData?.department || "Not provided"}
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">
-                Member Since
-              </h2>
-              <p className="text-xl text-blue-500">
-                {formatDate(userData?.created_at)}
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">
-                Last Updated
-              </h2>
-              <p className="text-xl text-blue-500">
-                {formatDate(userData?.updated_at)}
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-600">User ID</h2>
-              <p className="text-xl font-mono text-blue-500">{userData?.id}</p>
-            </div>
-          </div>
-        </div>
+    <div className="relative w-full overflow-hidden overflow-x-hidden min-h-full p-6 md:p-8 bg-gradient-to-b from-[#10212E] to-[#162C3D]">
+      <div className="absolute inset-2 z-0">
+        <BgBoxMainPage maxHeight={400} />
       </div>
 
-      {/* Update profile (social, about, domains, hobbies) */}
-      <div className="mt-10">
-        <h1 className="text-3xl font-bold text-center text-black mb-6">
-          Update profile
-        </h1>
-        <UpdateUserForm
+      <div className="relative z-10 max-w-5xl mx-auto space-y-6">
+        {/* User header card */}
+        <div className="bg-gray-800/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-6">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-neutral-700 flex items-center justify-center text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-8 h-8"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-2xl font-bold text-white truncate">
+                {displayName}
+              </h2>
+              <p className="text-sm text-gray-400 truncate">{userData?.email}</p>
+            </div>
+            <span className="px-3 py-1.5 rounded-lg bg-neutral-700 text-white text-sm font-medium">
+              {userData?.role?.replace(/_/g, " ") ?? "—"}
+            </span>
+          </div>
+        </div>
+
+        {/* Profile Information Card */}
+        <div className="bg-gray-800/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-6">
+          {/* Header with Change Password Button */}
+          <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+            <h1 className="text-3xl font-bold text-white flex items-center gap-2">
+              Profile Information
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5 text-gray-400"
+              >
+                <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+              </svg>
+            </h1>
+            <button
+              onClick={() => setIsPasswordModalOpen(true)}
+              className="bg-[#FAA336] text-white px-4 py-2 rounded-lg hover:bg-[#e8922a] transition-colors font-medium"
+            >
+              Change Password
+            </button>
+          </div>
+
+          {/* Error Message Display */}
+          {error && (
+            <div className="bg-red-500/20 border border-red-400/50 text-red-200 px-4 py-3 rounded-lg mb-4">
+              {error}
+            </div>
+          )}
+
+          {/* Profile Information Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Left Column - Basic Information */}
+            <div className="space-y-4">
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Username
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {userData?.username ?? "—"}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Email
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {userData?.email ?? "—"}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">Role</h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {userData?.role ?? "—"}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Status
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {userData?.status === 1 ? "Active" : "Banned"}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  School ID
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {userData?.school_id || "Not provided"}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Additional Information */}
+            <div className="space-y-4">
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Account Status
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {userData?.is_verified ? "Verified" : "Not Verified"}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Year of Study
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {userData?.year_of_study ?? "Not provided"}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Department
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {userData?.department || "Not provided"}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Member Since
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {formatDate(userData?.created_at)}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Last Updated
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                  {formatDate(userData?.updated_at)}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  User ID
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm font-mono">
+                  {userData?.id ?? "—"}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Update profile (social, about, domains, hobbies) */}
+        <div className="bg-gray-800/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-6">
+          <h1 className="text-3xl font-bold text-white mb-6">
+            Update profile
+          </h1>
+          <UpdateUserForm
           key={userData?.id ?? "loading"}
           initialData={{
             username: userData?.username ?? "",
@@ -279,13 +334,14 @@ const Page = () => {
           }}
           onSuccess={fetchUserData}
         />
+        </div>
       </div>
 
       {/* Change Password Modal */}
       {isPasswordModalOpen && (
-        <div className="fixed inset-0 bg-gray-500/30 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md">
-            <h2 className="text-2xl font-bold mb-4 text-black">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-gray-800 border border-white/20 rounded-2xl shadow-xl p-6 w-full max-w-md">
+            <h2 className="text-2xl font-bold mb-4 text-white">
               Change Password
             </h2>
             <form
@@ -294,7 +350,7 @@ const Page = () => {
             >
               {/* Old Password Input */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-400 mb-1">
                   Old Password
                 </label>
                 <input
@@ -306,10 +362,10 @@ const Page = () => {
                       message: "Password must be at least 8 characters",
                     },
                   })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-black"
+                  className="block w-full rounded-lg border border-gray-600 bg-neutral-800 px-3 py-2 text-white placeholder-gray-500 focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]"
                 />
                 {errors.oldPassword && (
-                  <p className="mt-1 text-sm text-red-600">
+                  <p className="mt-1 text-sm text-red-400">
                     {errors.oldPassword.message}
                   </p>
                 )}
@@ -317,7 +373,7 @@ const Page = () => {
 
               {/* New Password Input */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-400 mb-1">
                   New Password
                 </label>
                 <input
@@ -329,27 +385,27 @@ const Page = () => {
                       message: "Password must be at least 8 characters",
                     },
                   })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-black"
+                  className="block w-full rounded-lg border border-gray-600 bg-neutral-800 px-3 py-2 text-white placeholder-gray-500 focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]"
                 />
                 {errors.newPassword && (
-                  <p className="mt-1 text-sm text-red-600">
+                  <p className="mt-1 text-sm text-red-400">
                     {errors.newPassword.message}
                   </p>
                 )}
               </div>
 
               {/* Form Actions */}
-              <div className="flex justify-end gap-4">
+              <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsPasswordModalOpen(false)}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                  className="px-4 py-2 border border-[#FAA336] text-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-4 py-2 bg-[#FAA336] text-white rounded-lg hover:bg-[#e8922a] transition-colors font-medium"
                 >
                   Change Password
                 </button>
