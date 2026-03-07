@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, FieldArrayPath } from "react-hook-form";
 import { updateMe } from "@/services/useApiUser";
-import { UpdateMeRequest } from "@/types/user.interface";
+import { UpdateMeRequestDTO } from "@/types/user.interface";
 import { getErrMsg } from "@/utils/errorMessage";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 
-export type UpdateUserFormValues = Omit<UpdateMeRequest, "file"> & {
+export type UpdateUserFormValues = Omit<UpdateMeRequestDTO, "file"> & {
   file?: FileList | null;
 };
 
@@ -44,6 +44,7 @@ export default function UpdateUserForm({
   const {
     register,
     handleSubmit,
+    reset,
     control,
     watch,
     formState: { errors },
@@ -83,19 +84,19 @@ export default function UpdateUserForm({
     fields: domainFields,
     append: appendDomain,
     remove: removeDomain,
-  } = useFieldArray({ control, name: "domains" });
+  } = useFieldArray<UpdateUserFormValues>({ control, name: "domains" as FieldArrayPath<UpdateUserFormValues> });
 
   const {
     fields: hobbyFields,
     append: appendHobby,
     remove: removeHobby,
-  } = useFieldArray({ control, name: "hobbies" });
+    } = useFieldArray<UpdateUserFormValues>({ control, name: "hobbies" as FieldArrayPath<UpdateUserFormValues> });
 
   const onSubmit = async (data: UpdateUserFormValues) => {
     setSubmitError("");
     setIsSubmitting(true);
     try {
-      const payload: UpdateMeRequest = {
+      const payload: UpdateMeRequestDTO = {
         username: data.username ?? "",
         instagram_url: data.instagram_url ?? "",
         twitter_url: data.twitter_url ?? "",
@@ -120,68 +121,72 @@ export default function UpdateUserForm({
     }
   };
 
+  const inputClass =
+    "w-full px-3 py-2 border border-gray-600 rounded-lg bg-neutral-800 text-white placeholder-gray-500 focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]";
+  const labelClass = "block text-sm font-medium text-gray-400 mb-1";
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       {submitError && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <div className="bg-red-500/20 border border-red-400/50 text-red-200 px-4 py-3 rounded-lg">
           {submitError}
         </div>
       )}
 
       {/* Username */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Account</h2>
+      <div className="bg-neutral-800/50 rounded-xl border border-white/10 p-6">
+        <h2 className="text-lg font-semibold text-white mb-4">Account</h2>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <label className={labelClass}>Username</label>
           <input
             type="text"
             {...register("username", { required: "Username is required" })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+            className={inputClass}
             placeholder="Your username"
           />
           {errors.username && (
-            <p className="mt-1 text-sm text-red-600">{errors.username.message}</p>
+            <p className="mt-1 text-sm text-red-400">{errors.username.message}</p>
           )}
         </div>
       </div>
 
       {/* Social & links */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Social & links</h2>
+      <div className="bg-neutral-800/50 rounded-xl border border-white/10 p-6">
+        <h2 className="text-lg font-semibold text-white mb-4">Social & links</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Instagram URL</label>
+            <label className={labelClass}>Instagram URL</label>
             <input
               type="url"
               {...register("instagram_url")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className={inputClass}
               placeholder="https://instagram.com/..."
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Twitter URL</label>
+            <label className={labelClass}>Twitter URL</label>
             <input
               type="url"
               {...register("twitter_url")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className={inputClass}
               placeholder="https://twitter.com/..."
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn URL</label>
+            <label className={labelClass}>LinkedIn URL</label>
             <input
               type="url"
               {...register("linkedin_url")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className={inputClass}
               placeholder="https://linkedin.com/in/..."
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Discord URL</label>
+            <label className={labelClass}>Discord URL</label>
             <input
               type="url"
               {...register("discord_url")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className={inputClass}
               placeholder="https://discord.com/..."
             />
           </div>
@@ -189,42 +194,42 @@ export default function UpdateUserForm({
       </div>
 
       {/* About & avatar */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">About & avatar</h2>
+      <div className="bg-neutral-800/50 rounded-xl border border-white/10 p-6">
+        <h2 className="text-lg font-semibold text-white mb-4">About & avatar</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Avatar URL</label>
+            <label className={labelClass}>Avatar URL</label>
             <input
               type="url"
               {...register("avatar_url")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className={inputClass}
               placeholder="https://..."
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Upload new avatar (optional)</label>
+            <label className={labelClass}>Upload new avatar (optional)</label>
             <input
               type="file"
               accept="image/*"
               {...register("file")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-50 file:text-blue-700"
+              className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-neutral-800 text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#FAA336] file:text-white file:font-medium focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">About me</label>
+            <label className={labelClass}>About me</label>
             <textarea
               {...register("about_me")}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 resize-none"
+              className={`${inputClass} resize-none`}
               placeholder="A short bio..."
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Fun fact</label>
+            <label className={labelClass}>Fun fact</label>
             <input
               type="text"
               {...register("fun_fact")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className={inputClass}
               placeholder="One fun fact about you"
             />
           </div>
@@ -232,33 +237,33 @@ export default function UpdateUserForm({
       </div>
 
       {/* Favorites & journey */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Favorites & journey</h2>
+      <div className="bg-neutral-800/50 rounded-xl border border-white/10 p-6">
+        <h2 className="text-lg font-semibold text-white mb-4">Favorites & journey</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Favorite song</label>
+            <label className={labelClass}>Favorite song</label>
             <input
               type="text"
               {...register("favorite_song")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className={inputClass}
               placeholder="Song name or link"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Favorite quote</label>
+            <label className={labelClass}>Favorite quote</label>
             <input
               type="text"
               {...register("favorite_quote")}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              className={inputClass}
               placeholder="A quote you like"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Journey at CCubed</label>
+            <label className={labelClass}>Journey at CCubed</label>
             <textarea
               {...register("journey_at_ccubed")}
               rows={2}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 resize-none"
+              className={`${inputClass} resize-none`}
               placeholder="Your journey so far..."
             />
           </div>
@@ -266,13 +271,13 @@ export default function UpdateUserForm({
       </div>
 
       {/* Domains */}
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-neutral-800/50 rounded-xl border border-white/10 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">Domains</h2>
+          <h2 className="text-lg font-semibold text-white">Domains</h2>
           <button
             type="button"
             onClick={() => appendDomain("")}
-            className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-medium"
+            className="inline-flex items-center gap-1 text-sm text-[#FAA336] hover:text-[#e8922a] font-medium transition-colors"
           >
             <IconPlus size={16} />
             Add domain
@@ -280,17 +285,17 @@ export default function UpdateUserForm({
         </div>
         <div className="space-y-2">
           {domainFields.map((field, index) => (
-            <div key={field.id} className="flex gap-2">
+            <div key={index} className="flex gap-2">
               <input
                 type="text"
                 {...register(`domains.${index}`)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className={`flex-1 ${inputClass}`}
                 placeholder="e.g. Cybersecurity"
               />
               <button
                 type="button"
                 onClick={() => removeDomain(index)}
-                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                className="p-2 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
                 aria-label="Remove domain"
               >
                 <IconTrash size={18} />
@@ -304,13 +309,13 @@ export default function UpdateUserForm({
       </div>
 
       {/* Hobbies */}
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-neutral-800/50 rounded-xl border border-white/10 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">Hobbies</h2>
+          <h2 className="text-lg font-semibold text-white">Hobbies</h2>
           <button
             type="button"
             onClick={() => appendHobby("")}
-            className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-medium"
+            className="inline-flex items-center gap-1 text-sm text-[#FAA336] hover:text-[#e8922a] font-medium transition-colors"
           >
             <IconPlus size={16} />
             Add hobby
@@ -318,17 +323,17 @@ export default function UpdateUserForm({
         </div>
         <div className="space-y-2">
           {hobbyFields.map((field, index) => (
-            <div key={field.id} className="flex gap-2">
+            <div key={index} className="flex gap-2">
               <input
                 type="text"
                 {...register(`hobbies.${index}`)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className={`flex-1 ${inputClass}`}
                 placeholder="e.g. Reading"
               />
               <button
                 type="button"
                 onClick={() => removeHobby(index)}
-                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                className="p-2 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
                 aria-label="Remove hobby"
               >
                 <IconTrash size={18} />
@@ -343,9 +348,16 @@ export default function UpdateUserForm({
 
       <div className="flex justify-end gap-3 pt-4">
         <button
+          type="button"
+          onClick={() => reset(initialData ? { ...defaultValues, ...initialData, domains: initialData.domains ?? [], hobbies: initialData.hobbies ?? [] } : defaultValues)}
+          className="px-6 py-2.5 border border-[#FAA336] text-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 font-medium transition-colors"
+        >
+          Cancel
+        </button>
+        <button
           type="submit"
           disabled={hasNoData || isSubmitting}
-          className="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-2.5 bg-[#FAA336] text-white rounded-lg hover:bg-[#e8922a] font-medium disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
           {isSubmitting ? "Saving..." : "Save profile"}
         </button>
