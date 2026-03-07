@@ -1,16 +1,11 @@
 "use client";
 
-import { use } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import SignupForm from "./components/SignupForm";
 import Footer from "@/components/shared/Footer";
 
-interface JoinPageProps {
-    params: Promise<{ formSlug: string }>;
-}
-
-export default function JoinPage({ params }: JoinPageProps) {
-    const { formSlug } = use(params);
+export default function JoinPage() {
+    const formSlug = "club-onboarding";
 
     return (
         <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
