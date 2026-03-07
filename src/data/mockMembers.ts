@@ -26,17 +26,6 @@ export const mockMembers: Team[] = [
     team: "Executive Leadership Team",
     members: [
       {
-        id: 29,
-        name: "Het Jivani",
-        role: "Vice President",
-        imageUrl: "/MemberPics/het.png",
-        info: "Vice President",
-        category: "directors",
-        social: {
-          linkedin: "https://linkedin.com/in/hetjivani",
-        },
-      },
-      {
         id: 1,
         name: "Parth Doshi",
         role: "President",
@@ -45,6 +34,17 @@ export const mockMembers: Team[] = [
         category: "directors",
         social: {
           linkedin: "https://www.linkedin.com/in/parthdoshiml/",
+        },
+      },
+      {
+        id: 29,
+        name: "Het Jivani",
+        role: "Vice President",
+        imageUrl: "/MemberPics/het.png",
+        info: "Vice President",
+        category: "directors",
+        social: {
+          linkedin: "https://linkedin.com/in/hetjivani",
         },
       },
     ],
@@ -71,7 +71,8 @@ export const mockMembers: Team[] = [
         info: "Director of Systems Administration",
         category: "directors",
         social: {
-          linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
+          linkedin:
+            "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
       },
       {
@@ -82,7 +83,8 @@ export const mockMembers: Team[] = [
         info: "Director of Outreach",
         category: "directors",
         social: {
-          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -103,6 +105,7 @@ export const mockMembers: Team[] = [
         imageUrl: "/MemberPics/Rastin.jpg",
         info: "Director of AI",
         category: "directors",
+        council: "ai",
         social: {
           linkedin: "https://www.linkedin.com/in/rastinaghighi/",
         },
@@ -131,7 +134,8 @@ export const mockMembers: Team[] = [
         info: "Director of Systems Administration",
         category: "sysadmin",
         social: {
-          linkedin: "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
+          linkedin:
+            "https://www.linkedin.com/in/fopefoluwa-ikufisile-0a5881296/",
         },
       },
       {
@@ -164,7 +168,8 @@ export const mockMembers: Team[] = [
         info: "UX designer",
         category: "sysadmin",
         social: {
-          linkedin: "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -213,7 +218,8 @@ export const mockMembers: Team[] = [
         info: "Content creator",
         category: "communications",
         social: {
-          linkedin: "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -235,7 +241,8 @@ export const mockMembers: Team[] = [
         info: "Marketing",
         category: "communications",
         social: {
-          linkedin: "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -317,7 +324,8 @@ export const mockMembers: Team[] = [
         info: "Events Coordinator",
         category: "events",
         social: {
-          linkedin: "https://www.linkedin.com/in/aayanareejo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/aayanareejo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
     ],
@@ -381,6 +389,7 @@ export const mockMembers: Team[] = [
         imageUrl: "/MemberPics/Rastin.jpg",
         info: "Director of AI",
         category: "outreach",
+        council: "ai",
         social: {
           linkedin: "https://www.linkedin.com/in/rastinaghighi/",
         },
@@ -393,7 +402,8 @@ export const mockMembers: Team[] = [
         info: "Director of Outreach",
         category: "outreach",
         social: {
-          linkedin: "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+          linkedin:
+            "https://www.linkedin.com/in/dhruv-thakar-ba46aa296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -438,6 +448,7 @@ export const mockMembers: Team[] = [
         imageUrl: "/MemberPics/Roshan.jpg",
         info: "AI Program Manager",
         category: "outreach",
+        council: "ai",
         social: {
           linkedin: "https://www.linkedin.com/in/roshan-banisetti/",
         },
