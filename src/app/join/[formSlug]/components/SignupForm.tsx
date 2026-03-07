@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { publicAxios } from "@/lib/axios";
 import SuccessMessage from "./SuccessMessage";
 
@@ -101,12 +101,12 @@ const hearAboutOptions = [
 // ------------------------------------------------------------------
 // Reusable animated input wrapper
 // ------------------------------------------------------------------
-const formItemVariants = {
+const formItemVariants: Variants = {
     hidden: { opacity: 0, y: 16 },
     visible: (i: number) => ({
         opacity: 1,
         y: 0,
-        transition: { delay: i * 0.06, duration: 0.4, ease: "easeOut" },
+        transition: { delay: i * 0.06, duration: 0.4, ease: "easeOut" as const },
     }),
 };
 
