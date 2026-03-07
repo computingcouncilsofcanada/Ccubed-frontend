@@ -1,16 +1,16 @@
 "use client";
 
 import Modal from "@/components/modals/Modal";
-import { UpdateUserRequestListItem } from "@/types/user.interface";
+import { UpdateUserRequest } from "@/types/user.interface";
 import { UpdateUserRequestStatus } from "@/types/user.interface";
 import { Check, X } from "lucide-react";
 
 interface ViewDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  request: UpdateUserRequestListItem | null;
-  onApprove: (item: UpdateUserRequestListItem) => void;
-  onReject: (item: UpdateUserRequestListItem) => void;
+  request: UpdateUserRequest | null;
+  onApprove: (item: UpdateUserRequest) => void;
+  onReject: (item: UpdateUserRequest) => void;
 }
 
 export default function ViewDetailsModal({
@@ -37,9 +37,9 @@ export default function ViewDetailsModal({
     <Modal isOpen={isOpen} onClose={onClose} title="Update request details">
       <div className="max-h-[70vh] overflow-y-auto">
         <div className="space-y-1 mb-4 pb-3 border-b border-gray-600">
-          <p className="text-gray-400 text-xs">User ID</p>
+          <p className="text-gray-400 text-xs">Email</p>
           <p className="font-mono text-sm text-white break-all">
-            {request.user_id}
+            {request.email}
           </p>
         </div>
 

@@ -1,20 +1,20 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { UpdateUserRequestListItem } from "@/types/user.interface";
+import { UpdateUserRequest } from "@/types/user.interface";
 import { UpdateUserRequestStatus } from "@/types/user.interface";
 import { Check, X, Eye } from "lucide-react";
 
 export function createUpdateUserRequestTableColumns(
-  onApprove: (item: UpdateUserRequestListItem) => void,
-  onReject: (item: UpdateUserRequestListItem) => void,
-  onViewDetails: (item: UpdateUserRequestListItem) => void
-): ColumnDef<UpdateUserRequestListItem>[] {
+  onApprove: (item: UpdateUserRequest) => void,
+  onReject: (item: UpdateUserRequest) => void,
+  onViewDetails: (item: UpdateUserRequest) => void
+): ColumnDef<UpdateUserRequest>[] {
   return [
     {
-      accessorKey: "user_id",
-      header: "User ID",
+      accessorKey: "email",
+      header: "Email",
       cell: ({ row }) => (
         <span className="font-mono text-sm text-gray-700 truncate max-w-[140px] block">
-          {row.original.user_id}
+          {row.original.email}
         </span>
       ),
       size: 180,

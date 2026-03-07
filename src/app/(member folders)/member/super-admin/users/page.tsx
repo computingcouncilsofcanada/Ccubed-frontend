@@ -32,19 +32,9 @@ import {
   IconCircleX
   
 } from "@tabler/icons-react";
+import { User } from "@/types/user.interface";
 
-type AllUsers = {
-  username: string;
-  email: string;
-  role: string;
-  is_verified: boolean;
-  year_of_study: string;
-  department: string;
-  id: string;
-  school_id: string;
-  status: number;
-  verify_token: string;
-};
+
 
 type ChangePasswordForm = {
   password: string;
@@ -56,11 +46,11 @@ type ChangeRoleForm = {
 
 function UsersPage() {
   const { user, isLoading } = useUser();
-  const [allUsers, setAllUsers] = useState<AllUsers[]>([]);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isBanModalOpen, setIsBanModalOpen] = useState(false);
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<AllUsers | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const router = useRouter();
   const { generatePassword } = usePasswordGenerator();
 
@@ -203,7 +193,7 @@ function UsersPage() {
   };
 
   const openModal = (
-    userParam: AllUsers,
+    userParam: User,
     modalType: "password" | "ban" | "role"
   ) => {
     setSelectedUser(userParam);

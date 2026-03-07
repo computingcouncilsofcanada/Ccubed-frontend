@@ -9,11 +9,10 @@ import {
 } from "@/services/useApiUser";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
-import { UpdateUserRequestListItem } from "@/types/user.interface";
+import { UpdateUserRequest } from "@/types/user.interface";
 import { UpdateUserRequestStatus } from "@/types/user.interface";
 import EmptyUpdateUserRequestState from "./components/EmptyUpdateUserRequestState";
 import { createUpdateUserRequestTableColumns } from "./components/UpdateUserRequestTableColumns";
-import ViewDetailsModal from "./components/modals/ViewDetailsModal";
 import PaginationControls from "../events/components/PaginationControls";
 
 const LIMIT = 10;
@@ -27,11 +26,8 @@ const STATUS_OPTIONS: { label: string; value: "" | UpdateUserRequestStatus }[] =
 export default function UpdateUserRequestPage() {
   const { user, isLoading } = useUser();
   const router = useRouter();
-  const [requests, setRequests] = useState<UpdateUserRequestListItem[]>([]);
+  const [requests, setRequests] = useState<UpdateUserRequest[]>([]);
   const [error, setError] = useState<string>("");
-  const [selectedRequest, setSelectedRequest] =
-    useState<UpdateUserRequestListItem | null>(null);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [, setActionLoadingId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<"" | UpdateUserRequestStatus>("");
   const [page, setPage] = useState(1);
@@ -43,7 +39,7 @@ export default function UpdateUserRequestPage() {
       const res = await getAllUpdateUserRequests(statusParam, LIMIT, offset);
       const data = Array.isArray(res)
         ? res
-        : (res as { data?: UpdateUserRequestListItem[] })?.data ?? [];
+        : (res as { data?: UpdateUserRequest[] })?.data ?? [];
       setRequests(data);
       setError("");
     } catch (err: unknown) {
@@ -56,13 +52,11 @@ export default function UpdateUserRequestPage() {
     fetchRequests();
   }, [fetchRequests]);
 
-  const handleApprove = async (item: UpdateUserRequestListItem) => {
+  const handleApprove = async (item: UpdateUserRequest) => {
     setActionLoadingId(item.id);
     try {
       await updateUserRequestStatus(item.id, UpdateUserRequestStatus.APPROVED);
       await fetchRequests();
-      setIsDetailsModalOpen(false);
-      setSelectedRequest(null);
     } catch (err: unknown) {
       alert(getErrMsg(err));
     } finally {
@@ -70,13 +64,11 @@ export default function UpdateUserRequestPage() {
     }
   };
 
-  const handleReject = async (item: UpdateUserRequestListItem) => {
+  const handleReject = async (item: UpdateUserRequest) => {
     setActionLoadingId(item.id);
     try {
       await updateUserRequestStatus(item.id, UpdateUserRequestStatus.REJECTED);
       await fetchRequests();
-      setIsDetailsModalOpen(false);
-      setSelectedRequest(null);
     } catch (err: unknown) {
       alert(getErrMsg(err));
     } finally {
@@ -84,24 +76,9 @@ export default function UpdateUserRequestPage() {
     }
   };
 
-  const openDetails = (item: UpdateUserRequestListItem) => {
-    setSelectedRequest(item);
-    setIsDetailsModalOpen(true);
+  const openDetails = (item: UpdateUserRequest) => {
+    router.push(`/member/super-admin/update-user-request/${item.id}`);
   };
-
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/login");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
-
-  if (!user || user.role !== "SUPER_ADMIN") {
-    return null;
-  }
 
   const columns = createUpdateUserRequestTableColumns(
     handleApprove,
@@ -163,16 +140,6 @@ export default function UpdateUserRequestPage() {
         </>
       )}
 
-      <ViewDetailsModal
-        isOpen={isDetailsModalOpen}
-        onClose={() => {
-          setIsDetailsModalOpen(false);
-          setSelectedRequest(null);
-        }}
-        request={selectedRequest}
-        onApprove={handleApprove}
-        onReject={handleReject}
-      />
     </div>
   );
 }
