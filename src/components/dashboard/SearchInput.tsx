@@ -1,6 +1,6 @@
 export const SearchInput = () => {
   return (
-    <div className=" max-[1292px]:w-full w-[60%] flex items-center">
+    <div className="w-full flex items-center min-w-0">
       <div className="w-full rounded-full border-2 border-orange-400/20 ">
         <div className="flex items-center gap-3 rounded-full p-1.5 bg-[#D4D4D4]/15 ">
           <div className=" rounded-full p-4 bg-[#2b3743] cursor-pointer">
@@ -23,7 +23,7 @@ export const SearchInput = () => {
           <input
             type="text"
             placeholder="Search for a user, event, or functionality"
-            className="w-full bg-transparent outline-none border-none text-2xl font-poppins"
+            className="w-full min-w-0 bg-transparent outline-none border-none text-base sm:text-lg lg:text-xl font-poppins placeholder:text-white/60"
           />
         </div>
       </div>

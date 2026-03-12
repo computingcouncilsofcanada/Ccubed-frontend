@@ -33,19 +33,18 @@ export const VerticalWidget = () => {
   const totalPages = Math.max(1, Math.ceil(totalCount / USERS_PER_PAGE));
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex justify-between items-center ">
-        <div className="flex gap-4">
+    <div className="flex flex-col gap-3 min-w-0">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
+        <div className="flex gap-3 items-start min-w-0">
           <div
-            className="cursor-pointer w-12 h-12 flex items-center justify-center flex-none overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-xl [&>svg]:flex-none"
+            className="cursor-pointer w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0 overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-xl"
             style={{
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
-              aspectRatio: "1",
             }}
           >
             <svg
-              className="w-6 h-6 text-white"
+              className="w-5 h-5 sm:w-6 sm:h-6 text-white"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -53,17 +52,16 @@ export const VerticalWidget = () => {
               <path d="M12 14c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z" />
             </svg>
           </div>
-          <div className="flex flex-col -gap-2">
-            <p className="font-bold">Users</p>
-            <p>{totalCount} current Users</p>
+          <div className="flex flex-col gap-0.5 min-w-0">
+            <p className="text-base sm:text-lg font-bold">Users</p>
+            <p className="text-sm sm:text-base text-white/90">{totalCount} current Users</p>
           </div>
         </div>
         <div
-          className="cursor-pointer w-12 h-12 flex items-center justify-center flex-none overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-full [&>svg]:flex-none"
+          className="cursor-pointer w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0 self-end sm:self-auto overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-full"
           style={{
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
-            aspectRatio: "1",
           }}
         >
           <svg
@@ -82,7 +80,7 @@ export const VerticalWidget = () => {
           <UserCard key={u.id} user={u} />
         ))}
       </div>
-      <div className="flex justify-between self-center items-center w-[50%]">
+      <div className="flex justify-between items-center gap-2 w-full max-w-xs mx-auto sm:mx-0 sm:w-auto">
         <div
           className="cursor-pointer w-12 h-12 flex items-center justify-center flex-none overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-full [&>svg]:flex-none"
           style={{
@@ -153,10 +151,10 @@ const UserCard = ({ user }: { user: User }) => {
     ? user.domains[0]
     : user.department ?? "—";
   return (
-    <div className="rounded-full bg-[#CCCCCC]/5 flex justify-between p-2">
-      <div className="flex items-center gap-2">
+    <div className="rounded-full bg-[#CCCCCC]/5 flex justify-between items-center p-2 gap-2 min-w-0">
+      <div className="flex items-center gap-2 min-w-0">
         <div
-          className="cursor-pointer w-12 h-12 flex items-center justify-center flex-none overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-full [&>svg]:flex-none"
+          className="cursor-pointer w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center flex-shrink-0 overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-full"
           style={{
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
@@ -176,13 +174,13 @@ const UserCard = ({ user }: { user: User }) => {
             <path d="M7 17L17 7M17 7H9M17 7V15" />
           </svg>
         </div>
-        <div className="flex flex-col -gap-1">
-          <p>{user.username}</p>
-          <p>{roleDisplay}</p>
+        <div className="flex flex-col gap-0.5 min-w-0">
+          <p className="text-sm sm:text-base truncate">{user.username}</p>
+          <p className="text-xs sm:text-sm text-white/90 truncate">{roleDisplay}</p>
         </div>
       </div>
-      <div className="bg-[#59E2DC]/20 rounded-full px-3 flex items-center">
-        <p>{domainDisplay}</p>
+      <div className="bg-[#59E2DC]/20 rounded-full px-2 sm:px-3 py-1 flex items-center shrink-0">
+        <p className="text-xs sm:text-sm truncate max-w-[80px] sm:max-w-[120px]">{domainDisplay}</p>
       </div>
     </div>
   );

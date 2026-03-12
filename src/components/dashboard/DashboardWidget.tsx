@@ -13,16 +13,16 @@ export const DashboardWidget = ({
 }: DashboardWidgetProps) => {
   return (
     <div
-      className="border-2 border-white/10 backdrop-blur-sm flex flex-col justify-end rounded-xl bg-right-bottom bg-no-repeat shadow-2xl "
+      className="border-2 border-white/10 backdrop-blur-sm flex flex-col justify-end rounded-xl bg-right-bottom bg-no-repeat bg-[length:60px] sm:bg-[length:80px] shadow-2xl min-h-[100px] sm:min-h-[120px]"
       style={{
         backgroundImage: `url(${bgIcon})`,
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
       }}
     >
-      <div className="p-4">
-        <div className="flex items-baseline gap-2">
-          <p className="text-6xl leading-none font-bold">{statNumber}</p>
+      <div className="p-3 sm:p-4">
+        <div className="flex flex-wrap items-baseline gap-2">
+          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-none font-bold">{statNumber}</p>
 
           <div className="bg-[#FAA366] flex items-center gap-1 text-[#173246] rounded-full px-2 py-[2px]">
             <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">

@@ -47,19 +47,18 @@ export const HorizontalWidget = () => {
   }, [fetchUpcomingEvents]);
 
   return (
-    <div className="flex flex-col gap-4 h-full min-h-0 overflow-hidden">
-      <div className="flex-shrink-0 flex justify-between">
-        <div className="flex gap-3 items-center">
+    <div className="flex flex-col gap-3 sm:gap-4 h-full min-h-0 overflow-hidden">
+      <div className="flex-shrink-0 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0">
+        <div className="flex gap-3 items-start min-w-0">
           <div
-            className="cursor-pointer w-12 h-12 flex items-center justify-center flex-none overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-xl [&>svg]:flex-none"
+            className="cursor-pointer w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0 overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-xl"
             style={{
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
-              aspectRatio: "1",
             }}
           >
             <svg
-              className="w-6 h-6 text-white flex-none"
+              className="w-5 h-5 sm:w-6 sm:h-6 text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -74,12 +73,14 @@ export const HorizontalWidget = () => {
               <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
           </div>
-          <div className="flex flex-col gap-0.5">
-            <p className="text-xl font-bold">Upcoming Events</p>
-            <p>{upcomingEvents.length} events happening this month</p>
+          <div className="flex flex-col gap-0.5 min-w-0">
+            <p className="text-base sm:text-lg lg:text-xl font-bold">Upcoming Events</p>
+            <p className="text-sm sm:text-base text-white/90">
+              {upcomingEvents.length} events happening this month
+            </p>
           </div>
         </div>
-        <div className="flex gap-2 shrink-0">
+        <div className="flex gap-2 shrink-0 self-end sm:self-auto">
           <div
             className="cursor-pointer w-10 h-10 flex items-center justify-center flex-none overflow-hidden border-2 border-white/10 backdrop-blur-sm bg-[#D4D4D4]/4 shadow-2xl rounded-full [&>svg]:flex-none"
             style={{
@@ -144,13 +145,13 @@ type UpcomingEvent = {
 
 const UpcomingEventCard = ({ event }: { event: UpcomingEvent }) => {
   return (
-    <div className="rounded-4xl p-3 bg-[#D4D4D4]/10 border-2 border-white/10 shadow-2xl">
-      <div className="flex justify-evenly gap-4">
-        <div className="flex-3 min-w-0 flex flex-col gap-0.5">
-          <p className="font-semibold">{event.title}</p>
-          <p className="text-sm text-white/80 truncate">{event.description}</p>
+    <div className="rounded-2xl sm:rounded-3xl p-3 sm:p-4 bg-[#D4D4D4]/10 border-2 border-white/10 shadow-2xl">
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4">
+        <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+          <p className="font-semibold text-sm sm:text-base truncate">{event.title}</p>
+          <p className="text-xs sm:text-sm text-white/80 line-clamp-2 sm:truncate">{event.description}</p>
         </div>
-        <div className="flex-2 flex flex-col gap-0.5 items-center text-lg font-bold  shrink-0">
+        <div className="flex flex-row sm:flex-col flex-wrap gap-2 sm:gap-0.5 sm:items-end text-sm sm:text-base font-bold shrink-0">
           <span className="flex items-center gap-1.5">
             <CalendarIcon />
             {event.date}
@@ -160,9 +161,9 @@ const UpcomingEventCard = ({ event }: { event: UpcomingEvent }) => {
             {event.time}
           </span>
         </div>
-        <div className="flex-2 flex items-center gap-1.5 text-lg shrink-0 font-bold">
+        <div className="flex items-center gap-1.5 text-sm sm:text-base shrink-0 font-bold">
           <MapPinIcon />
-          {event.location}
+          <span className="truncate">{event.location}</span>
         </div>
       </div>
     </div>
