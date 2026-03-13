@@ -35,6 +35,7 @@ type FormFields = {
   year_of_study: number;
   department: string;
   role: string;
+  position: string;
 };
 
 interface School {
@@ -113,7 +114,8 @@ export const RegisterUserForm = () => {
         data.school_id,
         Number(data.year_of_study),
         data.department,
-        data.role.toUpperCase()
+        data.role.toUpperCase(),
+        data.position,
       );
       if (res.status === 201) {
         console.log("Register success:", res.data);
@@ -184,7 +186,7 @@ export const RegisterUserForm = () => {
           })}
           type="text"
           placeholder="Username"
-          className="font-normal bg-white text-foreground rounded-full py-2 px-3 placeholder-gray-400 text-sm"
+          className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 text-sm"
         />
         {errors.username && (
           <div className="text-white text-sm">{errors.username.message}</div>
@@ -204,7 +206,7 @@ export const RegisterUserForm = () => {
           })}
           type="email"
           placeholder="Email Address"
-          className="font-normal bg-white text-foreground rounded-full py-2 px-3 placeholder-gray-400 text-sm"
+          className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 text-sm"
         />
         {errors.email && (
           <div className="text-white text-sm">{errors.email.message}</div>
@@ -231,7 +233,7 @@ export const RegisterUserForm = () => {
             })}
             type="password"
             placeholder="Password"
-            className="font-normal bg-white text-foreground rounded-full py-2 px-3 placeholder-gray-400 flex-1 text-sm"
+            className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 flex-1 text-sm"
           />
           <div className="flex gap-2">
             <button
@@ -298,7 +300,7 @@ export const RegisterUserForm = () => {
             })}
             type="number"
             placeholder="Select a year"
-            className="font-normal bg-white text-foreground rounded-full py-2 px-3 placeholder-gray-400 text-sm"
+            className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 text-sm"
           />
           {errors.year_of_study && (
             <div className="text-white text-sm">{errors.year_of_study.message}</div>
@@ -363,6 +365,26 @@ export const RegisterUserForm = () => {
           <div className="text-white text-sm">{errors.role.message}</div>
         )}
       </div>
+
+      {/* Position Input */}
+      <label htmlFor="position" className="font-bold flex flex-col gap-2 text-white">
+        Position
+        <input
+          {...register("position", {
+            required: "Please enter a position",
+            minLength: {
+              value: 2,
+              message: "Your position should be more than 2",
+            },
+          })}
+          type="text"
+          placeholder="Position"
+          className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 text-sm"
+        />
+        {errors.position && (
+          <div className="text-white text-sm">{errors.position.message}</div>
+        )}
+      </label>
 
       {/* Submit Button */}
       <button
