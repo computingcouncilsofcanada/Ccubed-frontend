@@ -11,14 +11,14 @@ const TeamFilterBar = ({ teamType, onTeamTypeChange }: TeamFilterBarProps) => {
     <div className="flex  flex-wrap gap-3 justify-center relative w-full max-w-5xl mx-auto mt-5">
       
       {[
-        { label: "Full Team", value: "fullteam" },
+        {label: "Board of Advisors", value: "board_of_advisors"},
         { label: "Directors", value: "directors" },
         { label: "System Admin", value: "sysadmin" },
         { label: "Communications", value: "communications" },
         { label: "Events", value: "events" },
         { label: "Finance", value: "finance" },
         { label: "Outreach", value: "outreach" },
-        { label: "HR", value: "hr" }
+        { label: "HR", value: "hr" },
       ].map((option) => (
         <motion.label
           key={option.value}

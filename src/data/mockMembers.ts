@@ -22,6 +22,33 @@ type Team = {
 
 // Fixed mock data
 export const mockMembers: Team[] = [
+    {
+    team: "Board of Advisors",
+    members: [
+      {
+        id: 43,
+        name: "Parth Doshi",
+        role: "President",
+        imageUrl: "/MemberPics/parth.png",
+        info: "President",
+        category: "board_of_advisors",
+        social: {
+          linkedin: "https://www.linkedin.com/in/parthdoshiml/",
+        },
+      },
+      {
+        id: 44,
+        name: "Het Jivani",
+        role: "Vice President",
+        imageUrl: "/MemberPics/het.png",
+        info: "Vice President",
+        category: "board_of_advisors",
+        social: {
+          linkedin: "https://linkedin.com/in/hetjivani",
+        },
+      },
+    ],
+  },
   {
     team: "Executive Leadership Team",
     members: [

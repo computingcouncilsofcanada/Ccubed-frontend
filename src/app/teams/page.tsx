@@ -8,13 +8,13 @@ import TeamCard from "@/components/essentials/TeamCard";
 import TeamFilterBar from "./components/TeamFilterBar";
 
 function OurTeamsPage() {
-  const [teamType, setTeamType] = useState<string>("fullteam");
+  const [teamType, setTeamType] = useState<string>("board_of_advisors");
 
   // Group filtered members by their original team
   const groupedFilteredMembers = useMemo(() => {
-    if (teamType === "fullteam") {
-      return mockMembers;
-    }
+    // if (teamType === "fullteam") {
+    //   return mockMembers;
+    // }
 
     const grouped = mockMembers
       .map((team) => ({
