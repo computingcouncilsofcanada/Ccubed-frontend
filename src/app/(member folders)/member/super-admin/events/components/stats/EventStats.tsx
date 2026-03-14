@@ -148,31 +148,7 @@ export default function EventStats() {
     <div className="space-y-6 mb-8">
       {/* Main Statistics Cards */}
  
-   <div className="flex items-center gap-6">
-  {mainStats.map((stat) => {
-    const Icon = stat.icon;
-    return (
-      <div key={stat.label} className="flex flex-col items-center gap-1">
-        {/* Icon + Number row */}
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#2a2d35] flex items-center justify-center flex-shrink-0"
-            style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.08), 0 2px 8px rgba(0,0,0,0.5)' }}
-          >
-            <Icon size={13} className="text-slate-300" />
-          </div>
-          <span className="text-6xl text-white leading-none tracking-tight"
-            style={{ fontWeight: 300 }}
-          >
-            {stat.value}
-          </span>
-        </div>
-
-        {/* Label at the bottom */}
-        <span className="text-xs text-slate-400 tracking-wide">{stat.label}</span>
-      </div>
-    );
-  })}
-</div>
+ 
 
       {/* Domains, Types, and Locations Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
