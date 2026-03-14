@@ -8,6 +8,7 @@ import {
   Trash,
   Check,
   X,
+  PencilIcon,
 } from "lucide-react";
 
 export function createEventTableColumns(
@@ -21,8 +22,8 @@ export function createEventTableColumns(
         const event = row.original;
         return (
           <div className="max-w-xs">
-            <div className="font-semibold text-gray-900 truncate">{event.name}</div>
-            <div className="text-xs text-gray-500 line-clamp-1 mt-1">{event.description}</div>
+            <div className="font-semibold text-white truncate">{event.name}</div>
+            <div className="text-xs text-slate-400 line-clamp-1 mt-1">{event.description}</div>
           </div>
         );
       },
@@ -37,12 +38,12 @@ export function createEventTableColumns(
         const endDate = new Date(parseInt(event.end_at || "0"));
         return (
           <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Calendar size={14} className="text-gray-400" />
+            <div className="flex items-center gap-1.5 text-sm text-slate-100">
+              <Calendar size={14} className="text-slate-400" />
               <span>{startDate.toLocaleDateString()}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-gray-500">
-              <Clock size={14} className="text-gray-400" />
+            <div className="flex items-center gap-1.5 text-xs text-slate-400">
+              <Clock size={14} className="text-slate-400" />
               <span>
                 {startDate.toLocaleTimeString([], {
                   hour: "2-digit",
@@ -66,8 +67,8 @@ export function createEventTableColumns(
       cell: ({ row }) => {
         const event = row.original;
         return (
-          <div className="flex items-center gap-1.5 text-sm text-gray-700">
-            <MapPin size={16} className="text-gray-400" />
+          <div className="flex items-center gap-1.5 text-sm text-slate-100">
+            <MapPin size={16} className="text-slate-400" />
             <span className="max-w-xs truncate">{event.location}</span>
           </div>
         );
@@ -79,19 +80,19 @@ export function createEventTableColumns(
       header: "Types",
       cell: ({ row }) => {
         const event = row.original;
-        if (!event.types || event.types.length === 0) return <span className="text-gray-400">-</span>;
+        if (!event.types || event.types.length === 0) return <span className="text-slate-400">-</span>;
         return (
           <div className="flex flex-wrap gap-1">
             {event.types.slice(0, 2).map((type) => (
               <span
                 key={type}
-                className="px-2 py-0.5 bg-purple-50 text-[#7C3AED] text-xs font-medium rounded-full border border-purple-200"
+                className="px-2 py-0.5 bg-[#FAA336] text-black text-xs font-medium rounded-full border border-slate-600"
               >
                 {type}
               </span>
             ))}
             {event.types.length > 2 && (
-              <span className="px-2 py-0.5 text-xs text-gray-500">+{event.types.length - 2}</span>
+              <span className="px-2 py-0.5 text-xs text-slate-400">+{event.types.length - 2}</span>
             )}
           </div>
         );
@@ -106,13 +107,13 @@ export function createEventTableColumns(
         const isPending = event.pending_action && event.pending_action !== "";
         if (isPending) {
           return (
-            <span className="px-2.5 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded-full border border-yellow-200">
+            <span className="px-2.5 py-1 bg-[#FAA336] text-black text-xs font-semibold rounded-full ">
               Pending {event.pending_action}
             </span>
           );
         }
         return (
-          <span className="px-2.5 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full border border-green-200">
+          <span className="px-2.5 py-1 bg-green-900 text-green-300 text-xs font-semibold rounded-full border border-green-700">
             Active
           </span>
         );
@@ -121,21 +122,21 @@ export function createEventTableColumns(
     },
     {
       id: "actions",
-      header: "Actions",
+      header: "",
       cell: ({ row }) => {
         const event = row.original;
         return (
           <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => openModal(event, "update")}
-              className="p-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
+              className="p-1.5 bg-[#2e3f4f] text-white rounded-lg hover:bg-gray-800 transition-colors"
               title="Update"
             >
-              <Edit size={16} />
+              <PencilIcon size={16} />
             </button>
             <button
               onClick={() => openModal(event, "delete")}
-              className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+              className="p-1.5 bg-red-900 text-red-400 rounded-lg hover:bg-red-800 transition-colors"
               title="Delete"
             >
               <Trash size={16} />
@@ -144,14 +145,14 @@ export function createEventTableColumns(
               <>
                 <button
                   onClick={() => openModal(event, "approve-create")}
-                  className="p-1.5 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors"
+                  className="p-1.5 bg-green-900 text-green-400 rounded-lg hover:bg-green-800 transition-colors"
                   title="Approve Creation"
                 >
                   <Check size={16} />
                 </button>
                 <button
                   onClick={() => openModal(event, "reject-create")}
-                  className="p-1.5 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors"
+                  className="p-1.5 bg-orange-900 text-orange-400 rounded-lg hover:bg-orange-800 transition-colors"
                   title="Reject Creation"
                 >
                   <X size={16} />
@@ -162,14 +163,14 @@ export function createEventTableColumns(
               <>
                 <button
                   onClick={() => openModal(event, "approve-update")}
-                  className="p-1.5 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors"
+                  className="p-1.5 bg-green-900 text-green-400 rounded-lg hover:bg-green-800 transition-colors"
                   title="Approve Update"
                 >
                   <Check size={16} />
                 </button>
                 <button
                   onClick={() => openModal(event, "reject-update")}
-                  className="p-1.5 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors"
+                  className="p-1.5 bg-orange-900 text-orange-400 rounded-lg hover:bg-orange-800 transition-colors"
                   title="Reject Update"
                 >
                   <X size={16} />

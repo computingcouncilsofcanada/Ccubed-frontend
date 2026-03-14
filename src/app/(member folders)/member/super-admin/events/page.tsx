@@ -26,6 +26,9 @@ import UpdateEventModal from "./components/modals/UpdateEventModal";
 import DeleteEventModal from "./components/modals/DeleteEventModal";
 import RejectEventModal from "./components/modals/RejectEventModal";
 import ApproveEventModal from "./components/modals/ApproveEventModal";
+import StatsRow from "./components/StatsRow";
+import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
+import Image from "next/image";
 
 function EventsPage() {
   const { user, isLoading } = useUser();
@@ -43,6 +46,8 @@ function EventsPage() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const router = useRouter();
+
+  
 
   const {
     register: registerUpdate,
@@ -219,42 +224,89 @@ function EventsPage() {
 
   const columns = createEventTableColumns(openModal);
 
-  return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Events</h1>
-          <p className="text-gray-600">Manage and review all events</p>
-        </div>
-        <Link
-          href="/member/super-admin/events/create"
-          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
-        >
-          <IconPlus size={20} />
-          Create New Event
-        </Link>
-      </div>
+  
 
-      {/* Events Table */}
-      {events.length === 0 ? (
-        <EmptyEventsState />
-      ) : (
-        <>
-          <EventStats />
-          <DataTable
-            columns={columns}
-            data={events}
-            headerVariant="purple"
-            sort={true}
-          />
-          <PaginationControls
-            page={page}
-            onPageChange={setPage}
-            hasNextPage={events.length >= limit}
-          />
-        </>
-      )}
+  return (
+    <div className="min-h-screen  text-white p-6">
+     {/* Liquid Glass Container */}
+<div
+  className="relative rounded-3xl p-8"
+style={{
+  background: "rgba(255, 255, 255, 0.12)",
+  backdropFilter: "blur(28px) saturate(120%)",
+  WebkitBackdropFilter: "blur(28px) saturate(120%)",
+  borderRadius: "22px",
+  border: "1px solid rgba(255, 255, 255, 0.35)",
+  boxShadow: `
+    0 20px 40px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    inset 0 -1px 0 rgba(255,255,255,0.15)
+  `,
+}}
+>
+  {/* Subtle top glare */}
+  <div
+    className="absolute top-0 left-6 right-6 h-px rounded-full"
+    style={{
+      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+    }}
+  />
+
+  {/* Header */}
+  <div className="flex items-center justify-between mb-8">
+     
+    <div>
+
+      
+
+      <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
+  <Image
+    src="/FigmaFiles/ccubed-icon.svg"
+    alt="CCubed Icon"
+    width={30}
+    height={30}
+    draggable={false}
+    className="select-none"
+  />
+  Events
+</h1>
+      
+      <p className="text-slate-400">Manage and review all events</p>
+    </div>
+<div className="flex items-center gap-6">
+  <StatsRow />
+  <Link
+    href="/member/super-admin/events/create"
+    style={{ backgroundColor: "#FAA336" }}
+    className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+  >
+    <IconPlus size={20} />
+    Create New Event
+  </Link>
+</div>
+  </div>
+
+  {/* Events Table */}
+  {events.length === 0 ? (
+    <EmptyEventsState />
+  ) : (
+    <>
+    
+ 
+      <DataTable
+        columns={columns}
+        data={events}
+        headerVariant="purple"
+        sort={true}
+      />
+      <PaginationControls
+        page={page}
+        onPageChange={setPage}
+        hasNextPage={events.length >= limit}
+      />
+    </>
+  )}
+</div>
 
       {/* Modals */}
       <UpdateEventModal
