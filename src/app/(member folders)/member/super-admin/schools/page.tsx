@@ -47,7 +47,6 @@ function SchoolsPage() {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const router = useRouter();
 
   // Form handling for create and update operations
   const {
@@ -173,24 +172,13 @@ function SchoolsPage() {
     }
   };
 
-  // Role-based access control
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
-
   // Fetch schools on component mount
   useEffect(() => {
     fetchSchools();
   }, []);
 
   // Return null if user is not authorized
-  if (!user || user.role !== "SUPER_ADMIN") {
+  if (!user) {
     return null;
   }
 
