@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IconChevronsRight,
   IconChevronsLeft,
@@ -10,8 +10,7 @@ import SidebarFooter from "@/components/sidebar/SidebarFooter";
 import UserMenu from "@/components/sidebar/UserMenu";
 import NavigationItems from "@/components/sidebar/NavigationItems";
 import {
-  createBaseNavigationItems,
-  createSuperAdminNavigationItems,
+  createNavigationItems,
 } from "@/components/sidebar/constants";
 import { useUser } from "@/context/UserContext";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
@@ -36,19 +35,9 @@ export default function Sidebar({
     "/FigmaFiles/ccubed-icon.png"
   );
 
-  const basePath = `/member/${
-    user?.role === "SUPER_ADMIN"
-      ? "super-admin"
-      : user?.role === "ADMIN"
-      ? "admin"
-      : "staff"
-  }`;
+  const basePath = `/member/super-admin`;
 
-  const baseNavigationItems = createBaseNavigationItems(basePath, pathname);
-  const superAdminNavigationItems =
-    user?.role === "SUPER_ADMIN"
-      ? createSuperAdminNavigationItems(basePath, pathname)
-      : [];
+  const navigationItems = createNavigationItems(basePath, pathname);
 
   return (
     <>
@@ -112,7 +101,7 @@ export default function Sidebar({
           {/* Navigation Icons */}
           <nav className="flex-1 flex flex-col gap-1.5 w-full px-3 overflow-y-auto">
             <NavigationItems
-              items={baseNavigationItems}
+              items={navigationItems}
               isCollapsed={sidebarCollapsed}
               isMobile={isMobile}
               onItemClick={() => {
@@ -120,27 +109,6 @@ export default function Sidebar({
               }}
             />
 
-            {/* Divider for Super Admin items */}
-            {user?.role === "SUPER_ADMIN" && (isMobile || !sidebarCollapsed) && (
-              <div className="px-4 py-2">
-                <div className="h-px bg-gradient-to-r from-transparent via-slate-500 to-transparent"></div>
-                <p className="text-xs text-slate-300 font-bold uppercase tracking-widest mt-2 px-2">
-                  Administration
-                </p>
-              </div>
-            )}
-
-            {/* Super Admin Navigation Items */}
-            {user?.role === "SUPER_ADMIN" && (
-              <NavigationItems
-                items={superAdminNavigationItems}
-                isCollapsed={sidebarCollapsed}
-                isMobile={isMobile}
-                onItemClick={() => {
-                  if (isMobile) onClose();
-                }}
-              />
-            )}
           </nav>
 
           <SidebarFooter

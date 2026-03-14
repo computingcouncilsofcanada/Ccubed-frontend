@@ -15,7 +15,7 @@ type FormFields = {
 
 const LoginForm = () => {
   const router = useRouter();
-  const { handleInitialLogin } = useUser();
+  const { handleInitialLogin, handleSetPermissions } = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState("");
 
@@ -46,6 +46,10 @@ const LoginForm = () => {
 
         if (res.data.csrfToken) {
           setAxiosCsrfToken(res.data.csrfToken);
+        }
+
+        if (res.data.permissions) {
+          handleSetPermissions(res.data.permissions);
         }
 
         if (res.data.user) {

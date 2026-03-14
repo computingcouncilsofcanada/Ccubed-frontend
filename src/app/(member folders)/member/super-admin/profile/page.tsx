@@ -61,6 +61,7 @@ const Page = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [error, setError] = useState<string>("");
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false);
 
   const {
     register,
@@ -78,7 +79,6 @@ const Page = () => {
         setUser(response.data.data as UserData);
       }
     } catch (err: unknown) {
-      console.error("Error fetching user data:", err);
       setError(getErrMsg(err));
     }
   }, [setUser]);
@@ -87,19 +87,9 @@ const Page = () => {
     fetchUserData();
   }, [fetchUserData]);
 
-  // Role-based access control check
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/login");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
 
   // Return null if user is not authenticated or authorized
-  if (!user || user.role !== "SUPER_ADMIN") {
+  if (!user ) {
     return null;
   }
 
@@ -127,7 +117,6 @@ const Page = () => {
         reset();
       }
     } catch (err: unknown) {
-      console.error("Error changing password:", err);
       const serverMsg = (err as AxiosErrLike).response?.data?.message;
       if (serverMsg === "New password cannot be the same as the old password") {
         setFormError("newPassword", {
@@ -147,8 +136,8 @@ const Page = () => {
     userData?.username ?? userData?.email?.split("@")[0] ?? "User";
 
   return (
-    <div className="relative w-full overflow-hidden overflow-x-hidden min-h-full p-6 md:p-8 bg-gradient-to-b from-[#10212E] to-[#162C3D]">
-      <div className="absolute inset-2 z-0">
+    <div className="relative w-full overflow-hidden overflow-x-hidden min-h-screen p-6 md:p-8 bg-gradient-to-b from-[#10212E] to-[#162C3D]">
+      <div className="absolute inset-2 z-0 ">
         <BgBoxMainPage maxHeight={400} />
       </div>
 
@@ -176,7 +165,9 @@ const Page = () => {
               </h2>
               <p className="text-sm text-gray-400 truncate">{userData?.email}</p>
             </div>
-            <span className="px-3 py-1.5 rounded-lg bg-neutral-700 text-white text-sm font-medium">
+            <span className="px-3 py-1.5 rounded-full bg-gradient-to-r from-[#0D1C26] to-[#1A384C] shadow-lg border border-white/20 text-white text-sm font-medium
+               px-8 py-2
+            ">
               {userData?.role?.replace(/_/g, " ") ?? "—"}
             </span>
           </div>
@@ -192,7 +183,8 @@ const Page = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="w-5 h-5 text-gray-400"
+                className="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#FAA336] transition-colors"
+                onClick={() => setShowUpdateProfile((prev) => !prev)}
               >
                 <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
               </svg>
@@ -220,7 +212,7 @@ const Page = () => {
                 <h2 className="text-sm font-medium text-gray-400 mb-1">
                   Username
                 </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                <div className="px-3 py-2 rounded-lg bg-[#D9D9D9] text-black text-sm">
                   {userData?.username ?? "—"}
                 </div>
               </div>
@@ -228,13 +220,13 @@ const Page = () => {
                 <h2 className="text-sm font-medium text-gray-400 mb-1">
                   Email
                 </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                <div className="px-3 py-2 rounded-lg bg-[#D9D9D9] text-black text-sm">
                   {userData?.email ?? "—"}
                 </div>
               </div>
               <div>
                 <h2 className="text-sm font-medium text-gray-400 mb-1">Role</h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                <div className="px-3 py-2 rounded-lg bg-[#D9D9D9] text-black text-sm">
                   {userData?.role ?? "—"}
                 </div>
               </div>
@@ -242,16 +234,8 @@ const Page = () => {
                 <h2 className="text-sm font-medium text-gray-400 mb-1">
                   Status
                 </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                <div className="px-3 py-2 rounded-lg bg-[#D9D9D9] text-black text-sm">
                   {userData?.status === 1 ? "Active" : "Banned"}
-                </div>
-              </div>
-              <div>
-                <h2 className="text-sm font-medium text-gray-400 mb-1">
-                  School ID
-                </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
-                  {userData?.school_id || "Not provided"}
                 </div>
               </div>
             </div>
@@ -262,7 +246,7 @@ const Page = () => {
                 <h2 className="text-sm font-medium text-gray-400 mb-1">
                   Account Status
                 </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                <div className="px-3 py-2 rounded-lg bg-[#D9D9D9] text-black text-sm">
                   {userData?.is_verified ? "Verified" : "Not Verified"}
                 </div>
               </div>
@@ -270,7 +254,7 @@ const Page = () => {
                 <h2 className="text-sm font-medium text-gray-400 mb-1">
                   Year of Study
                 </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                <div className="px-3 py-2 rounded-lg bg-[#D9D9D9] text-black text-sm">
                   {userData?.year_of_study ?? "Not provided"}
                 </div>
               </div>
@@ -278,32 +262,8 @@ const Page = () => {
                 <h2 className="text-sm font-medium text-gray-400 mb-1">
                   Department
                 </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
+                <div className="px-3 py-2 rounded-lg bg-[#D9D9D9] text-black text-sm">
                   {userData?.department || "Not provided"}
-                </div>
-              </div>
-              <div>
-                <h2 className="text-sm font-medium text-gray-400 mb-1">
-                  Member Since
-                </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
-                  {formatDate(userData?.created_at)}
-                </div>
-              </div>
-              <div>
-                <h2 className="text-sm font-medium text-gray-400 mb-1">
-                  Last Updated
-                </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm">
-                  {formatDate(userData?.updated_at)}
-                </div>
-              </div>
-              <div>
-                <h2 className="text-sm font-medium text-gray-400 mb-1">
-                  User ID
-                </h2>
-                <div className="px-3 py-2 rounded-lg bg-neutral-800 text-white text-sm font-mono">
-                  {userData?.id ?? "—"}
                 </div>
               </div>
             </div>
@@ -311,32 +271,33 @@ const Page = () => {
         </div>
 
         {/* Update profile (social, about, domains, hobbies) */}
-        <div className="bg-gray-800/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-6">
-          <h1 className="text-3xl font-bold text-white mb-6">
-            Update profile
-          </h1>
-          <UpdateUserForm
-          key={userData?.id ?? "loading"}
-          initialData={{
-            username: userData?.username ?? "",
-            instagram_url: userData?.instagram_url ?? "",
-            twitter_url: userData?.twitter_url ?? "",
-            avatar_url: userData?.avatar_url ?? "",
-            about_me: userData?.about_me ?? "",
-            fun_fact: userData?.fun_fact ?? "",
-            linkedin_url: userData?.linkedin_url ?? "",
-            discord_url: userData?.discord_url ?? "",
-            domains: userData?.domains ?? [],
-            hobbies: userData?.hobbies ?? [],
-            favorite_song: userData?.favorite_song ?? "",
-            journey_at_ccubed: userData?.journey_at_ccubed ?? "",
-            favorite_quote: userData?.favorite_quote ?? "",
-          }}
-          onSuccess={fetchUserData}
-        />
-        </div>
+        {showUpdateProfile && (
+          <div className="bg-gray-800/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/20 p-6">
+            <h1 className="text-3xl font-bold text-white mb-6">
+              Update profile
+            </h1>
+            <UpdateUserForm
+              key={userData?.id ?? "loading"}
+              initialData={{
+                username: userData?.username ?? "",
+                instagram_url: userData?.instagram_url ?? "",
+                twitter_url: userData?.twitter_url ?? "",
+                avatar_url: userData?.avatar_url ?? "",
+                about_me: userData?.about_me ?? "",
+                fun_fact: userData?.fun_fact ?? "",
+                linkedin_url: userData?.linkedin_url ?? "",
+                discord_url: userData?.discord_url ?? "",
+                domains: userData?.domains ?? [],
+                hobbies: userData?.hobbies ?? [],
+                favorite_song: userData?.favorite_song ?? "",
+                journey_at_ccubed: userData?.journey_at_ccubed ?? "",
+                favorite_quote: userData?.favorite_quote ?? "",
+              }}
+              onSuccess={fetchUserData}
+            />
+          </div>
+        )}
       </div>
-
       {/* Change Password Modal */}
       {isPasswordModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">

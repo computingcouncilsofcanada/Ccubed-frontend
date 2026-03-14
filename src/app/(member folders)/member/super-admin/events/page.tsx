@@ -28,7 +28,7 @@ import RejectEventModal from "./components/modals/RejectEventModal";
 import ApproveEventModal from "./components/modals/ApproveEventModal";
 
 function EventsPage() {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const [events, setEvents] = useState<Event[]>([]);
   const [, setError] = useState<string>("");
 
@@ -58,7 +58,6 @@ function EventsPage() {
       setEvents(res.data);
     } catch (err: unknown) {
       setError(getErrMsg(err));
-      console.log(err);
     }
   }, [page]);
 
@@ -84,7 +83,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error updating event:", err);
       alert(getErrMsg(err));
     }
   };
@@ -100,7 +98,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error deleting event:", err);
       alert(getErrMsg(err));
     }
   };
@@ -115,7 +112,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error approving event creation:", err);
       alert(getErrMsg(err));
     }
   };
@@ -130,7 +126,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error rejecting event creation:", err);
       alert(getErrMsg(err));
     }
   };
@@ -144,7 +139,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error approving event update:", err);
       alert(getErrMsg(err));
     }
   };
@@ -159,7 +153,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error rejecting event update:", err);
       alert(getErrMsg(err));
     }
   };
@@ -203,17 +196,9 @@ function EventsPage() {
     }
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
 
-  if (!user || user.role !== "SUPER_ADMIN") {
+
+  if (!user ) {
     return null;
   }
 
@@ -224,12 +209,12 @@ function EventsPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Events</h1>
-          <p className="text-gray-600">Manage and review all events</p>
+          <h1 className="text-4xl font-bold text-gray-200 mb-2">Events</h1>
+          <p className="text-gray-400">Manage and review all events</p>
         </div>
         <Link
           href="/member/super-admin/events/create"
-          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+          className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
         >
           <IconPlus size={20} />
           Create New Event

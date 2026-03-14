@@ -24,17 +24,18 @@ export default function SuperAdminPage() {
     "/FigmaFiles/ccubed-icon.png",
   );
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
 
-  if (!user || user.role !== "SUPER_ADMIN") {
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     if (!user) {
+  //       router.push("/");
+  //     } else if (user.role !== "SUPER_ADMIN") {
+  //       router.push("/member");
+  //     }
+  //   }
+  // }, [user, isLoading, router]);
+
+  if (!user) {
     return null;
   }
 

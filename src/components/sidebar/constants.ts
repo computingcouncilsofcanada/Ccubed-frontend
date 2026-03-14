@@ -11,73 +11,88 @@ import {
   IconUserEdit,
 } from "@tabler/icons-react";
 import { NavigationItem } from "./types";
+import { PERMISSIONS } from "@/constants/permissions";
 
 const isActive = (pathname: string | null, path: string) =>
   pathname === path || (pathname && pathname.startsWith(`${path}/`)) || false;
 
-export const createBaseNavigationItems = (basePath: string, pathname: string | null): NavigationItem[] => [
+export const createNavigationItems = (basePath: string, pathname: string | null): NavigationItem[] => [
   {
     icon: IconLayoutGrid,
     label: "Dashboard",
     href: basePath,
     active: pathname === basePath,
+    category: "SYSTEM",
   },
   {
     icon: IconUser,
     label: "Profile",
     href: `${basePath}/profile`,
     active: isActive(pathname, `${basePath}/profile`),
+    category: "SYSTEM",
   },
   {
     icon: IconFileText,
     label: "Events",
     href: `${basePath}/events`,
     active: isActive(pathname, `${basePath}/events`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_EVENTS,
+    category: "MANAGEMENT",
   },
-];
-
-export const createSuperAdminNavigationItems = (basePath: string, pathname: string | null): NavigationItem[] => [
   {
     icon: IconUserPlus,
     label: "Register User",
     href: `${basePath}/register-user`,
     active: isActive(pathname, `${basePath}/register-user`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_USER_REGISTRATIONS,
+    category: "MANAGEMENT",
   },
   {
     icon: IconUsers,
     label: "Users",
     href: `${basePath}/users`,
     active: isActive(pathname, `${basePath}/users`) && !isActive(pathname, `${basePath}/register-user`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_USERS,
+    category: "MANAGEMENT",
   },
   {
     icon: IconShield,
     label: "Roles & Permissions",
     href: `${basePath}/roles-permissions`,
     active: isActive(pathname, `${basePath}/roles-permissions`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_ROLES_AND_PERMISSIONS,
+    category: "ADMINISTRATION",
   },
   {
     icon: IconUserShield,
     label: "Roles",
     href: `${basePath}/roles`,
     active: isActive(pathname, `${basePath}/roles`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_ROLES_AND_PERMISSIONS,
+    category: "ADMINISTRATION",
   },
   {
     icon: IconUserEdit,
     label: "Update user requests",
     href: `${basePath}/update-user-request`,
     active: isActive(pathname, `${basePath}/update-user-request`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_UPDATE_USER_REQUESTS,
+    category: "ADMINISTRATION",
   },
   {
     icon: IconSchool,
     label: "Schools",
     href: `${basePath}/schools`,
     active: isActive(pathname, `${basePath}/schools`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_SCHOOLS,
+    category: "ADMINISTRATION",
   },
   {
     icon: IconBuilding,
     label: "Departments",
     href: `${basePath}/departments`,
     active: isActive(pathname, `${basePath}/departments`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_DEPARTMENTS,
+    category: "ADMINISTRATION",
   },
 ];
-

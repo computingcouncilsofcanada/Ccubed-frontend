@@ -42,10 +42,10 @@ function SortableHeader<TData>({ column, title }: SortableHeaderProps<TData>) {
           column.clearSorting(); // reset
         }
       }}
-      className="flex items-center gap-2 hover:bg-purple-50 rounded-lg px-2 py-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] focus-visible:ring-offset-2"
+      className="flex items-center gap-2 hover:bg-white/10 rounded-lg px-2 py-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0D1C26]"
     >
-      <span className="font-semibold">{title}</span>
-      <div className="text-gray-500 hover:text-[#7C3AED] transition-colors">
+      <span className="font-semibold text-gray-200">{title}</span>
+      <div className="text-gray-400 hover:text-cyan-400 transition-colors">
         {column.getIsSorted() === "asc" ? (
           <IconChevronUp size={16} />
         ) : column.getIsSorted() === "desc" ? (
@@ -130,7 +130,7 @@ export function DataTable<TData, TValue>({
       header: ({ table }) => (
         <div onClick={(e) => e.stopPropagation()}>
           <Checkbox
-            className="w-5 h-5 border-gray-300 cursor-pointer data-[state=checked]:bg-[#7C3AED] data-[state=checked]:border-[#7C3AED]"
+            className="w-5 h-5 border-gray-500 cursor-pointer data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500 text-gray-800"
             onCheckedChange={(value) =>
               table.toggleAllPageRowsSelected(!!value)
             }
@@ -142,7 +142,7 @@ export function DataTable<TData, TValue>({
       cell: ({ row }) => (
         <div onClick={(e) => e.stopPropagation()}>
           <Checkbox
-            className="w-5 h-5 border-gray-300 cursor-pointer data-[state=checked]:bg-[#7C3AED] data-[state=checked]:border-[#7C3AED]"
+            className="w-5 h-5 border-gray-500 cursor-pointer data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500 text-gray-800"
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
             aria-label={`Select row ${row.id}`}
@@ -209,17 +209,17 @@ export function DataTable<TData, TValue>({
   // Show loading state
   if (showSkeleton) {
     return (
-      <div className="rounded-xl overflow-hidden border border-gray-200 shadow-lg">
+      <div className="rounded-xl overflow-hidden border border-white/20 shadow-lg bg-gray-800/40">
         <div className="w-full overflow-x-auto">
           <div className="animate-pulse">
             <div className={cn(
               "h-12",
               headerVariant === "purple"
-                ? "bg-gradient-to-r from-blue-100 via-cyan-100 to-blue-100"
-                : "bg-gray-200"
+                ? "bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700"
+                : "bg-gray-700"
             )}></div>
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-16 bg-gray-100 border-b border-gray-200"></div>
+              <div key={i} className="h-16 bg-gray-800/80 border-b border-gray-700"></div>
             ))}
           </div>
         </div>
@@ -228,15 +228,15 @@ export function DataTable<TData, TValue>({
   }
 
   return (
-    <div className="rounded-xl overflow-hidden border border-gray-200 shadow-lg">
+    <div className="rounded-xl overflow-hidden border border-white/20 shadow-lg bg-gray-800/40">
       <div className="w-full overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="min-w-full divide-y divide-gray-700">
           <thead
             className={cn(
               "py-3",
               headerVariant === "purple"
-                ? "bg-gradient-to-r from-blue-100 via-cyan-100 to-blue-100"
-                : "bg-gray-50"
+                ? "bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700"
+                : "bg-gray-800"
             )}
           >
             {table.getHeaderGroups().map((headerGroup) => (
@@ -252,8 +252,8 @@ export function DataTable<TData, TValue>({
                     className={cn(
                       "px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider",
                       headerVariant === "purple"
-                        ? "text-slate-700"
-                        : "text-gray-700"
+                        ? "text-gray-300"
+                        : "text-gray-400"
                     )}
                   >
                     {header.isPlaceholder
@@ -267,13 +267,13 @@ export function DataTable<TData, TValue>({
               </tr>
             ))}
           </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
+          <tbody className="bg-gray-800/30 divide-y divide-gray-700">
             {isDataLoaded && table.getRowModel().rows?.length === 0 ? (
               <tr>
                 <td colSpan={finalColumns.length}>
-                  <div className="flex flex-col items-center justify-center py-10 text-gray-500">
-                    <div className="w-48 h-48 mb-3 opacity-70 flex items-center justify-center bg-gray-100 rounded-lg">
-                      <IconArrowsSort size={64} className="text-gray-400" />
+                  <div className="flex flex-col items-center justify-center py-10 text-gray-400">
+                    <div className="w-48 h-48 mb-3 opacity-70 flex items-center justify-center bg-gray-700/50 rounded-lg">
+                      <IconArrowsSort size={64} className="text-gray-500" />
                     </div>
                     <p className="text-sm font-medium">
                       Không tìm thấy nội dung
@@ -290,10 +290,10 @@ export function DataTable<TData, TValue>({
                   className={cn(
                     onRowClick && "cursor-pointer transition-colors",
                     row.getIsSelected()
-                      ? "bg-purple-50"
+                      ? "bg-cyan-500/20"
                       : onRowClick
-                      ? "hover:bg-purple-50/50"
-                      : "hover:bg-gray-50"
+                      ? "hover:bg-white/5"
+                      : "hover:bg-white/5"
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -304,7 +304,7 @@ export function DataTable<TData, TValue>({
                           : "150px",
                       }}
                       key={cell.id}
-                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-200"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -321,8 +321,8 @@ export function DataTable<TData, TValue>({
       {pagination &&
         pagination.paginationInfo &&
         pagination.paginationInfo.count > 0 && (
-          <div className="mt-4 px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
-            <div className="text-sm text-gray-700">
+          <div className="mt-4 px-6 py-4 border-t border-gray-700 bg-gray-800/50 flex items-center justify-between">
+            <div className="text-sm text-gray-300">
               Showing page {pagination.currentPage} of{" "}
               {Math.ceil(pagination.paginationInfo.count / pagination.itemsPerPage)}
             </div>
@@ -330,7 +330,7 @@ export function DataTable<TData, TValue>({
               {pagination.paginationInfo.previous && (
                 <button
                   onClick={() => pagination.onPageChange(pagination.paginationInfo!.previous!)}
-                  className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors"
+                  className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 text-sm font-medium text-gray-200 transition-colors"
                 >
                   Previous
                 </button>
@@ -338,7 +338,7 @@ export function DataTable<TData, TValue>({
               {pagination.paginationInfo.next && (
                 <button
                   onClick={() => pagination.onPageChange(pagination.paginationInfo!.next!)}
-                  className="px-4 py-2 bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] text-white rounded-lg hover:shadow-lg text-sm font-medium transition-all"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:shadow-lg text-sm font-medium transition-all"
                 >
                   Next
                 </button>
