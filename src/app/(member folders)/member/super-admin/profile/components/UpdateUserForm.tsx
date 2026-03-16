@@ -122,7 +122,7 @@ export default function UpdateUserForm({
   };
 
   const inputClass =
-    "w-full px-3 py-2 border border-gray-600 rounded-lg bg-neutral-800 text-white placeholder-gray-500 focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]";
+    "w-full px-3 py-2 border border-gray-600 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-500 focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]";
   const labelClass = "block text-sm font-medium text-gray-400 mb-1";
 
   return (

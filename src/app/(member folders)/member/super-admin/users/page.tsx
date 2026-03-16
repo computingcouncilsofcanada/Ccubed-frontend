@@ -210,21 +210,12 @@ function UsersPage() {
     }
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
 
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
-  if (!user || user.role !== "SUPER_ADMIN") {
+  if (!user) {
     return null;
   }
 

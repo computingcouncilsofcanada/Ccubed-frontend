@@ -31,7 +31,7 @@ import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 import Image from "next/image";
 
 function EventsPage() {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const [events, setEvents] = useState<Event[]>([]);
   const [, setError] = useState<string>("");
 
@@ -47,7 +47,7 @@ function EventsPage() {
   const limit = 10;
   const router = useRouter();
 
-  
+
 
   const {
     register: registerUpdate,
@@ -63,7 +63,6 @@ function EventsPage() {
       setEvents(res.data);
     } catch (err: unknown) {
       setError(getErrMsg(err));
-      console.log(err);
     }
   }, [page]);
 
@@ -89,7 +88,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error updating event:", err);
       alert(getErrMsg(err));
     }
   };
@@ -105,7 +103,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error deleting event:", err);
       alert(getErrMsg(err));
     }
   };
@@ -120,7 +117,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error approving event creation:", err);
       alert(getErrMsg(err));
     }
   };
@@ -135,7 +131,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error rejecting event creation:", err);
       alert(getErrMsg(err));
     }
   };
@@ -149,7 +144,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error approving event update:", err);
       alert(getErrMsg(err));
     }
   };
@@ -164,7 +158,6 @@ function EventsPage() {
         await fetchEvents();
       }
     } catch (err: unknown) {
-      console.error("Error rejecting event update:", err);
       alert(getErrMsg(err));
     }
   };
@@ -208,105 +201,97 @@ function EventsPage() {
     }
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
 
-  if (!user || user.role !== "SUPER_ADMIN") {
+
+  if (!user) {
     return null;
   }
 
   const columns = createEventTableColumns(openModal);
 
-  
+
 
   return (
     <div className="min-h-screen  text-white p-6">
-     {/* Liquid Glass Container */}
-<div
-  className="relative rounded-3xl p-8"
-style={{
-  background: "rgba(255, 255, 255, 0.12)",
-  backdropFilter: "blur(28px) saturate(120%)",
-  WebkitBackdropFilter: "blur(28px) saturate(120%)",
-  borderRadius: "22px",
-  border: "1px solid rgba(255, 255, 255, 0.35)",
-  boxShadow: `
+      {/* Liquid Glass Container */}
+      <div
+        className="relative rounded-3xl p-8"
+        style={{
+          background: "rgba(255, 255, 255, 0.12)",
+          backdropFilter: "blur(28px) saturate(120%)",
+          WebkitBackdropFilter: "blur(28px) saturate(120%)",
+          borderRadius: "22px",
+          border: "1px solid rgba(255, 255, 255, 0.35)",
+          boxShadow: `
     0 20px 40px rgba(0,0,0,0.18),
     inset 0 1px 0 rgba(255,255,255,0.6),
     inset 0 -1px 0 rgba(255,255,255,0.15)
   `,
-}}
->
-  {/* Subtle top glare */}
-  <div
-    className="absolute top-0 left-6 right-6 h-px rounded-full"
-    style={{
-      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
-    }}
-  />
+        }}
+      >
+        {/* Subtle top glare */}
+        <div
+          className="absolute top-0 left-6 right-6 h-px rounded-full"
+          style={{
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+          }}
+        />
 
-  {/* Header */}
-  <div className="flex items-center justify-between mb-8">
-     
-    <div>
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
 
-      
+          <div>
 
-      <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
-  <Image
-    src="/FigmaFiles/ccubed-icon.svg"
-    alt="CCubed Icon"
-    width={30}
-    height={30}
-    draggable={false}
-    className="select-none"
-  />
-  Events
-</h1>
-      
-      <p className="text-slate-400">Manage and review all events</p>
-    </div>
-<div className="flex items-center gap-6">
-  <StatsRow />
-  <Link
-    href="/member/super-admin/events/create"
-    style={{ backgroundColor: "#FAA336" }}
-    className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
-  >
-    <IconPlus size={20} />
-    Create New Event
-  </Link>
-</div>
-  </div>
 
-  {/* Events Table */}
-  {events.length === 0 ? (
-    <EmptyEventsState />
-  ) : (
-    <>
-    <EventStats key={events.length}/>
-   
-      <DataTable
-        columns={columns}
-        data={events}
-        headerVariant="purple"
-        sort={true}
-      />
-      <PaginationControls
-        page={page}
-        onPageChange={setPage}
-        hasNextPage={events.length >= limit}
-      />
-    </>
-  )}
-</div>
+
+            <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
+              <Image
+                src="/FigmaFiles/ccubed-icon.svg"
+                alt="CCubed Icon"
+                width={30}
+                height={30}
+                draggable={false}
+                className="select-none"
+              />
+              Events
+            </h1>
+
+            <p className="text-slate-400">Manage and review all events</p>
+          </div>
+          <div className="flex items-center gap-6">
+            <StatsRow />
+            <Link
+              href="/member/super-admin/events/create"
+              style={{ backgroundColor: "#FAA336" }}
+              className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+            >
+              <IconPlus size={20} />
+              Create New Event
+            </Link>
+          </div>
+        </div>
+
+        {/* Events Table */}
+        {events.length === 0 ? (
+          <EmptyEventsState />
+        ) : (
+          <>
+            <EventStats key={events.length} />
+
+            <DataTable
+              columns={columns}
+              data={events}
+              headerVariant="purple"
+              sort={true}
+            />
+            <PaginationControls
+              page={page}
+              onPageChange={setPage}
+              hasNextPage={events.length >= limit}
+            />
+          </>
+        )}
+      </div>
 
       {/* Modals */}
       <UpdateEventModal

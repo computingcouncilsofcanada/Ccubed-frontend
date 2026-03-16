@@ -3,6 +3,7 @@ import axios, { type InternalAxiosRequestConfig } from "axios";
 const API_BASE = process.env.NEXT_PUBLIC_BACKEND_BASE;
 const API_BASE_LOCAL = process.env.NEXT_PUBLIC_API_BASE;
 
+
 let csrfToken = "";
 
 export type CsrfTokenInput = string | { data: string } | null | undefined;
@@ -35,6 +36,12 @@ export const privateAxios = axios.create({
   withCredentials: true,
 });
 
+const refreshAxios = axios.create({
+  baseURL: API_BASE,
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
+});
+
 // Private Axios Interceptor
 privateAxios.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
   try {
@@ -55,3 +62,52 @@ privateAxios.interceptors.request.use(async (config: InternalAxiosRequestConfig)
     return config;
   }
 });
+
+let isRefreshing = false;
+let refreshPromise: Promise<boolean> | null = null;
+
+/** Callback when token refresh fails (e.g. session expired). Set by UserProvider. */
+let onSessionExpired: (() => void) | null = null;
+
+export function setOnSessionExpired(fn: (() => void) | null): void {
+  onSessionExpired = fn;
+}
+
+function doRefresh(): Promise<boolean> {
+  if (refreshPromise) return refreshPromise;
+  refreshPromise = (async () => {
+    try {
+      console.log("Interceptor: Initiating token refresh...");
+      await refreshAxios.post("/auth/refresh-token", {}, { headers: {} });
+      return true;
+    } catch (tokenError: unknown) {
+      throw typeof tokenError === "string" ? new Error(tokenError) : tokenError;
+    } finally {
+      isRefreshing = false;
+      refreshPromise = null;
+      console.log("Interceptor: Resetting refresh state...");
+    }
+  })();
+  return refreshPromise;
+}
+
+privateAxios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.config?.retryAfterRefresh) {
+      return Promise.reject(error);
+    }
+    if (error.response?.status === 401) {
+      isRefreshing = true;
+      try {
+        await doRefresh();
+        error.config.retryAfterRefresh = true;
+        return privateAxios(error.config);
+      } catch (refreshError: unknown) {
+        onSessionExpired?.();
+        return Promise.reject(refreshError ?? error);
+      }
+    }
+    return Promise.reject(error);
+  }
+);

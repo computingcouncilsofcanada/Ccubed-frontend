@@ -29,19 +29,8 @@ const RegisterUser = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
 
-  // Role-based access control
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
 
-  // Return null if user is not authorized
-  if (!user || user.role !== "SUPER_ADMIN") {
+  if (!user) {
     return null;
   }
 

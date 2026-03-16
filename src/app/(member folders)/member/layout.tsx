@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { ChevronsRight } from "lucide-react";
 import Sidebar from "@/components/sidebar/Sidebar";   
+import { useApiPermission } from "@/services/useApiPermission";
+import { useUser } from "@/context/UserContext";
 
 export default function AdminLayout({
   children,   
@@ -14,6 +16,20 @@ export default function AdminLayout({
   const pathname = usePathname();
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+
+  const { fetchMyPermissions } = useApiPermission();
+  const { handleSetPermissions } = useUser();
+
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      try {
+        const response = await fetchMyPermissions();
+        handleSetPermissions(response.data);
+      } catch (error) {
+      }
+    };
+    fetchPermissions();
+  }, [pathname]);
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-[#0D1C26] to-[#1A384C] relative overflow-hidden">

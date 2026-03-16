@@ -49,7 +49,6 @@ function DepartmentsPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedDepartment, setSelectedDepartment] =
     useState<Department | null>(null);
-  const router = useRouter();
 
   const {
     register: registerCreate,
@@ -140,21 +139,11 @@ function DepartmentsPage() {
   };
 
   useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isLoading, router]);
-
-  useEffect(() => {
     fetchDepartments();
   }, []);
 
   // Return null if user is not authorized
-  if (!user || user.role !== "SUPER_ADMIN") {
+  if (!user) {
     return null;
   }
 

@@ -153,25 +153,10 @@ function RolesPage() {
     }
   };
 
-  useEffect(() => {
-    if (!isUserLoading) {
-      if (!user) {
-        router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
-    }
-  }, [user, isUserLoading, router]);
 
   useEffect(() => {
-    if (!isUserLoading && user?.role === "SUPER_ADMIN") {
-      fetchAllData();
-    }
-  }, [user, isUserLoading, fetchAllData]);
-
-  if (!user || user.role !== "SUPER_ADMIN") {
-    return null;
-  }
+    fetchAllData();
+  }, [fetchAllData]);
 
   const hasPendingChanges = Object.keys(pendingRolePermissions).length > 0;
 
@@ -180,14 +165,14 @@ function RolesPage() {
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#7C3AED] to-[#6d28d9] flex items-center justify-center shadow-lg">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg">
             <IconShield size={24} className="text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-200">
               Role & Permission Management
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               Manage roles and their associated permissions
             </p>
           </div>
@@ -196,7 +181,7 @@ function RolesPage() {
 
       {/* Error Message */}
       {error && (
-        <div className="mb-6 bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-r-lg shadow-sm">
+        <div className="mb-6 bg-red-500/20 border-l-4 border-red-500/80 text-red-200 px-4 py-3 rounded-r-lg shadow-sm">
           <div className="flex items-center gap-2">
             <IconX size={20} />
             <span className="font-medium">{error}</span>
@@ -209,8 +194,8 @@ function RolesPage() {
         <button
           className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white shadow-lg transition-all duration-200 ${
             !hasPendingChanges || isSaving
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#7C3AED] hover:shadow-xl transform hover:scale-105"
+              ? "bg-gray-600 cursor-not-allowed"
+              : "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 hover:shadow-xl transform hover:scale-105"
           }`}
           onClick={handleSave}
           disabled={!hasPendingChanges || isSaving}
@@ -221,10 +206,10 @@ function RolesPage() {
       </div>
 
       {/* Table Container */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+      <div className="bg-gray-800/40 rounded-2xl shadow-lg border border-white/20 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gradient-to-r from-[#7C3AED] to-[#6d28d9]">
+          <table className="min-w-full divide-y divide-gray-700">
+            <thead className="bg-gradient-to-r from-gray-700 to-gray-600">
               <tr>
                 <th
                   scope="col"
@@ -243,7 +228,7 @@ function RolesPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleBulkUpdateLocal(role.id, true)}
-                          className="flex items-center gap-1 text-xs bg-white/20 hover:bg-white/30 text-white font-semibold py-1.5 px-3 rounded-lg transition-all duration-200 backdrop-blur-sm"
+                          className="flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 text-white font-semibold py-1.5 px-3 rounded-lg transition-all duration-200 backdrop-blur-sm"
                           type="button"
                         >
                           <IconCheck size={14} />
@@ -251,7 +236,7 @@ function RolesPage() {
                         </button>
                         <button
                           onClick={() => handleBulkUpdateLocal(role.id, false)}
-                          className="flex items-center gap-1 text-xs bg-white/20 hover:bg-white/30 text-white font-semibold py-1.5 px-3 rounded-lg transition-all duration-200 backdrop-blur-sm"
+                          className="flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 text-white font-semibold py-1.5 px-3 rounded-lg transition-all duration-200 backdrop-blur-sm"
                           type="button"
                         >
                           <IconX size={14} />
@@ -263,17 +248,17 @@ function RolesPage() {
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-100">
+            <tbody className="bg-gray-800/30 divide-y divide-gray-700">
               {Object.keys(groupedPermissions).map((groupName) => (
                 <React.Fragment key={groupName}>
-                  <tr className="bg-gradient-to-r from-purple-50 to-indigo-50">
+                  <tr className="bg-gray-700/50">
                     <td
                       colSpan={displayableRoles.length + 1}
                       className="px-6 py-4"
                     >
                       <div className="flex items-center gap-2">
-                        <div className="w-1 h-6 bg-gradient-to-b from-[#7C3AED] to-[#6d28d9] rounded-full"></div>
-                        <h3 className="text-base font-bold text-gray-900">
+                        <div className="w-1 h-6 bg-gradient-to-b from-cyan-500 to-blue-600 rounded-full"></div>
+                        <h3 className="text-base font-bold text-gray-200">
                           {groupName}
                         </h3>
                       </div>
@@ -285,12 +270,12 @@ function RolesPage() {
                       <tr
                         key={permission.id}
                         className={`transition-colors ${
-                          isEven ? "bg-gray-50/50" : "bg-white"
-                        } hover:bg-purple-50/50`}
+                          isEven ? "bg-gray-800/40" : "bg-gray-800/20"
+                        } hover:bg-white/5`}
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-gray-700">
+                            <span className="text-sm font-medium text-gray-300">
                               {permission.name.split(".").slice(1).join(".") || permission.name}
                             </span>
                           </div>
@@ -308,7 +293,7 @@ function RolesPage() {
                                     handleCheckboxChange(role.id, permission.id)
                                   }
                                   id={`${role.id}-${permission.id}`}
-                                  className="data-[state=checked]:bg-[#7C3AED] data-[state=checked]:border-[#7C3AED]"
+                                  className="border-gray-500 text-gray-800 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
                                 />
                               </div>
                             </td>
@@ -326,8 +311,8 @@ function RolesPage() {
 
       {/* Pending Changes Indicator */}
       {hasPendingChanges && (
-        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-amber-600 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200">
-          <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-amber-200 bg-amber-500/20 px-4 py-2 rounded-lg border border-amber-500/40">
+          <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
           <span className="font-medium">
             You have unsaved changes. Don&apos;t forget to save!
           </span>

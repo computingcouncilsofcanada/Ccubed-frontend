@@ -338,7 +338,7 @@ export function DataTable<TData, TValue>({
               {pagination.paginationInfo.next && (
                 <button
                   onClick={() => pagination.onPageChange(pagination.paginationInfo!.next!)}
-                  className="px-4 py-2 bg-gradient-to-r from-[#7C3AED] to-[#6d28d9] text-white rounded-lg hover:shadow-lg text-sm font-medium transition-all"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:shadow-lg text-sm font-medium transition-all"
                 >
                   Next
                 </button>
