@@ -291,7 +291,7 @@ style={{
     <EmptyEventsState />
   ) : (
     <>
-    <EventStats/>
+    <EventStats key={events.length}/>
    
       <DataTable
         columns={columns}
