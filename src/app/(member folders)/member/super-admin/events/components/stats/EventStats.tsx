@@ -12,6 +12,8 @@ import {
   IconCategory,
   IconTrendingUp,
   IconMapPin,
+  IconUsersGroup,
+  IconList,
 } from "@tabler/icons-react";
 
 export default function EventStats() {
@@ -43,10 +45,10 @@ export default function EventStats() {
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="bg-gray-800/40 rounded-xl shadow-sm border border-white/20 p-6 animate-pulse"
+              className="bg-slate-800 rounded-xl shadow-sm border border-slate-700 p-6 animate-pulse"
             >
-              <div className="h-4 bg-gray-700 rounded w-3/4 mb-4"></div>
-              <div className="h-8 bg-gray-700 rounded w-1/2"></div>
+              <div className="h-4 bg-slate-700 rounded w-3/4 mb-4"></div>
+              <div className="h-8 bg-slate-700 rounded w-1/2"></div>
             </div>
           ))}
         </div>
@@ -55,12 +57,12 @@ export default function EventStats() {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-gray-800/40 rounded-xl shadow-sm border border-white/20 p-6 animate-pulse"
+              className="bg-slate-800 rounded-xl shadow-sm border border-slate-700 p-6 animate-pulse"
             >
-              <div className="h-4 bg-gray-700 rounded w-1/2 mb-4"></div>
+              <div className="h-4 bg-slate-700 rounded w-1/2 mb-4"></div>
               <div className="space-y-3">
                 {[...Array(3)].map((_, j) => (
-                  <div key={j} className="h-4 bg-gray-700 rounded"></div>
+                  <div key={j} className="h-4 bg-slate-700 rounded"></div>
                 ))}
               </div>
             </div>
@@ -100,106 +102,71 @@ export default function EventStats() {
       label: "Total Events",
       value: stats.total_events,
       icon: IconCalendar,
-      gradient: "from-cyan-500 to-blue-600",
-      bgGradient: "from-cyan-500/10 to-blue-600/10",
-      iconBg: "bg-cyan-500",
-      textColor: "text-cyan-300",
+      gradient: "from-[#FAA336] to-[#F59725]",
+      bgGradient: "from-[#FAA336] to-[#F59725]",
+      iconBg: "bg-[#FAA336]",
+      textColor: "text-[#FAA336]",
+      cardBg: "bg-slate-800",
+      borderColor: "border-slate-700",
     },
     {
       label: "Approved",
       value: stats.total_approved_events,
       icon: IconCheck,
-      gradient: "from-green-500 to-green-600",
-      bgGradient: "from-green-500/10 to-green-600/10",
-      iconBg: "bg-green-500",
-      textColor: "text-green-300",
+      gradient: "from-[#FAA336] to-[#F59725]",
+      bgGradient: "from-[#FAA336] to-[#F59725]",
+      iconBg: "bg-[#FAA336]",
+      textColor: "text-[#FAA336]",
+      cardBg: "bg-slate-800",
+      borderColor: "border-slate-700",
     },
     {
       label: "Rejected",
       value: stats.total_rejected_events,
       icon: IconX,
-      gradient: "from-red-500 to-red-600",
-      bgGradient: "from-red-500/10 to-red-600/10",
-      iconBg: "bg-red-500",
-      textColor: "text-red-300",
+      gradient: "from-[#FAA336] to-[#F59725]",
+      bgGradient: "from-[#FAA336] to-[#F59725]",
+      iconBg: "bg-[#FAA336]",
+      textColor: "text-[#FAA336]",
+      cardBg: "bg-slate-800",
+      borderColor: "border-slate-700",
     },
     {
       label: "Pending",
       value: stats.total_pending_events,
       icon: IconClock,
-      gradient: "from-yellow-500 to-yellow-600",
-      bgGradient: "from-yellow-500/10 to-yellow-600/10",
-      iconBg: "bg-yellow-500",
-      textColor: "text-yellow-300",
+      gradient: "from-[#FAA336] to-[#F59725]",
+      bgGradient: "from-[#FAA336] to-[#F59725]",
+      iconBg: "bg-[#FAA336]",
+      textColor: "text-[#FAA336]",
+      cardBg: "bg-slate-800",
+      borderColor: "border-slate-700",
     },
   ];
 
   return (
     <div className="space-y-6 mb-8">
       {/* Main Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {mainStats.map((stat) => {
-          const Icon = stat.icon;
-          const approvalRate = stat.label === "Approved" && stats.total_events > 0
-            ? ((stat.value / stats.total_events) * 100).toFixed(1)
-            : null;
-
-          return (
-            <div
-              key={stat.label}
-              className="relative bg-gray-800/40 rounded-xl shadow-sm border border-white/20 p-6 hover:bg-gray-800/60 transition-all duration-200 overflow-hidden group"
-            >
-              {/* Gradient Background Effect */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${stat.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-200`}></div>
-              
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`${stat.iconBg} p-3 rounded-xl shadow-sm`}>
-                    <Icon size={24} className="text-white" />
-                  </div>
-                  {approvalRate && (
-                    <div className="flex items-center gap-1 text-xs font-semibold text-gray-400">
-                      <IconTrendingUp size={14} />
-                      <span>{approvalRate}%</span>
-                    </div>
-                  )}
-                </div>
-                
-                <div className="space-y-1">
-                  <p className="text-3xl font-bold text-gray-200">{stat.value}</p>
-                  <p className={`text-sm font-semibold ${stat.textColor}`}>
-                    {stat.label}
-                  </p>
-                </div>
-              </div>
-
-              {/* Decorative corner accent */}
-              <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${stat.gradient} opacity-10 rounded-bl-full`}></div>
-            </div>
-          );
-        })}
-      </div>
+ 
+ 
 
       {/* Domains, Types, and Locations Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Domains Breakdown */}
-        <div className="bg-gray-800/40 rounded-xl shadow-sm border border-white/20 p-6">
+        <div className="bg-[#0B161E] rounded-xl shadow-lg border border-slate-700 p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="bg-cyan-500/20 p-3 rounded-xl">
-                <IconCategory size={20} className="text-cyan-300" />
+              <div className="bg-[#10212E80] bg-opacity-20 p-3 rounded-xl">
+                <IconUsersGroup size={20}  />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-200">Event Domains</h3>
-                <p className="text-sm text-gray-400">
+                <h3 className="text-lg font-bold text-white">Event Domains</h3>
+                <p className="text-sm text-slate-400">
                   {totalDomains} unique {totalDomains === 1 ? "domain" : "domains"}
                 </p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold text-gray-200">{totalDomainsCount}</p>
-              <p className="text-xs text-gray-400">Total events</p>
-            </div>
+           
           </div>
 
           {topDomains.length > 0 ? (
@@ -213,23 +180,25 @@ export default function EventStats() {
                   <div key={domain} className="space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full  bg-opacity-20 text-white text-xl font-bold">
                           {index + 1}
                         </span>
-                        <span className="font-medium text-gray-300 capitalize">
+                        <span className="font-medium text-slate-200 capitalize">
                           {domain}
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-sm text-gray-400">{percentage}%</span>
-                        <span className="font-semibold text-gray-200 w-8 text-right">
+                        <span className="text-sm text-slate-400">{percentage}%</span>
+                       {/* 
+                        <span className="font-semibold text-white w-8 text-right">
                           {count}
                         </span>
+                        */}
                       </div>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-gradient-to-r from-cyan-500 to-cyan-400 h-full rounded-full transition-all duration-500"
+                        className="bg-[#FAA336] h-full rounded-full transition-all duration-500"
                         style={{ width: `${percentage}%` }}
                       ></div>
                     </div>
@@ -238,7 +207,7 @@ export default function EventStats() {
               })}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">
+            <div className=" text-center py-8 text-slate-400">
               <IconCategory size={32} className="mx-auto mb-2 opacity-50" />
               <p className="text-sm">No domains available</p>
             </div>
@@ -246,23 +215,20 @@ export default function EventStats() {
         </div>
 
         {/* Types Breakdown */}
-        <div className="bg-gray-800/40 rounded-xl shadow-sm border border-white/20 p-6">
+        <div className="bg-[#0B161E] rounded-xl shadow-lg border border-slate-700 p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="bg-blue-500/20 p-3 rounded-xl">
-                <IconTag size={20} className="text-blue-300" />
+              <div className="bg-[#10212E80] bg-opacity-20 p-3 rounded-xl">
+                <IconList size={20}  />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-200">Event Types</h3>
-                <p className="text-sm text-gray-400">
+                <h3 className="text-lg font-bold text-white">Event Types</h3>
+                <p className="text-sm text-slate-400">
                   {totalTypes} unique {totalTypes === 1 ? "type" : "types"}
                 </p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold text-gray-200">{totalTypesCount}</p>
-              <p className="text-xs text-gray-400">Total events</p>
-            </div>
+          
           </div>
 
           {topTypes.length > 0 ? (
@@ -276,23 +242,25 @@ export default function EventStats() {
                   <div key={type} className="space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-opacity-20 text-white text-lg font-bold">
                           {index + 1}
                         </span>
-                        <span className="font-medium text-gray-300">
+                        <span className="font-medium text-slate-200">
                           {type}
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-sm text-gray-400">{percentage}%</span>
-                        <span className="font-semibold text-gray-200 w-8 text-right">
+                        <span className="text-sm text-slate-400">{percentage}%</span>
+                          {/* 
+                        <span className="font-semibold text-white w-8 text-right">
                           {count}
                         </span>
+                        */}
                       </div>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-gradient-to-r from-blue-500 to-blue-400 h-full rounded-full transition-all duration-500"
+                        className="bg-[#FAA336] h-full rounded-full transition-all duration-500"
                         style={{ width: `${percentage}%` }}
                       ></div>
                     </div>
@@ -301,7 +269,7 @@ export default function EventStats() {
               })}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-8 text-slate-400">
               <IconTag size={32} className="mx-auto mb-2 opacity-50" />
               <p className="text-sm">No types available</p>
             </div>
@@ -309,23 +277,21 @@ export default function EventStats() {
         </div>
 
         {/* Locations Breakdown */}
-        <div className="bg-gray-800/40 rounded-xl shadow-sm border border-white/20 p-6">
+        <div className="bg-[#0B161E] rounded-xl shadow-lg border border-slate-700 p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="bg-emerald-500/20 p-3 rounded-xl">
-                <IconMapPin size={20} className="text-emerald-300" />
+              <div className="bg-[#10212E80] p-3 rounded-xl">
+                <IconMapPin size={20}/>
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-200">Event Locations</h3>
-                <p className="text-sm text-gray-400">
+                <h3 className="text-lg font-bold text-white">Event Locations</h3>
+                <p className="text-sm text-slate-400">
                   {totalLocations} unique {totalLocations === 1 ? "location" : "locations"}
                 </p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold text-gray-200">{totalLocationsCount}</p>
-              <p className="text-xs text-gray-400">Total events</p>
-            </div>
+    
+           
           </div>
 
           {topLocations.length > 0 ? (
@@ -339,23 +305,25 @@ export default function EventStats() {
                   <div key={location} className="space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full  text-lg font-bold">
                           {index + 1}
                         </span>
-                        <span className="font-medium text-gray-300">
+                        <span className="font-medium text-slate-200">
                           {location}
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-sm text-gray-400">{percentage}%</span>
-                        <span className="font-semibold text-gray-200 w-8 text-right">
+                        <span className="text-sm text-slate-400">{percentage}%</span>
+                         {/* 
+                        <span className="font-semibold text-white w-8 text-right">
                           {count}
                         </span>
+                        */}
                       </div>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-full rounded-full transition-all duration-500"
+                        className="bg-[#FAA336] h-full rounded-full transition-all duration-500"
                         style={{ width: `${percentage}%` }}
                       ></div>
                     </div>
@@ -364,7 +332,7 @@ export default function EventStats() {
               })}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-8 text-slate-400">
               <IconMapPin size={32} className="mx-auto mb-2 opacity-50" />
               <p className="text-sm">No locations available</p>
             </div>
