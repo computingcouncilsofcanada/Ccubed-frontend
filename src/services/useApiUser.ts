@@ -69,3 +69,8 @@ export const updateUserRequestStatus = async (
     return res.data;
 };
 
+export const checkEmailExists = async (email: string) => {
+    const res = await privateAxios.get(`/users/check-email/${email}`, {
+    });
+    return res.data;
+};
