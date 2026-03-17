@@ -1,9 +1,8 @@
 /**
  * User Registration Page
  *
- * This page provides a comprehensive interface for super admins to register new users in the system.
+ * This page provides a comprehensive interface for staffs to register new users in the system.
  * It includes functionality for creating user accounts with various roles and affiliations.
- * Access is restricted to super admin users only.
  *
  * Key Features:
  * - User registration form with validation

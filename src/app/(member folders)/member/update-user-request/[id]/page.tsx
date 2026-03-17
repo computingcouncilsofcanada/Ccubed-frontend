@@ -57,7 +57,7 @@ export default function UpdateUserRequestDetailPage() {
     setActionLoading(true);
     try {
       await updateUserRequestStatus(request.id, status);
-      router.push("/member/super-admin/update-user-request");
+      router.push("/member/update-user-request");
     } catch (err: unknown) {
       alert(getErrMsg(err));
       setActionLoading(false);
@@ -165,7 +165,7 @@ export default function UpdateUserRequestDetailPage() {
     return rows;
   }, [request]);
 
-  if (!user || user.role !== "SUPER_ADMIN") {
+  if (!user) {
     return null;
   }
 
@@ -173,7 +173,7 @@ export default function UpdateUserRequestDetailPage() {
     <div className="p-6">
       <button
         type="button"
-        onClick={() => router.push("/member/super-admin/update-user-request")}
+        onClick={() => router.push("/member/update-user-request")}
         className="mb-4 inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
       >
         <ArrowLeft className="mr-1" size={16} />

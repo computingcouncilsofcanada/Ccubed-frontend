@@ -134,7 +134,7 @@ export const RegisterUserForm = () => {
       if (res.status === 201) {
         console.log("Register success:", res.data);
         setTimeout(() => {
-          router.push("/member/super-admin/users");
+          router.push("/member/users");
         }, 1000);
       }
     } catch (err: unknown) {

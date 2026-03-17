@@ -26,8 +26,6 @@ export default function CreateRolePage() {
     if (!isLoading) {
       if (!user) {
         router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
       }
     }
   }, [user, isLoading, router]);
@@ -36,7 +34,7 @@ export default function CreateRolePage() {
     setIsSubmitting(true);
     try {
       await createRole(data.name);
-      router.push("/member/super-admin/roles");
+      router.push("/member/roles");
     } catch (err: unknown) {
       console.error("Error creating role:", err);
       alert(getErrMsg(err));
@@ -45,14 +43,14 @@ export default function CreateRolePage() {
     }
   };
 
-  if (!user || user.role !== "SUPER_ADMIN") {
+  if (!user) {
     return null;
   }
 
   return (
     <div className="p-6">
       <Link
-        href="/member/super-admin/roles"
+        href="/member/roles"
         className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
       >
         <IconArrowLeft size={20} />
@@ -81,7 +79,7 @@ export default function CreateRolePage() {
 
           <div className="flex gap-3 pt-4">
             <Link
-              href="/member/super-admin/roles"
+              href="/member/roles"
               className="px-6 py-2.5 border-2 border-gray-300 rounded-lg hover:bg-gray-50 font-medium text-gray-700 transition-colors"
             >
               Cancel

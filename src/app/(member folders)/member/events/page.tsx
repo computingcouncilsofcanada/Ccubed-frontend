@@ -176,7 +176,7 @@ function EventsPage() {
     setSelectedEvent(event);
     switch (type) {
       case "create":
-        router.push("/member/super-admin/events/create");
+        router.push("/member/events/create");
         break;
       case "update":
         setIsUpdateModalOpen(true);
@@ -261,7 +261,7 @@ function EventsPage() {
           <div className="flex items-center gap-6">
             <StatsRow />
             <Link
-              href="/member/super-admin/events/create"
+              href="/member/events/create"
               style={{ backgroundColor: "#FAA336" }}
               className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
             >

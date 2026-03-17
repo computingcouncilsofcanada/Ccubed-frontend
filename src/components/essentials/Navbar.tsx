@@ -116,13 +116,7 @@ const Navbar = () => {
                   Logout
                 </Link>
                 <Link
-                  href={`/member/${
-                    user.role === "staff"
-                      ? "member"
-                      : user.role === "SUPER_ADMIN"
-                      ? "super-admin"
-                      : "admin"
-                  }`}
+                  href={`/member`}
                   className="text-white cursor-pointer hover:text-gray-300 transition-colors tracking-[0.01em]"
                   style={{
                     fontFamily: "Poppins, sans-serif",
@@ -232,13 +226,7 @@ const Navbar = () => {
                     Logout
                   </Link>
                   <Link
-                    href={`/member/${
-                      user.role === "staff"
-                        ? "member"
-                        : user.role === "SUPER_ADMIN"
-                        ? "super-admin"
-                        : "admin"
-                    }`}
+                    href={`/member`}
                     className="text-white text-2xl font-medium hover:text-gray-300 transition-colors tracking-[0.01em]"
                     style={{
                       fontFamily: "Poppins, sans-serif",

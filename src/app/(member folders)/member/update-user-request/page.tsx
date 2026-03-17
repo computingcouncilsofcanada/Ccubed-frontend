@@ -77,7 +77,7 @@ export default function UpdateUserRequestPage() {
   };
 
   const openDetails = (item: UpdateUserRequest) => {
-    router.push(`/member/super-admin/update-user-request/${item.id}`);
+    router.push(`/member/update-user-request/${item.id}`);
   };
 
   const columns = createUpdateUserRequestTableColumns(

@@ -93,13 +93,11 @@ function RolesPage() {
     if (!isLoading) {
       if (!user) {
         router.push("/");
-      } else if (user.role !== "SUPER_ADMIN") {
-        router.push("/member");
       }
     }
   }, [user, isLoading, router]);
 
-  if (!user || user.role !== "SUPER_ADMIN") {
+  if (!user ) {
     return null;
   }
 
@@ -113,7 +111,7 @@ function RolesPage() {
           <p className="text-gray-600">Manage roles</p>
         </div>
         <Link
-          href="/member/super-admin/roles/create"
+          href="/member/roles/create"
           className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
         >
           <IconPlus size={20} />

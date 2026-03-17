@@ -90,9 +90,7 @@ export default function CreateEventPage() {
     if (!isLoading) {
       if (!user) {
         router.push("/");
-      } else if (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN") {
-        router.push("/member");
-      }
+      } 
     }
   }, [user, isLoading, router]);
 
@@ -231,7 +229,7 @@ export default function CreateEventPage() {
       const res = await createEvent(formData);
       if (res.status === 201) {
         alert(res.message || "Event created successfully!");
-        router.push(`/member/${user?.role === "SUPER_ADMIN" ? "super-admin" : "admin"}/events`);
+        router.push(`/member/events`);
       }
     } catch (err: unknown) {
       console.error("Error creating event:", err);
@@ -241,7 +239,7 @@ export default function CreateEventPage() {
     }
   };
 
-  if (!user || (user.role !== "ADMIN" && user.role !== "SUPER_ADMIN")) {
+  if (!user ) {
     return null;
   }
 
@@ -254,7 +252,7 @@ export default function CreateEventPage() {
         {/* Header */}
       <div className="mb-8">
         <Link
-          href={`/member/${user?.role === "SUPER_ADMIN" ? "super-admin" : "admin"}/events`}
+          href={`/member/events`}
           className="inline-flex items-center gap-2 text-gray-300 hover:text-[#7C3AED] transition-colors mb-4 group"
         >
           <IconArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
@@ -322,7 +320,7 @@ export default function CreateEventPage() {
         {/* Submit Button */}
         <div className="flex gap-4 pt-4">
           <Link
-            href={`/member/${user?.role === "SUPER_ADMIN" ? "super-admin" : "admin"}/events`}
+            href={`/member/events`}
             className="basis-[30%] px-6 py-3 border-2 border-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 transition-colors font-medium text-[#FAA336] flex items-center justify-center"
           >
             Cancel

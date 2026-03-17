@@ -35,7 +35,7 @@ export default function Sidebar({
     "/FigmaFiles/ccubed-icon.png"
   );
 
-  const basePath = `/member/`;
+  const basePath = `/member`;
 
   const navigationItems = createNavigationItems(basePath, pathname);
 
