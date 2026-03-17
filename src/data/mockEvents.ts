@@ -456,7 +456,7 @@ export const mockEvents = [
       "Interest in AI careers and industry trends",
     ],
     instructors: null,
-    registration_link: "",
+    registration_link: "https://docs.google.com/forms/d/1lHFNzlCa9FOjUnC2kjP8bdCekwaXAGNagfBKTQiVsKU/edit#responses",
     start_at: "1774108800000",
     end_at: "1774117800000",
     recurrence: null,
