@@ -441,7 +441,7 @@ export const mockEvents = [
   },
   {
     id: "68caf1947e8c000404c8d429",
-    name: "AI Podcast Series",
+    name: "Neural Network",
     description:
       "An in-person AI Career Panel + Podcast Event featuring industry leaders in AI. This session will bring together a small, curated audience of students to gain real insights into building a career in AI, staying relevant in a fast-changing field, and understanding the day-to-day realities of working in the industry. The event will begin with a recorded podcast-style discussion (audio + video) with panelists, followed by an exclusive off-record Q&A session with attendees.",
     learning_outcomes: [
@@ -460,7 +460,7 @@ export const mockEvents = [
     start_at: "1774108800000",
     end_at: "1774117800000",
     recurrence: null,
-    location: "B024 Bahen Center, University of Toronto, Downtown campus",
+    location: "B024 Bahen Center, University of Toronto, Downtown",
     url: null,
     ownership: null,
     domains: ["ai"],
