@@ -382,7 +382,8 @@ export const mockEvents = [
       "Curiosity and questions for mentors",
     ],
     instructors: null,
-    registration_link: "https://docs.google.com/forms/d/e/1FAIpQLSfTy_LBTxAdhiaB9NoxXoX6UYvGSQPkNyb5QGRPKp8O1ierng/viewform",
+    registration_link:
+      "https://docs.google.com/forms/d/e/1FAIpQLSfTy_LBTxAdhiaB9NoxXoX6UYvGSQPkNyb5QGRPKp8O1ierng/viewform",
     start_at: "1771700400000",
     end_at: "1771704000000",
     recurrence: { type: "none" },
@@ -440,16 +441,26 @@ export const mockEvents = [
   },
   {
     id: "68caf1947e8c000404c8d429",
-    name: "AI Podcast Series",
-    description: "Upcoming event. Details TBD.",
-    learning_outcomes: null,
-    what_you_need: null,
+    name: "Neural Network",
+    description:
+      "An in-person AI Career Panel + Podcast Event featuring industry leaders in AI. This session will bring together a small, curated audience of students to gain real insights into building a career in AI, staying relevant in a fast-changing field, and understanding the day-to-day realities of working in the industry. The event will begin with a recorded podcast-style discussion (audio + video) with panelists, followed by an exclusive off-record Q&A session with attendees.",
+    learning_outcomes: [
+      "Learn what students should actually be doing today to break into AI",
+      "Understand how professionals stay relevant in a rapidly evolving field",
+      "Gain insight into real-world AI careers, decisions, and growth paths",
+      "Ask candid, off-record questions directly to industry leaders",
+    ],
+    what_you_need: [
+      "In-person attendance at the venue",
+      "Curiosity and thoughtful questions",
+      "Interest in AI careers and industry trends",
+    ],
     instructors: null,
-    registration_link: "",
-    start_at: "TBD",
-    end_at: "TBD",
+    registration_link: "https://docs.google.com/forms/d/1lHFNzlCa9FOjUnC2kjP8bdCekwaXAGNagfBKTQiVsKU/edit#responses",
+    start_at: "1774108800000",
+    end_at: "1774117800000",
     recurrence: null,
-    location: "Toronto",
+    location: "B024 Bahen Center, University of Toronto, Downtown",
     url: null,
     ownership: null,
     domains: ["ai"],
@@ -464,11 +475,40 @@ export const mockEvents = [
     updated_by: null,
     files: [
       {
-        id: "1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
-        name: "CCubed_icon.png",
-        url: "https://lh3.googleusercontent.com/d/1H9WOmrtzV-cjLf7MFWwQkYy_WxnyKjPP",
+        id: "1rpD0cTKEPGpFZgbir63MkTyX3NQ38bSo",
+        name: "AI Event 1",
+        url: "https://lh3.googleusercontent.com/d/1rpD0cTKEPGpFZgbir63MkTyX3NQ38bSo",
       },
     ],
+    content: `## Format
+(In-person) AI Career Panel + Podcast event. Expected audience: **~30–50 university students**. Duration: **~45–65 minutes**.
+
+## Session structure
+
+### 1. Introduction (5–10 min)
+- Moderator opens the session and introduces the event.
+- Panelists briefly introduce themselves (**30–45 seconds each**).
+
+### 2. Panel / Podcast Discussion (30–40 min) *(Recorded)*
+- Moderated conversation with panelists.
+- Focus on:
+  - What students should be doing in AI right now
+  - Staying relevant in a fast-moving field
+  - Career journeys and key decisions
+- Recorded (audio + video) for later publication.
+
+### 3. Audience Q&A (10–15 min) *(Not recorded)*
+- Open floor for student questions.
+- More candid and interactive discussion with panelists.
+
+### 4. Discussion focus
+- Breaking into AI (skills, projects, internships)
+- Staying relevant as technology evolves
+- Real-world experience and career growth in AI
+
+### 5. Wrap-up
+- Closing remarks from moderator.
+- Key takeaways for students.`,
   },
   {
     id: "68caf1957e8c000404c8d42a",
