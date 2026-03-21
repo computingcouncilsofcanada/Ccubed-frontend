@@ -28,7 +28,7 @@ export const ArticleSection = ({ council }: CouncilProps) => {
   const cleanedCouncil = council.title.toLowerCase().replace(/\s+/g, "");
 
   const hasArticles = mockArticles.filter(
-    (article) => article.council === cleanedCouncil
+    (article) => article.council === cleanedCouncil,
   );
 
   return (
@@ -67,7 +67,7 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
   const prevSlide = () => {
     setDirection(-1);
     setActiveIndex(
-      (prev) => (prev - 1 + universities.length) % universities.length
+      (prev) => (prev - 1 + universities.length) % universities.length,
     );
   };
 
@@ -244,6 +244,14 @@ export const EventsSection = ({
   const [councilEvents, setCouncilEvents] = useState<Events[]>([]);
   //   const [loading, setLoading] = useState(true);
 
+  const handleInvite = (url: string | null | undefined) => {
+    if (!url) {
+      console.warn("No registration URL for this event");
+      return;
+    }
+
+    window.open(url, "_blank");
+  };
   // Fetch events from backend
   useEffect(() => {
     // const fetchEvents = async () => {
@@ -376,7 +384,7 @@ export const EventsSection = ({
                   setIsModalOpen?.(true);
                 }}
                 onInvitationLink={() =>
-                  console.log("Invitation link clicked for event:", event.id)
+                  handleInvite(event.registration_link || event.url)
                 }
                 showInvitationButton={!isEventPast(event)}
               />
@@ -473,7 +481,7 @@ export const RepresentativesSection = ({ council }: CouncilProps) => {
         }
 
         return false;
-      })
+      }),
     );
   }, [council.title]);
 
