@@ -46,7 +46,9 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
   };
 
   const article1 = mockArticles.find((article) => {
-    const articleCouncilSlug = article.council.toLowerCase().replace(/\s+/g, "");
+    const articleCouncilSlug = article.council
+      .toLowerCase()
+      .replace(/\s+/g, "");
     return articleCouncilSlug === council;
   });
 
@@ -79,7 +81,7 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
       >
         <div className="relative w-full h-50 rounded-4xl overflow-hidden">
           <Image
-            src="/ArticlePics/ArticleImage.png"
+            src="/ArticlePics/ArticleBigImage.png"
             alt="Article Image"
             fill
             className="object-cover"
@@ -138,7 +140,9 @@ export const ArticleBody = () => {
   const pathname = usePathname();
   const councilSlug = pathname.split("/")[2];
   const councilArticles = mockArticles.filter((article) => {
-    const articleCouncilSlug = article.council.toLowerCase().replace(/\s+/g, "");
+    const articleCouncilSlug = article.council
+      .toLowerCase()
+      .replace(/\s+/g, "");
     return articleCouncilSlug === councilSlug;
   });
   const otherThreeArticles = councilArticles.slice(1, 4);
@@ -189,7 +193,6 @@ export const InformationCard = ({ article }: InformationCardProps) => {
       initial="initial"
       animate={isHovered ? "hover" : "initial"}
     >
-
       <AnimatePresence>
         {isHovered && (
           <motion.div
@@ -207,7 +210,6 @@ export const InformationCard = ({ article }: InformationCardProps) => {
           />
         )}
       </AnimatePresence>
-
 
       <motion.div
         className="relative w-40 h-40 flex-shrink-0 rounded-2xl mt-1.5 overflow-visible"
@@ -256,7 +258,6 @@ export const InformationCard = ({ article }: InformationCardProps) => {
           )}
         </AnimatePresence>
 
-
         <AnimatePresence>
           {!isHovered ? (
             <motion.span
@@ -271,7 +272,6 @@ export const InformationCard = ({ article }: InformationCardProps) => {
             <div className="h-[20px]"></div>
           )}
         </AnimatePresence>
-
 
         <div className="relative min-h-[100px]">
           <AnimatePresence mode="wait">
@@ -294,14 +294,15 @@ export const InformationCard = ({ article }: InformationCardProps) => {
                 transition={{ duration: 0.3 }}
                 className="absolute inset-0 flex flex-col gap-3"
               >
-                <h3 className="
+                <h3
+                  className="
                 font-bold text-lg leading-tight tracking-[0.01em]
                 bg-gradient-to-r from-[#FDE68A] via-[#FBBF24] to-[#F59E0B]
                 bg-clip-text text-transparent
-              ">
+              "
+                >
                   {description}
                 </h3>
-
 
                 <AnimatePresence>
                   <motion.p
@@ -311,7 +312,8 @@ export const InformationCard = ({ article }: InformationCardProps) => {
                     transition={{ duration: 0.3, delay: 0.15 }}
                     className="text-white text-sm "
                   >
-                    {bigdescription || "Cybersecurity in 2025 is evolving faster than ever, with AI-driven attacks becoming more sophisticated and harder to detect."}
+                    {bigdescription ||
+                      "Cybersecurity in 2025 is evolving faster than ever, with AI-driven attacks becoming more sophisticated and harder to detect."}
                   </motion.p>
                 </AnimatePresence>
               </motion.div>
@@ -346,10 +348,11 @@ export const ArticleHeader = ({ council }: CouncilProps) => {
           className="text-white font-light text-[18px] leading-[26px] tracking-[0.01em]"
           style={{ fontFamily: "Roboto, sans-serif" }}
         >
-          Take a quick look at our latest articles. Enjoy the content? Head to
-          the Explore Articles page to discover more.
+          Take a quick look at our latest articles.
+          {/*  Enjoy the content? Head to
+          the Explore Articles page to discover more. */}
         </p>
-        <motion.div
+        {/* <motion.div
           className="flex gap-2 items-center cursor-pointer"
           whileHover="hover"
           initial="initial"
@@ -377,8 +380,8 @@ export const ArticleHeader = ({ council }: CouncilProps) => {
             }}
           >
             <MoveRight className="text-white" />
-          </motion.div>
-        </motion.div>
+          </motion.div> 
+        </motion.div> */}
       </div>
     </div>
   );

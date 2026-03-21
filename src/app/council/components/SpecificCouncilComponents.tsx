@@ -434,12 +434,12 @@ export const CouncilHero = ({ council }: CouncilProps) => {
 
       {/* Council Icon (same as council card) */}
       <div className="image relative flex justify-center shrink-0 md:-translate-x-29">
-        <div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[320px] lg:h-[320px]">
+        <div className="relative w-[260px] h-[260px] md:w-[270px] md:h-[270px] lg:w-[280px] lg:h-[280px]">
           <Image
             src={council.icon}
             alt={`${council.title} icon`}
-            width={205}
-            height={205}
+            width={200}
+            height={200}
             className="w-full h-full object-contain select-none"
             priority
             quality={100}

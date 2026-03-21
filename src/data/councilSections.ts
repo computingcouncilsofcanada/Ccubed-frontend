@@ -83,8 +83,8 @@ export const councilSections: CouncilSection[] = [
   },
   {
     title: "Artificial Intelligence Council",
-    shortDescription: "Coming Soon",
-    fullDescription: "Coming Soon",
+    shortDescription: "The AI Council at CCubed was launched in the Winter 2026 semester to support and strengthen AI-focused student clubs across the country.",
+    fullDescription: "The AI Council at CCubed was launched in the Winter 2026 semester to support and strengthen AI-focused student clubs across the country. Its goal is to address common challenges faced by these clubs while creating more hands-on opportunities, meaningful networking, and engaging events that help students learn, collaborate, and grow within the AI community.",
     icon: "/FigmaFiles/councilAssets/CCubed_icon.png",
   },
   {

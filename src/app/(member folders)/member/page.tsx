@@ -41,7 +41,10 @@ export default function MemberPage() {
 
   return (
     <div className="relative w-full h-full min-h-screen p-3 sm:p-4 md:p-6 lg:p-8 text-white text-base sm:text-lg font-poppins overflow-hidden">
-      <div className="absolute inset-1 sm:inset-2 z-0">
+      <h1>Dashboard in Progress</h1>
+
+      {/* dashboard in progress below  */}
+      {/* <div className="absolute inset-1 sm:inset-2 z-0">
         <BgBoxMainPage maxHeight={400} />
       </div>
       <div
@@ -101,7 +104,7 @@ export default function MemberPage() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
