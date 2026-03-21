@@ -246,6 +246,14 @@ export const EventsSection = ({
   const [councilEvents, setCouncilEvents] = useState<Events[]>([]);
   //   const [loading, setLoading] = useState(true);
 
+  const handleInvite = (url: string | null | undefined) => {
+    if (!url) {
+      console.warn("No registration URL for this event");
+      return;
+    }
+
+    window.open(url, "_blank");
+  };
   // Fetch events from backend
   useEffect(() => {
     // const fetchEvents = async () => {
@@ -378,7 +386,7 @@ export const EventsSection = ({
                   setIsModalOpen?.(true);
                 }}
                 onInvitationLink={() =>
-                  console.log("Invitation link clicked for event:", event.id)
+                  handleInvite(event.registration_link || event.url)
                 }
                 showInvitationButton={!isEventPast(event)}
               />
