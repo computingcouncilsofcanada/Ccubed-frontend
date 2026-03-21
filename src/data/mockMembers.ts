@@ -220,6 +220,16 @@ export const mockMembers: Team[] = [
         social: {
           linkedin: "https://www.linkedin.com/in/soroush-merikhy-a99875173/",
         },
+      },  {
+        id: 45,
+        name: "Zaid Mohiuddin",
+        role: "Web Developer",
+        imageUrl: "/MemberPics/zaid.png",
+        info: "Web Developer",
+        category: "sysadmin",
+        social: {
+          linkedin: "https://www.linkedin.com/in/zaid-mohiuddin-ba98462a8/",
+        },
       },
     ],
   },
