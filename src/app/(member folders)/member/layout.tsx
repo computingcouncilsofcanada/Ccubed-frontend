@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { ChevronsRight } from "lucide-react";
 import Sidebar from "@/components/sidebar/Sidebar";   
+import { useApiPermission } from "@/services/useApiPermission";
+import { useUser } from "@/context/UserContext";
 
 export default function AdminLayout({
   children,   
@@ -15,8 +17,22 @@ export default function AdminLayout({
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
 
+  const { fetchMyPermissions } = useApiPermission();
+  const { handleSetPermissions } = useUser();
+
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      try {
+        const response = await fetchMyPermissions();
+        handleSetPermissions(response.data);
+      } catch (error) {
+      }
+    };
+    fetchPermissions();
+  }, [pathname]);
+
   return (
-    <div className="flex h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 relative overflow-hidden">
+    <div className="flex h-screen bg-gradient-to-br from-[#0D1C26] to-[#1A384C] relative overflow-hidden">
       {/* Mobile menu button */}
       {isMobile && !isOpen && (
         <button
@@ -44,7 +60,7 @@ export default function AdminLayout({
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden p-3">
-        <main className="flex-1 overflow-x-hidden overflow-y-auto rounded-2xl bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 shadow-xl border border-slate-200/60 relative">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gradient-to-br from-[#0D1C26] to-[#1A384C] shadow-xl relative">
           {/* Main Content */}
           <div className="h-full">{children}</div>
         </main>

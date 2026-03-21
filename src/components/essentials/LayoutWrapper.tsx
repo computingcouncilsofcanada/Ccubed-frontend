@@ -18,7 +18,7 @@ export default function LayoutWrapper({
   }, []);
 
   const isStaffRoute =
-    pathname?.startsWith("/member/") || pathname?.startsWith("/login") || pathname?.startsWith("/coming-soon");
+    pathname?.startsWith("/member") || pathname?.startsWith("/login") || pathname?.startsWith("/coming-soon");
     
   return (
     <div className="min-h-screen w-full" style={{

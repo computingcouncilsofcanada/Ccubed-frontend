@@ -28,7 +28,7 @@ export const ArticleSection = ({ council }: CouncilProps) => {
   const cleanedCouncil = council.title.toLowerCase().replace(/\s+/g, "");
 
   const hasArticles = mockArticles.filter(
-    (article) => article.council === cleanedCouncil
+    (article) => article.council === cleanedCouncil,
   );
 
   return (
@@ -67,7 +67,7 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
   const prevSlide = () => {
     setDirection(-1);
     setActiveIndex(
-      (prev) => (prev - 1 + universities.length) % universities.length
+      (prev) => (prev - 1 + universities.length) % universities.length,
     );
   };
 
@@ -99,137 +99,139 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="mb-24 px-4"
-    >
-      <div className="text-start mb-6">
-        <h2
-          className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"
-          style={{ fontFamily: "Roboto, sans-serif" }}
-        >
-          Council Universities
-        </h2>
-      </div>
-      <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row md:items-end gap-6">
-        <div className="w-full md:w-1/2 shrink-0 ">
-          {/* Display current university description – same aspect-ratio as image so heights match on desktop; dots excluded */}
-          {hasUniversities && (
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className=" md:mt-0 w-full  md:aspect-[480/280] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
-            >
-              <h3
-                className="text-white font-semibold text-[18px] mb-2 shrink-0"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                {universities[activeIndex].name}
-              </h3>
-              <p
-                className="text-white/80 font-light text-[18px] leading-[1.5]"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                {universities[activeIndex].description}
-              </p>
-            </motion.div>
-          )}
+    hasUniversities && (
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="mb-32"
+      >
+        <div className="text-start mb-6">
+          <h2
+            className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"
+            style={{ fontFamily: "Roboto, sans-serif" }}
+          >
+            Council Universities
+          </h2>
         </div>
+        <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row md:items-end gap-6">
+          <div className="w-full md:w-1/2 shrink-0 ">
+            {/* Display current university description – same aspect-ratio as image so heights match on desktop; dots excluded */}
+            {hasUniversities && (
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className=" md:mt-0 w-full  md:aspect-[480/280] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
+              >
+                <h3
+                  className="text-white font-semibold text-[18px] mb-2 shrink-0"
+                  style={{ fontFamily: "Roboto, sans-serif" }}
+                >
+                  {universities[activeIndex].name}
+                </h3>
+                <p
+                  className="text-white/80 font-light text-[18px] leading-[1.5]"
+                  style={{ fontFamily: "Roboto, sans-serif" }}
+                >
+                  {universities[activeIndex].description}
+                </p>
+              </motion.div>
+            )}
+          </div>
 
-        <div className="w-full md:w-1/2 flex flex-col items-center">
-          {hasUniversities ? (
-            <>
-              {/* Image only – same aspect-ratio as description; dark bg so no white letterboxing; dots are below */}
-              <div className="relative w-full max-w-[550px] h-[220px] md:h-auto md:aspect-[550/280] overflow-hidden rounded-[20px]  shrink-0">
-                <AnimatePresence initial={false} custom={direction}>
-                  <motion.div
-                    key={activeIndex}
-                    custom={direction}
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{
-                      x: { type: "spring", stiffness: 800, damping: 50 },
-                      opacity: { duration: 0.15 },
-                    }}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={1}
-                    onDragEnd={(_, { offset, velocity }) => {
-                      const swipe = swipePower(offset.x, velocity.x);
+          <div className="w-full md:w-1/2 flex flex-col items-center">
+            {hasUniversities ? (
+              <>
+                {/* Image only – same aspect-ratio as description; dark bg so no white letterboxing; dots are below */}
+                <div className="relative w-full max-w-[550px] h-[220px] md:h-auto md:aspect-[550/280] overflow-hidden rounded-[20px]  shrink-0">
+                  <AnimatePresence initial={false} custom={direction}>
+                    <motion.div
+                      key={activeIndex}
+                      custom={direction}
+                      variants={slideVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        x: { type: "spring", stiffness: 800, damping: 50 },
+                        opacity: { duration: 0.15 },
+                      }}
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={1}
+                      onDragEnd={(_, { offset, velocity }) => {
+                        const swipe = swipePower(offset.x, velocity.x);
 
-                      if (swipe < -swipeConfidenceThreshold) {
-                        nextSlide();
-                      } else if (swipe > swipeConfidenceThreshold) {
-                        prevSlide();
-                      }
-                    }}
-                    className="absolute inset-0 flex items-center justify-center rounded-[20px] cursor-grab active:cursor-grabbing"
-                  >
-                    <img
-                      src={universities[activeIndex].imageUrl}
-                      alt={universities[activeIndex].name}
-                      className="max-w-full max-h-full w-auto h-auto object-contain rounded-[20px] pointer-events-none select-none"
-                      draggable={false}
-                    />
-                  </motion.div>
-                </AnimatePresence>
+                        if (swipe < -swipeConfidenceThreshold) {
+                          nextSlide();
+                        } else if (swipe > swipeConfidenceThreshold) {
+                          prevSlide();
+                        }
+                      }}
+                      className="absolute inset-0 flex items-center justify-center rounded-[20px] cursor-grab active:cursor-grabbing"
+                    >
+                       <img
+                        src={universities[activeIndex].imageUrl}
+                        alt={universities[activeIndex].name}
+                        className="max-w-full max-h-full w-auto h-auto object-contain rounded-[20px] pointer-events-none select-none"
+                        draggable={false}
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {universities.length > 1 && (
+                    <>
+                      <button
+                        onClick={prevSlide}
+                        className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
+                        aria-label="Previous slide"
+                      >
+                        ‹
+                      </button>
+
+                      <button
+                        onClick={nextSlide}
+                        className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
+                        aria-label="Next slide"
+                      >
+                        ›
+                      </button>
+                    </>
+                  )}
+                </div>
 
                 {universities.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevSlide}
-                      className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
-                      aria-label="Previous slide"
-                    >
-                      ‹
-                    </button>
-
-                    <button
-                      onClick={nextSlide}
-                      className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 transition-colors px-3 py-1 md:px-4 md:py-2 rounded-full text-white text-lg md:text-xl font-bold z-10"
-                      aria-label="Next slide"
-                    >
-                      ›
-                    </button>
-                  </>
+                  <div className="flex gap-2 mt-4 flex-shrink-0">
+                    {universities.map((_, idx) => (
+                      <button
+                        key={idx}
+                        className={`h-2 w-2 rounded-full transition-colors duration-200 ${
+                          activeIndex === idx ? "bg-yellow-400" : "bg-gray-500"
+                        }`}
+                        onClick={() => goToSlide(idx)}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
                 )}
+              </>
+            ) : (
+              <div className="w-full max-w-[550px] md:h-[331px] h-[220px] flex items-center justify-center rounded-[20px] bg-[#D4D4D4]/10 backdrop-blur-sm border border-white/10">
+                <p
+                  className="text-white/50 text-center px-6"
+                  style={{ fontFamily: "Roboto, sans-serif" }}
+                >
+                  Partner universities coming soon
+                </p>
               </div>
-
-              {universities.length > 1 && (
-                <div className="flex gap-2 mt-4 flex-shrink-0">
-                  {universities.map((_, idx) => (
-                    <button
-                      key={idx}
-                      className={`h-2 w-2 rounded-full transition-colors duration-200 ${
-                        activeIndex === idx ? "bg-yellow-400" : "bg-gray-500"
-                      }`}
-                      onClick={() => goToSlide(idx)}
-                      aria-label={`Go to slide ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="w-full max-w-[550px] md:h-[331px] h-[220px] flex items-center justify-center rounded-[20px] bg-[#D4D4D4]/10 backdrop-blur-sm border border-white/10">
-              <p
-                className="text-white/50 text-center px-6"
-                style={{ fontFamily: "Roboto, sans-serif" }}
-              >
-                Partner universities coming soon
-              </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    )
   );
 };
 /**
@@ -244,6 +246,14 @@ export const EventsSection = ({
   const [councilEvents, setCouncilEvents] = useState<Events[]>([]);
   //   const [loading, setLoading] = useState(true);
 
+  const handleInvite = (url: string | null | undefined) => {
+    if (!url) {
+      console.warn("No registration URL for this event");
+      return;
+    }
+
+    window.open(url, "_blank");
+  };
   // Fetch events from backend
   useEffect(() => {
     // const fetchEvents = async () => {
@@ -376,7 +386,7 @@ export const EventsSection = ({
                   setIsModalOpen?.(true);
                 }}
                 onInvitationLink={() =>
-                  console.log("Invitation link clicked for event:", event.id)
+                  handleInvite(event.registration_link || event.url)
                 }
                 showInvitationButton={!isEventPast(event)}
               />
@@ -424,12 +434,12 @@ export const CouncilHero = ({ council }: CouncilProps) => {
 
       {/* Council Icon (same as council card) */}
       <div className="image relative flex justify-center shrink-0 md:-translate-x-29">
-        <div className="relative w-[300px] h-[300px] md:w-[320px] md:h-[320px] lg:w-[320px] lg:h-[320px]">
+        <div className="relative w-[260px] h-[260px] md:w-[270px] md:h-[270px] lg:w-[280px] lg:h-[280px]">
           <Image
             src={council.icon}
             alt={`${council.title} icon`}
-            width={205}
-            height={205}
+            width={200}
+            height={200}
             className="w-full h-full object-contain select-none"
             priority
             quality={100}
@@ -473,12 +483,12 @@ export const RepresentativesSection = ({ council }: CouncilProps) => {
         }
 
         return false;
-      })
+      }),
     );
   }, [council.title]);
 
   return (
-    <div className="mb-24 px-4 sm:px-6">
+    <div className="mb-32">
       <div className="text-start mb-20">
         <h2
           className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"

@@ -7,7 +7,8 @@ export const registerUser = async (
   school_id: string,
   year_of_study: number,
   department: string,
-  role: string
+  role: string,
+  position: string,
 ) => {
   const res = await privateAxios.post("/auth/register", {
     username: username,
@@ -17,6 +18,7 @@ export const registerUser = async (
     year_of_study: year_of_study,
     department: department,
     role: role,
+    position: position,
   });
   return res.data;
 };

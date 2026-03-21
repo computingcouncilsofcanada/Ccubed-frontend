@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IconChevronsRight,
   IconChevronsLeft,
@@ -10,8 +10,7 @@ import SidebarFooter from "@/components/sidebar/SidebarFooter";
 import UserMenu from "@/components/sidebar/UserMenu";
 import NavigationItems from "@/components/sidebar/NavigationItems";
 import {
-  createBaseNavigationItems,
-  createSuperAdminNavigationItems,
+  createNavigationItems,
 } from "@/components/sidebar/constants";
 import { useUser } from "@/context/UserContext";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
@@ -36,26 +35,16 @@ export default function Sidebar({
     "/FigmaFiles/ccubed-icon.png"
   );
 
-  const basePath = `/member/${
-    user?.role === "SUPER_ADMIN"
-      ? "super-admin"
-      : user?.role === "ADMIN"
-      ? "admin"
-      : "staff"
-  }`;
+  const basePath = `/member`;
 
-  const baseNavigationItems = createBaseNavigationItems(basePath, pathname);
-  const superAdminNavigationItems =
-    user?.role === "SUPER_ADMIN"
-      ? createSuperAdminNavigationItems(basePath, pathname)
-      : [];
+  const navigationItems = createNavigationItems(basePath, pathname);
 
   return (
     <>
 
       {(isOpen || !isMobile) && (
         <aside
-          className={`bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 text-slate-800 flex flex-col transition-all duration-300 shadow-xl border-r border-slate-200/60 ${
+          className={`bg-gradient-to-br from-[#0D1C26] to-[#1A384C] text-white flex flex-col transition-all duration-300 shadow-xl border-r border-slate-200/60 ${
             isMobile || !sidebarCollapsed ? "w-64" : "w-20 items-center"
           } ${
             isMobile
@@ -87,14 +76,14 @@ export default function Sidebar({
                 sidebarCollapsed
                   ? "left-[calc(100%-18px)] top-10"
                   : "left-[calc(100%-40px)] top-10"
-              } w-9 h-9 z-10 rounded-full bg-white hover:bg-slate-100 border-2 border-slate-300 hover:border-blue-400 flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg hover:scale-110 ${
+              } w-9 h-9 z-10 rounded-full bg-slate-700 hover:bg-slate-600 border-2 border-slate-500 hover:border-slate-400 flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg hover:scale-110 ${
                 sidebarCollapsed ? "mx-auto" : "ml-6"
               }`}
             >
               {sidebarCollapsed ? (
-                <IconChevronsRight size={18} className="text-slate-700" />
+                <IconChevronsRight size={18} className="text-white" />
               ) : (
-                <IconChevronsLeft size={18} className="text-slate-700" />
+                <IconChevronsLeft size={18} className="text-white" />
               )}
             </button>
           )}
@@ -103,16 +92,16 @@ export default function Sidebar({
           {isMobile && (
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 w-9 h-9 rounded-lg bg-white hover:bg-slate-100 border-2 border-slate-300 hover:border-blue-400 flex items-center justify-center transition-all duration-200 shadow-md hover:scale-110"
+              className="absolute top-4 right-4 w-9 h-9 rounded-lg bg-slate-700 hover:bg-slate-600 border-2 border-slate-500 hover:border-slate-400 flex items-center justify-center transition-all duration-200 shadow-md hover:scale-110"
             >
-              <IconChevronsLeft size={18} className="text-slate-700" />
+              <IconChevronsLeft size={18} className="text-white" />
             </button>
           )}
 
           {/* Navigation Icons */}
           <nav className="flex-1 flex flex-col gap-1.5 w-full px-3 overflow-y-auto">
             <NavigationItems
-              items={baseNavigationItems}
+              items={navigationItems}
               isCollapsed={sidebarCollapsed}
               isMobile={isMobile}
               onItemClick={() => {
@@ -120,27 +109,6 @@ export default function Sidebar({
               }}
             />
 
-            {/* Divider for Super Admin items */}
-            {user?.role === "SUPER_ADMIN" && (isMobile || !sidebarCollapsed) && (
-              <div className="px-4 py-2">
-                <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
-                <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-2 px-2">
-                  Administration
-                </p>
-              </div>
-            )}
-
-            {/* Super Admin Navigation Items */}
-            {user?.role === "SUPER_ADMIN" && (
-              <NavigationItems
-                items={superAdminNavigationItems}
-                isCollapsed={sidebarCollapsed}
-                isMobile={isMobile}
-                onItemClick={() => {
-                  if (isMobile) onClose();
-                }}
-              />
-            )}
           </nav>
 
           <SidebarFooter

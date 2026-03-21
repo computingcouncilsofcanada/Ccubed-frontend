@@ -1,3 +1,33 @@
+import { ApiResponse } from "./base";
+
+export interface User {
+    school_id: string | null;
+    year_of_study: number | null;
+    department: string | null;
+    avatar: string | null;
+    hobbies: string[] | null;
+    domains: string[] | null;
+    fun_fact: string | null;
+    about_me: string | null;
+    journey_at_ccubed: string | null;
+    favorite_quote: string | null;
+    favorite_song: string | null;
+    linkedin_url: string | null;
+    instagram_url: string | null;
+    twitter_url: string | null;
+    discord_url: string | null;
+    email: string;
+    username: string;
+    role: string;
+    status: number;
+    created_at: string;
+    updated_at: string;
+    is_verified: boolean;
+    verify_token: string;
+    number_of_login_failed: number;
+    has_completed_profile: number;
+    id: string;
+  };
 
 export interface UpdateMeRequestDTO {
     instagram_url: string;
@@ -18,18 +48,18 @@ export interface UpdateMeRequestDTO {
 
 export interface UpdateUserRequest {
     user_id: string;
+    previous_data: User;
     details: UpdateMeRequestDTO;
     created_at: string;
     updated_at: string;
-}
-
-/** List item from GET /users/update-user-request (includes id and status) */
-export interface UpdateUserRequestListItem extends UpdateUserRequest {
+    status: UpdateUserRequestStatus;
     id: string;
-    status?: UpdateUserRequestStatus;
+    email: string;
 }
 
-
+export interface UpdateUserRequestDetailResponse extends ApiResponse<UpdateUserRequest> {
+    data: UpdateUserRequest;
+}
 
 export interface UpdateUpdateUserRequestDTO {
     update_user_request_id: string;

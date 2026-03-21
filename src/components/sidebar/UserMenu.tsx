@@ -77,17 +77,17 @@ export default function UserMenu({
           onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
           className={`flex items-center gap-3 w-full ${
             isMobile || !isCollapsed ? "" : "justify-center"
-          } p-2.5 rounded-xl hover:bg-slate-100 active:bg-slate-200 transition-all duration-200 group border border-transparent hover:border-slate-300`}
+          } p-2.5 rounded-xl hover:bg-slate-700 active:bg-slate-600 transition-all duration-200 group border border-transparent hover:border-slate-500`}
         >
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 border-2 border-blue-400/40 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-200 group-hover:scale-110 group-hover:from-blue-600 group-hover:to-cyan-700">
+          <div className="w-10 h-10 rounded-md  border-2 border-gray-400/40 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-200 group-hover:scale-110 group-hover:from-blue-600 group-hover:to-cyan-700">
             <IconUser size={20} className="text-white" />
           </div>
           {(isMobile || !isCollapsed) && (
             <div className="flex-1 min-w-0 text-left">
-              <p className="text-sm font-bold text-slate-800 truncate">
+              <p className="text-sm font-bold text-white truncate">
                 {user?.username}
               </p>
-              <p className="text-xs text-slate-600 capitalize truncate font-medium">
+              <p className="text-xs text-slate-300 capitalize truncate font-medium">
                 {user?.role?.toLowerCase().replace("_", " ")}
               </p>
             </div>
@@ -95,8 +95,8 @@ export default function UserMenu({
           {(isMobile || !isCollapsed) && (
             <IconChevronDown
               size={18}
-              className={`text-slate-600 transition-all duration-200 ${
-                isUserMenuOpen ? "rotate-180 text-slate-800" : ""
+              className={`text-slate-300 transition-all duration-200 ${
+                isUserMenuOpen ? "rotate-180 text-white" : ""
               }`}
             />
           )}

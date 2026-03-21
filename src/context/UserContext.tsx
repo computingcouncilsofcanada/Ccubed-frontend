@@ -9,8 +9,9 @@ import React, {
   useCallback,
 } from "react";
 import { useRouter } from "next/navigation";
-import { publicAxios, privateAxios, setAxiosCsrfToken } from "@/lib/axios";
+import { publicAxios, privateAxios, setAxiosCsrfToken, setOnSessionExpired } from "@/lib/axios";
 import type { AxiosError } from "axios";
+import { Permission } from "@/components/sidebar/types";
 
 type User = {
   email: string;
@@ -35,6 +36,8 @@ type UserContextType = {
   isLoading: boolean;
   handleInitialLogin: (user: User) => void;
   isHydrated: boolean;
+  permissions: Permission[];
+  handleSetPermissions: (newPermissions: Permission[]) => void;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -44,14 +47,19 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [shouldVerifySession, setShouldVerifySession] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [permissions, setPermissions] = useState<Permission[]>([]);
   const router = useRouter();
 
   // Handle client-side hydration
   useEffect(() => {
     setIsHydrated(true);
     const savedUser = localStorage.getItem("user");
+    const savedPermissions = localStorage.getItem("permissions");
     if (savedUser) {
       setUser(JSON.parse(savedUser) as User);
+      if (savedPermissions) {
+        setPermissions(JSON.parse(savedPermissions) as Permission[]);
+      }
       // Only verify session for saved users after a short delay
       const id = window.setTimeout(() => {
         setShouldVerifySession(true);
@@ -71,6 +79,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem("user");
     }
   }, [user]);
+
+  const handleSetPermissions = (newPermissions: Permission[]) => {
+    setPermissions(newPermissions);
+
+    localStorage.setItem("permissions", JSON.stringify(newPermissions));
+  };
+  
 
   const handleInitialLogin = (newUser: User) => {
     setUser(newUser);
@@ -96,15 +111,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
       if (csrfResponse.data) {
         // Set the CSRF token in the axios instance
         setAxiosCsrfToken(csrfResponse.data);
-      }
-
-      // Then verify the session
-      const response = await privateAxios.post("/auth/refresh-token");
-
-      if (response.data) {
-        // Session is valid, keep the user
         return;
       }
+
 
       // No token in response, clear user
       setUser(null);
@@ -124,19 +133,29 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, [user, shouldVerifySession]);
 
+  const clearSessionAndRedirect = useCallback(() => {
+    setUser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("permissions");
+    setShouldVerifySession(false);
+    router.push("/login");
+  }, [router]);
+
   const logout = async () => {
     try {
       await privateAxios.post("/auth/logout");
     } catch (err: unknown) {
       console.error("Logout failed:", err);
     } finally {
-      // Clear user state and session storage regardless of API response
-      setUser(null);
-      localStorage.removeItem("user");
-      setShouldVerifySession(false);
-      router.push("/login");
+      clearSessionAndRedirect();
     }
   };
+
+  // Register callback for axios interceptor when token refresh fails (session expired)
+  useEffect(() => {
+    setOnSessionExpired(logout);
+    return () => setOnSessionExpired(null);
+  }, [logout]);
 
   // Only verify session if we have a user and should verify
   useEffect(() => {
@@ -157,6 +176,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         isLoading,
         handleInitialLogin,
         isHydrated,
+        permissions,
+        handleSetPermissions,
       }}
     >
       {children}

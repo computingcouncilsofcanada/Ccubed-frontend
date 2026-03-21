@@ -1,5 +1,9 @@
 import { privateAxios } from "@/lib/axios";
-import { UpdateMeRequestDTO, UpdateUserRequestStatus } from "@/types/user.interface";
+import {
+    UpdateMeRequestDTO,
+    UpdateUserRequestDetailResponse,
+    UpdateUserRequestStatus,
+} from "@/types/user.interface";
 
 
 export const updateMe = async (data: UpdateMeRequestDTO) => {
@@ -47,6 +51,13 @@ export const getAllUpdateUserRequests = async (
     return res.data;
 };
 
+export const getUpdateUserRequestById = async (
+    id: string
+): Promise<UpdateUserRequestDetailResponse> => {
+    const res = await privateAxios.get<UpdateUserRequestDetailResponse>(`/users/update-user-requests/${id}`);
+    return res.data;
+};
+
 
 export const updateUserRequestStatus = async (
     id: string,
@@ -58,3 +69,8 @@ export const updateUserRequestStatus = async (
     return res.data;
 };
 
+export const checkEmailExists = async (email: string) => {
+    const res = await privateAxios.get(`/users/check-email/${email}`, {
+    });
+    return res.data;
+};

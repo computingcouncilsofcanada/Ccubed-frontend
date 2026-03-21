@@ -15,7 +15,7 @@ type FormFields = {
 
 const LoginForm = () => {
   const router = useRouter();
-  const { handleInitialLogin } = useUser();
+  const { handleInitialLogin, handleSetPermissions } = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState("");
 
@@ -48,29 +48,31 @@ const LoginForm = () => {
           setAxiosCsrfToken(res.data.csrfToken);
         }
 
+        if (res.data.permissions) {
+          handleSetPermissions(res.data.permissions);
+        }
+
         if (res.data.user) {
           handleInitialLogin(res.data.user);
 
-          // Redirect user based on their role
-          if (res.data.user.role === "ADMIN") {
-            router.push("/member/admin");
-          } else if (res.data.user.role === "SUPER_ADMIN") {
-            router.push("/member/super-admin");
-          } else if (res.data.user.role === "STAFF") {
-            router.push("/member/staff");
-          } else {
-            router.push("/member/staff");
-          }
+          router.push("/member");
         }
       }
     } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosError = err as { response?: { data?: { message?: string } }; message?: string };
-        setFormError(axiosError.response?.data?.message || axiosError.message || 'An error occurred');
+      if (err && typeof err === "object" && "response" in err) {
+        const axiosError = err as {
+          response?: { data?: { message?: string } };
+          message?: string;
+        };
+        setFormError(
+          axiosError.response?.data?.message ||
+            axiosError.message ||
+            "An error occurred",
+        );
       } else if (err instanceof Error) {
         setFormError(err.message);
       } else {
-        setFormError('An unknown error occurred');
+        setFormError("An unknown error occurred");
       }
     }
   };
@@ -90,7 +92,10 @@ const LoginForm = () => {
 
         {formError && (
           <div className="flex items-center ">
-            <img src="/FigmaFiles/LoginFormAssets/error-circle.svg" alt="error image" />
+            <img
+              src="/FigmaFiles/LoginFormAssets/error-circle.svg"
+              alt="error image"
+            />
             <p>{formError}</p>
           </div>
         )}
@@ -130,7 +135,7 @@ const LoginForm = () => {
               <img
                 src={
                   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-                    form.watch("email")
+                    form.watch("email"),
                   )
                     ? "/FigmaFiles/LoginFormAssets/mail-correct.svg"
                     : "/FigmaFiles/LoginFormAssets/mail-wrong.svg"
@@ -212,14 +217,14 @@ const LoginForm = () => {
         >
           {isSubmitting ? "Login in..." : "Login"}
         </button>
-        <p 
+        <p
           className="text-center mt-2"
           style={{
             fontFamily: "Poppins, sans-serif",
             fontWeight: "400",
             fontSize: "14px",
             color: "#FFFFFF",
-            opacity: "100%"
+            opacity: "100%",
           }}
         >
           Forgot Password ?
