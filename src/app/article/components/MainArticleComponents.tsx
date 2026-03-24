@@ -56,7 +56,7 @@ export const MainArticleGrid = () => {
             switch (section.type) {
               case "text":
                 return (
-                  <p key={index} className="font-medium text-md">
+                  <p key={index} className="font-medium mt-5 text-md">
                     {section.content}
                   </p>
                 );
@@ -66,7 +66,7 @@ export const MainArticleGrid = () => {
                   <div key={index} className="space-y-3">
                     <h1
                       id={`heading-${index}`}
-                      className="text-3xl font-bold scroll-mt-24"
+                      className="text-3xl font-bold scroll-mt-24 my-7 text-[#FAA336]"
                     >
                       {section.heading}
                     </h1>
@@ -188,7 +188,7 @@ export const MainArticleHeader = () => {
 
   return (
     <>
-      <h1 className="text-6xl font-bold max-w-[900px] mt-10">
+      <h1 className="text-6xl font-bold max-w-[900px] mt-10 text">
         {article.title}
       </h1>
       <div className="flex gap-3 items-center w-fit my-8">
