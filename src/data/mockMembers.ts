@@ -22,7 +22,7 @@ type Team = {
 
 // Fixed mock data
 export const mockMembers: Team[] = [
-    {
+  {
     team: "Board of Advisors",
     members: [
       {
@@ -220,7 +220,8 @@ export const mockMembers: Team[] = [
         social: {
           linkedin: "https://www.linkedin.com/in/soroush-merikhy-a99875173/",
         },
-      },  {
+      },
+      {
         id: 45,
         name: "Zaid Mohiuddin",
         role: "Web Developer",
@@ -229,6 +230,17 @@ export const mockMembers: Team[] = [
         category: "sysadmin",
         social: {
           linkedin: "https://www.linkedin.com/in/zaid-mohiuddin-ba98462a8/",
+        },
+      },
+      {
+        id: 46,
+        name: "Tiana Wong",
+        role: "UI/UX Designer",
+        imageUrl: "/MemberPics/tiana.jpg",
+        info: "UI/UX Designer",
+        category: "sysadmin",
+        social: {
+          linkedin: "https://www.linkedin.com/in/tianawong26/",
         },
       },
     ],
