@@ -66,7 +66,7 @@ export const MainArticleGrid = () => {
                   <div key={index} className="space-y-3">
                     <h1
                       id={`heading-${index}`}
-                      className="text-3xl font-bold scroll-mt-24"
+                      className="text-3xl font-bold scroll-mt-24 text-[#FAA336]"
                     >
                       {section.heading}
                     </h1>
@@ -188,7 +188,7 @@ export const MainArticleHeader = () => {
 
   return (
     <>
-      <h1 className="text-6xl font-bold max-w-[900px] mt-10">
+      <h1 className="text-6xl font-bold max-w-[900px] mt-10 text">
         {article.title}
       </h1>
       <div className="flex gap-3 items-center w-fit my-8">
