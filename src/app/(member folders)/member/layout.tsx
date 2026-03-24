@@ -1,21 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { ChevronsRight } from "lucide-react";
-import Sidebar from "@/components/sidebar/Sidebar";   
+import Sidebar from "@/components/sidebar/Sidebar";
 import { useApiPermission } from "@/services/useApiPermission";
 import { useUser } from "@/context/UserContext";
 
 export default function AdminLayout({
-  children,   
+  children,
 }: {
   children: React.ReactNode;
 }) {
+  const { user, isLoading } = useUser();
   const pathname = usePathname();
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const { fetchMyPermissions } = useApiPermission();
   const { handleSetPermissions } = useUser();
@@ -25,11 +27,15 @@ export default function AdminLayout({
       try {
         const response = await fetchMyPermissions();
         handleSetPermissions(response.data);
-      } catch (error) {
-      }
+      } catch (error) {}
     };
     fetchPermissions();
   }, [pathname]);
+
+  if (!user) {
+    router.push("/");
+    return null;
+  }
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-[#0D1C26] to-[#1A384C] relative overflow-hidden">
@@ -39,7 +45,7 @@ export default function AdminLayout({
           onClick={() => setIsOpen(true)}
           className="absolute top-6 -left-3 text-white bg-gradient-to-br from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 rounded-full p-2 z-[60] shadow-xl border-2 border-white/30 transition-all duration-200 hover:scale-110"
         >
-          <ChevronsRight size={24} /> 
+          <ChevronsRight size={24} />
         </button>
       )}
 

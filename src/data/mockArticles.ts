@@ -13,11 +13,12 @@ export interface IArticleShareLinks {
 export interface IArticle {
   id: number;
   img_url: string;
-  title: string;
+  tag: string;
   read_min: string;
   date: string;
-  description: string;
+  title: string;
   bigdescription?: string;
+  author_img_url?: string;
   council: string;
   author?: string;
   role?: string;
@@ -31,99 +32,136 @@ export interface IArticle {
 // const ARTICLE_HERO_IMG = "/ArticlePics/ArticleHero.png";
 // const ARTICLE_BIG_IMG = "/ArticlePics/ArticleBigImage.png";
 
-export const mockArticles: IArticle[] = [
+const articles: IArticle[] =[
   {
     id: 1,
-    img_url: "/ArticlePics/ArticleBigImage",
-    title: "Neural Network",
-    read_min: "7 mins read",
-    date: "Feb 21, 2025",
-    description: "Neural Network EP1 - Financial Modeling in the Age of AI with TD & Layer 6 AI",
+    img_url: "/ArticlePics/ArticleBigImage.png",
+    tag: "Neural Network",
+    read_min: "15 mins read",
+    date: "March 22, 2025",
+    title: "Neural Network: Top 5 Insights from TD Bank Leaders",
     council: "artificialintelligencecouncil",
-    author: "Sarah Johnson",
-    role: "AI Coordinator",
+    author: "",
+    role: "",
     bigdescription:
-      "Coming Soon",
+      "Last Saturday, CCubed, in partnership with UTMIST, invited Anshuman Panwar, Director of AI at TD Asset Management, and Chad Koziel, Associate VP GenAI at Layer6 (TD’s AI research hub), to UofT’s downtown campus. We sat down to discuss the growing complexities and rapid development in the AI space, and to understand how TD is navigating this landscape through the expertise of these leaders. With new innovations dropping what seems like every week, uncertainty among students and industry professionals continues to rise. Hearing directly from experts in the trenches is incredibly valuable. Here are the top 5 insights that stood out from our interview, which included busting myths about complete automation, the changing job market, and much more.",
     heroImage: "/ArticlePics/ArticleBigImage",
-    tableOfContents: [
-      "What Exactly is Cybersecurity?",
-      "Top Threats in 2025",
-      "Best Practices for Protection",
-      "The Future of Security",
-    ],
     sections: [
       {
         type: "text",
         content:
-          "Staying safe online is no longer just an IT concern—it affects everyone. Whether you use email, social media, or work from a company device, understanding today’s main cyber threats and how to respond is essential. This guide walks you through what to watch for and how to protect yourself and your data.",
-      },
-      {
-        type: "heading",
-        heading: "What Exactly is Cybersecurity?",
-        content:
-          "Cybersecurity is the set of practices, tools, and processes used to protect systems, networks, and data from digital attacks. It covers everything from securing your passwords and devices to how organizations defend their infrastructure and customer data against breaches and misuse.",
-      },
-      {
-        type: "heading",
-        heading: "Why Cybersecurity Matters Today",
-        content:
-          "Attacks are more frequent, automated, and targeted than ever. A single breach can lead to identity theft, financial loss, or damage to your employer’s reputation. Good security habits and awareness significantly reduce your risk and make you a harder target.",
-      },
-      {
-        type: "heading",
-        heading: "Top Threats in 2025",
-        content:
-          "The threat landscape keeps changing. These are some of the most common and impactful risks you should be aware of:",
-      },
-      {
-        type: "list",
-        items: [
-          "Phishing and social engineering—emails and messages that trick you into clicking links or sharing credentials",
-          "Ransomware—malware that locks your files or systems until a ransom is paid",
-          "Supply chain and third-party attacks—compromises through vendors or software you trust",
-          "Credential theft and account takeover—stolen or leaked passwords used to access your accounts",
-        ],
-      },
-      {
-        type: "heading",
-        heading: "Best Practices for Protection",
-      },
-      {
-        type: "images",
-        images: [
-          "/ArticlePics/ArticleBigImage",
-          "/ArticlePics/ArticleBigImage",
-          "/ArticlePics/ArticleBigImage",
-          "/ArticlePics/ArticleBigImage",
-        ],
+          "(Note: This interview has been lightly edited for length and clarity.) ",
       },
       {
         type: "text",
         content:
-          "You don’t need to be an expert to improve your security. A few consistent habits go a long way:",
-      },
-      {
-        type: "list",
-        items: [
-          "Use strong, unique passwords and enable multi-factor authentication (MFA) wherever possible",
-          "Keep your devices and software updated so security patches are applied",
-          "Be cautious with links and attachments—verify the sender and avoid rushing",
-          "Use encryption for sensitive data and prefer HTTPS and trusted networks",
-        ],
+          "Last Saturday, CCubed, in partnership with UTMIST, invited Anshuman Panwar, Director of AI at TD Asset Management, and Chad Koziel, Associate VP GenAI at Layer6 (TD’s AI research hub), to UofT’s downtown campus. We sat down to discuss the growing complexities and rapid development in the AI space, and to understand how TD is navigating this landscape through the expertise of these leaders. With new innovations dropping what seems like every week, uncertainty among students and industry professionals continues to rise. Hearing directly from experts in the trenches is incredibly valuable. Here are the top 5 insights that stood out from our interview, which included busting myths about complete automation, the changing job market, and much more.",
       },
       {
         type: "heading",
-        heading: "The Future of Security",
+        heading: "Simplifying Everyday Workflows at TD",
         content:
-          "Security will keep evolving with AI, automation, and new regulations. Staying informed, following basic best practices, and supporting your organization’s security policies will help you stay ahead of threats and protect what matters most.",
+          "When asked about how TD incorporates AI solutions into their employees' day-to-day lives, they mentioned that it is important that every solution is built to serve a single purpose, and serves it well. This saves an employee's time by simplifying their workload, which gives them more bandwidth to focus on innovative problem-solving.",
       },
-    ],
-    shareLinks: [
-      { icon: "/ArticlePics/icons/Discord.svg", url: "/" },
-      { icon: "/ArticlePics/icons/Instagram.svg", url: "/" },
-      { icon: "/ArticlePics/icons/Facebook.svg", url: "/" },
-      { icon: "/ArticlePics/icons/Twitch.svg", url: "/" },
-      { icon: "/ArticlePics/icons/Twitter.svg", url: "/" },
+      {
+        type: "text",
+        content:
+          '"If you walk into a TD branch today, every single branch employee in Canada is empowered with a bespoke Gen AI tool tailored to help them answer really complex questions. For example, if a customer asks about their mother\'s estate, a situation a frontline colleague might only handle once a year, they have a tool in front of them that guides them through it step by step." –Chad Koziel',
+      },
+      {
+        type: "text",
+        content:
+          '"We incorporate AI directly into the portfolio manager\'s workflow. We use AI to rank assets or provide insights into macro indicators, which helps them pick the right investments. It is not fully automated fund management; they still invest traditionally, but AI serves as a highly targeted input to enhance their decision-making.\" – Anshuman Panwar',
+      },
+      {
+        type: "text",
+        content:
+          "With these inputs from Anshuman and Chad, it is clear that TD's AI teams are working hard to build cutting-edge solutions that streamline the repetitive tasks, making it easier for employees to focus on the high-value, human elements of their jobs and ultimately offer a better experience for TD’s customers.",
+      },
+      {
+        type: "heading",
+        heading: "AI Agents: And the risks involved",
+        content:
+          "When asked about AI agents and complete automation, the leaders expressed caution. And Chad spoke about how AI is still not completely ready to take over end-to-end jobs and how critical it is to incorporate strict guardrails. To illustrate this, he pointed to the recent event of a Meta executive whose emails were accidentally deleted by an AI agent, despite commands being given to stop..",
+      },
+      {
+        type: "text",
+        content:
+          "\"Having that type of open-ended agentic capability on someone's desktop at TD frankly horrifies me. It is simply not sufficiently performant in a highly general-purpose task; we can't measure and manage it today. What is going to explode over the next five years, however, is optimizing agentic solutions for specific tasks that are much narrower in scope—fit-to-purpose areas where we can identify discrete inputs and outputs and build an operational process around them.\" – Chad Koziel",
+      },
+      {
+        type: "text",
+        content:
+          "This goes to show that we are still a long way off from giving AI general, open-ended autonomy. Implementing AI solutions has to be narrow and fit-to-purpose, especially in the banking industry, where the operational risks have to be mitigated before anything else.",
+      },
+      {
+        type: "heading",
+        heading: "AI being a Copilot rather than an Autopilot",
+        content:
+          "One of the key takeaways from the conversation was Anshuman busting the myth of 100% automation. Today, many people believe that entire teams could be replaced by AI and that complex business processes will become obsolete overnight.",
+      },
+      {
+        type: "text",
+        content:
+          '"One of the wrong assumptions that both technical and non-technical people have is the 100% automation of a business process. Business processes are much more complex than just chatting with a chatbot. I have never seen 100% automation be possible for a complex process. It is always a co-pilot versus auto-pilot scenario. AI will help you in the process and make it more efficient, but it won\'t fully automate it. You still need people." – Anshuman Panwar',
+      },
+      {
+        type: "text",
+        content:
+          "Understanding this insight is critical to comprehending the strategic use of AI at an enterprise level. It makes a lot more sense to engineer AI as a copilot integrated into your existing workflows to simplify complex operations, rather than trying to build a fully autonomous replacement.",
+      },
+
+      {
+        type: "heading",
+        heading: "Why Simpler Solutions are Still Irreplaceable",
+        content:
+          "Something that is incredibly important to know, especially for new developers, is that the latest trendy LLM is not always the right choice. Especially when dealing with the banking industry and with money, the choice of solution must be strictly tailored to the requirement.",
+      },
+      {
+        type: "text",
+        content:
+          '"Wherever you are more closer to money, more explainability is required... Sometime full explainability is required. So maybe a simple linear regression model would be something to start with. In high frequency trading, where latency is very important, each microsecond matters... simpler models are still kind of preferred." – Anshuman Panwar',
+      },
+      {
+        type: "text",
+        content:
+          "For students building their own predictive models, this is a great reminder. Before jumping straight to a massive transformer model, consider if a traditional machine learning algorithm, like a Support Vector Machine or Linear Regression, might actually be the better, more explainable option for the job.",
+      },
+
+      {
+        type: "heading",
+        heading: "The Rising Bar: Advice for Fresh Graduates",
+        content:
+          "With AI tools now at a point which is frankly “magic” according to Chad and most developers familiar with the mind blowing developments, with it being able to generate boilerplate code in seconds that would take normal teams weeks to do. A major concern for fresh graduates is how to stand out. Both leaders emphasized that despite the barrier to entry is rising, the demand for smart, adaptable junior talent is still incredibly high.",
+      },
+      {
+        type: "text",
+        content:
+          '"The bar now for scientists and engineers is being raised continuously... Whereas in the past core talents that you needed to hone were your ability to write the code. Now in my view, it\'s flipping a little bit to your ability to interrogate the code, to understand blind spots... writing tests to ensure that the agents are building the right thing." – Chad Koziel',
+      },
+      {
+        type: "text",
+        content:
+          "\"Any one skill is typically fairly easy to replace... You bring a combination of skills that's unique and that is truly impossible to replace... Focus on the skills which can't be replaced by AI: how you handle stakeholders, how you build trust, and how you understand business processes end-to-end.\" – Chad Koziel & Anshuman Panwar",
+      },
+      {
+        type: "text",
+        content:
+          "The days of just memorizing syntax are fading. Today's developers need to act more like code reviewers understanding system architecture, maintaining rigorous coding standards, and testing AI outputs. If you can combine that technical foundation with the ability to coordinate projects and communicate effectively with non-technical stakeholders, you will become an irreplaceable asset to any organization.",
+      },
+
+      {
+        type: "heading",
+        heading: "Thanks for reading!",
+        content:
+          "(The full interview will be uploaded to the CCubed YouTube channel very soon!)",
+      },
     ],
   },
 ];
+export const mockArticles: IArticle[] = articles.map((article) => ({
+  ...article,
+  tableOfContents: article.sections
+    ?.filter((section) => section.type === "heading")
+    .map((section) => section.heading!) || [],
+}));

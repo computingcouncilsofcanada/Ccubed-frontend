@@ -6,10 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { mockArticles } from "@/data/mockArticles";
 import React from "react";
 import { IArticle } from "@/data/mockArticles";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MoveRight } from "lucide-react";
 import { CouncilSection } from "@/app/council/types/types";
-import { useRouter } from "next/navigation";
 
 type CouncilProps = {
   council: CouncilSection;
@@ -21,6 +20,7 @@ type CouncilProps = {
 export const ArticleBigcard = ({ council }: { council: string }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
 
   const [windowWidth, setWindowWidth] = useState(() => {
     // Initialize with current window width if available, fallback to desktop size
@@ -39,11 +39,9 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
-  const shouldShowExpanded = isExpanded || isHovered;
+  const isMobile = windowWidth <= 600;
 
-  const handleClick = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const shouldShowExpanded = isMobile || isExpanded || isHovered;
 
   const article1 = mockArticles.find((article) => {
     const articleCouncilSlug = article.council
@@ -52,6 +50,9 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
     return articleCouncilSlug === council;
   });
 
+  const handleClick = () => {
+    router.push(`/article/${article1?.id}`);
+  };
   if (!article1) {
     return null;
   }
@@ -81,7 +82,7 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
       >
         <div className="relative w-full h-50 rounded-4xl overflow-hidden">
           <Image
-            src="/ArticlePics/ArticleBigImage.png"
+            src={article1.img_url}
             alt="Article Image"
             fill
             className="object-cover"
@@ -91,13 +92,13 @@ export const ArticleBigcard = ({ council }: { council: string }) => {
         <div className="flex flex-col  md:gap-0 gap-4">
           <div className="flex flex-col md:flex-row justify-between md:items-center items-start md:gap-0 leading-12 tracking-[0.01em] text-white px-4">
             <div className="flex gap-4">
-              <p>{article1.title}</p>
+              <p>{article1.tag}</p>
               <p>{article1.read_min}</p>
             </div>
             <p>{article1.date}</p>
           </div>
           <p className=" tracking-[0.01em] text-white font-extrabold text-xl px-4">
-            {article1.description}
+            {article1.title}
           </p>
         </div>
         <AnimatePresence>
@@ -182,8 +183,13 @@ type InformationCardProps = {
 };
 
 export const InformationCard = ({ article }: InformationCardProps) => {
-  const { title, description, read_min, date, bigdescription } = article;
+  const { title, tag, read_min, date, bigdescription } = article;
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/article/${article?.id}`);
+  };
 
   return (
     <motion.div
@@ -192,6 +198,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
       onMouseLeave={() => setIsHovered(false)}
       initial="initial"
       animate={isHovered ? "hover" : "initial"}
+      onClick={handleClick}
     >
       <AnimatePresence>
         {isHovered && (
@@ -249,7 +256,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
               className="flex flex-col md:flex-row md:items-center md:justify-between items-start gap-2"
             >
               <span className=" py-1 px-3 rounded-2xl bg-[#D4D4D4]/10 text-gray-300 text-sm font-medium">
-                {title}
+                {tag}
               </span>
               <span className="text-white text-sm">{date}</span>
             </motion.div>
@@ -283,7 +290,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
                 transition={{ duration: 0.2 }}
                 className="text-white font-bold text-lg leading-tight tracking-[0.01em] absolute inset-0"
               >
-                {description}
+                {title}
               </motion.h3>
             ) : (
               <motion.div
@@ -301,7 +308,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
                 bg-clip-text text-transparent
               "
                 >
-                  {description}
+                  {tag}
                 </h3>
 
                 <AnimatePresence>
