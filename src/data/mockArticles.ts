@@ -32,7 +32,7 @@ export interface IArticle {
 // const ARTICLE_HERO_IMG = "/ArticlePics/ArticleHero.png";
 // const ARTICLE_BIG_IMG = "/ArticlePics/ArticleBigImage.png";
 
-const articles: IArticle[] =[
+const articles: IArticle[] = [
   {
     id: 1,
     img_url: "/ArticlePics/ArticleBigImage.png",
