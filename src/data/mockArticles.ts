@@ -66,7 +66,7 @@ const articles: IArticle[] = [
       {
         type: "text",
         content:
-          '"If you walk into a TD branch today, every single branch employee in Canada is empowered with a bespoke Gen AI tool tailored to help them answer really complex questions. For example, if a customer asks about their mother\'s estate, a situation a frontline colleague might only handle once a year, they have a tool in front of them that guides them through it step by step." –Chad Koziel',
+          '"If you walk into a TD branch today, every single branch employee in Canada is empowered with a bespoke Gen AI tool tailored to help them answer really complex questions. For example, if a customer asks about their mother\'s estate, a situation a frontline colleague might only handle once a year, they have a tool in front of them that guides them through it step by step." – Chad Koziel',
       },
       {
         type: "text",
