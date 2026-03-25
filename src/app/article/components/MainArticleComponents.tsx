@@ -54,12 +54,26 @@ export const MainArticleGrid = () => {
         {article.sections && article.sections.length > 0 ? (
           article.sections.map((section, index) => {
             switch (section.type) {
-              case "text":
+              case "text": {
+                if (section.content?.trim().startsWith('"')) {
+                  const lastQuoteIndex = section.content.lastIndexOf('"');
+                  if (lastQuoteIndex > 0) {
+                    const quotePart = section.content.substring(0, lastQuoteIndex + 1);
+                    const authorPart = section.content.substring(lastQuoteIndex + 1);
+                    return (
+                      <p key={index} className="font-medium mt-5 text-md text-white/85">
+                        <span className="italic">{quotePart}</span>
+                        {authorPart}
+                      </p>
+                    );
+                  }
+                }
                 return (
                   <p key={index} className="font-medium mt-5 text-md">
                     {section.content}
                   </p>
                 );
+              }
 
               case "heading":
                 return (
