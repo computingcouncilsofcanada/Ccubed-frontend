@@ -38,13 +38,6 @@ const signupSchema = z.object({
         .string()
         .min(2, "Program of study is required")
         .max(150, "Program of study is too long"),
-    phone: z
-        .string()
-        .optional()
-        .refine(
-            (val) => !val || /^[+]?[\d\s()-]{7,20}$/.test(val),
-            "Please enter a valid phone number"
-        ),
     linkedin_url: z
         .string()
         .optional()
@@ -136,7 +129,6 @@ export default function SignupForm({ formSlug }: SignupFormProps) {
             role_in_club: "",
             year_of_study: "",
             program_of_study: "",
-            phone: "",
             linkedin_url: "",
             reason_to_join: "",
             how_did_you_hear: "",
@@ -380,42 +372,23 @@ export default function SignupForm({ formSlug }: SignupFormProps) {
                         )}
                     </motion.div>
 
-                    {/* ────── Row 5: Phone & LinkedIn (optional) ────── */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <motion.div variants={formItemVariants} custom={8}>
-                            <label htmlFor="signup-phone" className={labelBase}>
-                                Phone Number{" "}
-                                <span className="text-white/30 text-xs">(optional)</span>
-                            </label>
-                            <input
-                                id="signup-phone"
-                                type="tel"
-                                placeholder="+1 (555) 123-4567"
-                                className={`${inputBase} ${errors.phone ? "border-red-500/60" : ""}`}
-                                {...register("phone")}
-                            />
-                            {errors.phone && (
-                                <p className={errorBase}>{errors.phone.message}</p>
-                            )}
-                        </motion.div>
-
-                        <motion.div variants={formItemVariants} custom={9}>
-                            <label htmlFor="signup-linkedin" className={labelBase}>
-                                LinkedIn Profile{" "}
-                                <span className="text-white/30 text-xs">(optional)</span>
-                            </label>
-                            <input
-                                id="signup-linkedin"
-                                type="url"
-                                placeholder="https://linkedin.com/in/yourprofile"
-                                className={`${inputBase} ${errors.linkedin_url ? "border-red-500/60" : ""}`}
-                                {...register("linkedin_url")}
-                            />
-                            {errors.linkedin_url && (
-                                <p className={errorBase}>{errors.linkedin_url.message}</p>
-                            )}
-                        </motion.div>
-                    </div>
+                    {/* ────── Row 5: LinkedIn (optional) ────── */}
+                    <motion.div variants={formItemVariants} custom={8}>
+                        <label htmlFor="signup-linkedin" className={labelBase}>
+                            LinkedIn Profile{" "}
+                            <span className="text-white/30 text-xs">(optional)</span>
+                        </label>
+                        <input
+                            id="signup-linkedin"
+                            type="url"
+                            placeholder="https://linkedin.com/in/yourprofile"
+                            className={`${inputBase} ${errors.linkedin_url ? "border-red-500/60" : ""}`}
+                            {...register("linkedin_url")}
+                        />
+                        {errors.linkedin_url && (
+                            <p className={errorBase}>{errors.linkedin_url.message}</p>
+                        )}
+                    </motion.div>
 
                     {/* ────── Row 6: How did you hear ────── */}
                     <motion.div variants={formItemVariants} custom={10}>
