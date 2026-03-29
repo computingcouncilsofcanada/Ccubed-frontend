@@ -288,12 +288,8 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => onRowClick?.(row.original)}
                   className={cn(
-                    onRowClick && "cursor-pointer transition-colors",
-                    row.getIsSelected()
-                      ? "bg-slate-700"
-                      : onRowClick
-                      ? ""
-                      : ""
+                    onRowClick && "cursor-pointer transition-colors hover:bg-slate-800/50",
+                    row.getIsSelected() ? "bg-slate-700" : ""
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
