@@ -38,7 +38,7 @@ const articles: IArticle[] = [
     img_url: "/ArticlePics/ArticleBigImage.png",
     tag: "Neural Network",
     read_min: "7 mins read",
-    date: "March 22, 2025",
+    date: "March 22, 2026",
     title: "Neural Network: Top 5 Insights from TD Bank Leaders",
     council: "artificialintelligencecouncil",
     author: "",
