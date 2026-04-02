@@ -64,6 +64,13 @@ export const PERMISSIONS = {
     UPDATE_COUNCIL: "council.update",
     DELETE_COUNCIL: "council.delete",
 
+    // Article
+    CREATE_ARTICLE: "article.create",
+    GET_ARTICLES: "article.get",
+    GET_ARTICLE_BY_ID: "article.get.by.id",
+    UPDATE_ARTICLE: "article.update",
+    DELETE_ARTICLE: "article.delete",
+
     // Send Mail
     SEND_MAIL: "send.mail",
 
@@ -75,6 +82,7 @@ export const PERMISSIONS = {
     GET_UPDATE_USER_REQUESTS: "update.user.request.get",
     UPDATE_UPDATE_USER_REQUEST: "update.user.request.update",
 
+
     // Sidebar items permission
     SIDEBAR_VIEW_EVENTS: "sidebar.events.view",
     SIDEBAR_VIEW_USER_REGISTRATIONS: "sidebar.user.registrations.view",
@@ -83,4 +91,5 @@ export const PERMISSIONS = {
     SIDEBAR_VIEW_SCHOOLS: "sidebar.schools.view",
     SIDEBAR_VIEW_DEPARTMENTS: "sidebar.departments.view",
     SIDEBAR_VIEW_USERS: "sidebar.users.view",
+    SIDEBAR_VIEW_ARTICLES: "sidebar.articles.view",
 };

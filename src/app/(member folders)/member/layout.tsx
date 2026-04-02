@@ -32,8 +32,13 @@ export default function AdminLayout({
     fetchPermissions();
   }, [pathname]);
 
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/");
+    }
+  }, [user, isLoading]);
+
   if (!user) {
-    router.push("/");
     return null;
   }
 

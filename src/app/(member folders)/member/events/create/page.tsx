@@ -118,38 +118,28 @@ export default function CreateEventPage() {
       const learningOutcomes = data.learning_outcomes
         .map((item) => item.value)
         .filter((item) => item.trim() !== "");
-      learningOutcomes.forEach((outcome) => {
-        formData.append("learning_outcomes", outcome);
-      });
+      formData.append("learning_outcomes", learningOutcomes.join(","));
 
       const whatYouNeed = data.what_you_need
         .map((item) => item.value)
         .filter((item) => item.trim() !== "");
-      whatYouNeed.forEach((item) => {
-        formData.append("what_you_need", item);
-      });
+      formData.append("what_you_need", whatYouNeed.join(","));
 
       const instructors = data.instructors
         .map((item) => item.value)
         .filter((item) => item.trim() !== "");
-      instructors.forEach((instructor) => {
-        formData.append("instructors", instructor);
-      });
+      formData.append("instructors", instructors.join(","));
 
       selectedTypes.forEach((type) => {
         formData.append("types", type);
       });
 
       if (data.ownership && data.ownership.length > 0) {
-        data.ownership.forEach((item) => {
-          formData.append("ownership", item);
-        });
+        formData.append("ownership", data.ownership.join(","));
       }
 
       if (data.domains && data.domains.length > 0) {
-        data.domains.forEach((item) => {
-          formData.append("domains", item);
-        });
+        formData.append("domains", data.domains.join(","));
       }
 
       // Files

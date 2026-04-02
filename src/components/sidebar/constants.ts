@@ -56,6 +56,14 @@ export const createNavigationItems = (basePath: string, pathname: string | null)
     category: "MANAGEMENT",
   },
   {
+    icon: IconFileText,
+    label: "Articles",
+    href: `${basePath}/articles`,
+    active: isActive(pathname, `${basePath}/articles`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_ARTICLES,
+    category: "MANAGEMENT",
+  },
+  {
     icon: IconShield,
     label: "Roles & Permissions",
     href: `${basePath}/roles-permissions`,

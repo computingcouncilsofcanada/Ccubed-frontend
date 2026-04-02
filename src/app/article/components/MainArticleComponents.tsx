@@ -202,36 +202,62 @@ export const MainArticleHeader = () => {
 
   return (
     <>
-      <h1 className="text-6xl font-bold max-w-[900px] mt-10 text">
+      <h1 className="text-6xl font-bold max-w-[900px] mt-10">
         {article.title}
       </h1>
-      <div className="flex gap-3 items-center w-fit my-8">
-        <div className="size-10 relative rounded-full overflow-hidden">
-          {article.author_img_url && (
-            <Image
-              src={article.author_img_url}
-              alt="Image"
-              fill
-              objectFit="cover"
-            />
-          )}
+
+      {/* Unified byline bar: author left, metadata right */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mt-8 mb-6 pt-5 border-t border-white/10">
+        {/* Author info */}
+        {article.author && (
+          <div className="flex gap-3 items-center">
+            {/* Author avatar or fallback pen icon */}
+            {article.author_img_url ? (
+              <div className="size-10 relative rounded-full overflow-hidden ring-2 ring-white/20">
+                <Image
+                  src={article.author_img_url}
+                  alt={article.author}
+                  fill
+                  objectFit="cover"
+                />
+              </div>
+            ) : (
+              <div className="size-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white/70">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+              </div>
+            )}
+            <div className="flex flex-col">
+              <p className="text-[11px] uppercase tracking-widest text-white/60 font-medium leading-tight">
+                Written by
+              </p>
+              <p className="font-semibold text-[15px] text-white leading-tight mt-0.5">
+                {article.author}
+              </p>
+              {article.role && (
+                <p className="text-[13px] text-white/75 leading-tight mt-0.5">
+                  {article.role}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Article metadata */}
+        <div className="flex items-center gap-2 text-sm text-white/85">
+          <p className="px-3 py-1 bg-[#D4D4D4]/15 rounded-2xl">
+            {article.tag}
+          </p>
+          <div className="w-[1px] h-4 bg-white/30"></div>
+          <div className="flex gap-1.5 items-center">
+            <img src="/ArticlePics/note.svg" alt="" className="w-4 h-4 opacity-80" />
+            <p>{article.date}</p>
+          </div>
+          <div className="w-[1px] h-4 bg-white/20"></div>
+          <p>{article.read_min}</p>
         </div>
-        <div className="flex flex-col">
-          <p className="font-bold text-lg">{article.author || ""}</p>
-          <p>{article.role || ""}</p>
-        </div>
-      </div>
-      <div className="my-5 flex items-center gap-2 justify-end">
-        <p className="px-2 py-1 bg-[#D4D4D4]/10 rounded-2xl w-fit">
-          {article.tag}
-        </p>
-        <div className="w-4 h-[1px] bg-white rotate-90"></div>
-        <div className="flex gap-2 items-center">
-          <img src="/ArticlePics/note.svg" alt="" />
-          <p>{article.date}</p>
-        </div>
-        <div className="w-4 h-[1px] bg-white rotate-90"></div>
-        <p>{article.read_min}</p>
       </div>
     </>
   );
