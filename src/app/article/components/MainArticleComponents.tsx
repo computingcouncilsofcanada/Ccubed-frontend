@@ -213,7 +213,7 @@ export const MainArticleHeader = () => {
           <div className="flex gap-3 items-center">
             {/* Author avatar or fallback pen icon */}
             {article.author_img_url ? (
-              <div className="size-10 relative rounded-full overflow-hidden ring-2 ring-white/15">
+              <div className="size-10 relative rounded-full overflow-hidden ring-2 ring-white/20">
                 <Image
                   src={article.author_img_url}
                   alt={article.author}
@@ -223,21 +223,21 @@ export const MainArticleHeader = () => {
               </div>
             ) : (
               <div className="size-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white/60">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white/70">
                   <path d="M12 20h9" />
                   <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
                 </svg>
               </div>
             )}
             <div className="flex flex-col">
-              <p className="text-[11px] uppercase tracking-widest text-white/40 font-medium leading-tight">
+              <p className="text-[11px] uppercase tracking-widest text-white/60 font-medium leading-tight">
                 Written by
               </p>
               <p className="font-semibold text-[15px] text-white leading-tight mt-0.5">
                 {article.author}
               </p>
               {article.role && (
-                <p className="text-[13px] text-white/50 leading-tight mt-0.5">
+                <p className="text-[13px] text-white/75 leading-tight mt-0.5">
                   {article.role}
                 </p>
               )}
@@ -246,13 +246,13 @@ export const MainArticleHeader = () => {
         )}
 
         {/* Article metadata */}
-        <div className="flex items-center gap-2 text-sm text-white/70">
-          <p className="px-3 py-1 bg-[#D4D4D4]/10 rounded-2xl">
+        <div className="flex items-center gap-2 text-sm text-white/85">
+          <p className="px-3 py-1 bg-[#D4D4D4]/15 rounded-2xl">
             {article.tag}
           </p>
-          <div className="w-[1px] h-4 bg-white/20"></div>
+          <div className="w-[1px] h-4 bg-white/30"></div>
           <div className="flex gap-1.5 items-center">
-            <img src="/ArticlePics/note.svg" alt="" className="w-4 h-4 opacity-60" />
+            <img src="/ArticlePics/note.svg" alt="" className="w-4 h-4 opacity-80" />
             <p>{article.date}</p>
           </div>
           <div className="w-[1px] h-4 bg-white/20"></div>
