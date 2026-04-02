@@ -44,7 +44,7 @@ const articles: IArticle[] = [
     author: "Editorial Team",
     role: "Computing Councils of Canada",
     bigdescription:
-      "Last Saturday, CCubed, in partnership with UTMIST, invited Anshuman Panwar, Director of AI at TD Asset Management, and Chad Koziel, Associate VP GenAI at Layer6 (TD’s AI research hub), to UofT’s downtown campus. We sat down to discuss the growing complexities and rapid development in the AI space, and to understand how TD is navigating this landscape through the expertise of these leaders. With new innovations dropping what seems like every week, uncertainty among students and industry professionals continues to rise. Hearing directly from experts in the trenches is incredibly valuable. Here are the top 5 insights that stood out from our interview, which included busting myths about complete automation, the changing job market, and much more.",
+      "Last Saturday, CCubed, in partnership with UTMIST, invited Anshuman Panwar, VP & Director (Business Innovation & AI) at TD Asset Management, and Chad Koziel, Associate VP GenAI at Layer6 (TD’s AI research hub), to UofT’s downtown campus. We sat down to discuss the growing complexities and rapid development in the AI space, and to understand how TD is navigating this landscape through the expertise of these leaders. With new innovations dropping what seems like every week, uncertainty among students and industry professionals continues to rise. Hearing directly from experts in the trenches is incredibly valuable. Here are the top 5 insights that stood out from our interview, which included busting myths about complete automation, the changing job market, and much more.",
     heroImage: "/ArticlePics/ArticleBigImage",
     sections: [
       {
@@ -55,7 +55,7 @@ const articles: IArticle[] = [
       {
         type: "text",
         content:
-          "Last Saturday, CCubed, in partnership with UTMIST, invited Anshuman Panwar, Director of AI at TD Asset Management, and Chad Koziel, Associate VP GenAI at Layer6 (TD’s AI research hub), to UofT’s downtown campus. We sat down to discuss the growing complexities and rapid development in the AI space, and to understand how TD is navigating this landscape through the expertise of these leaders. With new innovations dropping what seems like every week, uncertainty among students and industry professionals continues to rise. Hearing directly from experts in the trenches is incredibly valuable. Here are the top 5 insights that stood out from our interview, which included busting myths about complete automation, the changing job market, and much more.",
+          "Last Saturday, CCubed, in partnership with UTMIST, invited Anshuman Panwar, VP & Director (Business Innovation & AI) at TD Asset Management, and Chad Koziel, Associate VP GenAI at Layer6 (TD’s AI research hub), to UofT’s downtown campus. We sat down to discuss the growing complexities and rapid development in the AI space, and to understand how TD is navigating this landscape through the expertise of these leaders. With new innovations dropping what seems like every week, uncertainty among students and industry professionals continues to rise. Hearing directly from experts in the trenches is incredibly valuable. Here are the top 5 insights that stood out from our interview, which included busting myths about complete automation, the changing job market, and much more.",
       },
       {
         type: "heading",
