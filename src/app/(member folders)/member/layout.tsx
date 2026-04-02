@@ -32,10 +32,15 @@ export default function AdminLayout({
     fetchPermissions();
   }, [pathname]);
 
-  // if (!user) {
-  //   router.push("/");
-  //   return null;
-  // }
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/");
+    }
+  }, [user, isLoading]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-[#0D1C26] to-[#1A384C] relative overflow-hidden">
