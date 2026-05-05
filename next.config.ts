@@ -9,9 +9,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "placehold.co" },
     ],
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
+  //removed eslint because its not supported in newer next js versions
+  
+  // eslint: {
+  //   ignoreDuringBuilds: true,
+  // }, 
   typescript: {
     ignoreBuildErrors: true,
   },
