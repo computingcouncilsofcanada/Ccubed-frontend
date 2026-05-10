@@ -12,8 +12,8 @@ type TeamCardProps = {
 
 function TeamCardV2({ imageUrl, name, role, info, linkedin }: TeamCardProps) {
   return (
-    <div className="rounded-2xl relative">
-      <div className="relative">
+    <div className="rounded-2xl h-[400px] w-[320px] relative z-100 cursor-pointer">
+      <div className="relative w-full h-full">
         {/* border gradient effect  */}
         <div
           className="absolute inset-0 p-[3px] rounded-2xl"
@@ -28,11 +28,11 @@ function TeamCardV2({ imageUrl, name, role, info, linkedin }: TeamCardProps) {
           }}
         ></div>
         <Image
-          src={"/FigmaFiles/CTF.png"}
-          width={300}
-          height={400}
+          src={imageUrl}
+          fill
           alt="team-image"
-          className="rounded-2xl"
+          className="rounded-2xl object-cover"
+          quality={100}
         ></Image>
       </div>
 
@@ -54,8 +54,8 @@ function TeamCardV2({ imageUrl, name, role, info, linkedin }: TeamCardProps) {
           <p className="text-white">i</p>
         </div>
         <div className="flex flex-col leading-tight text-white items-start font-bold tracking-tight">
-          <p>Full Name Last Name</p>
-          <p>Position</p>
+          <p>{name}</p>
+          <p>{role}</p>
         </div>
       </div>
     </div>

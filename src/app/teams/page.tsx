@@ -48,7 +48,7 @@ function OurTeamsPage() {
                   {team.team}
                 </h2>
 
-                <div className="flex flex-wrap justify-center gap-9 gap-y-17">
+                {/* <div className="flex flex-wrap justify-center gap-9 gap-y-17">
                   {team.members.map((member) => (
                     <TeamCard
                       key={member.id}
@@ -60,8 +60,8 @@ function OurTeamsPage() {
           
                     />
                   ))}
-                </div>
-                <div className="h-20"/>
+                </div> */}
+                {/* <div className="h-20"/> */}
                 <div className="flex flex-wrap justify-center gap-9 gap-y-17">
                   {team.members.map((member) => (
                     <TeamCardV2
