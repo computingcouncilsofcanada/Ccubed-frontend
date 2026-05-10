@@ -6,6 +6,7 @@ import Footer from "@/components/shared/Footer";
 import { mockMembers } from "@/data/mockMembers";
 import TeamCard from "@/components/essentials/TeamCard";
 import TeamFilterBar from "./components/TeamFilterBar";
+import TeamCardV2 from "@/components/essentials/TeamCardV2";
 
 function OurTeamsPage() {
   const [teamType, setTeamType] = useState<string>("board_of_advisors");
@@ -50,6 +51,20 @@ function OurTeamsPage() {
                 <div className="flex flex-wrap justify-center gap-9 gap-y-17">
                   {team.members.map((member) => (
                     <TeamCard
+                      key={member.id}
+                      imageUrl={member.imageUrl}
+                      name={member.name}
+                      role={member.role}
+                      info={member.info}
+                      linkedin={member.social.linkedin}
+          
+                    />
+                  ))}
+                </div>
+                <div className="h-20"/>
+                <div className="flex flex-wrap justify-center gap-9 gap-y-17">
+                  {team.members.map((member) => (
+                    <TeamCardV2
                       key={member.id}
                       imageUrl={member.imageUrl}
                       name={member.name}
