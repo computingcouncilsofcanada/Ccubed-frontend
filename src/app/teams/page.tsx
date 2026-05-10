@@ -4,9 +4,9 @@ import React, { useState, useMemo } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
 import { mockMembers } from "@/data/mockMembers";
-import TeamCard from "@/components/essentials/TeamCard";
-import TeamFilterBar from "./components/TeamFilterBar";
-import TeamCardV2 from "@/components/essentials/TeamCardV2";
+import TeamCard from "@/components/teampage/TeamCard";
+import TeamFilterBar from "@/components/teampage/TeamFilterBar";
+import TeamCardV2 from "@/components/teampage/TeamCardV2";
 
 function OurTeamsPage() {
   const [teamType, setTeamType] = useState<string>("board_of_advisors");
@@ -71,7 +71,6 @@ function OurTeamsPage() {
                       role={member.role}
                       info={member.info}
                       linkedin={member.social.linkedin}
-          
                     />
                   ))}
                 </div>
@@ -80,7 +79,6 @@ function OurTeamsPage() {
           </div>
         </div>
 
- 
         <div className="mt-12">
           <Footer />
         </div>

@@ -93,7 +93,7 @@ export const mockMembers: Team[] = [
       {
         id: 4,
         name: "Fopefoluwa Ikufisile",
-        role: "Director of Systems Administration",
+        role: "Director of Systems Admin",
         imageUrl: "/MemberPics/fope.png",
         info: "Director of Systems Administration",
         category: "directors",
@@ -156,7 +156,7 @@ export const mockMembers: Team[] = [
       {
         id: 4,
         name: "Fopefoluwa Ikufisile",
-        role: "Director of Systems Administration",
+        role: "Director of Systems Admin",
         imageUrl: "/MemberPics/fope.png",
         info: "Director of Systems Administration",
         category: "sysadmin",

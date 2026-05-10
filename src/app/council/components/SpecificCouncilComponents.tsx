@@ -12,7 +12,7 @@ import Image from "next/image";
 import { mockMembers } from "@/data/mockMembers";
 import { mockEvents } from "@/data/mockEvents";
 import { mockArticles } from "@/data/mockArticles";
-import TeamCard from "@/components/essentials/TeamCard";
+import TeamCard from "@/components/teampage/TeamCard";
 
 type CouncilProps = {
   council: CouncilSection;
@@ -173,7 +173,7 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
                       }}
                       className="absolute inset-0 flex items-center justify-center rounded-[20px] cursor-grab active:cursor-grabbing"
                     >
-                       <img
+                      <img
                         src={universities[activeIndex].imageUrl}
                         alt={universities[activeIndex].name}
                         className="max-w-full max-h-full w-auto h-auto object-contain rounded-[20px] pointer-events-none select-none"
