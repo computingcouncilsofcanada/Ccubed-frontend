@@ -11,7 +11,7 @@ export const CardBorderGradient = ({
 }) => {
   return (
     <div
-      className={`absolute inset-0 ${radius} z-70`}
+      className={`pointer-events-none absolute inset-0 ${radius} z-70`}
       style={{
         background: gradientFormat,
         mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",

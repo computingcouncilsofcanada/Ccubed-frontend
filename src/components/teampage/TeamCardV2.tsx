@@ -1,7 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { CardBorderGradient } from "./teamcard/gradients";
-import Image from "next/image";
 import TeamcardImage from "./teamcard/TeamcardImage";
 import TeamCardPreview from "./teamcard/TeamCardPreview";
 import TeamCardSocials from "./teamcard/TeamCardSocials";
@@ -12,12 +11,19 @@ type TeamCardProps = {
   name: string;
   role: string;
   info: string;
-  linkedin: string;
+  linkedin?: string;
 };
 
 function TeamCardV2({ imageUrl, name, role, info, linkedin }: TeamCardProps) {
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
   return (
-    <div className="rounded-2xl h-[400px] w-[300px] relative z-100 cursor-pointer group duration-300 transition-all hover:scale-106">
+    <div
+      onMouseLeave={() => setIsOverlayOpen(false)}
+      className={`rounded-2xl h-[400px] w-[300px] relative z-100 duration-300 transition-transform ease-out ${
+        isOverlayOpen ? "scale-[1.03]" : "scale-100"
+      }`}
+    >
       <div className="relative w-full h-full">
         {/* border gradient effect  */}
         <CardBorderGradient
@@ -30,13 +36,23 @@ function TeamCardV2({ imageUrl, name, role, info, linkedin }: TeamCardProps) {
       </div>
 
       {/* bottom details */}
-      <TeamCardPreview name={name} role={role} />
+      <TeamCardPreview
+        name={name}
+        role={role}
+        isOpen={isOverlayOpen}
+        onHoverChange={setIsOverlayOpen}
+      />
 
       {/* top right details */}
       <TeamCardSocials linkedin={linkedin} />
 
       {/* fill card  */}
-      <TeamCardOverlay name={name} info={info} role={role} />
+      <TeamCardOverlay
+        name={name}
+        info={info}
+        role={role}
+        isOpen={isOverlayOpen}
+      />
     </div>
   );
 }
