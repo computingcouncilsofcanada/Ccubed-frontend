@@ -17,6 +17,7 @@ import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
+import { formatDate } from "@/utils/dateUtils";
 import { Event, EventForm } from "@/types/events";
 import EventStats from "./components/stats/EventStats";
 import EmptyEventsState from "./components/EmptyEventsState";
@@ -47,15 +48,6 @@ function EventsPage() {
   const limit = 10;
   const router = useRouter();
 
-
-
-  const {
-    register: registerUpdate,
-    handleSubmit: handleUpdateSubmit,
-    reset: resetUpdate,
-    formState: { errors: updateErrors },
-  } = useForm<EventForm>();
-
   const fetchEvents = useCallback(async () => {
     try {
       const offset = (page - 1) * limit;
@@ -73,22 +65,185 @@ function EventsPage() {
   const handleUpdateEvent = async (data: EventForm) => {
     if (!selectedEvent) return;
 
+    // Validate required fields
+    if (!data.name?.trim()) {
+      alert("Event name is required");
+      return;
+    }
+    if (!data.description?.trim()) {
+      alert("Event description is required");
+      return;
+    }
+    if (!data.location?.trim()) {
+      alert("Event location is required");
+      return;
+    }
+    if (!data.start_at) {
+      alert("Start time is required");
+      return;
+    }
+    if (!data.end_at) {
+      alert("End time is required");
+      return;
+    }
+    if (!data.types || data.types.length === 0) {
+      alert("Please select at least one event type");
+      return;
+    }
+
     try {
-      const res = await updateEvent(selectedEvent.id.toString(), {
-        name: data.name,
-        description: data.description,
-        start_at: new Date(data.start_at).getTime().toString(),
-        end_at: new Date(data.end_at).getTime().toString(),
-        location: data.location,
-      });
+      const formData = new FormData();
+
+      // Basic fields
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("location", data.location);
+      
+      if (data.registration_link?.trim()) {
+        formData.append("registration_link", data.registration_link);
+      }
+
+      if (data.url !== undefined) {
+        formData.append("url", data.url || "");
+      }
+
+      // Arrays - send as JSON arrays
+      const learningOutcomes = data.learning_outcomes
+        .map((item) => item.value)
+        .filter((item) => item.trim() !== "");
+      formData.append("learning_outcomes", JSON.stringify(learningOutcomes));
+
+      const whatYouNeed = data.what_you_need
+        .map((item) => item.value)
+        .filter((item) => item.trim() !== "");
+      formData.append("what_you_need", JSON.stringify(whatYouNeed));
+
+      const instructors = data.instructors
+        .map((item) => item.value)
+        .filter((item) => item.trim() !== "");
+      formData.append("instructors", JSON.stringify(instructors));
+
+      // Types
+      if (data.types && data.types.length > 0) {
+        data.types.forEach((type) => {
+          formData.append("types", type);
+        });
+      }
+
+      // Ownership and domains - convert from string if needed
+      const ownership = typeof data.ownership === "string"
+        ? (data.ownership as string).split(",").map((item) => item.trim()).filter(Boolean)
+        : data.ownership || [];
+      if (ownership.length > 0) {
+        formData.append("ownership", ownership.join(","));
+      }
+
+      const domains = typeof data.domains === "string"
+        ? (data.domains as string).split(",").map((item) => item.trim()).filter(Boolean)
+        : data.domains || [];
+      if (domains.length > 0) {
+        formData.append("domains", domains.join(","));
+      }
+
+      // Files
+      if (data.files && data.files.length > 0) {
+        Array.from(data.files).forEach((file) => {
+          formData.append("file", file);
+        });
+      }
+
+      // Handle recurrence based on event type
+      let recurrence: {
+        type: "none" | "daily" | "weekly" | "monthly" | "custom";
+        days_of_week?: string[];
+        custom_dates?: string[];
+      };
+
+      const startDate = new Date(data.start_at);
+      const endDate = new Date(data.end_at);
+
+      switch (data.eventType) {
+        case "one-day":
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          recurrence = {
+            type: "none",
+            custom_dates: [formatDate(startDate)],
+          };
+          break;
+
+        case "weekly":
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          recurrence = {
+            type: "weekly",
+            days_of_week: data.selectedDayOfWeek
+              ? [data.selectedDayOfWeek.toLowerCase()]
+              : [],
+          };
+          break;
+
+        case "monthly":
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          recurrence = {
+            type: "monthly",
+            custom_dates: data.monthlyDate ? [data.monthlyDate] : [],
+          };
+          break;
+
+        case "multiple-day":
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          const multipleDaysValue = data.multipleDays;
+          const customDates = typeof multipleDaysValue === "string"
+            ? (multipleDaysValue as string).split("\n").filter((d: string) => d.trim()).map((d: string) => d.trim())
+            : Array.isArray(multipleDaysValue)
+            ? multipleDaysValue
+            : [];
+          recurrence = {
+            type: "custom",
+            custom_dates: customDates,
+          };
+          break;
+
+        default:
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          recurrence = {
+            type: "none",
+            custom_dates: [formatDate(startDate)],
+          };
+      }
+
+      // Append recurrence as JSON
+      formData.append("recurrence", JSON.stringify(recurrence));
+      
+ 
+      const res = await updateEvent(selectedEvent.id.toString(), formData);
       setIsUpdateModalOpen(false);
-      resetUpdate();
       if (res.status === 200) {
-        alert(res.message);
+        alert(res.message || "Event updated successfully!");
         await fetchEvents();
+   
       }
     } catch (err: unknown) {
-      alert(getErrMsg(err));
+      const errorMsg = getErrMsg(err);
+      const axiosError = err as any;
+      const responseData = axiosError?.response?.data;
+      
+      
+      // Try to extract specific validation error from backend
+      let displayMessage = errorMsg;
+      if (responseData?.error) {
+        displayMessage = responseData.error;
+      } else if (responseData?.message) {
+        displayMessage = responseData.message;
+      } else if (responseData?.errors) {
+        displayMessage = JSON.stringify(responseData.errors);
+      }
+      
+      alert(`Validation failed: ${displayMessage}`);
     }
   };
 
@@ -298,13 +453,12 @@ function EventsPage() {
         isOpen={isUpdateModalOpen}
         onClose={() => {
           setIsUpdateModalOpen(false);
-          resetUpdate();
         }}
         selectedEvent={selectedEvent}
-        register={registerUpdate}
-        handleSubmit={handleUpdateSubmit}
         onSubmit={handleUpdateEvent}
-        errors={updateErrors}
+        onSubmitSuccess={() => {
+          setIsUpdateModalOpen(false);
+        }}
       />
 
       <DeleteEventModal

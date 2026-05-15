@@ -100,6 +100,11 @@ export default function CreateEventPage() {
       return;
     }
 
+     if (!data.files || data.files.length === 0) {
+    alert("Please upload at least one image.");
+    return;
+  }
+
     setIsSubmitting(true);
     try {
       const formData = new FormData();
@@ -114,21 +119,21 @@ export default function CreateEventPage() {
         formData.append("url", data.url);
       }
 
-      // Arrays - append as JSON strings or individual items based on backend expectation
+      // Arrays - send as JSON arrays
       const learningOutcomes = data.learning_outcomes
         .map((item) => item.value)
         .filter((item) => item.trim() !== "");
-      formData.append("learning_outcomes", learningOutcomes.join(","));
+      formData.append("learning_outcomes", JSON.stringify(learningOutcomes));
 
       const whatYouNeed = data.what_you_need
         .map((item) => item.value)
         .filter((item) => item.trim() !== "");
-      formData.append("what_you_need", whatYouNeed.join(","));
+      formData.append("what_you_need", JSON.stringify(whatYouNeed));
 
       const instructors = data.instructors
         .map((item) => item.value)
         .filter((item) => item.trim() !== "");
-      formData.append("instructors", instructors.join(","));
+      formData.append("instructors", JSON.stringify(instructors));
 
       selectedTypes.forEach((type) => {
         formData.append("types", type);
