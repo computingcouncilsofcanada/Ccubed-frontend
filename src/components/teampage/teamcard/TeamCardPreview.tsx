@@ -16,7 +16,7 @@ function TeamCardPreview({
   return (
     <div
       onMouseEnter={() => onHoverChange(true)}
-      className={`absolute left-1/2 -translate-x-1/2 bottom-4 z-[120] rounded-full px-4 py-2 flex items-center gap-3 bg-[#10212E]/80 backdrop-blur-sm cursor-pointer transition-[opacity,transform,padding,width] duration-300 ease-out ${
+      className={`absolute left-1/2 -translate-x-1/2 bottom-4 z-120 rounded-full px-4 py-2 flex items-center gap-3 bg-[#10212E]/80 backdrop-blur-sm cursor-pointer transition-[opacity,transform,padding,width] duration-300 ease-out ${
         isOpen
           ? "w-[calc(100%-2rem)] max-w-[calc(100%-2rem)] scale-x-[1.03] scale-y-[1.08] px-8 opacity-0 pointer-events-none"
           : "w-fit max-w-[90%] scale-100 opacity-100"
@@ -39,9 +39,9 @@ function TeamCardPreview({
         <div className="absolute inset-0 bg-[#CCCCCC]/50  rounded-full" />
         <p className="text-white">i</p>
       </div>
-      <div className="flex flex-col leading-tight text-white items-start font-bold tracking-tight whitespace-nowrap ">
-        <p>{name}</p>
-        <p className="text-sm truncate ">{role}</p>
+      <div className="flex flex-col leading-tight text-white items-start text-left overflow-hidden font-bold tracking-tight whitespace-nowrap">
+        <p className="w-full text-sm truncate">{name}</p>
+        <p className="w-full text-sm truncate">{role}</p>
       </div>
     </div>
   );
