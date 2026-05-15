@@ -20,7 +20,7 @@ function TeamCardV2({ imageUrl, name, role, info, linkedin }: TeamCardProps) {
   return (
     <div
       onMouseLeave={() => setIsOverlayOpen(false)}
-      className={`rounded-2xl h-[400px] w-[300px] relative z-100 duration-300 transition-transform ease-out ${
+      className={`rounded-2xl h-95.25 w-68 relative z-100 duration-300 transition-transform ease-out ${
         isOverlayOpen ? "scale-[1.03]" : "scale-100"
       }`}
     >
