@@ -19,6 +19,7 @@ type UpdateUserFormProps = {
 
 const defaultValues: UpdateUserFormValues = {
   username: "",
+  position: "",
   instagram_url: "",
   twitter_url: "",
   avatar_url: "",
@@ -62,6 +63,7 @@ export default function UpdateUserForm({
     const s = (v: unknown) => (typeof v === "string" ? v.trim() : "") === "";
     const strings = [
       watched.username,
+      watched.position,
       watched.instagram_url,
       watched.twitter_url,
       watched.avatar_url,
@@ -98,6 +100,7 @@ export default function UpdateUserForm({
     try {
       const payload: UpdateMeRequestDTO = {
         username: data.username ?? "",
+        position: data.position ?? "",
         instagram_url: data.instagram_url ?? "",
         twitter_url: data.twitter_url ?? "",
         avatar_url: data.avatar_url ?? "",
@@ -136,17 +139,31 @@ export default function UpdateUserForm({
       {/* Username */}
       <div className="bg-neutral-800/50 rounded-xl border border-white/10 p-6">
         <h2 className="text-lg font-semibold text-white mb-4">Account</h2>
-        <div>
-          <label className={labelClass}>Username</label>
-          <input
-            type="text"
-            {...register("username", { required: "Username is required" })}
-            className={inputClass}
-            placeholder="Your username"
-          />
-          {errors.username && (
-            <p className="mt-1 text-sm text-red-400">{errors.username.message}</p>
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className={labelClass}>Username</label>
+            <input
+              type="text"
+              {...register("username", { required: "Username is required" })}
+              className={inputClass}
+              placeholder="Your username"
+            />
+            {errors.username && (
+              <p className="mt-1 text-sm text-red-400">{errors.username.message}</p>
+            )}
+          </div>
+          <div>
+            <label className={labelClass}>Position</label>
+            <input
+              type="text"
+              {...register("position")}
+              className={inputClass}
+              placeholder="e.g. President, Developer"
+            />
+            {errors.position && (
+              <p className="mt-1 text-sm text-red-400">{errors.position.message}</p>
+            )}
+          </div>
         </div>
       </div>
 

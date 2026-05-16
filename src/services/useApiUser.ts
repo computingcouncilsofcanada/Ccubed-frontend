@@ -1,14 +1,17 @@
 import { privateAxios } from "@/lib/axios";
 import {
+    GetUsersParams,
     UpdateMeRequestDTO,
     UpdateUserRequestDetailResponse,
     UpdateUserRequestStatus,
+    UsersListResponse,
 } from "@/types/user.interface";
 
 
 export const updateMe = async (data: UpdateMeRequestDTO) => {
     const formData = new FormData();
     formData.append("username", data.username);
+    formData.append("position", data.position);
     formData.append("instagram_url", data.instagram_url);
     formData.append("twitter_url", data.twitter_url);
     formData.append("avatar_url", data.avatar_url);
@@ -74,3 +77,18 @@ export const checkEmailExists = async (email: string) => {
     });
     return res.data;
 };
+
+export const getUsers = async (params: GetUsersParams = {}): Promise<UsersListResponse> => {
+    const query: Record<string, string | number | boolean> = {};
+    if (params.limit != null) query.limit = params.limit;
+    if (params.offset != null) query.offset = params.offset;
+    if (params.role) query.role = params.role;
+    if (params.status != null) query.status = params.status;
+    if (params.is_verified != null) query.is_verified = params.is_verified;
+    if (params.username) query.username = params.username;
+    if (params.email) query.email = params.email;
+
+    const res = await privateAxios.get<UsersListResponse>("/users", { params: query });
+    return res.data;
+};
+
