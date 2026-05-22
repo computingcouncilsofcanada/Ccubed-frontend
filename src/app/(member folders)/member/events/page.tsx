@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   getAllEvents,
+  getEventById,
   updateEvent,
   deleteEvent,
   approveCreateEvent,
@@ -42,6 +43,7 @@ function EventsPage() {
 
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+  const [isApproveUpdateModalOpen, setIsApproveUpdateModalOpen] = useState(false);
   const [rejectType, setRejectType] = useState<"create" | "update">("create");
 
   const [page, setPage] = useState(1);
@@ -130,25 +132,25 @@ function EventsPage() {
         });
       }
 
-      // Ownership and domains - convert from string if needed
       const ownership = typeof data.ownership === "string"
         ? (data.ownership as string).split(",").map((item) => item.trim()).filter(Boolean)
         : data.ownership || [];
-      if (ownership.length > 0) {
-        formData.append("ownership", ownership.join(","));
-      }
+      formData.append("ownership", ownership.length > 0 ? ownership.join(",") : " ");
 
       const domains = typeof data.domains === "string"
         ? (data.domains as string).split(",").map((item) => item.trim()).filter(Boolean)
         : data.domains || [];
-      if (domains.length > 0) {
-        formData.append("domains", domains.join(","));
-      }
+      formData.append("domains", domains.length > 0 ? domains.join(",") : " ");
 
       // Files
       if (data.files && data.files.length > 0) {
         Array.from(data.files).forEach((file) => {
           formData.append("file", file);
+        });
+      } else if (!data.removeExistingFiles && data.existingFileIds?.length) {
+        // No new file uploaded and user didn't explicitly remove — keep existing files
+        data.existingFileIds.forEach((id) => {
+          formData.append("existing_file_ids", id);
         });
       }
 
@@ -222,11 +224,8 @@ function EventsPage() {
  
       const res = await updateEvent(selectedEvent.id.toString(), formData);
       setIsUpdateModalOpen(false);
-      if (res.status === 200) {
-        alert(res.message || "Event updated successfully!");
-        await fetchEvents();
-   
-      }
+      await fetchEvents();
+      alert(res.message || "Event updated successfully!");
     } catch (err: unknown) {
       const errorMsg = getErrMsg(err);
       const axiosError = err as any;
@@ -296,6 +295,7 @@ function EventsPage() {
       const res = await approveUpdateEvent(selectedEvent.id.toString());
       if (res.status === 200) {
         alert(res.message);
+        setIsApproveUpdateModalOpen(false);
         await fetchEvents();
       }
     } catch (err: unknown) {
@@ -334,7 +334,18 @@ function EventsPage() {
         router.push("/member/events/create");
         break;
       case "update":
-        setIsUpdateModalOpen(true);
+        if (event) {
+          getEventById(event.id.toString())
+            .then((res) => {
+              setSelectedEvent(res.data ?? res);
+              setIsUpdateModalOpen(true);
+            })
+            .catch(() => {
+              setIsUpdateModalOpen(true);
+            });
+        } else {
+          setIsUpdateModalOpen(true);
+        }
         break;
       case "delete":
         setIsDeleteModalOpen(true);
@@ -347,7 +358,7 @@ function EventsPage() {
         setIsRejectModalOpen(true);
         break;
       case "approve-update":
-        handleApproveUpdateEvent();
+        setIsApproveUpdateModalOpen(true);
         break;
       case "reject-update":
         setRejectType("update");
@@ -482,6 +493,14 @@ function EventsPage() {
         isOpen={isApproveModalOpen}
         onClose={() => setIsApproveModalOpen(false)}
         onConfirm={handleApproveCreateEvent}
+      />
+
+      <ApproveEventModal
+        isOpen={isApproveUpdateModalOpen}
+        onClose={() => setIsApproveUpdateModalOpen(false)}
+        onConfirm={handleApproveUpdateEvent}
+        title="Approve Event Update"
+        message="Are you sure you want to approve this event update?"
       />
     </div>
   );
