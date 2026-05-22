@@ -45,7 +45,9 @@ export default function UpdateEventModal({
 }: UpdateEventModalProps) {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isExistingImage, setIsExistingImage] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imgLoadError, setImgLoadError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -155,29 +157,36 @@ export default function UpdateEventModal({
       setValue("eventType", "one-day");
     }
 
+    // Existing files
+    const existingIds = (selectedEvent.files || []).map((f) => f.id);
+    setValue("existingFileIds", existingIds);
+    setValue("removeExistingFiles", false);
+
     // Image preview
     const firstFileUrl = selectedEvent.files?.[0]?.url;
-setImagePreview(firstFileUrl || null);
+    setImagePreview(firstFileUrl || null);
+    setIsExistingImage(!!firstFileUrl);
   }, [selectedEvent, reset, setValue]);
 
   // Handle new file uploads — FileList is not a plain array, guard with instanceof
   useEffect(() => {
-    if (!files || !(files instanceof FileList) || files.length === 0) {
-      console.log("No files detected in watch:", { files, isFileList: files instanceof FileList });
-      return;
-    }
-    console.log("Files detected in watch:", { count: files.length, names: Array.from(files).map(f => f.name) });
+    if (!files || !(files instanceof FileList) || files.length === 0) return;
     const file = files[0];
     if (file?.type?.startsWith("image/")) {
       const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result as string);
-      reader.onerror = () => {
-        console.error("Failed to read file:", file.name);
-        setImagePreview(null);
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+        setIsExistingImage(false);
       };
+      reader.onerror = () => setImagePreview(null);
       reader.readAsDataURL(file);
     }
   }, [files]);
+
+  // Reset load error whenever the preview source changes
+  useEffect(() => {
+    setImgLoadError(false);
+  }, [imagePreview]);
 
   // Clean up file input when modal closes
   useEffect(() => {
@@ -282,28 +291,66 @@ setImagePreview(firstFileUrl || null);
                 Event Image
               </label>
               <div className="flex gap-4 items-start">
-                <div className="w-32 h-32 rounded-lg overflow-hidden bg-gray-700 border-2 border-gray-600 flex items-center justify-center">
+                <div className="relative w-32 h-32 rounded-lg overflow-hidden bg-gray-700 border-2 border-gray-600 flex items-center justify-center flex-shrink-0">
                   {imagePreview ? (
-                    <img
-                      src={imagePreview}
-                      alt="Event preview"
-                      className="w-full h-full object-cover"
-                    />
+                    <>
+                      {imgLoadError ? (
+                        <a
+                          href={imagePreview}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex flex-col items-center gap-1 p-2 text-center hover:opacity-80 transition-opacity"
+                          title="Click to view image in new tab"
+                        >
+                          <IconImage size={24} className="text-[#FAA336]" />
+                          <span className="text-xs text-[#FAA336] font-medium">View image</span>
+                        </a>
+                      ) : (
+                        <img
+                          src={imagePreview}
+                          alt="Event preview"
+                          className="w-full h-full object-cover"
+                          onError={() => setImgLoadError(true)}
+                        />
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setImagePreview(null);
+                          setIsExistingImage(false);
+                          setValue("removeExistingFiles", true);
+                          setValue("existingFileIds", []);
+                          if (fileInputRef.current) fileInputRef.current.value = "";
+                        }}
+                        className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white rounded-full p-0.5 transition-colors"
+                        title="Remove image"
+                      >
+                        <IconX size={14} />
+                      </button>
+                      <span className="absolute bottom-0 left-0 right-0 text-center text-xs py-0.5 bg-black/50 text-gray-300">
+                        {isExistingImage ? "Current" : "New"}
+                      </span>
+                    </>
                   ) : (
                     <IconImage size={32} className="text-gray-500" />
                   )}
                 </div>
                 <div className="flex-1">
                   <input
-                    ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     multiple
                     {...register("files")}
+                    ref={(e) => {
+                      register("files").ref(e);
+                      (fileInputRef as React.MutableRefObject<HTMLInputElement | null>).current = e;
+                    }}
                     className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#FAA336] file:text-white hover:file:bg-[#F59527]"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Upload an image for the event (optional)
+                    {imagePreview && isExistingImage
+                      ? "A new upload will replace the current image. Leave empty to keep it."
+                      : "Upload an image for the event (optional)"}
                   </p>
                 </div>
               </div>
