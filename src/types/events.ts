@@ -110,6 +110,8 @@ export interface EventForm {
   ownership?: string[];
   domains?: string[];
   files?: FileList;
+  existingFileIds?: string[];
+  removeExistingFiles?: boolean;
   eventType: "one-day" | "weekly" | "monthly" | "multiple-day";
   selectedDayOfWeek?: string;
   multipleDays?: string[];
