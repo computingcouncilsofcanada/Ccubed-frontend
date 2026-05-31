@@ -5,12 +5,11 @@ import { ArticleBody } from "./SpecificCouncilArticleComponents";
 import { CouncilSection } from "../types/types";
 import { EventCard } from "@/components/shared/EventCard";
 import { Events } from "@/types/events";
-// import { privateAxios } from "@/lib/axios";
+import { privateAxios } from "@/lib/axios";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import { isEventPast } from "@/app/events/utils/eventUtils";
 import Image from "next/image";
 import { mockMembers } from "@/data/mockMembers";
-import { mockEvents } from "@/data/mockEvents";
 import { mockArticles } from "@/data/mockArticles";
 import TeamCard from "@/components/essentials/TeamCard";
 
@@ -256,12 +255,6 @@ export const EventsSection = ({
   };
   // Fetch events from backend
   useEffect(() => {
-    // const fetchEvents = async () => {
-    //   try {
-    //     setLoading(true);
-    //     const res = await privateAxios.get("/events");
-    const transformedEvents = transformApiEvents(mockEvents);
-
     const mapDomainToCouncil = (domain: string) => {
       const normalized = domain.toLowerCase();
 
@@ -273,51 +266,41 @@ export const EventsSection = ({
       return domain; // fallback
     };
 
-    const councilEvents = transformedEvents
-      .map((event) => ({
-        ...event,
-        domains: (event.domains ?? []).map(mapDomainToCouncil),
-      }))
-      .filter((event) => {
-        return event.domains?.includes(council.title);
-      })
-      .sort((a, b) => {
-        const dateStrA = (a.date || "").trim().toUpperCase();
-        const dateStrB = (b.date || "").trim().toUpperCase();
-        const aTBD = !a.date || dateStrA === "TBD";
-        const bTBD = !b.date || dateStrB === "TBD";
-        if (aTBD && bTBD) return 0;
-        if (aTBD) return -1;
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        return dateB.getTime() - dateA.getTime();
-      })
-      .slice(0, 4);
+    const fetchEvents = async () => {
+      try {
+        const res = await privateAxios.get("/events");
+        const transformedEvents = transformApiEvents(res.data.data);
 
-    setCouncilEvents(councilEvents);
+        const filteredCouncilEvents = transformedEvents
+          .map((event) => ({
+            ...event,
+            domains: (event.domains ?? []).map(mapDomainToCouncil),
+          }))
+          .filter((event) => {
+            return event.domains?.includes(council.title);
+          })
+          .sort((a, b) => {
+            const dateStrA = (a.date || "").trim().toUpperCase();
+            const dateStrB = (b.date || "").trim().toUpperCase();
+            const aTBD = !a.date || dateStrA === "TBD";
+            const bTBD = !b.date || dateStrB === "TBD";
+            if (aTBD && bTBD) return 0;
+            if (aTBD) return -1;
+            const dateA = new Date(a.date);
+            const dateB = new Date(b.date);
+            return dateB.getTime() - dateA.getTime();
+          })
+          .slice(0, 4);
 
-    // Filter active events, get future events, sort by date (earliest first), and take only 4
-    //     const now = new Date();
-    //     const activeFutureEvents = transformedEvents
-    //       .filter((event) => event.status !== 0)
-    //       .filter((event) => new Date(event.date) > now)
-    //       .sort((a, b) => {
-    //         const dateA = new Date(a.date);
-    //         const dateB = new Date(b.date);
-    //         return dateA.getTime() - dateB.getTime(); // Earliest first
-    //       })
-    //       .slice(0, 4) // Take only 4 events
-    //       .map((event) => ({ ...event, url: `/events/${event.id}` })); // Add missing url property
-    //     setCouncilEvents(activeFutureEvents);
-    //   } catch (error: unknown) {
-    //     console.error("Error fetching events:", error);
-    //     // Fallback to empty array
-    //     setCouncilEvents([]);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-  }, [mockEvents]);
+        setCouncilEvents(filteredCouncilEvents);
+      } catch (error: unknown) {
+        console.error("Error fetching events:", error);
+        setCouncilEvents([]);
+      }
+    };
+
+    fetchEvents();
+  }, [council.title]);
 
   return (
     <motion.div
