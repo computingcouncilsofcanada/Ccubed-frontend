@@ -13,6 +13,7 @@ type UserData = {
   department: string | null;
   email: string;
   username: string;
+  position?: string | null;
   role: string;
   status: number;
   created_at: string;
@@ -266,6 +267,14 @@ const Page = () => {
                   {userData?.department || "Not provided"}
                 </div>
               </div>
+              <div>
+                <h2 className="text-sm font-medium text-gray-400 mb-1">
+                  Position
+                </h2>
+                <div className="px-3 py-2 rounded-lg bg-[#D9D9D9] text-black text-sm">
+                  {userData?.position || "Not provided"}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -280,6 +289,7 @@ const Page = () => {
               key={userData?.id ?? "loading"}
               initialData={{
                 username: userData?.username ?? "",
+                position: userData?.position ?? "",
                 instagram_url: userData?.instagram_url ?? "",
                 twitter_url: userData?.twitter_url ?? "",
                 avatar_url: userData?.avatar_url ?? "",
