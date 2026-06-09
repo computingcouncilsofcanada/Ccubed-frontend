@@ -16,6 +16,7 @@ import {
   IconUpload,
 } from "@tabler/icons-react";
 import { typeOptions } from "../../create/constants";
+import Image from "next/image";
 
 interface UpdateEventModalProps {
   isOpen: boolean;
@@ -186,9 +187,7 @@ export default function UpdateEventModal({
     );
   }, [selectedEvent, reset, setValue]);
 
-
   // Reset load error whenever the preview source changes
-
 
   // Clean up file input when modal closes
   useEffect(() => {
@@ -346,10 +345,11 @@ export default function UpdateEventModal({
                 <div className="relative w-32 h-32 rounded-lg overflow-hidden bg-gray-700 border-2 border-gray-600 flex items-center justify-center flex-shrink-0">
                   {previews.length > 0 ? (
                     <>
-                      <img
+                      <Image
                         src={previews[currentIndex].url}
                         alt="Event preview"
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
 
                       {/* Remove button */}

@@ -157,7 +157,7 @@ function EventsPage() {
       // Files
       const keptIds = data.existingFileIds || [];
       if (keptIds.length > 0) {
-        keptIds.forEach((id) => formData.append("existingFileIds", id));
+        formData.append("existingFileIds", keptIds.join(","));
       }
       newFiles.forEach((file) => formData.append("file", file));
 
