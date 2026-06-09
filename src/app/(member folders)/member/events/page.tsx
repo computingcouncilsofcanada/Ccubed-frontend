@@ -43,7 +43,8 @@ function EventsPage() {
 
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
-  const [isApproveUpdateModalOpen, setIsApproveUpdateModalOpen] = useState(false);
+  const [isApproveUpdateModalOpen, setIsApproveUpdateModalOpen] =
+    useState(false);
   const [rejectType, setRejectType] = useState<"create" | "update">("create");
 
   const [page, setPage] = useState(1);
@@ -64,7 +65,7 @@ function EventsPage() {
     fetchEvents();
   }, [fetchEvents]);
 
-  const handleUpdateEvent = async (data: EventForm) => {
+  const handleUpdateEvent = async (data: EventForm, newFiles: File[]) => {
     if (!selectedEvent) return;
 
     // Validate required fields
@@ -100,7 +101,7 @@ function EventsPage() {
       formData.append("name", data.name);
       formData.append("description", data.description);
       formData.append("location", data.location);
-      
+
       if (data.registration_link?.trim()) {
         formData.append("registration_link", data.registration_link);
       }
@@ -132,27 +133,33 @@ function EventsPage() {
         });
       }
 
-      const ownership = typeof data.ownership === "string"
-        ? (data.ownership as string).split(",").map((item) => item.trim()).filter(Boolean)
-        : data.ownership || [];
-      formData.append("ownership", ownership.length > 0 ? ownership.join(",") : " ");
+      const ownership =
+        typeof data.ownership === "string"
+          ? (data.ownership as string)
+              .split(",")
+              .map((item) => item.trim())
+              .filter(Boolean)
+          : data.ownership || [];
+      formData.append(
+        "ownership",
+        ownership.length > 0 ? ownership.join(",") : " ",
+      );
 
-      const domains = typeof data.domains === "string"
-        ? (data.domains as string).split(",").map((item) => item.trim()).filter(Boolean)
-        : data.domains || [];
+      const domains =
+        typeof data.domains === "string"
+          ? (data.domains as string)
+              .split(",")
+              .map((item) => item.trim())
+              .filter(Boolean)
+          : data.domains || [];
       formData.append("domains", domains.length > 0 ? domains.join(",") : " ");
 
       // Files
-      if (data.files && data.files.length > 0) {
-        Array.from(data.files).forEach((file) => {
-          formData.append("file", file);
-        });
-      } else if (!data.removeExistingFiles && data.existingFileIds?.length) {
-        // No new file uploaded and user didn't explicitly remove — keep existing files
-        data.existingFileIds.forEach((id) => {
-          formData.append("existing_file_ids", id);
-        });
+      const keptIds = data.existingFileIds || [];
+      if (keptIds.length > 0) {
+        keptIds.forEach((id) => formData.append("existingFileIds", id));
       }
+      newFiles.forEach((file) => formData.append("file", file));
 
       // Handle recurrence based on event type
       let recurrence: {
@@ -198,11 +205,15 @@ function EventsPage() {
           formData.append("start_at", startDate.getTime().toString());
           formData.append("end_at", endDate.getTime().toString());
           const multipleDaysValue = data.multipleDays;
-          const customDates = typeof multipleDaysValue === "string"
-            ? (multipleDaysValue as string).split("\n").filter((d: string) => d.trim()).map((d: string) => d.trim())
-            : Array.isArray(multipleDaysValue)
-            ? multipleDaysValue
-            : [];
+          const customDates =
+            typeof multipleDaysValue === "string"
+              ? (multipleDaysValue as string)
+                  .split("\n")
+                  .filter((d: string) => d.trim())
+                  .map((d: string) => d.trim())
+              : Array.isArray(multipleDaysValue)
+                ? multipleDaysValue
+                : [];
           recurrence = {
             type: "custom",
             custom_dates: customDates,
@@ -220,8 +231,7 @@ function EventsPage() {
 
       // Append recurrence as JSON
       formData.append("recurrence", JSON.stringify(recurrence));
-      
- 
+
       const res = await updateEvent(selectedEvent.id.toString(), formData);
       setIsUpdateModalOpen(false);
       await fetchEvents();
@@ -230,8 +240,7 @@ function EventsPage() {
       const errorMsg = getErrMsg(err);
       const axiosError = err as any;
       const responseData = axiosError?.response?.data;
-      
-      
+
       // Try to extract specific validation error from backend
       let displayMessage = errorMsg;
       if (responseData?.error) {
@@ -241,7 +250,7 @@ function EventsPage() {
       } else if (responseData?.errors) {
         displayMessage = JSON.stringify(responseData.errors);
       }
-      
+
       alert(`Validation failed: ${displayMessage}`);
     }
   };
@@ -326,7 +335,7 @@ function EventsPage() {
       | "approve-create"
       | "reject-create"
       | "approve-update"
-      | "reject-update"
+      | "reject-update",
   ) => {
     setSelectedEvent(event);
     switch (type) {
@@ -367,15 +376,11 @@ function EventsPage() {
     }
   };
 
-
-
   if (!user) {
     return null;
   }
 
   const columns = createEventTableColumns(openModal);
-
-
 
   return (
     <div className="min-h-screen  text-white p-6">
@@ -399,17 +404,14 @@ function EventsPage() {
         <div
           className="absolute top-0 left-6 right-6 h-px rounded-full"
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
           }}
         />
 
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-
           <div>
-
-
-
             <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
               <Image
                 src="/FigmaFiles/ccubed-icon.svg"

@@ -21,10 +21,9 @@ interface UpdateEventModalProps {
   isOpen: boolean;
   onClose: () => void;
   selectedEvent: Event | null;
-  onSubmit: (data: EventForm) => void;
+  onSubmit: (data: EventForm, newFiles: File[]) => void;
   onSubmitSuccess?: () => void;
 }
-
 
 function toLocalDateTimeInput(timestamp: string): string {
   const date = new Date(parseInt(timestamp));
@@ -36,6 +35,9 @@ function toLocalDateTimeInput(timestamp: string): string {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
+type PreviewItem =
+  | { kind: "existing"; id: string; url: string; name: string }
+  | { kind: "new"; url: string; file: File };
 export default function UpdateEventModal({
   isOpen,
   onClose,
@@ -44,11 +46,11 @@ export default function UpdateEventModal({
   onSubmitSuccess,
 }: UpdateEventModalProps) {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isExistingImage, setIsExistingImage] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imgLoadError, setImgLoadError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [previews, setPreviews] = useState<PreviewItem[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [newFiles, setNewFiles] = useState<File[]>([]);
 
   const {
     register,
@@ -68,7 +70,6 @@ export default function UpdateEventModal({
     },
   });
 
-  const files = watch("files");
   const eventType = watch("eventType");
 
   // Field arrays
@@ -101,7 +102,6 @@ export default function UpdateEventModal({
       registration_link: selectedEvent.registration_link || "",
       url: selectedEvent.url || "",
 
- 
       start_at: selectedEvent.start_at
         ? toLocalDateTimeInput(selectedEvent.start_at)
         : "",
@@ -110,7 +110,8 @@ export default function UpdateEventModal({
         : "",
 
       learning_outcomes:
-        selectedEvent.learning_outcomes && selectedEvent.learning_outcomes.length > 0
+        selectedEvent.learning_outcomes &&
+        selectedEvent.learning_outcomes.length > 0
           ? selectedEvent.learning_outcomes.map((v) => ({ value: v }))
           : [{ value: "" }],
       what_you_need:
@@ -144,14 +145,20 @@ export default function UpdateEventModal({
         const day = selectedEvent.recurrence.days_of_week?.[0] || "";
         setValue(
           "selectedDayOfWeek",
-          day ? day.charAt(0).toUpperCase() + day.slice(1) : ""
+          day ? day.charAt(0).toUpperCase() + day.slice(1) : "",
         );
       } else if (recType === "monthly") {
         setValue("eventType", "monthly");
-        setValue("monthlyDate", selectedEvent.recurrence.custom_dates?.[0] || "");
+        setValue(
+          "monthlyDate",
+          selectedEvent.recurrence.custom_dates?.[0] || "",
+        );
       } else if (recType === "custom") {
         setValue("eventType", "multiple-day");
-        setValue("multipleDays", selectedEvent.recurrence.custom_dates || ([] as any));
+        setValue(
+          "multipleDays",
+          selectedEvent.recurrence.custom_dates || ([] as any),
+        );
       }
     } else {
       setValue("eventType", "one-day");
@@ -163,30 +170,25 @@ export default function UpdateEventModal({
     setValue("removeExistingFiles", false);
 
     // Image preview
-    const firstFileUrl = selectedEvent.files?.[0]?.url;
-    setImagePreview(firstFileUrl || null);
-    setIsExistingImage(!!firstFileUrl);
+    setPreviews(
+      (selectedEvent.files || []).map((f) => ({
+        kind: "existing" as const,
+        id: f.id,
+        url: f.url,
+        name: f.name,
+      })),
+    );
+    setCurrentIndex(0);
+    setNewFiles([]);
+    setValue(
+      "existingFileIds",
+      (selectedEvent.files || []).map((f) => f.id),
+    );
   }, [selectedEvent, reset, setValue]);
 
-  // Handle new file uploads — FileList is not a plain array, guard with instanceof
-  useEffect(() => {
-    if (!files || !(files instanceof FileList) || files.length === 0) return;
-    const file = files[0];
-    if (file?.type?.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-        setIsExistingImage(false);
-      };
-      reader.onerror = () => setImagePreview(null);
-      reader.readAsDataURL(file);
-    }
-  }, [files]);
 
   // Reset load error whenever the preview source changes
-  useEffect(() => {
-    setImgLoadError(false);
-  }, [imagePreview]);
+
 
   // Clean up file input when modal closes
   useEffect(() => {
@@ -205,6 +207,51 @@ export default function UpdateEventModal({
     });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const picked = Array.from(e.target.files || []).filter((f) =>
+      f.type.startsWith("image/"),
+    );
+    if (!picked.length) return;
+
+    const newItems: PreviewItem[] = [];
+    let loaded = 0;
+
+    picked.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        newItems[index] = { kind: "new", url: reader.result as string, file };
+        loaded++;
+        if (loaded === picked.length) {
+          setPreviews((prev) => [...prev, ...newItems.filter(Boolean)]);
+          setNewFiles((prev) => [...prev, ...picked]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // reset input so same files can be re-selected if needed
+    e.target.value = "";
+  };
+
+  const handleRemove = (index: number) => {
+    const item = previews[index];
+
+    if (item.kind === "existing") {
+      const keptIds = previews
+        .filter((p, i) => i !== index && p.kind === "existing")
+        .map((p) => (p as Extract<PreviewItem, { kind: "existing" }>).id);
+      setValue("existingFileIds", keptIds);
+    } else {
+      setNewFiles((prev) => prev.filter((f) => f !== item.file));
+    }
+
+    setPreviews((prev) => {
+      const next = prev.filter((_, i) => i !== index);
+      setCurrentIndex((i) => Math.min(i, Math.max(next.length - 1, 0)));
+      return next;
+    });
+  };
+
   const handleFormSubmit = async (data: EventForm) => {
     if (selectedTypes.length === 0) {
       alert("Please select at least one event type (Online or In Person)");
@@ -219,13 +266,15 @@ export default function UpdateEventModal({
     console.log("UpdateEventModal handleFormSubmit - finalData:", {
       hasFiles: !!finalData.files,
       filesCount: finalData.files?.length,
-      fileNames: finalData.files ? Array.from(finalData.files).map(f => f.name) : [],
+      fileNames: finalData.files
+        ? Array.from(finalData.files).map((f) => f.name)
+        : [],
     });
 
     setIsSubmitting(true);
     try {
-      await onSubmit(finalData);
-      
+      await onSubmit(finalData, newFiles); // <-- pass newFiles here
+
       // Notify parent of successful submission
       if (onSubmitSuccess) {
         onSubmitSuccess();
@@ -272,7 +321,9 @@ export default function UpdateEventModal({
                 Description <span className="text-red-400">*</span>
               </label>
               <textarea
-                {...register("description", { required: "Description is required" })}
+                {...register("description", {
+                  required: "Description is required",
+                })}
                 rows={4}
                 className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all resize-none bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter event description"
@@ -288,69 +339,120 @@ export default function UpdateEventModal({
             <div>
               <label className="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
                 <IconUpload size={16} className="text-gray-400" />
-                Event Image
+                Event Images
               </label>
               <div className="flex gap-4 items-start">
+                {/* Carousel preview */}
                 <div className="relative w-32 h-32 rounded-lg overflow-hidden bg-gray-700 border-2 border-gray-600 flex items-center justify-center flex-shrink-0">
-                  {imagePreview ? (
+                  {previews.length > 0 ? (
                     <>
-                      {imgLoadError ? (
-                        <a
-                          href={imagePreview}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex flex-col items-center gap-1 p-2 text-center hover:opacity-80 transition-opacity"
-                          title="Click to view image in new tab"
-                        >
-                          <IconImage size={24} className="text-[#FAA336]" />
-                          <span className="text-xs text-[#FAA336] font-medium">View image</span>
-                        </a>
-                      ) : (
-                        <img
-                          src={imagePreview}
-                          alt="Event preview"
-                          className="w-full h-full object-cover"
-                          onError={() => setImgLoadError(true)}
-                        />
-                      )}
+                      <img
+                        src={previews[currentIndex].url}
+                        alt="Event preview"
+                        className="w-full h-full object-cover"
+                      />
+
+                      {/* Remove button */}
                       <button
                         type="button"
-                        onClick={() => {
-                          setImagePreview(null);
-                          setIsExistingImage(false);
-                          setValue("removeExistingFiles", true);
-                          setValue("existingFileIds", []);
-                          if (fileInputRef.current) fileInputRef.current.value = "";
-                        }}
+                        onClick={() => handleRemove(currentIndex)}
                         className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white rounded-full p-0.5 transition-colors"
                         title="Remove image"
                       >
                         <IconX size={14} />
                       </button>
+
+                      {/* Current/New badge */}
                       <span className="absolute bottom-0 left-0 right-0 text-center text-xs py-0.5 bg-black/50 text-gray-300">
-                        {isExistingImage ? "Current" : "New"}
+                        {previews[currentIndex].kind === "existing"
+                          ? "Saved"
+                          : "New"}
                       </span>
+
+                      {/* Arrows */}
+                      {previews.length > 1 && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setCurrentIndex(
+                                (i) =>
+                                  (i - 1 + previews.length) % previews.length,
+                              )
+                            }
+                            className="absolute left-1 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-0.5 transition-all"
+                          >
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                            >
+                              <path
+                                d="M15 18L9 12L15 6"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setCurrentIndex((i) => (i + 1) % previews.length)
+                            }
+                            className="absolute right-1 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-0.5 transition-all"
+                          >
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                            >
+                              <path
+                                d="M9 18L15 12L9 6"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </button>
+
+                          {/* Dot indicators */}
+                          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-1">
+                            {previews.map((_, i) => (
+                              <button
+                                key={i}
+                                type="button"
+                                onClick={() => setCurrentIndex(i)}
+                                className={`w-1 h-1 rounded-full transition-all ${i === currentIndex ? "bg-white" : "bg-white/40"}`}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      )}
                     </>
                   ) : (
                     <IconImage size={32} className="text-gray-500" />
                   )}
                 </div>
+
+                {/* File input */}
                 <div className="flex-1">
                   <input
                     type="file"
                     accept="image/*"
                     multiple
-                    {...register("files")}
-                    ref={(e) => {
-                      register("files").ref(e);
-                      (fileInputRef as React.MutableRefObject<HTMLInputElement | null>).current = e;
-                    }}
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
                     className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#FAA336] file:text-white hover:file:bg-[#F59527]"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    {imagePreview && isExistingImage
-                      ? "A new upload will replace the current image. Leave empty to keep it."
-                      : "Upload an image for the event (optional)"}
+                    {previews.length > 0
+                      ? `${previews.length} image${previews.length > 1 ? "s" : ""} — click arrows to browse, ✕ to remove`
+                      : "Upload images for the event (optional)"}
                   </p>
                 </div>
               </div>
@@ -369,7 +471,9 @@ export default function UpdateEventModal({
                 Event Type <span className="text-red-400">*</span>
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {(["one-day", "weekly", "monthly", "multiple-day"] as const).map((type) => (
+                {(
+                  ["one-day", "weekly", "monthly", "multiple-day"] as const
+                ).map((type) => (
                   <button
                     key={type}
                     type="button"
@@ -397,7 +501,9 @@ export default function UpdateEventModal({
                 </label>
                 <input
                   type="datetime-local"
-                  {...register("start_at", { required: "Start time is required" })}
+                  {...register("start_at", {
+                    required: "Start time is required",
+                  })}
                   className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white"
                 />
                 {errors.start_at && (
@@ -437,13 +543,19 @@ export default function UpdateEventModal({
                   className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white"
                 >
                   <option value="">Select a day</option>
-                  {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
-                    (d) => (
-                      <option key={d} value={d}>
-                        {d}
-                      </option>
-                    )
-                  )}
+                  {[
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                  ].map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
                 </select>
               </div>
             )}
@@ -464,7 +576,8 @@ export default function UpdateEventModal({
             {eventType === "multiple-day" && (
               <div className="mb-4">
                 <label className="block text-sm font-semibold text-gray-300 mb-2">
-                  Multiple Days (one per line) <span className="text-red-400">*</span>
+                  Multiple Days (one per line){" "}
+                  <span className="text-red-400">*</span>
                 </label>
                 <textarea
                   {...register("multipleDays" as any)}
@@ -530,7 +643,9 @@ export default function UpdateEventModal({
 
           {/* ── Event Details ─────────────────────────────────────────────── */}
           <div className="bg-white/5 rounded-xl p-5 border border-white/10">
-            <h3 className="text-lg font-semibold text-white mb-4">Event Details</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Event Details
+            </h3>
 
             <div className="mb-6">
               <label className="block text-sm font-semibold text-gray-300 mb-2">
