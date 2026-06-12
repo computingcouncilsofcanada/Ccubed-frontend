@@ -22,7 +22,8 @@ export default function CreateEventPage() {
   const router = useRouter();
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
 
   const {
     register,
@@ -44,19 +45,35 @@ export default function CreateEventPage() {
 
   React.useEffect(() => {
     if (files && files.length > 0) {
-      const file = files[0];
-      if (file && file.type && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onloadend = () => setImagePreview(reader.result as string);
-        reader.readAsDataURL(file);
-      } else {
-        setImagePreview(null);
-      }
+      const previews: string[] = [];
+      const fileArray = Array.from(files);
+      let loaded = 0;
+
+      fileArray.forEach((file, index) => {
+        if (file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            previews[index] = reader.result as string;
+            loaded++;
+            if (loaded === fileArray.length) {
+              setImagePreviews(previews.filter(Boolean));
+              setCurrentPreviewIndex(0);
+            }
+          };
+          reader.readAsDataURL(file);
+        } else {
+          loaded++;
+          if (loaded === fileArray.length) {
+            setImagePreviews(previews.filter(Boolean));
+            setCurrentPreviewIndex(0);
+          }
+        }
+      });
     } else {
-      setImagePreview(null);
+      setImagePreviews([]);
+      setCurrentPreviewIndex(0);
     }
   }, [files]);
-
   const {
     fields: learningOutcomeFields,
     append: appendLearningOutcome,
@@ -90,7 +107,7 @@ export default function CreateEventPage() {
     if (!isLoading) {
       if (!user) {
         router.push("/");
-      } 
+      }
     }
   }, [user, isLoading, router]);
 
@@ -100,10 +117,10 @@ export default function CreateEventPage() {
       return;
     }
 
-     if (!data.files || data.files.length === 0) {
-    alert("Please upload at least one image.");
-    return;
-  }
+    if (!data.files || data.files.length === 0) {
+      alert("Please upload at least one image.");
+      return;
+    }
 
     setIsSubmitting(true);
     try {
@@ -114,7 +131,7 @@ export default function CreateEventPage() {
       formData.append("description", data.description);
       formData.append("location", data.location);
       formData.append("registration_link", data.registration_link);
-      
+
       if (data.url) {
         formData.append("url", data.url);
       }
@@ -198,11 +215,15 @@ export default function CreateEventPage() {
           formData.append("start_at", startDate.getTime().toString());
           formData.append("end_at", endDate.getTime().toString());
           const multipleDaysValue = data.multipleDays;
-          const customDates = typeof multipleDaysValue === "string"
-            ? (multipleDaysValue as string).split("\n").filter((d: string) => d.trim()).map((d: string) => d.trim())
-            : Array.isArray(multipleDaysValue)
-            ? multipleDaysValue
-            : [];
+          const customDates =
+            typeof multipleDaysValue === "string"
+              ? (multipleDaysValue as string)
+                  .split("\n")
+                  .filter((d: string) => d.trim())
+                  .map((d: string) => d.trim())
+              : Array.isArray(multipleDaysValue)
+                ? multipleDaysValue
+                : [];
           recurrence = {
             type: "custom",
             custom_dates: customDates,
@@ -234,126 +255,218 @@ export default function CreateEventPage() {
     }
   };
 
-  if (!user ) {
+  if (!user) {
     return null;
   }
 
   return (
     <div className="min-h-screen relative w-full overflow-hidden overflow-x-hidden bg-gradient-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-30">
       <BgBoxMainPage maxHeight={400} enableGlow={true} />
-      
+
       <div className="p-6 max-w-5xl mx-auto relative z-10">
- 
         {/* Header */}
-      <div className="mb-8">
-        <Link
-          href={`/member/events`}
-          className="inline-flex items-center gap-2 text-gray-300 hover:text-[#7C3AED] transition-colors mb-4 group"
-        >
-          <IconArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="font-medium">Back to Events</span>
-        </Link>
-        <div>
-          <h1 className="text-5xl font-bold text-white mb-2">Create New Event</h1>
-          <p className="text-lg text-gray-200">Fill in the details below to create a new event</p>
-        </div>
-      </div>
-
-      {/* Form */}
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        {/* First row: Basic Info + right-side preview on large screens */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          <div className="lg:col-span-2">
-            <BasicInformationCard register={register} errors={errors} />
-          </div>
-
-          <div className="hidden lg:flex lg:col-span-1">
-            <div className="w-full h-64 rounded-xl overflow-hidden bg-white/80 border border-white/10 shadow-md flex items-center justify-center">
-              {imagePreview ? (
-                <img src={imagePreview} alt="Event preview" className="w-full h-full object-cover" />
-              ) : (
-                // Placeholder — replace with Image component or src as needed
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
-                  <rect x="3" y="3" width="18" height="18" rx="6" fill="#F3F4F6" />
-                  <path d="M8 13.5L10.5 10L13 13.5L16.5 9.5L21 15V18H3V15L8 13.5Z" fill="#E5E7EB" />
-                </svg>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Combined Card: Schedule, Location & Details */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-xl shadow-sm border border-white/10 p-6">
-          <ScheduleRecurrenceCard
-            register={register}
-            errors={errors}
-            eventType={eventType}
-          />
-
-          <LocationLinksCard register={register} errors={errors} />
-
-          <EventDetailsCard
-            register={register}
-            learningOutcomeFields={learningOutcomeFields}
-            appendLearningOutcome={appendLearningOutcome}
-            removeLearningOutcome={removeLearningOutcome}
-            whatYouNeedFields={whatYouNeedFields}
-            appendWhatYouNeed={appendWhatYouNeed}
-            removeWhatYouNeed={removeWhatYouNeed}
-            instructorFields={instructorFields}
-            appendInstructor={appendInstructor}
-            removeInstructor={removeInstructor}
-          />
-        </div>
-
-        <AdditionalInformationCard
-          register={register}
-          selectedTypes={selectedTypes}
-          setSelectedTypes={setSelectedTypes}
-        />
-
-        {/* Submit Button */}
-        <div className="flex gap-4 pt-4">
+        <div className="mb-8">
           <Link
             href={`/member/events`}
-            className="basis-[30%] px-6 py-3 border-2 border-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 transition-colors font-medium text-[#FAA336] flex items-center justify-center"
+            className="inline-flex items-center gap-2 text-gray-300 hover:text-[#7C3AED] transition-colors mb-4 group"
           >
-            Cancel
+            <IconArrowLeft
+              size={20}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            <span className="font-medium">Back to Events</span>
           </Link>
-          <button
-            type="submit"
-            disabled={isSubmitting || selectedTypes.length === 0}
-            className="basis-[70%] px-6 py-3 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
-          >
-            {isSubmitting ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                Creating Event...
-              </span>
-            ) : (
-              "Create Event"
-            )}
-          </button>
+          <div>
+            <h1 className="text-5xl font-bold text-white mb-2">
+              Create New Event
+            </h1>
+            <p className="text-lg text-gray-200">
+              Fill in the details below to create a new event
+            </p>
+          </div>
         </div>
-      </form>
-      
+
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          {/* First row: Basic Info + right-side preview on large screens */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            <div className="lg:col-span-2">
+              <BasicInformationCard register={register} errors={errors} />
+            </div>
+
+            <div className="hidden lg:flex lg:col-span-1">
+              <div className="w-full h-64 rounded-xl overflow-hidden bg-white/80 border border-white/10 shadow-md flex items-center justify-center relative">
+                {imagePreviews.length > 0 ? (
+                  <>
+                    <img
+                      src={imagePreviews[currentPreviewIndex]}
+                      alt={`Event preview ${currentPreviewIndex + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    {imagePreviews.length > 1 && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setCurrentPreviewIndex(
+                              (i) =>
+                                (i - 1 + imagePreviews.length) %
+                                imagePreviews.length,
+                            )
+                          }
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-1 transition-all"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M15 18L9 12L15 6"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setCurrentPreviewIndex(
+                              (i) => (i + 1) % imagePreviews.length,
+                            )
+                          }
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-1 transition-all"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M9 18L15 12L9 6"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </button>
+
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                          {imagePreviews.map((_, i) => (
+                            <button
+                              key={i}
+                              type="button"
+                              onClick={() => setCurrentPreviewIndex(i)}
+                              className={`w-1.5 h-1.5 rounded-full transition-all ${i === currentPreviewIndex ? "bg-white" : "bg-white/40"}`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  // Placeholder — replace with Image component or src as needed
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-gray-400"
+                  >
+                    <rect
+                      x="3"
+                      y="3"
+                      width="18"
+                      height="18"
+                      rx="6"
+                      fill="#F3F4F6"
+                    />
+                    <path
+                      d="M8 13.5L10.5 10L13 13.5L16.5 9.5L21 15V18H3V15L8 13.5Z"
+                      fill="#E5E7EB"
+                    />
+                  </svg>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Combined Card: Schedule, Location & Details */}
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl shadow-sm border border-white/10 p-6">
+            <ScheduleRecurrenceCard
+              register={register}
+              errors={errors}
+              eventType={eventType}
+            />
+
+            <LocationLinksCard register={register} errors={errors} />
+
+            <EventDetailsCard
+              register={register}
+              learningOutcomeFields={learningOutcomeFields}
+              appendLearningOutcome={appendLearningOutcome}
+              removeLearningOutcome={removeLearningOutcome}
+              whatYouNeedFields={whatYouNeedFields}
+              appendWhatYouNeed={appendWhatYouNeed}
+              removeWhatYouNeed={removeWhatYouNeed}
+              instructorFields={instructorFields}
+              appendInstructor={appendInstructor}
+              removeInstructor={removeInstructor}
+            />
+          </div>
+
+          <AdditionalInformationCard
+            register={register}
+            selectedTypes={selectedTypes}
+            setSelectedTypes={setSelectedTypes}
+          />
+
+          {/* Submit Button */}
+          <div className="flex gap-4 pt-4">
+            <Link
+              href={`/member/events`}
+              className="basis-[30%] px-6 py-3 border-2 border-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 transition-colors font-medium text-[#FAA336] flex items-center justify-center"
+            >
+              Cancel
+            </Link>
+            <button
+              type="submit"
+              disabled={isSubmitting || selectedTypes.length === 0}
+              className="basis-[70%] px-6 py-3 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+            >
+              {isSubmitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                  Creating Event...
+                </span>
+              ) : (
+                "Create Event"
+              )}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-
   );
 }
