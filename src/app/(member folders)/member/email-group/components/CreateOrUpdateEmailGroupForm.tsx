@@ -15,16 +15,15 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
-import { getUsers } from "@/services/useApiUser";
 import {
   addEmailGroupMember,
   createEmailGroup,
   getEmailGroupById,
+  getEmailGroupEmails,
   getEmailGroupMembers,
   removeEmailGroupMember,
   updateEmailGroup,
 } from "@/services/useApiEmailGroup";
-import { User } from "@/types/user.interface";
 import {
   EmailGroup,
   EmailGroupMember,
@@ -42,7 +41,7 @@ type EmailGroupForm = {
   description?: string;
 };
 
-export interface EmailGroupFormContentProps {
+export interface CreateOrUpdateEmailGroupFormProps {
   mode: "create" | "update";
   groupId?: string;
 }
@@ -50,10 +49,10 @@ export interface EmailGroupFormContentProps {
 const CARD_CLASS =
   "bg-white/5 backdrop-blur-sm rounded-xl shadow-sm border border-white/10 p-6 h-full";
 
-export default function EmailGroupFormContent({
+export default function CreateOrUpdateEmailGroupForm({
   mode,
   groupId,
-}: EmailGroupFormContentProps) {
+}: CreateOrUpdateEmailGroupFormProps) {
   const isUpdate = mode === "update";
   const { user, isLoading } = useUser();
   const router = useRouter();
@@ -63,14 +62,14 @@ export default function EmailGroupFormContent({
   const [pageLoading, setPageLoading] = useState(isUpdate);
   const [pageError, setPageError] = useState("");
 
-  const [users, setUsers] = useState<User[]>([]);
-  const [usersLoading, setUsersLoading] = useState(false);
-  const [userSearch, setUserSearch] = useState("");
-  const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
+  const [availableEmails, setAvailableEmails] = useState<string[]>([]);
+  const [emailsLoading, setEmailsLoading] = useState(false);
+  const [emailSearch, setEmailSearch] = useState("");
+  const [selectedEmails, setSelectedEmails] = useState<Set<string>>(new Set());
   const [manualEmails, setManualEmails] = useState<string[]>([]);
   const [manualEmailInput, setManualEmailInput] = useState("");
   const [manualEmailError, setManualEmailError] = useState("");
-  const [memberMode, setMemberMode] = useState<"users" | "manual">("users");
+  const [memberMode, setMemberMode] = useState<"list" | "manual">("list");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAddingMembers, setIsAddingMembers] = useState(false);
@@ -97,16 +96,16 @@ export default function EmailGroupFormContent({
     [existingEmails]
   );
 
-  const fetchUsers = useCallback(async () => {
-    setUsersLoading(true);
+  const fetchAvailableEmails = useCallback(async () => {
+    setEmailsLoading(true);
     try {
-      const res = await getUsers({ limit: 1000, offset: 0 });
-      setUsers(res.data ?? []);
+      const emails = await getEmailGroupEmails();
+      setAvailableEmails(emails);
     } catch (err: unknown) {
-      console.error("Failed to fetch users:", err);
-      setUsers([]);
+      console.error("Failed to fetch emails:", err);
+      setAvailableEmails([]);
     } finally {
-      setUsersLoading(false);
+      setEmailsLoading(false);
     }
   }, []);
 
@@ -141,70 +140,56 @@ export default function EmailGroupFormContent({
   }, [user, isLoading, router]);
 
   useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+    fetchAvailableEmails();
+  }, [fetchAvailableEmails]);
 
   useEffect(() => {
     fetchGroupData();
   }, [fetchGroupData]);
 
-  const filteredUsers = useMemo(() => {
-    const query = userSearch.trim().toLowerCase();
-    const available = users.filter(
-      (u) => !normalizedExisting.has(u.email.toLowerCase())
+  const filteredAvailableEmails = useMemo(() => {
+    const available = availableEmails.filter(
+      (email) => !normalizedExisting.has(email.toLowerCase())
     );
+    const query = emailSearch.trim().toLowerCase();
     if (!query) return available;
-    return available.filter(
-      (u) =>
-        u.username.toLowerCase().includes(query) ||
-        u.email.toLowerCase().includes(query)
-    );
-  }, [users, userSearch, normalizedExisting]);
+    return available.filter((email) => email.toLowerCase().includes(query));
+  }, [availableEmails, emailSearch, normalizedExisting]);
 
-  const selectedUsers = useMemo(
-    () => users.filter((u) => selectedUserIds.has(u.id)),
-    [users, selectedUserIds]
+  const selectedFromList = useMemo(
+    () => Array.from(selectedEmails),
+    [selectedEmails]
   );
 
-  const pendingMemberCount = selectedUserIds.size + manualEmails.length;
+  const pendingMemberCount = selectedEmails.size + manualEmails.length;
   const totalMemberCount = isUpdate
     ? members.length + pendingMemberCount
     : pendingMemberCount;
 
   const clearPendingSelection = () => {
-    setSelectedUserIds(new Set());
+    setSelectedEmails(new Set());
     setManualEmails([]);
     setManualEmailInput("");
     setManualEmailError("");
-    setUserSearch("");
+    setEmailSearch("");
   };
 
-  const toggleUserSelection = (userId: string) => {
-    const targetUser = users.find((u) => u.id === userId);
-    if (!targetUser) return;
+  const toggleEmailSelection = (email: string) => {
+    const normalized = email.toLowerCase();
 
-    if (selectedUserIds.has(userId)) {
-      setSelectedUserIds((prev) => {
+    if (selectedEmails.has(normalized)) {
+      setSelectedEmails((prev) => {
         const next = new Set(prev);
-        next.delete(userId);
+        next.delete(normalized);
         return next;
       });
       return;
     }
 
-    const normalizedEmail = targetUser.email.toLowerCase();
-    if (normalizedExisting.has(normalizedEmail)) return;
-    if (manualEmails.includes(normalizedEmail)) return;
+    if (normalizedExisting.has(normalized)) return;
+    if (manualEmails.includes(normalized)) return;
 
-    const duplicateAmongSelected = users.some(
-      (u) =>
-        selectedUserIds.has(u.id) &&
-        u.id !== userId &&
-        u.email.toLowerCase() === normalizedEmail
-    );
-    if (duplicateAmongSelected) return;
-
-    setSelectedUserIds((prev) => new Set(prev).add(userId));
+    setSelectedEmails((prev) => new Set(prev).add(normalized));
   };
 
   const handleAddManualEmail = () => {
@@ -222,22 +207,16 @@ export default function EmailGroupFormContent({
     if (normalizedExisting.has(email)) return;
     if (manualEmails.includes(email)) return;
 
-    const matchingUser = users.find((u) => u.email.toLowerCase() === email);
-    if (matchingUser && selectedUserIds.has(matchingUser.id)) {
-      setSelectedUserIds((prev) => {
+    if (selectedEmails.has(email)) {
+      setSelectedEmails((prev) => {
         const next = new Set(prev);
-        next.delete(matchingUser.id);
+        next.delete(email);
         return next;
       });
       setManualEmails((prev) => [...prev, email]);
       setManualEmailInput("");
       return;
     }
-
-    const duplicateAmongSelected = users.some(
-      (u) => selectedUserIds.has(u.id) && u.email.toLowerCase() === email
-    );
-    if (duplicateAmongSelected) return;
 
     setManualEmails((prev) => [...prev, email]);
     setManualEmailInput("");
@@ -249,8 +228,7 @@ export default function EmailGroupFormContent({
 
   const addPendingMembers = async (targetGroupId: string) => {
     const emails = dedupeMembersForSubmit(
-      users,
-      selectedUserIds,
+      selectedEmails,
       manualEmails,
       existingEmails
     );
@@ -278,11 +256,7 @@ export default function EmailGroupFormContent({
         });
         await fetchGroupData();
       } else {
-        const emails = dedupeMembersForSubmit(
-          users,
-          selectedUserIds,
-          manualEmails
-        );
+        const emails = dedupeMembersForSubmit(selectedEmails, manualEmails);
         if (emails.length === 0) return;
 
         const groupRes = await createEmailGroup({
@@ -388,7 +362,7 @@ export default function EmailGroupFormContent({
             <p className="text-base sm:text-lg text-gray-200">
               {isUpdate
                 ? "Update group details and manage members"
-                : "Set up a new group and add members from the user list or manually"}
+                : "Set up a new group and add members from the email list or manually"}
             </p>
             {isUpdate && group && (
               <p className="text-gray-400 text-sm mt-2">
@@ -476,9 +450,9 @@ export default function EmailGroupFormContent({
                     </span>
                   </div>
                   <div className="flex justify-between text-gray-400">
-                    <span>From users</span>
+                    <span>From list</span>
                     <span className="text-white font-medium">
-                      {selectedUserIds.size}
+                      {selectedEmails.size}
                     </span>
                   </div>
                   <div className="flex justify-between text-gray-400">
@@ -517,14 +491,7 @@ export default function EmailGroupFormContent({
                           key={member.id}
                           className="flex items-center justify-between text-sm bg-white/5 rounded-lg px-3 py-2"
                         >
-                          <div className="min-w-0">
-                            <p className="text-white truncate">{member.email}</p>
-                            <p className="text-gray-500 text-xs">
-                              {member.user_id
-                                ? "Registered user"
-                                : "Manual email"}
-                            </p>
-                          </div>
+                          <p className="text-white truncate">{member.email}</p>
                           <button
                             type="button"
                             onClick={() => {
@@ -546,7 +513,7 @@ export default function EmailGroupFormContent({
                 <div>
                   <h2 className="text-xl font-semibold text-white flex items-center gap-2">
                     <IconUsers size={22} className="text-[#FAA336]" />
-                    {isUpdate ? "Add Members" : "Add Members"}
+                    Add Members
                   </h2>
                   <p className="text-sm text-gray-400 mt-1">
                     {pendingMemberCount} new member
@@ -558,14 +525,14 @@ export default function EmailGroupFormContent({
               <div className="flex gap-2 mb-4">
                 <button
                   type="button"
-                  onClick={() => setMemberMode("users")}
+                  onClick={() => setMemberMode("list")}
                   className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    memberMode === "users"
+                    memberMode === "list"
                       ? "bg-[#FAA336] text-white"
                       : "bg-white/10 text-gray-300 hover:bg-white/15"
                   }`}
                 >
-                  Select from Users
+                  Select from List
                 </button>
                 <button
                   type="button"
@@ -580,7 +547,7 @@ export default function EmailGroupFormContent({
                 </button>
               </div>
 
-              {memberMode === "users" ? (
+              {memberMode === "list" ? (
                 <div className="space-y-3 flex-1 flex flex-col min-h-0">
                   <div className="relative">
                     <IconSearch
@@ -589,45 +556,43 @@ export default function EmailGroupFormContent({
                     />
                     <input
                       type="text"
-                      value={userSearch}
-                      onChange={(e) => setUserSearch(e.target.value)}
-                      placeholder="Search by username or email..."
+                      value={emailSearch}
+                      onChange={(e) => setEmailSearch(e.target.value)}
+                      placeholder="Search by email..."
                       className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50"
                     />
                   </div>
 
-                  {usersLoading ? (
+                  {emailsLoading ? (
                     <p className="text-gray-400 text-sm py-4 text-center">
-                      Loading users...
+                      Loading emails...
                     </p>
                   ) : (
                     <div className="flex-1 min-h-[180px] max-h-[240px] lg:max-h-[280px] overflow-y-auto rounded-lg border border-white/10 divide-y divide-white/5">
-                      {filteredUsers.length === 0 ? (
+                      {filteredAvailableEmails.length === 0 ? (
                         <p className="text-gray-400 text-sm py-4 text-center">
-                          No available users found
+                          No available emails found
                         </p>
                       ) : (
-                        filteredUsers.map((u) => (
-                          <label
-                            key={u.id}
-                            className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition-colors"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={selectedUserIds.has(u.id)}
-                              onChange={() => toggleUserSelection(u.id)}
-                              className="w-4 h-4 rounded border-white/30 bg-white/10 text-[#FAA336] focus:ring-[#FAA336]/50"
-                            />
-                            <div className="flex-1 min-w-0">
-                              <p className="text-white text-sm font-medium truncate">
-                                {u.username}
+                        filteredAvailableEmails.map((email) => {
+                          const normalized = email.toLowerCase();
+                          return (
+                            <label
+                              key={email}
+                              className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 cursor-pointer transition-colors"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={selectedEmails.has(normalized)}
+                                onChange={() => toggleEmailSelection(email)}
+                                className="w-4 h-4 rounded border-white/30 bg-white/10 text-[#FAA336] focus:ring-[#FAA336]/50"
+                              />
+                              <p className="text-white text-sm truncate">
+                                {email}
                               </p>
-                              <p className="text-gray-400 text-xs truncate">
-                                {u.email}
-                              </p>
-                            </div>
-                          </label>
-                        ))
+                            </label>
+                          );
+                        })
                       )}
                     </div>
                   )}
@@ -694,24 +659,23 @@ export default function EmailGroupFormContent({
                 <h3 className="text-sm font-medium text-gray-300 mb-3">
                   {isUpdate ? "New members to add" : "Selected members"}
                 </h3>
-                {selectedUsers.length === 0 && manualEmails.length === 0 ? (
+                {selectedFromList.length === 0 && manualEmails.length === 0 ? (
                   <p className="text-gray-500 text-sm text-center py-6">
                     Members you add will appear here
                   </p>
                 ) : (
                   <div className="space-y-2 max-h-40 overflow-y-auto">
-                    {selectedUsers.map((u) => (
+                    {selectedFromList.map((email) => (
                       <div
-                        key={u.id}
+                        key={email}
                         className="flex items-center justify-between text-sm bg-white/5 rounded-lg px-3 py-2"
                       >
                         <span className="text-white truncate min-w-0">
-                          {u.username}{" "}
-                          <span className="text-gray-400">({u.email})</span>
+                          {email}
                         </span>
                         <button
                           type="button"
-                          onClick={() => toggleUserSelection(u.id)}
+                          onClick={() => toggleEmailSelection(email)}
                           className="text-gray-400 hover:text-red-400 ml-2 shrink-0"
                         >
                           <IconTrash size={16} />
@@ -767,8 +731,7 @@ export default function EmailGroupFormContent({
             <button
               type="submit"
               disabled={
-                isSubmitting ||
-                (!isUpdate && pendingMemberCount === 0)
+                isSubmitting || (!isUpdate && pendingMemberCount === 0)
               }
               className="sm:basis-[70%] px-6 py-3 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
             >

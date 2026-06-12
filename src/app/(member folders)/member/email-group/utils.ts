@@ -1,11 +1,8 @@
-import { User } from "@/types/user.interface";
-
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Keep one entry per email; manual emails take precedence over selected users. */
+/** Keep one entry per email; manual emails take precedence over list selections. */
 export function dedupeMembersForSubmit(
-  users: User[],
-  selectedUserIds: Iterable<string>,
+  selectedEmails: Iterable<string>,
   manualEmails: string[],
   excludeEmails: string[] = []
 ): string[] {
@@ -20,10 +17,8 @@ export function dedupeMembersForSubmit(
     emails.push(normalized);
   }
 
-  for (const userId of selectedUserIds) {
-    const user = users.find((u) => u.id === userId);
-    if (!user) continue;
-    const normalized = user.email.toLowerCase();
+  for (const email of selectedEmails) {
+    const normalized = email.toLowerCase();
     if (excluded.has(normalized) || seenEmails.has(normalized)) continue;
     seenEmails.add(normalized);
     emails.push(normalized);

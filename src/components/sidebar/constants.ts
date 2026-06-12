@@ -106,10 +106,10 @@ export const createNavigationItems = (basePath: string, pathname: string | null)
   },
   {
     icon: IconMail,
-    label: "Email Groups",
+    label: "Email Group",
     href: `${basePath}/email-group`,
     active: isActive(pathname, `${basePath}/email-group`),
-    permission: PERMISSIONS.SEND_MAIL,
+    permission: PERMISSIONS.SIDEBAR_VIEW_EMAIL_GROUPS,
     category: "ADMINISTRATION",
-  },
+  }
 ];

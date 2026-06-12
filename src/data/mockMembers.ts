@@ -169,7 +169,7 @@ export const mockMembers: Team[] = [
         id: 8,
         name: "James Ha",
         role: "Web Developer",
-        imageUrl: "/MemberPics/no-picture.png",
+        imageUrl: "/MemberPics/james_ha.jpg",
         info: "Web Developer",
         category: "sysadmin",
         social: {

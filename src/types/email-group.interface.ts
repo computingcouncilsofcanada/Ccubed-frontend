@@ -49,3 +49,7 @@ export interface EmailGroupResponse extends ApiResponse<EmailGroup> {
 export interface EmailGroupMembersResponse extends ApiResponse<EmailGroupMember[]> {
   data: EmailGroupMember[];
 }
+
+export interface EmailGroupEmailsResponse extends ApiResponse<string[]> {
+  data: string[];
+}

@@ -1,5 +1,5 @@
-import EmailGroupFormContent from "../components/EmailGroupFormContent";
+import CreateOrUpdateEmailGroupForm from "../components/CreateOrUpdateEmailGroupForm";
 
 export default function CreateEmailGroupPage() {
-  return <EmailGroupFormContent mode="create" />;
+  return <CreateOrUpdateEmailGroupForm mode="create" />;
 }

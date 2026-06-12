@@ -2,6 +2,7 @@ import { privateAxios } from "@/lib/axios";
 import {
   CreateEmailGroupDto,
   CreateEmailGroupMemberDto,
+  EmailGroupEmailsResponse,
   EmailGroupMembersResponse,
   EmailGroupResponse,
   EmailGroupsListResponse,
@@ -17,6 +18,13 @@ export interface GetEmailGroupsParams {
 export const createEmailGroup = async (data: CreateEmailGroupDto) => {
   const res = await privateAxios.post<EmailGroupResponse>("/email-groups", data);
   return res.data;
+};
+
+export const getEmailGroupEmails = async (): Promise<string[]> => {
+  const res = await privateAxios.get<EmailGroupEmailsResponse>(
+    "/email-groups/emails"
+  );
+  return res.data.data ?? [];
 };
 
 export const getEmailGroups = async (
