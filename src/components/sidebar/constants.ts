@@ -10,6 +10,7 @@ import {
   IconUserShield,
   IconUserEdit,
   IconMail,
+  IconSend,
 } from "@tabler/icons-react";
 import { NavigationItem } from "./types";
 import { PERMISSIONS } from "@/constants/permissions";
@@ -62,6 +63,22 @@ export const createNavigationItems = (basePath: string, pathname: string | null)
     href: `${basePath}/articles`,
     active: isActive(pathname, `${basePath}/articles`),
     permission: PERMISSIONS.SIDEBAR_VIEW_ARTICLES,
+    category: "MANAGEMENT",
+  },
+  {
+    icon: IconMail,
+    label: "Email templates",
+    href: `${basePath}/email/templates`,
+    active: isActive(pathname, `${basePath}/email/templates`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_EMAIL,
+    category: "MANAGEMENT",
+  },
+  {
+    icon: IconSend,
+    label: "Send Email",
+    href: `${basePath}/email/bulk-emails`,
+    active: isActive(pathname, `${basePath}/email/bulk-emails`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_EMAIL,
     category: "MANAGEMENT",
   },
   {
