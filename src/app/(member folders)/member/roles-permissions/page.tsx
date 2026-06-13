@@ -21,6 +21,7 @@ type Permission = {
   name: string;
   created_at?: string;
   updated_at?: string;
+  description: string | null;
 };
 
 type RolePermission = {
@@ -205,15 +206,15 @@ function RolesPage() {
         </button>
       </div>
 
-      {/* Table Container */}
+      {/* Table Container  */}
       <div className="bg-gray-800/40 rounded-2xl shadow-lg border border-white/20 overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="max-h-[calc(100vh-14rem)] overflow-auto">
           <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-gradient-to-r from-gray-700 to-gray-600">
+            <thead>
               <tr>
                 <th
                   scope="col"
-                  className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-white"
+                  className="sticky top-0 z-20 bg-gray-700 px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-white shadow-[0_1px_0_0_rgba(255,255,255,0.1)]"
                 >
                   Permission
                 </th>
@@ -221,7 +222,7 @@ function RolesPage() {
                   <th
                     key={role.id}
                     scope="col"
-                    className="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-white"
+                    className="sticky top-0 z-20 bg-gray-600 px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-white shadow-[0_1px_0_0_rgba(255,255,255,0.1)]"
                   >
                     <div className="flex flex-col items-center gap-3">
                       <span className="text-sm font-bold">{role.name}</span>
@@ -276,7 +277,7 @@ function RolesPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center gap-2">
                             <span className="text-sm font-medium text-gray-300">
-                              {permission.name.split(".").slice(1).join(".") || permission.name}
+                              {permission.description || permission.name.split(".").slice(1).join(".") || permission.name}
                             </span>
                           </div>
                         </td>

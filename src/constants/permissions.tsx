@@ -107,5 +107,6 @@ export const PERMISSIONS = {
     SIDEBAR_VIEW_DEPARTMENTS: "sidebar.departments.view",
     SIDEBAR_VIEW_USERS: "sidebar.users.view",
     SIDEBAR_VIEW_ARTICLES: "sidebar.articles.view",
+    SIDEBAR_VIEW_EMAIL_GROUPS: "sidebar.email.groups.view",
     SIDEBAR_VIEW_EMAIL: "sidebar.email.view",
 };

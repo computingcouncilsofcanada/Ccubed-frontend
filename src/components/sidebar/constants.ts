@@ -121,4 +121,12 @@ export const createNavigationItems = (basePath: string, pathname: string | null)
     permission: PERMISSIONS.SIDEBAR_VIEW_DEPARTMENTS,
     category: "ADMINISTRATION",
   },
+  {
+    icon: IconMail,
+    label: "Email Group",
+    href: `${basePath}/email-group`,
+    active: isActive(pathname, `${basePath}/email-group`),
+    permission: PERMISSIONS.SIDEBAR_VIEW_EMAIL_GROUPS,
+    category: "ADMINISTRATION",
+  }
 ];
