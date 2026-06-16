@@ -5,24 +5,37 @@ import TeamcardImage from "./teamcard/TeamcardImage";
 import TeamCardPreview from "./teamcard/TeamCardPreview";
 import TeamCardSocials from "./teamcard/TeamCardSocials";
 import TeamCardOverlay from "./teamcard/TeamCardOverlay";
+import { cn } from "@/lib/utils";
 
-type TeamCardProps = {
+export type TeamCardProps = {
   imageUrl: string;
   name: string;
   role: string;
   info: string;
   linkedin?: string;
+  className?: string;
 };
 
-function TeamCardV2({ imageUrl, name, role, info, linkedin }: TeamCardProps) {
+function TeamCardV2({
+  imageUrl,
+  name,
+  role,
+  info,
+  linkedin,
+  className,
+}: TeamCardProps) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
   return (
     <div
       onMouseLeave={() => setIsOverlayOpen(false)}
-      className={`rounded-2xl h-95.25 w-68 relative z-100 duration-300 transition-transform ease-out ${
-        isOverlayOpen ? "scale-[1.03]" : "scale-100"
-      }`}
+      className={cn(
+        `rounded-2xl relative z-100 duration-300 transition-transform ease-out`,
+        !className?.includes("h-") && "h-95.25",
+        !className?.includes("w-") && "w-68",
+        isOverlayOpen ? "scale-[1.03]" : "scale-100",
+        className,
+      )}
     >
       <div className="relative w-full h-full">
         {/* border gradient effect  */}

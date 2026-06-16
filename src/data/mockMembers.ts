@@ -58,7 +58,7 @@ export const mockMembers: Team[] = [
     team: "Board of Directors",
     members: [
       {
-        id: 3,
+        id: 40,
         name: "Vardaan Randev",
         role: "Director of Communications",
         imageUrl: "/MemberPics/Vardaan.jpg",
@@ -69,7 +69,7 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 4,
+        id: 41,
         name: "Fopefoluwa Ikufisile",
         role: "Director of Systems Admin",
         imageUrl: "/MemberPics/fope.png",
@@ -81,7 +81,7 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 42,
+        id: 44,
         name: "Dhruv Thakar",
         role: "Director of Outreach",
         imageUrl: "/MemberPics/Dhruv.jpeg",
@@ -93,7 +93,7 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 28,
+        id: 48,
         name: "Pragati Puri",
         role: "Director of WITS",
         imageUrl: "/MemberPics/Pragati_Puri.jpeg",
@@ -152,18 +152,6 @@ export const mockMembers: Team[] = [
         category: "sysadmin",
         social: {
           linkedin: "https://www.linkedin.com/in/jameshaa/",
-        },
-      },
-      {
-        id: 40,
-        name: "Vanshika Vanshika",
-        role: "UI/UX designer",
-        imageUrl: "/MemberPics/vanshika.jpeg",
-        info: "UX designer",
-        category: "sysadmin",
-        social: {
-          linkedin:
-            "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         },
       },
       {
@@ -239,29 +227,6 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 14,
-        name: "Temirlan Rashid",
-        role: "Content Creator",
-        imageUrl: "/MemberPics/Temirlan_Rashid.png",
-        info: "Content Creator",
-        category: "communications",
-        social: {
-          linkedin: "http://www.linkedin.com/in/temirlan-rashid",
-        },
-      },
-      {
-        id: 27,
-        name: "Anish Dhaubanjar",
-        role: "Marketing",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Marketing",
-        category: "communications",
-        social: {
-          linkedin:
-            "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-        },
-      },
-      {
         id: 10,
         name: "Danielle Eng",
         role: "Graphic Design",
@@ -286,17 +251,6 @@ export const mockMembers: Team[] = [
         category: "events",
         social: {
           linkedin: "https://www.linkedin.com/in/zaid-mohiuddin-ba98462a8/",
-        },
-      },
-      {
-        id: 17,
-        name: "Stephanie Song",
-        role: "Events Coordinator",
-        imageUrl: "/MemberPics/steph.png",
-        info: "Events Coordinator",
-        category: "events",
-        social: {
-          linkedin: "https://www.linkedin.com/in/stephanie-song-700a65213/",
         },
       },
       {
@@ -360,6 +314,17 @@ export const mockMembers: Team[] = [
           linkedin: "https://linkedin.com/in/",
         },
       },
+      {
+        id: 49,
+        name: "Ben Zhou",
+        role: "Finance coordinator",
+        imageUrl: "/MemberPics/Ben_Zhou.jpeg",
+        info: "Finance coordinator",
+        category: "finance",
+        social: {
+          linkedin: "https://www.linkedin.com/in/-ben-zhou-",
+        },
+      },
     ],
   },
   {
@@ -413,29 +378,6 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 36,
-        name: "Imad Zia",
-        role: "Cybersecurity Program Manager",
-        imageUrl: "/MemberPics/Imad_Zia.jpg",
-        info: "Cybersecurity Program Manager",
-        category: "outreach",
-        council: "cybersecurity",
-        social: {
-          linkedin: "https://www.linkedin.com/in/imadzia/",
-        },
-      },
-      {
-        id: 35,
-        name: "Zahra Hussain",
-        role: "WITS Program Manager",
-        imageUrl: "/MemberPics/zahra_hussain.png",
-        info: "WITS Program Manager",
-        category: "outreach",
-        social: {
-          linkedin: "http://www.linkedin.com/in/zahrahussain1",
-        },
-      },
-      {
         id: 37,
         name: "Roshan Banisetti",
         role: "AI Program Manager",
@@ -451,18 +393,6 @@ export const mockMembers: Team[] = [
   },
   {
     team: "Human Resources Team",
-    members: [
-      {
-        id: 25,
-        name: "Evangelyn Kelvin",
-        role: "HR Coordinator",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "HR Coordinator",
-        category: "hr",
-        social: {
-          linkedin: "https://www.linkedin.com/in/evangelynkelvin/",
-        },
-      },
-    ],
+    members: [],
   },
 ];
