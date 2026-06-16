@@ -1,20 +1,25 @@
-import Link from "next/link";
 import { IconShield, IconPlus } from "@tabler/icons-react";
 
-export default function EmptyRolesState() {
+type EmptyRolesStateProps = {
+  onCreateClick: () => void;
+};
+
+export default function EmptyRolesState({ onCreateClick }: EmptyRolesStateProps) {
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+    <div className="rounded-xl border border-white/20 bg-white/5 p-6">
       <div className="text-center py-16">
-        <IconShield size={64} className="mx-auto text-gray-400 mb-4" />
-        <h3 className="text-xl font-semibold text-gray-700 mb-2">No roles found</h3>
-        <p className="text-gray-500 mb-6">Get started by creating your first role</p>
-        <Link
-          href="/member/roles/create"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 hover:shadow-lg transition-all font-semibold"
+        <IconShield size={64} className="mx-auto text-slate-400 mb-4" />
+        <h3 className="text-xl font-semibold text-white mb-2">No roles found</h3>
+        <p className="text-slate-400 mb-6">Get started by creating your first role</p>
+        <button
+          type="button"
+          onClick={onCreateClick}
+          style={{ backgroundColor: "#FAA336" }}
+          className="inline-flex items-center gap-2 px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg"
         >
           <IconPlus size={20} />
           Create Role
-        </Link>
+        </button>
       </div>
     </div>
   );

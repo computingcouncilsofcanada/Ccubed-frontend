@@ -18,6 +18,7 @@ export interface User {
     discord_url: string | null;
     email: string;
     username: string;
+    position?: string | null;
     role: string;
     status: number;
     created_at: string;
@@ -44,6 +45,7 @@ export interface UpdateMeRequestDTO {
     file: File | null;
     discord_url: string;
     username: string;
+    position: string;
 }
 
 export interface UpdateUserRequest {
@@ -70,4 +72,23 @@ export enum UpdateUserRequestStatus {
     PENDING = "PENDING",
     APPROVED = "APPROVED",
     REJECTED = "REJECTED",
+}
+
+export interface GetUsersParams {
+    limit?: number;
+    offset?: number;
+    role?: string;
+    status?: number;
+    is_verified?: boolean;
+    username?: string;
+    email?: string;
+}
+
+export interface UsersListResponse {
+    data: User[];
+    totalPage: number;
+    totalRecord: number;
+    options?: Record<string, unknown>;
+    message: string;
+    status?: number;
 }
