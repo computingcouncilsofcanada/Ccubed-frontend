@@ -204,14 +204,14 @@ export const mockMembers: Team[] = [
     team: "Communications Team",
     members: [
       {
-        id: 3,
-        name: "Vardaan Randev",
+        id: 10,
+        name: "Danielle Eng",
         role: "Director of Communications",
-        imageUrl: "/MemberPics/Vardaan.jpg",
+        imageUrl: "/MemberPics/Danielle_Eng.jpg",
         info: "Director of Communications",
         category: "communications",
         social: {
-          linkedin: "https://www.linkedin.com/in/vardaan-r-ab9ba436b/",
+          linkedin: "http://www.linkedin.com/in/danielle-eng-1bb865281",
         },
       },
       {
@@ -224,17 +224,6 @@ export const mockMembers: Team[] = [
         social: {
           linkedin:
             "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-        },
-      },
-      {
-        id: 10,
-        name: "Danielle Eng",
-        role: "Graphic Design",
-        imageUrl: "/MemberPics/Danielle_Eng.jpg",
-        info: "Graphic Design",
-        category: "communications",
-        social: {
-          linkedin: "http://www.linkedin.com/in/danielle-eng-1bb865281",
         },
       },
     ],

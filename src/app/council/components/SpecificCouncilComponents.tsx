@@ -11,7 +11,7 @@ import { isEventPast } from "@/app/events/utils/eventUtils";
 import Image from "next/image";
 import { mockMembers } from "@/data/mockMembers";
 import { mockArticles } from "@/data/mockArticles";
-import TeamCard from "@/components/teampage/TeamCard";
+import TeamCardV2 from "@/components/teampage/TeamCardV2";
 
 type CouncilProps = {
   council: CouncilSection;
@@ -492,7 +492,7 @@ export const RepresentativesSection = ({ council }: CouncilProps) => {
 
       <div className="flex flex-wrap justify-center gap-9 gap-y-17">
         {members.map((member) => (
-          <TeamCard
+          <TeamCardV2
             key={member.id}
             imageUrl={member.imageUrl}
             name={member.name}
