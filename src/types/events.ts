@@ -65,6 +65,7 @@ export interface Event {
   url?: string | null;
   status: number;
   types: string[];
+  ownership?: string[] | null;
   domains?: string[] | null;
   pending_action?: string | null;
   reject_reason?: string | null;
@@ -109,6 +110,8 @@ export interface EventForm {
   ownership?: string[];
   domains?: string[];
   files?: FileList;
+  existingFileIds?: string[];
+  removeExistingFiles?: boolean;
   eventType: "one-day" | "weekly" | "monthly" | "multiple-day";
   selectedDayOfWeek?: string;
   multipleDays?: string[];

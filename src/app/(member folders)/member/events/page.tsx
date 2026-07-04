@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   getAllEvents,
+  getEventById,
   updateEvent,
   deleteEvent,
   approveCreateEvent,
@@ -17,6 +18,7 @@ import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
+import { formatDate } from "@/utils/dateUtils";
 import { Event, EventForm } from "@/types/events";
 import EventStats from "./components/stats/EventStats";
 import EmptyEventsState from "./components/EmptyEventsState";
@@ -41,20 +43,13 @@ function EventsPage() {
 
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+  const [isApproveUpdateModalOpen, setIsApproveUpdateModalOpen] =
+    useState(false);
   const [rejectType, setRejectType] = useState<"create" | "update">("create");
 
   const [page, setPage] = useState(1);
   const limit = 10;
   const router = useRouter();
-
-
-
-  const {
-    register: registerUpdate,
-    handleSubmit: handleUpdateSubmit,
-    reset: resetUpdate,
-    formState: { errors: updateErrors },
-  } = useForm<EventForm>();
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -70,25 +65,193 @@ function EventsPage() {
     fetchEvents();
   }, [fetchEvents]);
 
-  const handleUpdateEvent = async (data: EventForm) => {
+  const handleUpdateEvent = async (data: EventForm, newFiles: File[]) => {
     if (!selectedEvent) return;
 
+    // Validate required fields
+    if (!data.name?.trim()) {
+      alert("Event name is required");
+      return;
+    }
+    if (!data.description?.trim()) {
+      alert("Event description is required");
+      return;
+    }
+    if (!data.location?.trim()) {
+      alert("Event location is required");
+      return;
+    }
+    if (!data.start_at) {
+      alert("Start time is required");
+      return;
+    }
+    if (!data.end_at) {
+      alert("End time is required");
+      return;
+    }
+    if (!data.types || data.types.length === 0) {
+      alert("Please select at least one event type");
+      return;
+    }
+
     try {
-      const res = await updateEvent(selectedEvent.id.toString(), {
-        name: data.name,
-        description: data.description,
-        start_at: new Date(data.start_at).getTime().toString(),
-        end_at: new Date(data.end_at).getTime().toString(),
-        location: data.location,
-      });
-      setIsUpdateModalOpen(false);
-      resetUpdate();
-      if (res.status === 200) {
-        alert(res.message);
-        await fetchEvents();
+      const formData = new FormData();
+
+      // Basic fields
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("location", data.location);
+
+      if (data.registration_link?.trim()) {
+        formData.append("registration_link", data.registration_link);
       }
+
+      if (data.url !== undefined) {
+        formData.append("url", data.url || "");
+      }
+
+      // Arrays - send as JSON arrays
+      const learningOutcomes = data.learning_outcomes
+        .map((item) => item.value)
+        .filter((item) => item.trim() !== "");
+      formData.append("learning_outcomes", JSON.stringify(learningOutcomes));
+
+      const whatYouNeed = data.what_you_need
+        .map((item) => item.value)
+        .filter((item) => item.trim() !== "");
+      formData.append("what_you_need", JSON.stringify(whatYouNeed));
+
+      const instructors = data.instructors
+        .map((item) => item.value)
+        .filter((item) => item.trim() !== "");
+      formData.append("instructors", JSON.stringify(instructors));
+
+      // Types
+      if (data.types && data.types.length > 0) {
+        data.types.forEach((type) => {
+          formData.append("types", type);
+        });
+      }
+
+      const ownership =
+        typeof data.ownership === "string"
+          ? (data.ownership as string)
+              .split(",")
+              .map((item) => item.trim())
+              .filter(Boolean)
+          : data.ownership || [];
+      formData.append(
+        "ownership",
+        ownership.length > 0 ? ownership.join(",") : " ",
+      );
+
+      const domains =
+        typeof data.domains === "string"
+          ? (data.domains as string)
+              .split(",")
+              .map((item) => item.trim())
+              .filter(Boolean)
+          : data.domains || [];
+      formData.append("domains", domains.length > 0 ? domains.join(",") : " ");
+
+      // Files
+      const keptIds = data.existingFileIds || [];
+      if (keptIds.length > 0) {
+        formData.append("existingFileIds", keptIds.join(","));
+      }
+      newFiles.forEach((file) => formData.append("file", file));
+
+      // Handle recurrence based on event type
+      let recurrence: {
+        type: "none" | "daily" | "weekly" | "monthly" | "custom";
+        days_of_week?: string[];
+        custom_dates?: string[];
+      };
+
+      const startDate = new Date(data.start_at);
+      const endDate = new Date(data.end_at);
+
+      switch (data.eventType) {
+        case "one-day":
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          recurrence = {
+            type: "none",
+            custom_dates: [formatDate(startDate)],
+          };
+          break;
+
+        case "weekly":
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          recurrence = {
+            type: "weekly",
+            days_of_week: data.selectedDayOfWeek
+              ? [data.selectedDayOfWeek.toLowerCase()]
+              : [],
+          };
+          break;
+
+        case "monthly":
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          recurrence = {
+            type: "monthly",
+            custom_dates: data.monthlyDate ? [data.monthlyDate] : [],
+          };
+          break;
+
+        case "multiple-day":
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          const multipleDaysValue = data.multipleDays;
+          const customDates =
+            typeof multipleDaysValue === "string"
+              ? (multipleDaysValue as string)
+                  .split("\n")
+                  .filter((d: string) => d.trim())
+                  .map((d: string) => d.trim())
+              : Array.isArray(multipleDaysValue)
+                ? multipleDaysValue
+                : [];
+          recurrence = {
+            type: "custom",
+            custom_dates: customDates,
+          };
+          break;
+
+        default:
+          formData.append("start_at", startDate.getTime().toString());
+          formData.append("end_at", endDate.getTime().toString());
+          recurrence = {
+            type: "none",
+            custom_dates: [formatDate(startDate)],
+          };
+      }
+
+      // Append recurrence as JSON
+      formData.append("recurrence", JSON.stringify(recurrence));
+
+      const res = await updateEvent(selectedEvent.id.toString(), formData);
+      setIsUpdateModalOpen(false);
+      await fetchEvents();
+      alert(res.message || "Event updated successfully!");
     } catch (err: unknown) {
-      alert(getErrMsg(err));
+      const errorMsg = getErrMsg(err);
+      const axiosError = err as any;
+      const responseData = axiosError?.response?.data;
+
+      // Try to extract specific validation error from backend
+      let displayMessage = errorMsg;
+      if (responseData?.error) {
+        displayMessage = responseData.error;
+      } else if (responseData?.message) {
+        displayMessage = responseData.message;
+      } else if (responseData?.errors) {
+        displayMessage = JSON.stringify(responseData.errors);
+      }
+
+      alert(`Validation failed: ${displayMessage}`);
     }
   };
 
@@ -141,6 +304,7 @@ function EventsPage() {
       const res = await approveUpdateEvent(selectedEvent.id.toString());
       if (res.status === 200) {
         alert(res.message);
+        setIsApproveUpdateModalOpen(false);
         await fetchEvents();
       }
     } catch (err: unknown) {
@@ -171,7 +335,7 @@ function EventsPage() {
       | "approve-create"
       | "reject-create"
       | "approve-update"
-      | "reject-update"
+      | "reject-update",
   ) => {
     setSelectedEvent(event);
     switch (type) {
@@ -179,7 +343,18 @@ function EventsPage() {
         router.push("/member/events/create");
         break;
       case "update":
-        setIsUpdateModalOpen(true);
+        if (event) {
+          getEventById(event.id.toString())
+            .then((res) => {
+              setSelectedEvent(res.data ?? res);
+              setIsUpdateModalOpen(true);
+            })
+            .catch(() => {
+              setIsUpdateModalOpen(true);
+            });
+        } else {
+          setIsUpdateModalOpen(true);
+        }
         break;
       case "delete":
         setIsDeleteModalOpen(true);
@@ -192,7 +367,7 @@ function EventsPage() {
         setIsRejectModalOpen(true);
         break;
       case "approve-update":
-        handleApproveUpdateEvent();
+        setIsApproveUpdateModalOpen(true);
         break;
       case "reject-update":
         setRejectType("update");
@@ -201,15 +376,11 @@ function EventsPage() {
     }
   };
 
-
-
   if (!user) {
     return null;
   }
 
   const columns = createEventTableColumns(openModal);
-
-
 
   return (
     <div className="min-h-screen  text-white p-6">
@@ -233,17 +404,14 @@ function EventsPage() {
         <div
           className="absolute top-0 left-6 right-6 h-px rounded-full"
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
           }}
         />
 
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-
           <div>
-
-
-
             <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
               <Image
                 src="/FigmaFiles/ccubed-icon.svg"
@@ -298,13 +466,12 @@ function EventsPage() {
         isOpen={isUpdateModalOpen}
         onClose={() => {
           setIsUpdateModalOpen(false);
-          resetUpdate();
         }}
         selectedEvent={selectedEvent}
-        register={registerUpdate}
-        handleSubmit={handleUpdateSubmit}
         onSubmit={handleUpdateEvent}
-        errors={updateErrors}
+        onSubmitSuccess={() => {
+          setIsUpdateModalOpen(false);
+        }}
       />
 
       <DeleteEventModal
@@ -328,6 +495,14 @@ function EventsPage() {
         isOpen={isApproveModalOpen}
         onClose={() => setIsApproveModalOpen(false)}
         onConfirm={handleApproveCreateEvent}
+      />
+
+      <ApproveEventModal
+        isOpen={isApproveUpdateModalOpen}
+        onClose={() => setIsApproveUpdateModalOpen(false)}
+        onConfirm={handleApproveUpdateEvent}
+        title="Approve Event Update"
+        message="Are you sure you want to approve this event update?"
       />
     </div>
   );
