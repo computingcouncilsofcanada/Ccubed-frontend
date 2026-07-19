@@ -59,13 +59,13 @@ export const mockMembers: Team[] = [
     members: [
       {
         id: 40,
-        name: "Vardaan Randev",
+        name: "Danielle En",
         role: "Director of Communications",
-        imageUrl: "/MemberPics/Vardaan.jpg",
+        imageUrl: "/MemberPics/Danielle_Eng.jpg",
         info: "Director of Communications",
         category: "directors",
         social: {
-          linkedin: "https://www.linkedin.com/in/vardaan-r-ab9ba436b/",
+          linkedin: "https://www.linkedin.com/in/danielle-eng-1bb865281",
         },
       },
       {
@@ -211,7 +211,7 @@ export const mockMembers: Team[] = [
         info: "Director of Communications",
         category: "communications",
         social: {
-          linkedin: "http://www.linkedin.com/in/danielle-eng-1bb865281",
+          linkedin: "https://www.linkedin.com/in/danielle-eng-1bb865281",
         },
       },
       {

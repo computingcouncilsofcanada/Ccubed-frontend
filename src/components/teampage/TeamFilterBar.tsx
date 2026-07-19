@@ -11,7 +11,7 @@ const TeamFilterBar = ({ teamType, onTeamTypeChange }: TeamFilterBarProps) => {
     <div className="flex  flex-wrap gap-3 justify-center relative w-full max-w-5xl mx-auto mt-5">
       
       {[
-        {label: "Board of Advisors", value: "board_of_advisors"},
+        // {label: "Board of Advisors", value: "board_of_advisors"},
         { label: "Directors", value: "directors" },
         { label: "System Admin", value: "sysadmin" },
         { label: "Communications", value: "communications" },

@@ -9,7 +9,8 @@ import TeamCardV2 from "@/components/teampage/TeamCardV2";
 import BoardOfAdvisorCard from "@/components/teampage/BoardOfAdvisorCard";
 
 function OurTeamsPage() {
-  const [teamType, setTeamType] = useState<string>("board_of_advisors");
+  // const [teamType, setTeamType] = useState<string>("board_of_advisors");
+  const [teamType, setTeamType] = useState<string>("directors");
 
   // Group filtered members by their original team
   const groupedFilteredMembers = useMemo(() => {
