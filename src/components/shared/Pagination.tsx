@@ -56,6 +56,10 @@ export type PaginationProps = {
   resultsLabel?: string;
   /** Hide the “Showing …” summary line */
   showSummary?: boolean;
+  /** Use API total page count instead of computing from totalRecords / pageSize */
+  totalPages?: number;
+  /** Custom summary line (replaces default range summary when set) */
+  summaryText?: string;
   /** Override active page button styles */
   activePageClassName?: string;
   inactivePageClassName?: string;
@@ -70,10 +74,13 @@ export function Pagination({
   className,
   resultsLabel = "results",
   showSummary = true,
+  totalPages: totalPagesProp,
+  summaryText,
   activePageClassName,
   inactivePageClassName,
 }: PaginationProps) {
-  const totalPages = getPaginationTotalPages(totalRecords, pageSize);
+  const totalPages =
+    totalPagesProp ?? getPaginationTotalPages(totalRecords, pageSize);
   const hasNextPage = totalPages > 0 && page < totalPages;
   const visiblePages = getPaginationVisiblePages(page, totalPages);
 
@@ -97,7 +104,9 @@ export function Pagination({
     <div className={cn("mt-6 space-y-4", className)}>
       {showSummary && (
         <p className="text-center text-sm text-slate-400">
-          {totalRecords === 0 ? (
+          {summaryText != null && summaryText !== "" ? (
+            summaryText
+          ) : totalRecords === 0 ? (
             <>No {resultsLabel}</>
           ) : (
             <>

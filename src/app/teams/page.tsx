@@ -4,11 +4,13 @@ import React, { useState, useMemo } from "react";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import Footer from "@/components/shared/Footer";
 import { mockMembers } from "@/data/mockMembers";
-import TeamCard from "@/components/essentials/TeamCard";
-import TeamFilterBar from "./components/TeamFilterBar";
+import TeamFilterBar from "@/components/teampage/TeamFilterBar";
+import TeamCardV2 from "@/components/teampage/TeamCardV2";
+import BoardOfAdvisorCard from "@/components/teampage/BoardOfAdvisorCard";
 
 function OurTeamsPage() {
-  const [teamType, setTeamType] = useState<string>("board_of_advisors");
+  // const [teamType, setTeamType] = useState<string>("board_of_advisors");
+  const [teamType, setTeamType] = useState<string>("directors");
 
   // Group filtered members by their original team
   const groupedFilteredMembers = useMemo(() => {
@@ -47,25 +49,36 @@ function OurTeamsPage() {
                   {team.team}
                 </h2>
 
-                <div className="flex flex-wrap justify-center gap-9 gap-y-17">
-                  {team.members.map((member) => (
-                    <TeamCard
-                      key={member.id}
-                      imageUrl={member.imageUrl}
-                      name={member.name}
-                      role={member.role}
-                      info={member.info}
-                      linkedin={member.social.linkedin}
-          
-                    />
-                  ))}
+                <div className="flex flex-wrap justify-center gap-9 gap-y-17 ">
+                  {team.members
+                    .filter((member) => member.role !== "Board of advisor")
+                    .map((member) => (
+                      <TeamCardV2
+                        key={member.id}
+                        imageUrl={member.imageUrl}
+                        name={member.name}
+                        role={member.role}
+                        info={member.info}
+                        linkedin={member.social.linkedin}
+                      />
+                    ))}
+                  {(() => {
+                    const advisors = team.members.filter(
+                      (member) => member.role === "Board of advisor",
+                    );
+                    return advisors.length > 0 ? (
+                      <BoardOfAdvisorCard
+                        key={`${team.team}-advisors`}
+                        advisors={advisors}
+                      />
+                    ) : null;
+                  })()}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
- 
         <div className="mt-12">
           <Footer />
         </div>

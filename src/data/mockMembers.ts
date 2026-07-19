@@ -28,23 +28,12 @@ export const mockMembers: Team[] = [
       {
         id: 43,
         name: "Parth Doshi",
-        role: "President",
+        role: "Board of advisor",
         imageUrl: "/MemberPics/parth.png",
-        info: "President",
+        info: "Board of Advisor",
         category: "board_of_advisors",
         social: {
           linkedin: "https://www.linkedin.com/in/parthdoshiml/",
-        },
-      },
-      {
-        id: 44,
-        name: "Het Jivani",
-        role: "Vice President",
-        imageUrl: "/MemberPics/het.png",
-        info: "Vice President",
-        category: "board_of_advisors",
-        social: {
-          linkedin: "https://linkedin.com/in/hetjivani",
         },
       },
     ],
@@ -53,22 +42,11 @@ export const mockMembers: Team[] = [
     team: "Executive Leadership Team",
     members: [
       {
-        id: 1,
-        name: "Parth Doshi",
-        role: "President",
-        imageUrl: "/MemberPics/parth.png",
-        info: "President",
-        category: "directors",
-        social: {
-          linkedin: "https://www.linkedin.com/in/parthdoshiml/",
-        },
-      },
-      {
         id: 29,
         name: "Het Jivani",
-        role: "Vice President",
+        role: "President",
         imageUrl: "/MemberPics/het.png",
-        info: "Vice President",
+        info: "President",
         category: "directors",
         social: {
           linkedin: "https://linkedin.com/in/hetjivani",
@@ -80,20 +58,20 @@ export const mockMembers: Team[] = [
     team: "Board of Directors",
     members: [
       {
-        id: 3,
-        name: "Vardaan Randev",
+        id: 40,
+        name: "Danielle En",
         role: "Director of Communications",
-        imageUrl: "/MemberPics/Vardaan.jpg",
+        imageUrl: "/MemberPics/Danielle_Eng.jpg",
         info: "Director of Communications",
         category: "directors",
         social: {
-          linkedin: "https://www.linkedin.com/in/vardaan-r-ab9ba436b/",
+          linkedin: "https://www.linkedin.com/in/danielle-eng-1bb865281",
         },
       },
       {
-        id: 4,
+        id: 41,
         name: "Fopefoluwa Ikufisile",
-        role: "Director of Systems Administration",
+        role: "Director of Systems Admin",
         imageUrl: "/MemberPics/fope.png",
         info: "Director of Systems Administration",
         category: "directors",
@@ -103,7 +81,7 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 42,
+        id: 44,
         name: "Dhruv Thakar",
         role: "Director of Outreach",
         imageUrl: "/MemberPics/Dhruv.jpeg",
@@ -115,7 +93,7 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 28,
+        id: 48,
         name: "Pragati Puri",
         role: "Director of WITS",
         imageUrl: "/MemberPics/Pragati_Puri.jpeg",
@@ -139,13 +117,13 @@ export const mockMembers: Team[] = [
       },
       {
         id: 39,
-        name: "Giovanna Londero",
+        name: "Michael Ugwu",
         role: "Director of Finance",
-        imageUrl: "/MemberPics/no-picture.png",
+        imageUrl: "/MemberPics/Michael_Ugwu.jpg",
         info: "Director of Finance",
         category: "directors",
         social: {
-          linkedin: "https://www.linkedin.com/in/giovanna-londero/",
+          linkedin: "https://www.linkedin.com/in/",
         },
       },
     ],
@@ -156,7 +134,7 @@ export const mockMembers: Team[] = [
       {
         id: 4,
         name: "Fopefoluwa Ikufisile",
-        role: "Director of Systems Administration",
+        role: "Director of Systems Admin",
         imageUrl: "/MemberPics/fope.png",
         info: "Director of Systems Administration",
         category: "sysadmin",
@@ -168,9 +146,9 @@ export const mockMembers: Team[] = [
       {
         id: 8,
         name: "James Ha",
-        role: "Web Developer",
+        role: "Software Developer",
         imageUrl: "/MemberPics/no-picture.png",
-        info: "Web Developer",
+        info: "Software Developer",
         category: "sysadmin",
         social: {
           linkedin: "https://www.linkedin.com/in/jameshaa/",
@@ -179,57 +157,12 @@ export const mockMembers: Team[] = [
       {
         id: 9,
         name: "Raymond Lam",
-        role: "Web Developer",
+        role: "Software Developer",
         imageUrl: "/MemberPics/raymond2.png",
-        info: "Web Developer",
+        info: "Software Developer",
         category: "sysadmin",
         social: {
           linkedin: "https://www.linkedin.com/in/raymondlamdev/",
-        },
-      },
-      {
-        id: 40,
-        name: "Vanshika Vanshika",
-        role: "UI/UX designer",
-        imageUrl: "/MemberPics/vanshika.jpeg",
-        info: "UX designer",
-        category: "sysadmin",
-        social: {
-          linkedin:
-            "https://www.linkedin.com/in/vans0090?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-        },
-      },
-      {
-        id: 41,
-        name: "Marianne Aguhar",
-        role: "UI/UX designer",
-        imageUrl: "/MemberPics/marianne.jpg",
-        info: "UI/UX designer",
-        category: "sysadmin",
-        social: {
-          linkedin: "https://www.linkedin.com/in/marianne-aguhar-93707b243/",
-        },
-      },
-      {
-        id: 11,
-        name: "Soroush Merikhy",
-        role: "Lead of UI/UX Design",
-        imageUrl: "/MemberPics/soroush.png",
-        info: "Lead of UI/UX Design",
-        category: "sysadmin",
-        social: {
-          linkedin: "https://www.linkedin.com/in/soroush-merikhy-a99875173/",
-        },
-      },
-      {
-        id: 45,
-        name: "Zaid Mohiuddin",
-        role: "Web Developer",
-        imageUrl: "/MemberPics/zaid.png",
-        info: "Web Developer",
-        category: "sysadmin",
-        social: {
-          linkedin: "https://www.linkedin.com/in/zaid-mohiuddin-ba98462a8/",
         },
       },
       {
@@ -243,20 +176,42 @@ export const mockMembers: Team[] = [
           linkedin: "https://www.linkedin.com/in/tianawong26/",
         },
       },
+      {
+        id: 45,
+        name: "Zaid Mohiuddin",
+        role: "Software Developer",
+        imageUrl: "/MemberPics/zaid.png",
+        info: "Software Developer",
+        category: "sysadmin",
+        social: {
+          linkedin: "https://www.linkedin.com/in/zaid-mohiuddin-ba98462a8/",
+        },
+      },
+      {
+        id: 47,
+        name: "Nafisah Nubah",
+        role: "Software Developer",
+        imageUrl: "/MemberPics/Nafisah_Nubah.jpg",
+        info: "Software Developer",
+        category: "sysadmin",
+        social: {
+          linkedin: "https://www.linkedin.com/in/nafisah-nubah-3a355829b/",
+        },
+      },
     ],
   },
   {
     team: "Communications Team",
     members: [
       {
-        id: 3,
-        name: "Vardaan Randev",
+        id: 10,
+        name: "Danielle Eng",
         role: "Director of Communications",
-        imageUrl: "/MemberPics/Vardaan.jpg",
+        imageUrl: "/MemberPics/Danielle_Eng.jpg",
         info: "Director of Communications",
         category: "communications",
         social: {
-          linkedin: "https://www.linkedin.com/in/vardaan-r-ab9ba436b/",
+          linkedin: "https://www.linkedin.com/in/danielle-eng-1bb865281",
         },
       },
       {
@@ -269,40 +224,6 @@ export const mockMembers: Team[] = [
         social: {
           linkedin:
             "https://www.linkedin.com/in/ruth-nyambeki-b41a142a9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-        },
-      },
-      {
-        id: 14,
-        name: "Temirlan Rashid",
-        role: "Content Creator",
-        imageUrl: "/MemberPics/Temirlan_Rashid.png",
-        info: "Content Creator",
-        category: "communications",
-        social: {
-          linkedin: "http://www.linkedin.com/in/temirlan-rashid",
-        },
-      },
-      {
-        id: 27,
-        name: "Anish Dhaubanjar",
-        role: "Marketing",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Marketing",
-        category: "communications",
-        social: {
-          linkedin:
-            "https://www.linkedin.com/in/anish-dhaubanjar-3714872a5?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
-        },
-      },
-      {
-        id: 10,
-        name: "Danielle Eng",
-        role: "Graphic Design",
-        imageUrl: "/MemberPics/Danielle_Eng.jpg",
-        info: "Graphic Design",
-        category: "communications",
-        social: {
-          linkedin: "http://www.linkedin.com/in/danielle-eng-1bb865281",
         },
       },
     ],
@@ -319,17 +240,6 @@ export const mockMembers: Team[] = [
         category: "events",
         social: {
           linkedin: "https://www.linkedin.com/in/zaid-mohiuddin-ba98462a8/",
-        },
-      },
-      {
-        id: 17,
-        name: "Stephanie Song",
-        role: "Events Coordinator",
-        imageUrl: "/MemberPics/steph.png",
-        info: "Events Coordinator",
-        category: "events",
-        social: {
-          linkedin: "https://www.linkedin.com/in/stephanie-song-700a65213/",
         },
       },
       {
@@ -383,36 +293,25 @@ export const mockMembers: Team[] = [
     team: "Finance Team",
     members: [
       {
-        id: 39,
-        name: "Giovanna Londero",
-        role: "Director of Finance",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Director of Finance",
-        category: "finance",
-        social: {
-          linkedin: "https://linkedin.com/in/giovanna-londero",
-        },
-      },
-      {
         id: 33,
         name: "Michael Ugwu",
-        role: "Finance Coordinator",
+        role: "Director of Finance",
         imageUrl: "/MemberPics/Michael_Ugwu.jpg",
-        info: "Finance Coordinator",
+        info: "Director of Finance",
         category: "finance",
         social: {
           linkedin: "https://linkedin.com/in/",
         },
       },
       {
-        id: 38,
-        name: "Alexis Daniel",
-        role: "Finance Coordinator",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "Finance Coordinator",
+        id: 49,
+        name: "Ben Zhou",
+        role: "Finance coordinator",
+        imageUrl: "/MemberPics/Ben_Zhou.jpeg",
+        info: "Finance coordinator",
         category: "finance",
         social: {
-          linkedin: "https://linkedin.com/",
+          linkedin: "https://www.linkedin.com/in/-ben-zhou-",
         },
       },
     ],
@@ -468,29 +367,6 @@ export const mockMembers: Team[] = [
         },
       },
       {
-        id: 36,
-        name: "Imad Zia",
-        role: "Cybersecurity Program Manager",
-        imageUrl: "/MemberPics/Imad_Zia.jpg",
-        info: "Cybersecurity Program Manager",
-        category: "outreach",
-        council: "cybersecurity",
-        social: {
-          linkedin: "https://www.linkedin.com/in/imadzia/",
-        },
-      },
-      {
-        id: 35,
-        name: "Zahra Hussain",
-        role: "WITS Program Manager",
-        imageUrl: "/MemberPics/zahra_hussain.png",
-        info: "WITS Program Manager",
-        category: "outreach",
-        social: {
-          linkedin: "http://www.linkedin.com/in/zahrahussain1",
-        },
-      },
-      {
         id: 37,
         name: "Roshan Banisetti",
         role: "AI Program Manager",
@@ -506,18 +382,6 @@ export const mockMembers: Team[] = [
   },
   {
     team: "Human Resources Team",
-    members: [
-      {
-        id: 25,
-        name: "Evangelyn Kelvin",
-        role: "HR Coordinator",
-        imageUrl: "/MemberPics/no-picture.png",
-        info: "HR Coordinator",
-        category: "hr",
-        social: {
-          linkedin: "https://www.linkedin.com/in/evangelynkelvin/",
-        },
-      },
-    ],
+    members: [],
   },
 ];

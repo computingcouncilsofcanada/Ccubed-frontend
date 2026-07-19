@@ -2,29 +2,52 @@
 
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useState } from "react";
-import { getAllRoles, updateRole, deleteRole } from "@/services/useApiRole";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+import { getAllRoles, updateRole, deleteRole, createRole } from "@/services/useApiRole";
 import { useForm } from "react-hook-form";
 import { IconPlus } from "@tabler/icons-react";
-import Link from "next/link";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
 import { Role } from "@/types/roles.interface";
 import EmptyRolesState from "./components/EmptyRolesState";
 import { createRoleTableColumns } from "./components/RoleTableColumns";
 import UpdateRoleModal, { RoleForm } from "./components/modals/UpdateRoleModal";
+import CreateRoleModal from "./components/modals/CreateRoleModal";
 import DeleteRoleModal from "./components/modals/DeleteRoleModal";
+
+const glassPanelStyle = {
+  background: "rgba(255, 255, 255, 0.12)",
+  backdropFilter: "blur(28px) saturate(120%)",
+  WebkitBackdropFilter: "blur(28px) saturate(120%)",
+  borderRadius: "22px",
+  border: "1px solid rgba(255, 255, 255, 0.35)",
+  boxShadow: `
+    0 20px 40px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    inset 0 -1px 0 rgba(255,255,255,0.15)
+  `,
+};
 
 function RolesPage() {
   const { user, isLoading } = useUser();
   const [roles, setRoles] = useState<Role[]>([]);
   const [, setError] = useState<string>("");
 
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
 
   const router = useRouter();
+
+  const {
+    register: registerCreate,
+    handleSubmit: handleCreateSubmit,
+    reset: resetCreate,
+    formState: { errors: createErrors },
+  } = useForm<RoleForm>();
 
   const {
     register: registerUpdate,
@@ -47,6 +70,27 @@ function RolesPage() {
   useEffect(() => {
     fetchRoles();
   }, [fetchRoles]);
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/");
+    }
+  }, [user, isLoading, router]);
+
+  const handleCreateRole = async (data: RoleForm) => {
+    setIsCreating(true);
+    try {
+      await createRole(data.name);
+      setIsCreateModalOpen(false);
+      resetCreate();
+      await fetchRoles();
+    } catch (err: unknown) {
+      console.error("Error creating role:", err);
+      alert(getErrMsg(err));
+    } finally {
+      setIsCreating(false);
+    }
+  };
 
   const handleUpdateRole = async (data: RoleForm) => {
     if (!selectedRole) return;
@@ -89,46 +133,83 @@ function RolesPage() {
     }
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        router.push("/");
-      }
-    }
-  }, [user, isLoading, router]);
+  const openCreateModal = () => {
+    resetCreate();
+    setIsCreateModalOpen(true);
+  };
 
-  if (!user ) {
+  if (!user) {
     return null;
   }
 
   const columns = createRoleTableColumns(openModal);
 
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Roles</h1>
-          <p className="text-gray-600">Manage roles</p>
+    <div className="min-h-screen text-white p-6">
+      <div className="relative rounded-3xl p-8" style={glassPanelStyle}>
+        <div
+          className="absolute top-0 left-6 right-6 h-px rounded-full"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+          }}
+        />
+
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-2">
+              <Image
+                src="/FigmaFiles/ccubed-icon.svg"
+                alt=""
+                width={30}
+                height={30}
+                draggable={false}
+                className="select-none"
+              />
+              Roles
+            </h1>
+            <p className="text-slate-400">Manage roles</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-semibold text-slate-300 bg-white/10 border border-white/20 rounded-full px-4 py-2">
+              {roles.length} {roles.length === 1 ? "Role" : "Roles"}
+            </span>
+            <button
+              type="button"
+              onClick={openCreateModal}
+              style={{ backgroundColor: "#FAA336" }}
+              className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl flex items-center gap-2"
+            >
+              <IconPlus size={20} />
+              Create Role
+            </button>
+          </div>
         </div>
-        <Link
-          href="/member/roles/create"
-          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
-        >
-          <IconPlus size={20} />
-          Create Role
-        </Link>
+
+        {roles.length === 0 ? (
+          <EmptyRolesState onCreateClick={openCreateModal} />
+        ) : (
+          <DataTable
+            columns={columns}
+            data={roles}
+            headerVariant="purple"
+            sort={true}
+          />
+        )}
       </div>
 
-      {roles.length === 0 ? (
-        <EmptyRolesState />
-      ) : (
-        <DataTable
-          columns={columns}
-          data={roles}
-          headerVariant="purple"
-          sort={true}
-        />
-      )}
+      <CreateRoleModal
+        isOpen={isCreateModalOpen}
+        onClose={() => {
+          setIsCreateModalOpen(false);
+          resetCreate();
+        }}
+        register={registerCreate}
+        handleSubmit={handleCreateSubmit}
+        onSubmit={handleCreateRole}
+        errors={createErrors}
+        isSubmitting={isCreating}
+      />
 
       <UpdateRoleModal
         isOpen={isUpdateModalOpen}

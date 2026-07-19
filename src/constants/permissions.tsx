@@ -74,6 +74,21 @@ export const PERMISSIONS = {
     // Send Mail
     SEND_MAIL: "send.mail",
 
+    // Email Templates
+    CREATE_EMAIL_TEMPLATE: "email.template.create",
+    GET_EMAIL_TEMPLATES: "email.template.get",
+    GET_EMAIL_TEMPLATE_BY_ID: "email.template.get.by.id",
+    UPDATE_EMAIL_TEMPLATE: "email.template.update",
+    DELETE_EMAIL_TEMPLATE: "email.template.delete",
+
+    // Bulk Emails
+    CREATE_BULK_EMAIL: "bulk.email.create",
+    GET_BULK_EMAILS: "bulk.email.get",
+    GET_BULK_EMAIL_BY_ID: "bulk.email.get.by.id",
+    CONFIRM_BULK_EMAIL: "bulk.email.confirm",
+    CANCEL_BULK_EMAIL: "bulk.email.cancel",
+    DELETE_BULK_EMAIL: "bulk.email.delete",
+
     // Activity Log
     VIEW_ACTIVITY_LOG: "activity.log.view",
     DELETE_ACTIVITY_LOG: "activity.log.delete",
@@ -92,4 +107,6 @@ export const PERMISSIONS = {
     SIDEBAR_VIEW_DEPARTMENTS: "sidebar.departments.view",
     SIDEBAR_VIEW_USERS: "sidebar.users.view",
     SIDEBAR_VIEW_ARTICLES: "sidebar.articles.view",
+    SIDEBAR_VIEW_EMAIL_GROUPS: "sidebar.email.groups.view",
+    SIDEBAR_VIEW_EMAIL: "sidebar.email.view",
 };
