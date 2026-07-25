@@ -39,7 +39,7 @@ export const ArticleSection = ({ council }: CouncilProps) => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="mb-32"
       >
-        <ArticleHeader council={council} />
+        <ArticleHeader />
         <ArticleBody />
       </motion.div>
     )
@@ -98,7 +98,6 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
   };
 
   return (
-    hasUniversities && (
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -114,16 +113,15 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
             Council Universities
           </h2>
         </div>
-        <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row md:items-end gap-6">
+        <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row md:items-stretch gap-6">
           <div className="w-full md:w-1/2 shrink-0 ">
-            {/* Display current university description – same aspect-ratio as image so heights match on desktop; dots excluded */}
-            {hasUniversities && (
+            {hasUniversities ? (
               <motion.div
                 key={activeIndex}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className=" md:mt-0 w-full  md:aspect-[480/280] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
+                className="w-full h-[220px] md:h-[280px] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
               >
                 <h3
                   className="text-white font-semibold text-[18px] mb-2 shrink-0"
@@ -138,14 +136,15 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
                   {universities[activeIndex].description}
                 </p>
               </motion.div>
+            ) : (
+              <div className="w-full h-[220px] md:h-[280px] rounded-[20px] bg-[#3A3A3A]/40 border border-white/10" />
             )}
           </div>
 
           <div className="w-full md:w-1/2 flex flex-col items-center">
             {hasUniversities ? (
               <>
-                {/* Image only – same aspect-ratio as description; dark bg so no white letterboxing; dots are below */}
-                <div className="relative w-full max-w-[550px] h-[220px] md:h-auto md:aspect-[550/280] overflow-hidden rounded-[20px]  shrink-0">
+                <div className="relative w-full max-w-[550px] h-[220px] md:h-[280px] overflow-hidden rounded-[20px]  shrink-0">
                   <AnimatePresence initial={false} custom={direction}>
                     <motion.div
                       key={activeIndex}
@@ -218,19 +217,11 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
                 )}
               </>
             ) : (
-              <div className="w-full max-w-[550px] md:h-[331px] h-[220px] flex items-center justify-center rounded-[20px] bg-[#D4D4D4]/10 backdrop-blur-sm border border-white/10">
-                <p
-                  className="text-white/50 text-center px-6"
-                  style={{ fontFamily: "Roboto, sans-serif" }}
-                >
-                  Partner universities coming soon
-                </p>
-              </div>
+              <div className="w-full max-w-[550px] md:h-[280px] h-[220px] rounded-[20px] bg-[#8A8A8A]/40 border border-white/10" />
             )}
           </div>
         </div>
       </motion.div>
-    )
   );
 };
 /**
@@ -382,6 +373,18 @@ export const EventsSection = ({
           <div className="text-white/70 text-sm">
             Check back soon for upcoming council events!
           </div>
+        </div>
+      )}
+
+      {councilEvents.length > 0 && (
+        <div className="flex justify-center mt-8">
+          <a
+            href="/events"
+            className="px-6 py-2 rounded-full border border-white/40 text-white text-[14px] hover:bg-white/10 transition-colors"
+            style={{ fontFamily: "Roboto, sans-serif" }}
+          >
+            See more
+          </a>
         </div>
       )}
     </motion.div>

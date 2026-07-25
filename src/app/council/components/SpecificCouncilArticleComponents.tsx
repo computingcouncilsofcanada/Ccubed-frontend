@@ -7,12 +7,6 @@ import { mockArticles } from "@/data/mockArticles";
 import React from "react";
 import { IArticle } from "@/data/mockArticles";
 import { usePathname, useRouter } from "next/navigation";
-import { MoveRight } from "lucide-react";
-import { CouncilSection } from "@/app/council/types/types";
-
-type CouncilProps = {
-  council: CouncilSection;
-};
 
 // ============================================================================
 // ARTICLE BIG CARD COMPONENT
@@ -147,6 +141,7 @@ export const ArticleBody = () => {
     return articleCouncilSlug === councilSlug;
   });
   const otherThreeArticles = councilArticles.slice(1, 4);
+  const placeholderCount = Math.max(0, 3 - otherThreeArticles.length);
 
   if (!councilSlug) {
     return <div className="text-white">Loading...</div>;
@@ -170,10 +165,28 @@ export const ArticleBody = () => {
             <InformationCard article={article} />
           </React.Fragment>
         ))}
+        {Array.from({ length: placeholderCount }).map((_, i) => (
+          <PlaceholderInformationCard key={`placeholder-${i}`} />
+        ))}
       </div>
     </div>
   );
 };
+
+// ============================================================================
+// PLACEHOLDER INFORMATION CARD
+// ============================================================================
+const PlaceholderInformationCard = () => (
+  <div className="flex gap-4 relative rounded-2xl px-2 py-0.5">
+    <div className="relative w-40 h-40 flex-shrink-0 rounded-2xl mt-1.5 bg-[#3A3A3A]/40 border border-white/10" />
+    <div className="flex flex-col gap-3 flex-1 min-h-[180px] py-2">
+      <div className="h-6 w-1/3 rounded bg-white/5" />
+      <div className="h-4 w-1/4 rounded bg-white/5" />
+      <div className="h-6 w-5/6 rounded bg-white/5 mt-2" />
+      <div className="h-6 w-2/3 rounded bg-white/5" />
+    </div>
+  </div>
+);
 
 // ============================================================================
 // INFORMATION CARD COMPONENT
@@ -335,13 +348,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
 // ============================================================================
 // ARTICLE HEADER COMPONENT
 // ============================================================================
-export const ArticleHeader = ({ council }: CouncilProps) => {
-  const router = useRouter();
-
-  const handleClick = (section: { title: string }) => {
-    const cleanTitle = section.title.toLowerCase().replace(/\s+/g, "");
-    router.push(`/council/${cleanTitle}/article`);
-  };
+export const ArticleHeader = () => {
   return (
     <div className="text-start mb-6">
       <h2
@@ -350,46 +357,12 @@ export const ArticleHeader = ({ council }: CouncilProps) => {
       >
         Latest Articles
       </h2>
-      <div className="flex flex-col md:flex-row justify-between md:items-center items-start md:gap-0 gap-4">
-        <p
-          className="text-white font-light text-[18px] leading-[26px] tracking-[0.01em]"
-          style={{ fontFamily: "Roboto, sans-serif" }}
-        >
-          Take a quick look at our latest articles.
-          {/*  Enjoy the content? Head to
-          the Explore Articles page to discover more. */}
-        </p>
-        {/* <motion.div
-          className="flex gap-2 items-center cursor-pointer"
-          whileHover="hover"
-          initial="initial"
-          variants={{
-            initial: {},
-            hover: {},
-          }}
-          onClick={() => handleClick(council)}
-        >
-          <motion.p
-            className="text-white font-light text-[18px]"
-            style={{ fontFamily: "Roboto, sans-serif" }}
-            variants={{
-              initial: { x: 10 },
-              hover: { x: -3 },
-            }}
-          >
-            See All
-          </motion.p>
-
-          <motion.div
-            variants={{
-              initial: { opacity: 0 },
-              hover: { opacity: 1 },
-            }}
-          >
-            <MoveRight className="text-white" />
-          </motion.div> 
-        </motion.div> */}
-      </div>
+      <p
+        className="text-white font-light text-[18px] leading-[26px] tracking-[0.01em]"
+        style={{ fontFamily: "Roboto, sans-serif" }}
+      >
+        Take a quick look at our latest articles.
+      </p>
     </div>
   );
 };

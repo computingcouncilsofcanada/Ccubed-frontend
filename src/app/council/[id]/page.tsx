@@ -15,6 +15,59 @@ import { councilSections } from "@/data/councilSections";
 import { useParams } from "next/navigation";
 import PreviewModal from "@/components/modals/PreviewModal";
 
+const AiNodesBackground = () => (
+  <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="relative mx-auto h-full w-full max-w-[1440px]">
+      <img
+        src="/FigmaFiles/councilAssets/brain-final.svg"
+        alt=""
+        aria-hidden="true"
+        className="absolute select-none opacity-60"
+        style={{ top: 38, left: 699, width: 670, height: 670 }}
+        draggable={false}
+      />
+      <img
+        src="/FigmaFiles/councilAssets/nodes.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute select-none"
+        style={{ top: 889, left: 1167, width: 513, height: 513 }}
+        draggable={false}
+      />
+      <img
+        src="/FigmaFiles/councilAssets/nodes.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute select-none"
+        style={{
+          top: 1999.13,
+          left: -368,
+          width: 428.68,
+          height: 428.68,
+          transform: "rotate(-143.52deg)",
+        }}
+        draggable={false}
+      />
+      <img
+        src="/FigmaFiles/councilAssets/nodes.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute select-none"
+        style={{ top: 2229, left: 1251, width: 513, height: 513 }}
+        draggable={false}
+      />
+      <img
+        src="/FigmaFiles/councilAssets/nodes 4.svg"
+        alt=""
+        aria-hidden="true"
+        className="absolute select-none"
+        style={{ top: 1372, left: 63, width: 529.58, height: 529.58 }}
+        draggable={false}
+      />
+    </div>
+  </div>
+);
+
 const CouncilDetailPage = () => {
     const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +80,6 @@ const CouncilDetailPage = () => {
       console.warn("No registration URL for this event");
       return;
     }
-  
       window.open(url, "_blank");
     };
   const council = useMemo(() => {
@@ -44,9 +96,13 @@ const CouncilDetailPage = () => {
     );
   }
 
+  const isAiCouncil = council.title
+    .toLowerCase()
+    .includes("artificial intelligence");
+
   return (
     <div className="min-h-screen relative w-full overflow-hidden  bg-linear-to-b from-[#10212E] to-[#162C3D] -mt-30 pt-20">
-      <BgBoxMainPage maxHeight={200} />
+      {isAiCouncil ? <AiNodesBackground /> : <BgBoxMainPage maxHeight={200} />}
 
       <div className="relative z-10 container mx-auto w-full max-w-6xl mt-6 px-4">
         <CouncilHero council={council} />
