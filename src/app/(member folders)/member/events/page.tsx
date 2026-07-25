@@ -19,7 +19,7 @@ import Link from "next/link";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
 import { formatDate } from "@/utils/dateUtils";
-import { ApiEvent, Event, EventForm } from "@/types/events";
+import { ApiEvent, Event, EventForm, Events as DisplayEvent } from "@/types/events";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import PreviewModal from "@/components/modals/PreviewModal";
 import EventStats from "./components/stats/EventStats";
@@ -33,9 +33,6 @@ import ApproveEventModal from "./components/modals/ApproveEventModal";
 import StatsRow from "./components/StatsRow";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 import Image from "next/image";
-import PreviewModal from "@/components/modals/PreviewModal";
-import { transformApiEvents } from "@/app/events/utils/eventsApi";
-import { ApiEvent, Events as DisplayEvent } from "@/types/events";
 
 function EventsPage() {
   const { user } = useUser();
@@ -44,11 +41,8 @@ function EventsPage() {
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [previewEvent, setPreviewEvent] = useState<DisplayEvent | null>(null);
-
-  const [previewEvent, setPreviewEvent] = useState<Event | null>(null);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isApproveUpdateModalOpen, setIsApproveUpdateModalOpen] =
@@ -353,7 +347,6 @@ function EventsPage() {
         if (event) {
           const [transformed] = transformApiEvents([event as unknown as ApiEvent]);
           setPreviewEvent(transformed);
-          setIsPreviewModalOpen(true);
         }
         break;
       case "create":
@@ -528,14 +521,6 @@ function EventsPage() {
       />
 
    
-      <PreviewModal
-        isOpen={isPreviewModalOpen}
-        onClose={() => setIsPreviewModalOpen(false)}
-        event={previewEvent}
-        onInvite={(url) => {
-          if (url) window.open(url, "_blank", "noopener,noreferrer");
-        }}
-      />
       <ApproveEventModal
         isOpen={isApproveUpdateModalOpen}
         onClose={() => setIsApproveUpdateModalOpen(false)}
@@ -548,6 +533,9 @@ function EventsPage() {
         isOpen={!!previewEvent}
         onClose={() => setPreviewEvent(null)}
         event={previewEvent}
+        onInvite={(url) => {
+          if (url) window.open(url, "_blank", "noopener,noreferrer");
+        }}
       />
     </div>
   );
