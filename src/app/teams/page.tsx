@@ -55,7 +55,7 @@ function OurTeamsPage() {
                       name={member.name}
                       role={member.role}
                       info={member.info}
-                      linkedin={member.social.linkedin}
+                      linkedin={member.social.linkedin ?? ""}
           
                     />
                   ))}

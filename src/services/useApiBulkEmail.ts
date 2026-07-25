@@ -16,6 +16,17 @@ export const useApiBulkEmail = () => {
     return response.data;
   }, []);
 
+  const parseSheet = useCallback(
+    async (sheetUrlOrId: string, range?: string) => {
+      const response = await privateAxios.post(`/bulk-emails/parse-sheet`, {
+        sheet_url_or_id: sheetUrlOrId,
+        ...(range ? { range } : {}),
+      });
+      return response.data;
+    },
+    [],
+  );
+
   const createBulkEmail = useCallback(
     async (data: CreateBulkEmailDTO) => {
       const response = await privateAxios.post(`/bulk-emails`, data);
@@ -68,6 +79,7 @@ export const useApiBulkEmail = () => {
 
   return {
     parseUpload,
+    parseSheet,
     createBulkEmail,
     listBulkEmails,
     getBulkEmail,
