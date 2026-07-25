@@ -33,6 +33,9 @@ import ApproveEventModal from "./components/modals/ApproveEventModal";
 import StatsRow from "./components/StatsRow";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 import Image from "next/image";
+import PreviewModal from "@/components/modals/PreviewModal";
+import { transformApiEvents } from "@/app/events/utils/eventsApi";
+import { ApiEvent, Events as DisplayEvent } from "@/types/events";
 
 function EventsPage() {
   const { user } = useUser();
@@ -41,7 +44,9 @@ function EventsPage() {
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [previewEvent, setPreviewEvent] = useState<DisplayEvent | null>(null);
 
   const [previewEvent, setPreviewEvent] = useState<Event | null>(null);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
@@ -333,6 +338,7 @@ function EventsPage() {
     event: Event | null,
     type:
       | "create"
+      | "preview"
       | "update"
       | "delete"
       | "approve-create"
@@ -343,6 +349,13 @@ function EventsPage() {
   ) => {
     setSelectedEvent(event);
     switch (type) {
+      case "preview":
+        if (event) {
+          const [transformed] = transformApiEvents([event as unknown as ApiEvent]);
+          setPreviewEvent(transformed);
+          setIsPreviewModalOpen(true);
+        }
+        break;
       case "create":
         router.push("/member/events/create");
         break;
@@ -514,12 +527,15 @@ function EventsPage() {
         rejectType={rejectType}
       />
 
-      <ApproveEventModal
-        isOpen={isApproveModalOpen}
-        onClose={() => setIsApproveModalOpen(false)}
-        onConfirm={handleApproveCreateEvent}
+   
+      <PreviewModal
+        isOpen={isPreviewModalOpen}
+        onClose={() => setIsPreviewModalOpen(false)}
+        event={previewEvent}
+        onInvite={(url) => {
+          if (url) window.open(url, "_blank", "noopener,noreferrer");
+        }}
       />
-
       <ApproveEventModal
         isOpen={isApproveUpdateModalOpen}
         onClose={() => setIsApproveUpdateModalOpen(false)}

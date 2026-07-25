@@ -4,7 +4,6 @@ import {
   Calendar,
   Clock,
   MapPin,
-  Edit,
   Trash,
   Check,
   X,
@@ -13,7 +12,18 @@ import {
 } from "lucide-react";
 
 export function createEventTableColumns(
-  openModal: (event: Event | null, type: "update" | "delete" | "approve-create" | "reject-create" | "approve-update" | "reject-update" | "preview-update") => void
+  openModal: (
+    event: Event | null,
+    type:
+      | "preview"
+      | "update"
+      | "delete"
+      | "approve-create"
+      | "reject-create"
+      | "approve-update"
+      | "reject-update"
+      | "preview-update"
+  ) => void
 ): ColumnDef<Event>[] {
   return [
     {
@@ -128,6 +138,13 @@ export function createEventTableColumns(
         const event = row.original;
         return (
           <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => openModal(event, "preview")}
+              className="p-1.5 bg-[#2e3f4f] text-white rounded-lg hover:bg-gray-800 transition-colors"
+              title="Preview"
+            >
+              <Eye size={16} />
+            </button>
             <button
               onClick={() => openModal(event, "update")}
               className="p-1.5 bg-[#2e3f4f] text-white rounded-lg hover:bg-gray-800 transition-colors"
