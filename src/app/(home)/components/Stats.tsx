@@ -10,22 +10,22 @@ const getStats = (eventsCount: number) => [
   {
     id: 1,
     number: "5+",
-    label: "Province Engaged",
+    label: "Provinces Engaged",
   },
   {
     id: 2,
     number: `${eventsCount}+`,
-    label: "events",
+    label: "Events",
   },
   {
     id: 3,
     number: "800+",
-    label: "Event Registrants",
+    label: "Event Attendees",
   },
   {
     id: 4,
     number: "15+",
-    label: "University",
+    label: "Universities",
   },
 ];
 
@@ -94,7 +94,7 @@ export default function Stats() {
       className="stats-section relative z-10 py-16 flex justify-center"
     >
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center place-items-center max-w-5xl w-full">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 max-w-6xl w-full px-4">
         {stats.map((stat: { id: number; number: string; label: string }, index: number) => (
           <motion.div
             key={stat.id}
@@ -105,7 +105,7 @@ export default function Stats() {
               delay: index * 0.2,
               ease: "easeOut"
             }}
-            className="flex flex-col items-start justify-center w-[200px] h-[140px] text-left pl-4"
+            className="flex flex-col items-center justify-center w-full h-[140px] text-center"
           >
             {/* Number */}
             <div
@@ -126,7 +126,7 @@ export default function Stats() {
 
             {/* Label */}
             <div
-              className="text-white font-light text-left"
+              className="text-white font-light text-center"
               style={{
                 fontFamily: "Roboto, sans-serif",
                 fontSize: "20px",
