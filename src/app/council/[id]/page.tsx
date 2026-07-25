@@ -18,6 +18,7 @@ import PreviewModal from "@/components/modals/PreviewModal";
 const AiNodesBackground = () => (
   <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
     <div className="relative mx-auto h-full w-full max-w-[1440px]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/FigmaFiles/councilAssets/brain-final.svg"
         alt=""
@@ -26,6 +27,7 @@ const AiNodesBackground = () => (
         style={{ top: 38, left: 699, width: 670, height: 670 }}
         draggable={false}
       />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/FigmaFiles/councilAssets/nodes.png"
         alt=""
@@ -34,6 +36,7 @@ const AiNodesBackground = () => (
         style={{ top: 889, left: 1167, width: 513, height: 513 }}
         draggable={false}
       />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/FigmaFiles/councilAssets/nodes.png"
         alt=""
@@ -48,6 +51,7 @@ const AiNodesBackground = () => (
         }}
         draggable={false}
       />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/FigmaFiles/councilAssets/nodes.png"
         alt=""
@@ -56,6 +60,7 @@ const AiNodesBackground = () => (
         style={{ top: 2229, left: 1251, width: 513, height: 513 }}
         draggable={false}
       />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/FigmaFiles/councilAssets/nodes 4.svg"
         alt=""
