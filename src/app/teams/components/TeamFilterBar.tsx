@@ -8,7 +8,7 @@ type TeamFilterBarProps = {
 
 const TeamFilterBar = ({ teamType, onTeamTypeChange }: TeamFilterBarProps) => {
   return (
-    <div className="flex  flex-wrap gap-3 justify-center relative w-full max-w-5xl mx-auto mt-5">
+    <div className="flex flex-wrap xl:flex-nowrap gap-3 justify-center relative w-full max-w-5xl xl:max-w-7xl mx-auto mt-5">
       
       {[
         {label: "Board of Advisors", value: "board_of_advisors"},
