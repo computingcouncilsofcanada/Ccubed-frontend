@@ -34,6 +34,8 @@ export interface ApiEvent {
   status: number;
   types: string[];
   pending_action?: string | null;
+  /** Staged changes awaiting update approval (applied on approve-update) */
+  pending_update?: Record<string, unknown> | null;
   reject_reason?: string | null;
   approved_by?: string[];
   created_at: string;
@@ -68,6 +70,8 @@ export interface Event {
   ownership?: string[] | null;
   domains?: string[] | null;
   pending_action?: string | null;
+  /** Staged changes awaiting update approval (applied on approve-update) */
+  pending_update?: Record<string, unknown> | null;
   reject_reason?: string | null;
   approved_by?: string[] | null;
   created_at?: string;

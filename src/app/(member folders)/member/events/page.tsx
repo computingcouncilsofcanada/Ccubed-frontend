@@ -19,7 +19,9 @@ import Link from "next/link";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
 import { formatDate } from "@/utils/dateUtils";
-import { Event, EventForm } from "@/types/events";
+import { ApiEvent, Event, EventForm } from "@/types/events";
+import { transformApiEvents } from "@/app/events/utils/eventsApi";
+import PreviewModal from "@/components/modals/PreviewModal";
 import EventStats from "./components/stats/EventStats";
 import EmptyEventsState from "./components/EmptyEventsState";
 import PaginationControls from "./components/PaginationControls";
@@ -46,6 +48,7 @@ function EventsPage() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [previewEvent, setPreviewEvent] = useState<DisplayEvent | null>(null);
 
+  const [previewEvent, setPreviewEvent] = useState<Event | null>(null);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isApproveUpdateModalOpen, setIsApproveUpdateModalOpen] =
@@ -341,7 +344,8 @@ function EventsPage() {
       | "approve-create"
       | "reject-create"
       | "approve-update"
-      | "reject-update",
+      | "reject-update"
+      | "preview-update",
   ) => {
     setSelectedEvent(event);
     switch (type) {
@@ -381,6 +385,25 @@ function EventsPage() {
         break;
       case "approve-update":
         setIsApproveUpdateModalOpen(true);
+        break;
+      case "preview-update":
+        // Show the staged changes (pending_update) merged over the live event
+        // so approvers can see exactly what they would be approving.
+        if (event) {
+          getEventById(event.id.toString())
+            .then((res) => {
+              const full = (res.data ?? res) as ApiEvent;
+              const merged = {
+                ...full,
+                ...(full.pending_update ?? {}),
+                id: full.id,
+              } as ApiEvent;
+              setPreviewEvent(transformApiEvents([merged])[0]);
+            })
+            .catch((err) => {
+              setError(getErrMsg(err));
+            });
+        }
         break;
       case "reject-update":
         setRejectType("update");
@@ -519,6 +542,12 @@ function EventsPage() {
         onConfirm={handleApproveUpdateEvent}
         title="Approve Event Update"
         message="Are you sure you want to approve this event update?"
+      />
+
+      <PreviewModal
+        isOpen={!!previewEvent}
+        onClose={() => setPreviewEvent(null)}
+        event={previewEvent}
       />
     </div>
   );

@@ -22,6 +22,7 @@ export function createEventTableColumns(
       | "reject-create"
       | "approve-update"
       | "reject-update"
+      | "preview-update"
   ) => void
 ): ColumnDef<Event>[] {
   return [
@@ -184,6 +185,13 @@ export function createEventTableColumns(
                   title="Approve Update"
                 >
                   <Check size={16} />
+                </button>
+                <button
+                  onClick={() => openModal(event, "preview-update")}
+                  className="p-1.5 bg-blue-900 text-blue-400 rounded-lg hover:bg-blue-800 transition-colors"
+                  title="Preview Pending Changes"
+                >
+                  <Eye size={16} />
                 </button>
                 <button
                   onClick={() => openModal(event, "reject-update")}
