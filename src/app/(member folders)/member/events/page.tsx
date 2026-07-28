@@ -19,7 +19,12 @@ import Link from "next/link";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
 import { formatDate } from "@/utils/dateUtils";
-import { ApiEvent, Event, EventForm, Events as DisplayEvent } from "@/types/events";
+import {
+  ApiEvent,
+  Event,
+  EventForm,
+  Events as DisplayEvent,
+} from "@/types/events";
 import { transformApiEvents } from "@/app/events/utils/eventsApi";
 import PreviewModal from "@/components/modals/PreviewModal";
 import EventStats from "./components/stats/EventStats";
@@ -345,7 +350,9 @@ function EventsPage() {
     switch (type) {
       case "preview":
         if (event) {
-          const [transformed] = transformApiEvents([event as unknown as ApiEvent]);
+          const [transformed] = transformApiEvents([
+            event as unknown as ApiEvent,
+          ]);
           setPreviewEvent(transformed);
         }
         break;
@@ -520,7 +527,12 @@ function EventsPage() {
         rejectType={rejectType}
       />
 
-   
+      <ApproveEventModal
+        isOpen={isApproveModalOpen}
+        onClose={() => setIsApproveModalOpen(false)}
+        onConfirm={handleApproveCreateEvent}
+      />
+
       <ApproveEventModal
         isOpen={isApproveUpdateModalOpen}
         onClose={() => setIsApproveUpdateModalOpen(false)}
