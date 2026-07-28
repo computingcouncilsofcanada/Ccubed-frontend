@@ -112,6 +112,8 @@ function EventsPage() {
         formData.append("url", data.url || "");
       }
 
+      formData.append("content", data.content ?? "");
+
       // Arrays - send as JSON arrays
       const learningOutcomes = data.learning_outcomes
         .map((item) => item.value)
@@ -520,7 +522,12 @@ function EventsPage() {
         rejectType={rejectType}
       />
 
-   
+      <ApproveEventModal
+        isOpen={isApproveModalOpen}
+        onClose={() => setIsApproveModalOpen(false)}
+        onConfirm={handleApproveCreateEvent}
+      />
+
       <ApproveEventModal
         isOpen={isApproveUpdateModalOpen}
         onClose={() => setIsApproveUpdateModalOpen(false)}

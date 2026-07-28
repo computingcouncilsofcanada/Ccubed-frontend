@@ -9,6 +9,7 @@ import {
   X,
   PencilIcon,
   Eye,
+  GitCompare,
 } from "lucide-react";
 
 export function createEventTableColumns(
@@ -141,7 +142,7 @@ export function createEventTableColumns(
             <button
               onClick={() => openModal(event, "preview")}
               className="p-1.5 bg-[#2e3f4f] text-white rounded-lg hover:bg-gray-800 transition-colors"
-              title="Preview"
+              title="Preview Current Event"
             >
               <Eye size={16} />
             </button>
@@ -180,18 +181,18 @@ export function createEventTableColumns(
             {event.pending_action === "update" && (
               <>
                 <button
+                  onClick={() => openModal(event, "preview-update")}
+                  className="p-1.5 bg-blue-900 text-blue-400 rounded-lg hover:bg-blue-800 transition-colors"
+                  title="Preview Pending Changes"
+                >
+                  <GitCompare size={16} />
+                </button>
+                <button
                   onClick={() => openModal(event, "approve-update")}
                   className="p-1.5 bg-green-900 text-green-400 rounded-lg hover:bg-green-800 transition-colors"
                   title="Approve Update"
                 >
                   <Check size={16} />
-                </button>
-                <button
-                  onClick={() => openModal(event, "preview-update")}
-                  className="p-1.5 bg-blue-900 text-blue-400 rounded-lg hover:bg-blue-800 transition-colors"
-                  title="Preview Pending Changes"
-                >
-                  <Eye size={16} />
                 </button>
                 <button
                   onClick={() => openModal(event, "reject-update")}
