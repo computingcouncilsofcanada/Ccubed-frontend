@@ -136,6 +136,10 @@ export default function CreateEventPage() {
         formData.append("url", data.url);
       }
 
+      if (data.content?.trim()) {
+        formData.append("content", data.content);
+      }
+
       // Arrays - send as JSON arrays
       const learningOutcomes = data.learning_outcomes
         .map((item) => item.value)

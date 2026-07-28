@@ -117,6 +117,8 @@ function EventsPage() {
         formData.append("url", data.url || "");
       }
 
+      formData.append("content", data.content ?? "");
+
       // Arrays - send as JSON arrays
       const learningOutcomes = data.learning_outcomes
         .map((item) => item.value)

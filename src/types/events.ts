@@ -102,6 +102,7 @@ export interface EventStats {
 export interface EventForm {
   name: string;
   description: string;
+  content?: string;
   start_at: string;
   end_at: string;
   location: string;

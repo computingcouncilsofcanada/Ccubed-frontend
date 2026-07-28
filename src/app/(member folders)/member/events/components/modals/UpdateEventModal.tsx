@@ -99,6 +99,7 @@ export default function UpdateEventModal({
     reset({
       name: selectedEvent.name || "",
       description: selectedEvent.description || "",
+      content: selectedEvent.content || "",
       location: selectedEvent.location || "",
       registration_link: selectedEvent.registration_link || "",
       url: selectedEvent.url || "",
@@ -732,6 +733,18 @@ export default function UpdateEventModal({
               >
                 <IconPlus size={16} /> Add Instructor
               </button>
+            </div>
+
+            <div className="mt-6">
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Content
+              </label>
+              <textarea
+                {...register("content")}
+                rows={10}
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                placeholder="Optional: session structure, agenda, or any extra details"
+              />
             </div>
           </div>
 
