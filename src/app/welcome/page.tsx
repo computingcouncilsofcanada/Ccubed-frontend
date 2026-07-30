@@ -6,8 +6,13 @@ import BgBoxComingSoon from "@/components/essentials/BgBoxComingSoon";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { IconBrandLinkedin, IconBrandDiscord, IconBrandInstagram, IconMail } from "@tabler/icons-react";
-
+import {
+  IconBrandLinkedin,
+  IconBrandDiscord,
+  IconBrandInstagram,
+  IconMail,
+} from "@tabler/icons-react";
+import Footer from "@/components/shared/Footer";
 
 const socialLinks = [
   {
@@ -66,7 +71,7 @@ const SocialIcons: React.FC<{ opacity?: number; size?: number }> = ({
 const ComingSoon = () => {
   const logoSrc = useSafariImageFallback(
     "/FigmaFiles/ccubed-icon.svg",
-    "/FigmaFiles/ccubed-icon.png"
+    "/FigmaFiles/ccubed-icon.png",
   );
 
   return (
@@ -75,30 +80,6 @@ const ComingSoon = () => {
       <BgBoxComingSoon />
 
       {/* Header */}
-      <header className="relative z-30 flex-shrink-0 p-6 mb-10">
-        <div className="max-w-5xl lg:max-w-7xl xl:max-w-[84rem] mx-auto">
-          <Link href="/" className="flex items-center gap-2 w-fit">
-            <Image
-              src={logoSrc}
-              alt="CCubed Icon"
-              width={40}
-              height={40}
-              quality={100}
-              draggable={false}
-              style={{ userSelect: "none" }}
-            />
-            <h1
-              className="text-white font-semibold"
-              style={{
-                fontFamily: "Roboto, sans-serif",
-                fontSize: "20px",
-              }}
-            >
-              CCUBED
-            </h1>
-          </Link>
-        </div>
-      </header>
 
       {/* Main content */}
       <section className="relative flex-1 flex items-start justify-center px-6">
@@ -202,7 +183,7 @@ const ComingSoon = () => {
             <Image
               src={useSafariImageFallback(
                 "/FigmaFiles/mainPageAssets/bear_greeting.svg",
-                "/FigmaFiles/mainPageAssets/bear_greeting.png"
+                "/FigmaFiles/mainPageAssets/bear_greeting.png",
               )}
               alt="Greeting Bear"
               width={200}
@@ -223,29 +204,7 @@ const ComingSoon = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="relative z-30 flex-shrink-0 px-4 py-6">
-        <div className="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto flex items-center justify-between">
-          <p
-            style={{
-              fontFamily: "Roboto, sans-serif",
-              fontWeight: 600,
-              fontSize: "16px",
-              lineHeight: "normal",
-              letterSpacing: 0,
-              color: "#FFFFFF",
-              opacity: 0.4,
-              textTransform: "uppercase",
-            }}
-          >
-            Computing Councils of Canada
-          </p>
-
-          {/* Social icons */}
-          <SocialIcons opacity={0.4} size={24} />
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

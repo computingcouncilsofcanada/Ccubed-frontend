@@ -46,7 +46,7 @@ const VerifyEmailPage = () => {
         setVerificationStatus("success");
         setMessage(response.message || "Email verified successfully!");
         timeoutId = window.setTimeout(() => {
-          router.push("/login");
+          router.push("/welcome");
         }, 3000);
       } catch (err: unknown) {
         setVerificationStatus("error");
