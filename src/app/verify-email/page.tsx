@@ -80,7 +80,7 @@ const VerifyEmailPage = () => {
               Verification Successful!
             </h1>
             <p>{message}</p>
-            <p className="mt-4">Redirecting to login page...</p>
+            <p className="mt-4">Redirecting to welcome page...</p>
           </div>
         )}
 

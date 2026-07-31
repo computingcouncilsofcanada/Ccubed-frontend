@@ -83,103 +83,9 @@ const ComingSoon = () => {
 
       {/* Main content */}
       <section className="relative flex-1 flex items-start justify-center px-6">
-        <div className="relative z-30 bg-[#D4D4D4]/10 backdrop-blur-xs drop-shadow-lg w-full max-w-5xl lg:max-w-6xl xl:max-w-7xl rounded-[20px] shadow-2xl flex flex-col items-center justify-center gap-4 md:gap-6 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-[60px] py-20 border-2 border-white/20">
-          {/* Logo */}
-          <Image
-            src={logoSrc}
-            alt="CCubed Icon"
-            width={120}
-            height={120}
-            quality={100}
-            draggable={false}
-            style={{ userSelect: "none" }}
-            className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] md:w-[180px] md:h-[180px] lg:w-[200px] lg:h-[200px]"
-          />
-
-          {/* Coming Soon text */}
-          <div className="relative select-none cursor-default">
-            <motion.p
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-center text-white leading-none"
-              style={{ lineHeight: "1.2" }}
-              initial={{ opacity: 1 }}
-              whileHover={{
-                opacity: 0,
-                transition: {
-                  duration: 0.6,
-                  ease: "easeInOut",
-                },
-              }}
-            >
-              Magic in Progress
-            </motion.p>
-            <motion.p
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-center absolute inset-0 leading-none"
-              style={{
-                background: "linear-gradient(90deg, #FFFFFF 0%, #F7A527 100%)",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                color: "transparent",
-                lineHeight: "1.2",
-              }}
-              initial={{ opacity: 0 }}
-              whileHover={{
-                opacity: 1,
-                transition: {
-                  duration: 0.6,
-                  ease: "easeInOut",
-                },
-              }}
-            >
-              Magic in Progress
-            </motion.p>
-          </div>
-
-          {/* Description */}
-          <p
-            className="text-center px-2 sm:px-4 mx-auto max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl"
-            style={{
-              fontFamily: "Roboto, sans-serif",
-              fontWeight: "300",
-              fontSize: "16px",
-              lineHeight: "normal",
-              letterSpacing: "0%",
-              color: "#FFFFFF",
-              opacity: "100%",
-            }}
-          >
-            Lorem ipsum dolor sit amet consectetur. Ac malesuada sagittis mollis
-            ullamcorper blandit augue phasellus hac elit. Aliquam lorem id in
-            scelerisque tortor amet lacus dolor interdum. Leo risus aliquam eu
-            libero sagittis habitasse sed pretium. Leo risus aliquam eu libero
-            sagittis habitasse sed pretium.
-          </p>
-
-          {/* Social icons */}
-          <SocialIcons opacity={1} size={24} />
-
-          {/* Email input */}
-          <div className="relative w-full mx-auto max-w-xs sm:max-w-sm md:max-w-sm lg:max-w-md">
-            <IconMail
-              size={24}
-              stroke={2}
-              color="#354052"
-              className="absolute left-3 sm:left-4 md:left-5 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 opacity-30"
-            />
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="w-full font-normal bg-white py-3 sm:py-4 rounded-full pl-10 sm:pl-12 pr-4 sm:pr-6 text-sm sm:text-base text-[#1F2937] placeholder-[#333333]/30"
-            />
-          </div>
-
-          {/* Notify button */}
-          <button className="w-fit bg-[#FAA336] px-6 sm:px-8 md:px-10 py-2 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium">
-            Notify me
-          </button>
-
+        <div className="relative z-30   w-full max-w-5xl lg:max-w-6xl xl:max-w-7xl rounded-[20px]  flex flex-col items-center justify-center gap-4 md:gap-6 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-[60px] py-10 ">
           {/* Greeting Bear */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 opacity-30 pointer-events-none">
+          <div className="pointer-events-none">
             <Image
               src={useSafariImageFallback(
                 "/FigmaFiles/mainPageAssets/bear_greeting.svg",
@@ -202,6 +108,53 @@ const ComingSoon = () => {
               }}
             />
           </div>
+
+          {/* Welcome text */}
+          <div className="relative select-none cursor-default">
+            <motion.p
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-center text-white leading-none"
+              style={{ lineHeight: "1.2" }}
+              initial={{ opacity: 1 }}
+              whileHover={{
+                opacity: 0,
+                transition: {
+                  duration: 0.6,
+                  ease: "easeInOut",
+                },
+              }}
+            >
+              Welcome To Ccubed!
+            </motion.p>
+            <motion.p
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-center absolute inset-0 leading-none"
+              style={{
+                background: "linear-gradient(90deg, #FFFFFF 0%, #F7A527 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
+                lineHeight: "1.2",
+              }}
+              initial={{ opacity: 0 }}
+              whileHover={{
+                opacity: 1,
+                transition: {
+                  duration: 0.6,
+                  ease: "easeInOut",
+                },
+              }}
+            >
+              Welcome To Ccubed!
+            </motion.p>
+          </div>
+
+          {/* Notify button */}
+          <Link
+            href="/login"
+            className="w-fit bg-[#FAA336] px-6 sm:px-8 md:px-10 py-2 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium"
+          >
+            Go to Login Page
+          </Link>
         </div>
       </section>
       <Footer />
