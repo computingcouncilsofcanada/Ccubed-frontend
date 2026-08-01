@@ -141,19 +141,9 @@ export const ArticleBody = () => {
     return articleCouncilSlug === councilSlug;
   });
   const otherThreeArticles = councilArticles.slice(1, 4);
-  const placeholderCount = Math.max(0, 3 - otherThreeArticles.length);
 
   if (!councilSlug) {
     return <div className="text-white">Loading...</div>;
-  }
-
-  // No articles for this council - show empty state (same styling as /article/[id] latest articles)
-  if (councilArticles.length === 0) {
-    return (
-      <div className="text-center text-white/60 py-8 my-16">
-        <p>No other articles available at the moment.</p>
-      </div>
-    );
   }
 
   return (
@@ -165,28 +155,10 @@ export const ArticleBody = () => {
             <InformationCard article={article} />
           </React.Fragment>
         ))}
-        {Array.from({ length: placeholderCount }).map((_, i) => (
-          <PlaceholderInformationCard key={`placeholder-${i}`} />
-        ))}
       </div>
     </div>
   );
 };
-
-// ============================================================================
-// PLACEHOLDER INFORMATION CARD
-// ============================================================================
-const PlaceholderInformationCard = () => (
-  <div className="flex gap-4 relative rounded-2xl px-2 py-0.5">
-    <div className="relative w-40 h-40 flex-shrink-0 rounded-2xl mt-1.5 bg-[#3A3A3A]/40 border border-white/10" />
-    <div className="flex flex-col gap-3 flex-1 min-h-[180px] py-2">
-      <div className="h-6 w-1/3 rounded bg-white/5" />
-      <div className="h-4 w-1/4 rounded bg-white/5" />
-      <div className="h-6 w-5/6 rounded bg-white/5 mt-2" />
-      <div className="h-6 w-2/3 rounded bg-white/5" />
-    </div>
-  </div>
-);
 
 // ============================================================================
 // INFORMATION CARD COMPONENT

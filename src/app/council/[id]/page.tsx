@@ -24,7 +24,7 @@ const AiNodesBackground = () => (
         alt=""
         aria-hidden="true"
         className="absolute select-none opacity-60"
-        style={{ top: 38, left: 699, width: 670, height: 670 }}
+        style={{ top: 48, left: 840, width: 570, height: 570 }}
         draggable={false}
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
