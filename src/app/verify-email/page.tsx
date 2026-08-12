@@ -46,7 +46,7 @@ const VerifyEmailPage = () => {
         setVerificationStatus("success");
         setMessage(response.message || "Email verified successfully!");
         timeoutId = window.setTimeout(() => {
-          router.push("/welcome");
+          router.push("/login");
         }, 3000);
       } catch (err: unknown) {
         setVerificationStatus("error");
@@ -80,7 +80,7 @@ const VerifyEmailPage = () => {
               Verification Successful!
             </h1>
             <p>{message}</p>
-            <p className="mt-4">Redirecting to welcome page...</p>
+            <p className="mt-4">Redirecting to login page...</p>
           </div>
         )}
 

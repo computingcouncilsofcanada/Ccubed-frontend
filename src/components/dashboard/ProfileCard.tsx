@@ -1,4 +1,4 @@
-export const ProfileCard = ({ user }: { user: { username: string; role: string } }) => {
+export const ProfileCard = ({ user }) => {
   return (
     <div
       className="relative p-3 h-48 sm:h-64 md:h-72 lg:h-80 bg-cover bg-center flex flex-col justify-end rounded-xl shadow-2xl"

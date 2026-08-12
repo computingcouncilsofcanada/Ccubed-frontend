@@ -18,7 +18,6 @@ const LoginForm = () => {
   const { handleInitialLogin, handleSetPermissions } = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState("");
-  const [forgotMessage, setForgotMessage] = useState("");
 
   // Initialize form handling with react-hook-form
   const form = useForm<FormFields>();
@@ -83,30 +82,22 @@ const LoginForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         action=""
         noValidate
-        className="bg-transparent flex justify-center flex-col gap-4 w-1/2 py-8 px-20 rounded-md"
+        className="  bg-transparent  flex justify-center flex-col gap-2 w-1/2  py-8 px-20 rounded-md"
       >
         {/* Form Header */}
-        <div className="mb-4">
-          <h1 className="text-[#B8DFCF] font-extrabold text-2xl">
-            Hello Again!
-          </h1>
-          <h1 className="text-[#B8DFCF] font-extrabold text-md mt-1">
-            Welcome Back
-          </h1>
-        </div>
+        <h1 className="text-[#B8DFCF] font-extrabold  text-2xl">
+          Hello Again!
+        </h1>
+        <h1 className="text-[#B8DFCF] font-extrabold  text-md">Welcome Back</h1>
 
         {formError && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center ">
             <img
               src="/FigmaFiles/LoginFormAssets/error-circle.svg"
               alt="error image"
             />
-            <p className="text-red-400 text-sm">{formError}</p>
+            <p>{formError}</p>
           </div>
-        )}
-
-        {forgotMessage && (
-          <p className="text-white text-sm">{forgotMessage}</p>
         )}
 
         {/* Email Input Field with Validation */}
@@ -155,7 +146,7 @@ const LoginForm = () => {
             )}
           </div>
           {errors.email && (
-            <div className="text-red-400 text-sm">{errors.email.message}</div>
+            <div className="text-white">{errors.email.message}</div>
           )}
         </label>
 
@@ -178,9 +169,8 @@ const LoginForm = () => {
               {...register("password", {
                 required: "Please enter a password",
                 minLength: {
-                  value: 8,
-                  message:
-                    "Your password must contain more than 8 characters",
+                  value: 6,
+                  message: "Your password should be more than 8",
                 },
               })}
               type={showPassword ? "text" : "password"}
@@ -214,7 +204,7 @@ const LoginForm = () => {
             </button>
           </div>
           {errors.password && (
-            <div className="text-red-400 text-sm">{errors.password.message}</div>
+            <div className="text-white">{errors.password.message}</div>
           )}
         </label>
         <label htmlFor=""></label>
@@ -227,14 +217,8 @@ const LoginForm = () => {
         >
           {isSubmitting ? "Login in..." : "Login"}
         </button>
-        <button
-          type="button"
-          onClick={() =>
-            setForgotMessage(
-              "Please contact president or administration team."
-            )
-          }
-          className="text-center mt-2 cursor-pointer hover:underline"
+        <p
+          className="text-center mt-2"
           style={{
             fontFamily: "Poppins, sans-serif",
             fontWeight: "400",
@@ -244,7 +228,7 @@ const LoginForm = () => {
           }}
         >
           Forgot Password ?
-        </button>
+        </p>
       </form>
     </>
   );

@@ -112,7 +112,7 @@ export default function ContactUs() {
 
             <div className="mb-6 text-white text-lg font-normal">
               <DepartmentSelect
-                register={register as never}
+                register={register}
                 error={errors.department}
                 value={selectedDepartment}
                 onChange={(val) => {

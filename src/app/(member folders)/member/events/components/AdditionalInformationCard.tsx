@@ -65,7 +65,7 @@ export default function AdditionalInformationCard({
         {/* Ownership (Optional) */}
         <div>
           <label className="block text-sm font-semibold text-white mb-2">
-            Ownership
+            Ownership <span className="text-[#FF7474]">*</span>
           </label>
           <input
             type="text"
@@ -86,7 +86,7 @@ export default function AdditionalInformationCard({
         {/* Domains (Optional) */}
         <div>
           <label className="block text-sm font-semibold text-white mb-2">
-            Domains
+            Domains <span className="text-[#FF7474]">*</span>
           </label>
           <input
             type="text"

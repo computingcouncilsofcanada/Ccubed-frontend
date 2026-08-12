@@ -133,12 +133,17 @@ export const createEvent = async (formData: FormData) => {
   return res.data;
 };
 
-export const updateEvent = async (id: string, formData: FormData) => {
-  const res = await privateAxios.patch(`/events/${id}`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+export const updateEvent = async (
+  id: string,
+  data: {
+    name: string;
+    description: string;
+    start_at: string;
+    end_at: string;
+    location: string;
+  }
+) => {
+  const res = await privateAxios.patch(`/events/${id}`, data);
   return res.data;
 };
 
