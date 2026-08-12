@@ -19,6 +19,48 @@ type CouncilProps = {
   setIsModalOpen?: (isOpen: boolean) => void;
 };
 
+const SectionGhostText = ({
+  text,
+  align = "left",
+  opacity = 0.08,
+  fontSize = 260,
+}: {
+  text: string;
+  align?: "left" | "right";
+  opacity?: number;
+  fontSize?: number;
+}) => {
+  const mask =
+    align === "right"
+      ? "radial-gradient(ellipse 70% 60% at 75% 50%, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.15) 55%, transparent 75%)"
+      : "radial-gradient(ellipse 70% 60% at 25% 50%, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.15) 55%, transparent 75%)";
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      style={{ left: "calc(-50vw + 50%)", width: "100vw", zIndex: 0 }}
+      aria-hidden="true"
+    >
+      <span
+        className={`text-white select-none absolute inset-0 flex items-center ${
+          align === "right" ? "justify-end pr-8" : "justify-start pl-8"
+        }`}
+        style={{
+          fontSize: `${fontSize}px`,
+          fontFamily: "Roboto, sans-serif",
+          fontWeight: 900,
+          opacity,
+          letterSpacing: "0em",
+          whiteSpace: "nowrap",
+          WebkitMaskImage: mask,
+          maskImage: mask,
+        }}
+      >
+        {text}
+      </span>
+    </div>
+  );
+};
+
 /**
  * ArticleSection Component
  * Displays the main article content with header and body
@@ -39,7 +81,7 @@ export const ArticleSection = ({ council }: CouncilProps) => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="mb-32"
       >
-        <ArticleHeader council={council} />
+        <ArticleHeader />
         <ArticleBody />
       </motion.div>
     )
@@ -97,15 +139,20 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
     return Math.abs(offset) * velocity;
   };
 
+  if (!hasUniversities) {
+    return null;
+  }
+
   return (
-    hasUniversities && (
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="mb-32"
+        className="relative mb-32"
       >
+        <SectionGhostText text="Universities" align="right" />
+        <div className="relative z-10">
         <div className="text-start mb-6">
           <h2
             className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"
@@ -114,38 +161,32 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
             Council Universities
           </h2>
         </div>
-        <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row md:items-end gap-6">
+        <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row md:items-stretch gap-6">
           <div className="w-full md:w-1/2 shrink-0 ">
-            {/* Display current university description – same aspect-ratio as image so heights match on desktop; dots excluded */}
-            {hasUniversities && (
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className=" md:mt-0 w-full  md:aspect-[480/280] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="w-full h-[220px] md:h-[280px] flex flex-col p-4 bg-white/5 rounded-[20px] border border-white/10 md:overflow-y-auto"
+            >
+              <h3
+                className="text-white font-semibold text-[18px] mb-2 shrink-0"
+                style={{ fontFamily: "Roboto, sans-serif" }}
               >
-                <h3
-                  className="text-white font-semibold text-[18px] mb-2 shrink-0"
-                  style={{ fontFamily: "Roboto, sans-serif" }}
-                >
-                  {universities[activeIndex].name}
-                </h3>
-                <p
-                  className="text-white/80 font-light text-[18px] leading-[1.5]"
-                  style={{ fontFamily: "Roboto, sans-serif" }}
-                >
-                  {universities[activeIndex].description}
-                </p>
-              </motion.div>
-            )}
+                {universities[activeIndex].name}
+              </h3>
+              <p
+                className="text-white/80 font-light text-[18px] leading-[1.5]"
+                style={{ fontFamily: "Roboto, sans-serif" }}
+              >
+                {universities[activeIndex].description}
+              </p>
+            </motion.div>
           </div>
 
           <div className="w-full md:w-1/2 flex flex-col items-center">
-            {hasUniversities ? (
-              <>
-                {/* Image only – same aspect-ratio as description; dark bg so no white letterboxing; dots are below */}
-                <div className="relative w-full max-w-[550px] h-[220px] md:h-auto md:aspect-[550/280] overflow-hidden rounded-[20px]  shrink-0">
+                <div className="relative w-full max-w-[550px] h-[220px] md:h-[280px] overflow-hidden rounded-[20px]  shrink-0">
                   <AnimatePresence initial={false} custom={direction}>
                     <motion.div
                       key={activeIndex}
@@ -216,21 +257,10 @@ export const UniversitiesSection = ({ council }: CouncilProps) => {
                     ))}
                   </div>
                 )}
-              </>
-            ) : (
-              <div className="w-full max-w-[550px] md:h-[331px] h-[220px] flex items-center justify-center rounded-[20px] bg-[#D4D4D4]/10 backdrop-blur-sm border border-white/10">
-                <p
-                  className="text-white/50 text-center px-6"
-                  style={{ fontFamily: "Roboto, sans-serif" }}
-                >
-                  Partner universities coming soon
-                </p>
-              </div>
-            )}
           </div>
         </div>
+        </div>
       </motion.div>
-    )
   );
 };
 /**
@@ -308,8 +338,10 @@ export const EventsSection = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="mb-32"
+      className="relative mb-32"
     >
+      <SectionGhostText text="Events" align="left" />
+      <div className="relative z-10">
       <div className="text-start mb-6">
         <h2
           className="text-[36px] font-extrabold leading-12 tracking-[0.01em] text-white mb-4"
@@ -384,6 +416,19 @@ export const EventsSection = ({
           </div>
         </div>
       )}
+
+      {councilEvents.length > 0 && (
+        <div className="flex justify-center mt-8">
+          <a
+            href="/events"
+            className="px-6 py-2 rounded-full border border-white/40 text-white text-[14px] hover:bg-white/10 transition-colors"
+            style={{ fontFamily: "Roboto, sans-serif" }}
+          >
+            See more
+          </a>
+        </div>
+      )}
+      </div>
     </motion.div>
   );
 };
@@ -393,7 +438,7 @@ export const EventsSection = ({
  */
 export const CouncilHero = ({ council }: CouncilProps) => {
   return (
-    <section className="hero flex gap-4 flex-col-reverse md:flex-row items-center justify-start relative z-10 w-full mb-8 pt-8">
+    <section className="hero flex gap-8 md:gap-12 flex-col-reverse md:flex-row items-center justify-between relative z-10 w-full mb-20 pt-8">
       <div className="text flex flex-col gap-4 flex-1 min-w-0 w-full">
         <h1
           className="text-white font-extrabold text-2xl sm:text-3xl md:text-2xl lg:text-5xl"
@@ -416,8 +461,8 @@ export const CouncilHero = ({ council }: CouncilProps) => {
       </div>
 
       {/* Council Icon (same as council card) */}
-      <div className="image relative flex justify-center shrink-0 md:-translate-x-29">
-        <div className="relative w-[260px] h-[260px] md:w-[270px] md:h-[270px] lg:w-[280px] lg:h-[280px]">
+      <div className="image relative flex justify-center shrink-0">
+        <div className="relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] lg:w-[240px] lg:h-[240px]">
           <Image
             src={council.icon}
             alt={`${council.title} icon`}

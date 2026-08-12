@@ -3,7 +3,7 @@
 import { useUser } from "@/context/UserContext";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import { getErrMsg } from "@/utils/errorMessage";
-import { IconArrowLeft, IconUpload } from "@tabler/icons-react";
+import { IconArrowLeft, IconUpload, IconTable } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -17,6 +17,7 @@ import { useApiEmailTemplate } from "@/services/useApiEmailTemplate";
 import { useApiBulkEmail } from "@/services/useApiBulkEmail";
 import { getAllEvents, getEventById } from "@/services/useApiAuth";
 import {
+  BulkEmailSource,
   CreateBulkEmailDTO,
   EmailTemplate,
   ParsedUploadResponse,
@@ -58,7 +59,7 @@ export default function NewBulkEmailWizard() {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const { getEmailTemplates } = useApiEmailTemplate();
-  const { parseUpload, createBulkEmail } = useApiBulkEmail();
+  const { parseUpload, parseSheet, createBulkEmail } = useApiBulkEmail();
 
   const [step, setStep] = useState<Step>(1);
 
@@ -73,6 +74,10 @@ export default function NewBulkEmailWizard() {
   const [parsedFile, setParsedFile] = useState<ParsedUploadResponse | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [sourceMode, setSourceMode] = useState<BulkEmailSource>("upload");
+  const [sheetUrl, setSheetUrl] = useState("");
+  const [sheetRange, setSheetRange] = useState("");
+  const [sourceMeta, setSourceMeta] = useState<Record<string, string>>({});
 
   // step 3
   const [emailColumn, setEmailColumn] = useState<string>("");
@@ -152,6 +157,29 @@ export default function NewBulkEmailWizard() {
     };
   }, [step, events.length]);
 
+  const applyParsedData = useCallback(
+    (data: ParsedUploadResponse) => {
+      setParsedFile(data);
+      // Auto-detect email column
+      const emailLike =
+        data.columns.find((c) => c.toLowerCase() === "email") ??
+        data.columns.find((c) => c.toLowerCase().includes("email")) ??
+        "";
+      setEmailColumn(emailLike);
+
+      // Auto-map placeholders that exactly match column names (case-insensitive)
+      const autoMap: Record<string, string> = {};
+      for (const p of recipientPlaceholders) {
+        const match = data.columns.find(
+          (c) => c.toLowerCase() === p.toLowerCase(),
+        );
+        if (match) autoMap[p] = match;
+      }
+      setMapping(autoMap);
+    },
+    [recipientPlaceholders],
+  );
+
   const onUploadFile = useCallback(
     async (file: File) => {
       setUploading(true);
@@ -160,35 +188,57 @@ export default function NewBulkEmailWizard() {
       try {
         const response = await parseUpload(file);
         const data = response.data as ParsedUploadResponse;
-        setParsedFile(data);
-        // Auto-detect email column
-        const emailLike =
-          data.columns.find((c) => c.toLowerCase() === "email") ??
-          data.columns.find((c) => c.toLowerCase().includes("email")) ??
-          "";
-        setEmailColumn(emailLike);
-
-        // Auto-map placeholders that exactly match column names (case-insensitive)
-        const autoMap: Record<string, string> = {};
-        for (const p of recipientPlaceholders) {
-          const match = data.columns.find(
-            (c) => c.toLowerCase() === p.toLowerCase(),
-          );
-          if (match) autoMap[p] = match;
-        }
-        setMapping(autoMap);
+        applyParsedData(data);
+        setSourceMeta({ filename: data.filename });
       } catch (e: unknown) {
         setUploadError(getErrMsg(e));
       } finally {
         setUploading(false);
       }
     },
-    [parseUpload, recipientPlaceholders],
+    [parseUpload, applyParsedData],
   );
 
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) onUploadFile(file);
+  };
+
+  const onParseSheet = useCallback(async () => {
+    if (!sheetUrl.trim()) {
+      setUploadError("Paste a Google Sheets URL or ID.");
+      return;
+    }
+    setUploading(true);
+    setUploadError(null);
+    setParsedFile(null);
+    try {
+      const response = await parseSheet(
+        sheetUrl.trim(),
+        sheetRange.trim() || undefined,
+      );
+      const data = response.data as ParsedUploadResponse;
+      applyParsedData(data);
+      // filename from backend is "<sheetId>!<resolved-range>"; split on first "!"
+      const idx = data.filename.indexOf("!");
+      const sheetId = idx >= 0 ? data.filename.slice(0, idx) : data.filename;
+      const resolvedRange = idx >= 0 ? data.filename.slice(idx + 1) : "";
+      setSourceMeta({ sheet_id: sheetId, range: resolvedRange });
+    } catch (e: unknown) {
+      setUploadError(getErrMsg(e));
+    } finally {
+      setUploading(false);
+    }
+  }, [parseSheet, sheetUrl, sheetRange, applyParsedData]);
+
+  const onSourceModeChange = (mode: BulkEmailSource) => {
+    if (mode === sourceMode) return;
+    setSourceMode(mode);
+    setParsedFile(null);
+    setUploadError(null);
+    setSourceMeta({});
+    setEmailColumn("");
+    setMapping({});
   };
 
   useEffect(() => {
@@ -257,7 +307,11 @@ export default function NewBulkEmailWizard() {
 
   const canAdvanceFromStep = (s: Step): string | null => {
     if (s === 1 && !selectedTemplateId) return "Pick a template to continue.";
-    if (s === 2 && !parsedFile) return "Upload a CSV or XLSX file.";
+    if (s === 2 && !parsedFile) {
+      return sourceMode === "upload"
+        ? "Upload a CSV or XLSX file."
+        : "Parse a Google Sheet first.";
+    }
     if (s === 3) {
       if (!emailColumn) return "Pick which column holds the email address.";
     }
@@ -297,6 +351,8 @@ export default function NewBulkEmailWizard() {
         recipients,
         field_mapping: mapping,
         event_id: eventId || null,
+        source: sourceMode,
+        source_meta: sourceMeta,
       };
 
       const response = await createBulkEmail(dto);
@@ -382,6 +438,13 @@ export default function NewBulkEmailWizard() {
               uploading={uploading}
               fileInputRef={fileInputRef}
               onFileChange={onFileInputChange}
+              sourceMode={sourceMode}
+              onSourceModeChange={onSourceModeChange}
+              sheetUrl={sheetUrl}
+              onSheetUrlChange={setSheetUrl}
+              sheetRange={sheetRange}
+              onSheetRangeChange={setSheetRange}
+              onParseSheet={onParseSheet}
             />
           )}
           {step === 3 && parsedFile && (
@@ -541,43 +604,118 @@ function Step2Upload({
   uploading,
   fileInputRef,
   onFileChange,
+  sourceMode,
+  onSourceModeChange,
+  sheetUrl,
+  onSheetUrlChange,
+  sheetRange,
+  onSheetRangeChange,
+  onParseSheet,
 }: {
   parsed: ParsedUploadResponse | null;
   error: string | null;
   uploading: boolean;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  sourceMode: BulkEmailSource;
+  onSourceModeChange: (mode: BulkEmailSource) => void;
+  sheetUrl: string;
+  onSheetUrlChange: (v: string) => void;
+  sheetRange: string;
+  onSheetRangeChange: (v: string) => void;
+  onParseSheet: () => void;
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="rounded-xl border-2 border-dashed border-white/15 bg-black/20 p-8 text-center">
-        <IconUpload size={40} className="mx-auto mb-3 text-slate-400" />
-        <p className="text-slate-200 mb-3">
-          Upload a CSV or XLSX exported from your Google Sheet
-        </p>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".csv,.xlsx,.xls"
-          onChange={onFileChange}
-          className="hidden"
+      <div className="inline-flex self-start rounded-xl border border-white/10 bg-black/30 p-1">
+        <SourceModeTab
+          active={sourceMode === "upload"}
+          onClick={() => onSourceModeChange("upload")}
+          icon={<IconUpload size={16} />}
+          label="Upload file"
         />
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          disabled={uploading}
-          style={{ backgroundColor: "#FAA336" }}
-          className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-60"
-        >
-          {uploading ? "Parsing…" : parsed ? "Replace file" : "Choose file"}
-        </button>
-        {parsed && !uploading && (
-          <p className="mt-3 text-xs text-slate-400">
-            {parsed.filename} — {parsed.row_count} rows,{" "}
-            {parsed.columns.length} columns
-          </p>
-        )}
+        <SourceModeTab
+          active={sourceMode === "sheets"}
+          onClick={() => onSourceModeChange("sheets")}
+          icon={<IconTable size={16} />}
+          label="Google Sheets"
+        />
       </div>
+
+      {sourceMode === "upload" ? (
+        <div className="rounded-xl border-2 border-dashed border-white/15 bg-black/20 p-8 text-center">
+          <IconUpload size={40} className="mx-auto mb-3 text-slate-400" />
+          <p className="text-slate-200 mb-3">
+            Upload a CSV or XLSX exported from your Google Sheet
+          </p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".csv,.xlsx,.xls"
+            onChange={onFileChange}
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            style={{ backgroundColor: "#FAA336" }}
+            className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-60"
+          >
+            {uploading ? "Parsing…" : parsed ? "Replace file" : "Choose file"}
+          </button>
+          {parsed && !uploading && (
+            <p className="mt-3 text-xs text-slate-400">
+              {parsed.filename} — {parsed.row_count} rows,{" "}
+              {parsed.columns.length} columns
+            </p>
+          )}
+        </div>
+      ) : (
+        <div className="rounded-xl border border-white/15 bg-black/20 p-6">
+          <p className="mb-4 text-xs text-slate-400">
+            Share the sheet with your service-account email as Viewer before parsing.
+            The first row must be the header.
+          </p>
+          <label className="flex flex-col gap-1.5 mb-3">
+            <span className="text-sm font-medium text-slate-200">Sheet URL or ID</span>
+            <input
+              type="text"
+              value={sheetUrl}
+              onChange={(e) => onSheetUrlChange(e.target.value)}
+              placeholder="https://docs.google.com/spreadsheets/d/.../edit"
+              className="rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#FAA336] focus:outline-none"
+            />
+          </label>
+          <label className="flex flex-col gap-1.5 mb-4">
+            <span className="text-sm font-medium text-slate-200">
+              Range <span className="text-slate-400 font-normal">(optional)</span>
+            </span>
+            <input
+              type="text"
+              value={sheetRange}
+              onChange={(e) => onSheetRangeChange(e.target.value)}
+              placeholder="Leave blank to use first tab"
+              className="rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#FAA336] focus:outline-none"
+            />
+          </label>
+          <button
+            type="button"
+            onClick={onParseSheet}
+            disabled={uploading}
+            style={{ backgroundColor: "#FAA336" }}
+            className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-60"
+          >
+            {uploading ? "Parsing…" : parsed ? "Re-parse sheet" : "Parse sheet"}
+          </button>
+          {parsed && !uploading && (
+            <p className="mt-3 text-xs text-slate-400">
+              {parsed.row_count} rows, {parsed.columns.length} columns
+            </p>
+          )}
+        </div>
+      )}
+
       {error && (
         <div className="rounded-xl border border-red-500/40 bg-red-950/40 px-4 py-3 text-sm text-red-200">
           {error}
@@ -619,6 +757,33 @@ function Step2Upload({
         </div>
       )}
     </div>
+  );
+}
+
+function SourceModeTab({
+  active,
+  onClick,
+  icon,
+  label,
+}: {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
+        active
+          ? "bg-[#FAA336] text-black"
+          : "text-slate-300 hover:bg-white/5"
+      }`}
+    >
+      {icon}
+      {label}
+    </button>
   );
 }
 
