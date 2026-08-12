@@ -4,15 +4,27 @@ import {
   Calendar,
   Clock,
   MapPin,
-  Edit,
   Trash,
   Check,
   X,
   PencilIcon,
+  Eye,
+  GitCompare,
 } from "lucide-react";
 
 export function createEventTableColumns(
-  openModal: (event: Event | null, type: "update" | "delete" | "approve-create" | "reject-create" | "approve-update" | "reject-update") => void
+  openModal: (
+    event: Event | null,
+    type:
+      | "preview"
+      | "update"
+      | "delete"
+      | "approve-create"
+      | "reject-create"
+      | "approve-update"
+      | "reject-update"
+      | "preview-update"
+  ) => void
 ): ColumnDef<Event>[] {
   return [
     {
@@ -128,6 +140,13 @@ export function createEventTableColumns(
         return (
           <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
             <button
+              onClick={() => openModal(event, "preview")}
+              className="p-1.5 bg-[#2e3f4f] text-white rounded-lg hover:bg-gray-800 transition-colors"
+              title="Preview Current Event"
+            >
+              <Eye size={16} />
+            </button>
+            <button
               onClick={() => openModal(event, "update")}
               className="p-1.5 bg-[#2e3f4f] text-white rounded-lg hover:bg-gray-800 transition-colors"
               title="Update"
@@ -161,6 +180,13 @@ export function createEventTableColumns(
             )}
             {event.pending_action === "update" && (
               <>
+                <button
+                  onClick={() => openModal(event, "preview-update")}
+                  className="p-1.5 bg-blue-900 text-blue-400 rounded-lg hover:bg-blue-800 transition-colors"
+                  title="Preview Pending Changes"
+                >
+                  <GitCompare size={16} />
+                </button>
                 <button
                   onClick={() => openModal(event, "approve-update")}
                   className="p-1.5 bg-green-900 text-green-400 rounded-lg hover:bg-green-800 transition-colors"

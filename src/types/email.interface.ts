@@ -45,6 +45,8 @@ export type BulkEmailStatus =
   | "partial_failure"
   | "cancelled";
 
+export type BulkEmailSource = "upload" | "sheets";
+
 export interface BulkEmail {
   id: string;
   template_id: string;
@@ -60,6 +62,8 @@ export interface BulkEmail {
   confirmed_at?: string | null;
   cancelled_by?: string | null;
   cancelled_at?: string | null;
+  source?: BulkEmailSource;
+  source_meta?: Record<string, string>;
 }
 
 export interface BulkEmailPreviewItem {
@@ -78,6 +82,8 @@ export interface CreateBulkEmailDTO {
   recipients: BulkEmailRecipient[];
   field_mapping?: Record<string, string>;
   event_id?: string | null;
+  source?: BulkEmailSource;
+  source_meta?: Record<string, string>;
 }
 
 export interface ParsedUploadResponse {

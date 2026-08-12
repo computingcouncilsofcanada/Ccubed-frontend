@@ -7,12 +7,6 @@ import { mockArticles } from "@/data/mockArticles";
 import React from "react";
 import { IArticle } from "@/data/mockArticles";
 import { usePathname, useRouter } from "next/navigation";
-import { MoveRight } from "lucide-react";
-import { CouncilSection } from "@/app/council/types/types";
-
-type CouncilProps = {
-  council: CouncilSection;
-};
 
 // ============================================================================
 // ARTICLE BIG CARD COMPONENT
@@ -150,15 +144,6 @@ export const ArticleBody = () => {
 
   if (!councilSlug) {
     return <div className="text-white">Loading...</div>;
-  }
-
-  // No articles for this council - show empty state (same styling as /article/[id] latest articles)
-  if (councilArticles.length === 0) {
-    return (
-      <div className="text-center text-white/60 py-8 my-16">
-        <p>No other articles available at the moment.</p>
-      </div>
-    );
   }
 
   return (
@@ -335,13 +320,7 @@ export const InformationCard = ({ article }: InformationCardProps) => {
 // ============================================================================
 // ARTICLE HEADER COMPONENT
 // ============================================================================
-export const ArticleHeader = ({ council }: CouncilProps) => {
-  const router = useRouter();
-
-  const handleClick = (section: { title: string }) => {
-    const cleanTitle = section.title.toLowerCase().replace(/\s+/g, "");
-    router.push(`/council/${cleanTitle}/article`);
-  };
+export const ArticleHeader = () => {
   return (
     <div className="text-start mb-6">
       <h2
@@ -350,46 +329,12 @@ export const ArticleHeader = ({ council }: CouncilProps) => {
       >
         Latest Articles
       </h2>
-      <div className="flex flex-col md:flex-row justify-between md:items-center items-start md:gap-0 gap-4">
-        <p
-          className="text-white font-light text-[18px] leading-[26px] tracking-[0.01em]"
-          style={{ fontFamily: "Roboto, sans-serif" }}
-        >
-          Take a quick look at our latest articles.
-          {/*  Enjoy the content? Head to
-          the Explore Articles page to discover more. */}
-        </p>
-        {/* <motion.div
-          className="flex gap-2 items-center cursor-pointer"
-          whileHover="hover"
-          initial="initial"
-          variants={{
-            initial: {},
-            hover: {},
-          }}
-          onClick={() => handleClick(council)}
-        >
-          <motion.p
-            className="text-white font-light text-[18px]"
-            style={{ fontFamily: "Roboto, sans-serif" }}
-            variants={{
-              initial: { x: 10 },
-              hover: { x: -3 },
-            }}
-          >
-            See All
-          </motion.p>
-
-          <motion.div
-            variants={{
-              initial: { opacity: 0 },
-              hover: { opacity: 1 },
-            }}
-          >
-            <MoveRight className="text-white" />
-          </motion.div> 
-        </motion.div> */}
-      </div>
+      <p
+        className="text-white font-light text-[18px] leading-[26px] tracking-[0.01em]"
+        style={{ fontFamily: "Roboto, sans-serif" }}
+      >
+        Take a quick look at our latest articles.
+      </p>
     </div>
   );
 };

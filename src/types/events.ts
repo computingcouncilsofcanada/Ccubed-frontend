@@ -34,6 +34,8 @@ export interface ApiEvent {
   status: number;
   types: string[];
   pending_action?: string | null;
+  /** Staged changes awaiting update approval (applied on approve-update) */
+  pending_update?: Record<string, unknown> | null;
   reject_reason?: string | null;
   approved_by?: string[];
   created_at: string;
@@ -65,8 +67,11 @@ export interface Event {
   url?: string | null;
   status: number;
   types: string[];
+  ownership?: string[] | null;
   domains?: string[] | null;
   pending_action?: string | null;
+  /** Staged changes awaiting update approval (applied on approve-update) */
+  pending_update?: Record<string, unknown> | null;
   reject_reason?: string | null;
   approved_by?: string[] | null;
   created_at?: string;
@@ -97,6 +102,7 @@ export interface EventStats {
 export interface EventForm {
   name: string;
   description: string;
+  content?: string;
   start_at: string;
   end_at: string;
   location: string;
@@ -109,6 +115,8 @@ export interface EventForm {
   ownership?: string[];
   domains?: string[];
   files?: FileList;
+  existingFileIds?: string[];
+  removeExistingFiles?: boolean;
   eventType: "one-day" | "weekly" | "monthly" | "multiple-day";
   selectedDayOfWeek?: string;
   multipleDays?: string[];

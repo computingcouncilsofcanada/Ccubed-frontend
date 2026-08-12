@@ -146,6 +146,19 @@ export default function EventDetailsCard({
             </button>
           </div>
         </div>
+
+        {/* Content */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-200 mb-3">
+            Content
+          </label>
+          <textarea
+            {...register("content")}
+            rows={10}
+            className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent transition-all"
+            placeholder="Optional: session structure, agenda, or any extra details"
+          />
+        </div>
       </div>
     </div>
   );
