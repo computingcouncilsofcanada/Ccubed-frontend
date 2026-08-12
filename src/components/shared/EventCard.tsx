@@ -242,7 +242,7 @@ export function EventCard({
                   />
                   <span
                     style={{
-                      fontSize: windowWidth < 640 ? "11px" : "13px",
+                      fontSize: windowWidth < 640 ? "9px" : "10px",
                       fontFamily: "Roboto, sans-serif",
                       fontWeight: "400",
                       letterSpacing: "0%",
@@ -263,7 +263,7 @@ export function EventCard({
                   />
                   <span
                     style={{
-                      fontSize: windowWidth < 640 ? "11px" : "13px",
+                      fontSize: windowWidth < 640 ? "9px" : "10px",
                       fontFamily: "Roboto, sans-serif",
                       fontWeight: "400",
                       letterSpacing: "0%",
@@ -287,7 +287,7 @@ export function EventCard({
                 />
                 <span
                   style={{
-                    fontSize: windowWidth < 640 ? "12px" : "13px",
+                    fontSize: "10px",
                     fontFamily: "Roboto, sans-serif",
                     fontWeight: "400",
                     letterSpacing: "0%",
@@ -319,8 +319,8 @@ export function EventCard({
                       style={{
                         fontFamily: "Roboto, sans-serif",
                         fontWeight: "300",
-                        fontSize: windowWidth < 640 ? "14px" : "16px",
-                        lineHeight: windowWidth < 640 ? "20px" : "24px",
+                        fontSize: "14px",
+                        lineHeight: "20px",
                         letterSpacing: "-0.02em",
                         color: "#FFFFFF",
                         display: "-webkit-box",
@@ -334,7 +334,7 @@ export function EventCard({
 
                   {/* Action Buttons - Side by Side - Fixed at bottom */}
                   <div
-                    className="flex gap-2 sm:gap-3 justify-between mt-auto px-1 pb-1"
+                    className="flex gap-1.5 sm:gap-2 justify-between mt-auto"
                     style={{
                       marginBottom:
                         windowWidth >= 1024 && windowWidth <= 1280
@@ -344,15 +344,15 @@ export function EventCard({
                   >
                     {showInvitationButton && (
                       <button
-                        className="text-white text-xs font-medium rounded-lg transition-all duration-200 px-3 py-2"
+                        className="text-white text-xs font-medium rounded-lg transition-all duration-200"
                         style={{
                           flex: "1",
-                          minHeight:
+                          height:
                             windowWidth < 640
-                              ? "36px"
+                              ? "30px"
                               : windowWidth < 1024
-                              ? "40px"
-                              : "44px",
+                              ? "33px"
+                              : "36px",
                           backgroundColor: "#FAA336",
                           borderRadius: "8px",
                           opacity: "100%",
@@ -370,15 +370,15 @@ export function EventCard({
                     )}
 
                     <button
-                      className="text-white text-xs font-medium rounded-lg transition-all duration-200 px-3 py-2"
+                      className="text-white text-xs font-medium rounded-lg transition-all duration-200"
                       style={{
                         flex: "1",
-                        minHeight:
+                        height:
                           windowWidth < 640
-                            ? "36px"
+                            ? "30px"
                             : windowWidth < 1024
-                            ? "40px"
-                            : "44px",
+                            ? "33px"
+                            : "36px",
                         backgroundColor: "transparent",
                         border: "1px solid rgba(255, 255, 255, 0.5)",
                         borderRadius: "8px",

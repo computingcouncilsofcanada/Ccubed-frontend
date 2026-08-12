@@ -39,7 +39,7 @@ export default function Hero() {
         </p>
         
         {/* Call to Action Buttons */}
-        <div className="flex items-center gap-x-6 mt-4">
+        <div className="flex items-center gap-x-6">
           <div 
             className="relative group transition-all duration-300"
             style={{

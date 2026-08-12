@@ -35,9 +35,9 @@ export default function Events({ events, onOpenEventDetail }: EventsSectionProps
   // Show actual events instead of empty state
   const showEmptyState = false;
 
-  // Sort events by date (most recent first) and keep only active events (status = 1)
+  // Sort events by date (most recent first) and filter out inactive events
   const recentEvents = events
-    .filter((event: Events) => event.status === 1)
+    .filter((event: Events) => event.status !== 0)
     .filter((event: Events) => {
       // Filter out past recurring events (same logic as separateEventsByTime)
       const dateStr = (event.date || "").trim().toUpperCase();

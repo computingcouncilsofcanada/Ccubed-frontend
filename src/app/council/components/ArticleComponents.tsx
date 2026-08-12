@@ -200,7 +200,7 @@ export const Articles = ({ articles }: { articles: IArticle[] }) => {
                   <p>{article.title}</p>
                 </div>
               </div>
-              <p>{article.bigdescription}</p>
+              <p>{article.description}</p>
             </div>
           </div>
         ))}

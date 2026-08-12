@@ -287,7 +287,7 @@ export default function MissionVision() {
             </div>
 
             {/* Mission Description */}
-            <div className="text-left max-w-lg">
+            <div className="text-center max-w-lg">
               <motion.p
                 className="text-white text-lg leading-[21px] tracking-[0.01em] max-w-[460px]"
                 style={{
@@ -474,7 +474,7 @@ export default function MissionVision() {
             </div>
 
             {/* Vision Description */}
-            <div className="text-left max-w-lg">
+            <div className="text-center max-w-lg">
               <motion.p
                 className="text-white text-lg leading-[21px] tracking-[0.01em] max-w-[460px]"
                 style={{
