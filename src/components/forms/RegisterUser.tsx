@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useDebounce } from "@/hooks/useDebounce";
 import { checkEmailExists } from "@/services/useApiUser";
+import { Eye, EyeOff } from "lucide-react";
 
 /**
  * Form Fields Type Definition
@@ -61,12 +62,13 @@ export const RegisterUserForm = () => {
   const router = useRouter();
   const logoSrc = useSafariImageFallback(
     "/FigmaFiles/ccubed-icon.svg",
-    "/FigmaFiles/ccubed-icon.png"
+    "/FigmaFiles/ccubed-icon.png",
   );
 
   const [schools, setSchools] = useState<School[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [roles, setRoles] = useState<Roles[]>([]);
+  const [showPassword, setShowPassword] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
   const form = useForm<FormFields>();
   const {
@@ -94,7 +96,6 @@ export const RegisterUserForm = () => {
     fetchData();
   }, []);
 
-
   useEffect(() => {
     if (debouncedEmail) {
       console.log(debouncedEmail);
@@ -106,7 +107,7 @@ export const RegisterUserForm = () => {
 
   const handleCopyPassword = () => {
     const passwordInput = document.querySelector(
-      'input[type="password"]'
+      'input[type="password"]',
     ) as HTMLInputElement | null;
     if (passwordInput && passwordInput.value.length > 0) {
       navigator.clipboard.writeText(passwordInput.value);
@@ -151,11 +152,11 @@ export const RegisterUserForm = () => {
 
   return (
     <div className="relative w-full h-screen flex items-center justify-center">
-
       <BackgroundBoxes />
 
       <div className="absolute top-8 left-50 flex items-center gap-3 z-20">
-        <Image src={logoSrc}
+        <Image
+          src={logoSrc}
           alt="CCubed Icon"
           width={40}
           height={40}
@@ -174,7 +175,7 @@ export const RegisterUserForm = () => {
           fontSize: "15px",
           letterSpacing: "0%",
           color: "#FFFFFF",
-          opacity: "40%"
+          opacity: "40%",
         }}
       >
         COMPUTING COUNCILS OF CANADA
@@ -188,7 +189,10 @@ export const RegisterUserForm = () => {
         <h1 className="text-white font-bold text-4xl mb-4">Register</h1>
 
         {/* Username Input */}
-        <label htmlFor="username" className="font-bold flex flex-col gap-2 text-white">
+        <label
+          htmlFor="username"
+          className="font-bold flex flex-col gap-2 text-white"
+        >
           Username
           <input
             {...register("username", {
@@ -203,12 +207,17 @@ export const RegisterUserForm = () => {
             className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 text-sm"
           />
           {errors.username && (
-            <div className="text-red-500 text-sm">{errors.username.message}</div>
+            <div className="text-red-500 text-sm">
+              {errors.username.message}
+            </div>
           )}
         </label>
 
         {/* Email Input */}
-        <label htmlFor="email" className="font-bold flex flex-col gap-2 text-white">
+        <label
+          htmlFor="email"
+          className="font-bold flex flex-col gap-2 text-white"
+        >
           Email
           <input
             {...register("email", {
@@ -231,27 +240,54 @@ export const RegisterUserForm = () => {
         </label>
 
         {/* Password Input with Generation and Copy Options */}
-        <label htmlFor="password" className="font-bold flex flex-col gap-2 text-white">
+        <label
+          htmlFor="password"
+          className="font-bold flex flex-col gap-2 text-white"
+        >
           Password
           <div className="flex gap-2 flex-col">
-            <input
-              {...register("password", {
-                required: "Please enter a password",
-                minLength: {
-                  value: 8,
-                  message: "Your password should be at least 8 characters",
-                },
-                pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message:
-                    "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character from @$!%*?&",
-                },
-              })}
-              type="password"
-              placeholder="Password"
-              className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 flex-1 text-sm"
-            />
+            <div className="relative">
+              <input
+                {...register("password", {
+                  required: "Please enter a password",
+                  minLength: {
+                    value: 8,
+                    message: "Your password should be at least 8 characters",
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    message:
+                      "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character from @$!%*?&",
+                  },
+                })}
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 flex-1 text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-0 w-10 top-1/2 transform -translate-y-1/2 text-background hover:text-gray-600 transition-colors border-none"
+              >
+                {showPassword ? (
+                  <EyeOff
+                    size={20}
+                    className={`${
+                      form.watch("password") ? "text-gray-900" : "text-gray-400"
+                    }`}
+                  />
+                ) : (
+                  <Eye
+                    size={20}
+                    className={`${
+                      form.watch("password") ? "text-gray-900" : "text-gray-400"
+                    }`}
+                  />
+                )}
+              </button>
+            </div>
+
             <div className="flex gap-2">
               <button
                 type="button"
@@ -270,7 +306,9 @@ export const RegisterUserForm = () => {
             </div>
           </div>
           {errors.password && (
-            <div className="text-red-500 text-sm">{errors.password.message}</div>
+            <div className="text-red-500 text-sm">
+              {errors.password.message}
+            </div>
           )}
         </label>
 
@@ -278,7 +316,9 @@ export const RegisterUserForm = () => {
         <div className="flex gap-4">
           {/* School Selection */}
           <div className="font-bold flex flex-col gap-2 flex-1">
-            <label htmlFor="school_id" className="text-white">School</label>
+            <label htmlFor="school_id" className="text-white">
+              School
+            </label>
             <Select
               onValueChange={(value) => setValue("school_id", value)}
               {...register("school_id", {
@@ -301,33 +341,47 @@ export const RegisterUserForm = () => {
               </SelectContent>
             </Select>
             {errors.school_id && (
-              <div className="text-red-500 text-sm">{errors.school_id.message}</div>
+              <div className="text-red-500 text-sm">
+                {errors.school_id.message}
+              </div>
             )}
           </div>
 
           {/* Year of Study Input */}
           <div className="font-bold flex flex-col gap-2 flex-1">
-            <label htmlFor="year_of_study" className="text-white">Year of Study</label>
+            <label htmlFor="year_of_study" className="text-white">
+              Year of Study
+            </label>
             <input
               {...register("year_of_study", {
                 required: "Please enter a year of study",
                 valueAsNumber: true,
-                min: { value: 1, message: "Year of study must be between 1 and 5" },
-                max: { value: 5, message: "Year of study must be between 1 and 5" },
+                min: {
+                  value: 1,
+                  message: "Year of study must be between 1 and 5",
+                },
+                max: {
+                  value: 5,
+                  message: "Year of study must be between 1 and 5",
+                },
               })}
               type="number"
               placeholder="Select a year"
               className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 text-sm"
             />
             {errors.year_of_study && (
-              <div className="text-red-500 text-sm">{errors.year_of_study.message}</div>
+              <div className="text-red-500 text-sm">
+                {errors.year_of_study.message}
+              </div>
             )}
           </div>
         </div>
 
         {/* Department Selection */}
         <div className="font-bold flex flex-col gap-2">
-          <label htmlFor="department" className="text-white ">Department</label>
+          <label htmlFor="department" className="text-white ">
+            Department
+          </label>
           <Select
             onValueChange={(value) => setValue("department", value)}
             {...register("department", {
@@ -350,13 +404,17 @@ export const RegisterUserForm = () => {
             </SelectContent>
           </Select>
           {errors.department && (
-            <div className="text-red-500 text-sm">{errors.department.message}</div>
+            <div className="text-red-500 text-sm">
+              {errors.department.message}
+            </div>
           )}
         </div>
 
         {/* Role Selection */}
         <div className="font-bold flex flex-col gap-2">
-          <label htmlFor="role" className="text-white">Role</label>
+          <label htmlFor="role" className="text-white">
+            Role
+          </label>
           <Select
             onValueChange={(value) => setValue("role", value)}
             {...register("role", {
@@ -384,7 +442,10 @@ export const RegisterUserForm = () => {
         </div>
 
         {/* Position Input */}
-        <label htmlFor="position" className="font-bold flex flex-col gap-2 text-white">
+        <label
+          htmlFor="position"
+          className="font-bold flex flex-col gap-2 text-white"
+        >
           Position
           <input
             {...register("position", {
@@ -399,7 +460,9 @@ export const RegisterUserForm = () => {
             className="font-normal bg-white text-background rounded-full py-2 px-3 placeholder-gray-400 text-sm"
           />
           {errors.position && (
-            <div className="text-red-500 text-sm">{errors.position.message}</div>
+            <div className="text-red-500 text-sm">
+              {errors.position.message}
+            </div>
           )}
         </label>
 
@@ -412,7 +475,6 @@ export const RegisterUserForm = () => {
           {isSubmitting ? "Registering..." : "Register"}
         </button>
       </form>
-
     </div>
   );
 };
