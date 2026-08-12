@@ -6,73 +6,11 @@ import BgBoxComingSoon from "@/components/essentials/BgBoxComingSoon";
 import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  IconBrandLinkedin,
-  IconBrandDiscord,
-  IconBrandInstagram,
-  IconMail,
-} from "@tabler/icons-react";
 import Footer from "@/components/shared/Footer";
 
-const socialLinks = [
-  {
-    id: 1,
-    icon: IconBrandLinkedin,
-    linkUrl: "https://www.linkedin.com/company/ccubed-dev/posts/?feedView=all",
-    altText: "LinkedIn",
-  },
-  {
-    id: 2,
-    icon: IconBrandDiscord,
-    linkUrl: "https://discord.com/invite/477KvYukHf",
-    altText: "Discord",
-  },
-  {
-    id: 3,
-    icon: IconBrandInstagram,
-    linkUrl: "https://www.instagram.com/ccubed_dev/?hl=en",
-    altText: "Instagram",
-  },
-  // TODO: Add email icon
 
-  // {
-  //   id: 4,
-  //   icon: IconBrandFacebook,
-  //   linkUrl: "https://www.facebook.com/ccubed.dev/",
-  //   altText: "Facebook",
-  // },
-  // {
-  //   id: 5,
-  //   icon: IconBrandTwitter,
-  //   linkUrl: "https://x.com/ccubed_dev",
-  //   altText: "Twitter",
-  // },
-];
-
-const SocialIcons: React.FC<{ opacity?: number; size?: number }> = ({
-  opacity = 1,
-  size = 24,
-}) => (
-  <div className="social-icons flex items-center gap-4" style={{ opacity }}>
-    {socialLinks.map(({ id, linkUrl, icon: IconComponent, altText }) => (
-      <a
-        href={linkUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        key={id}
-        aria-label={altText}
-      >
-        <IconComponent size={size} color="#FFFFFF" stroke={1.5} />
-      </a>
-    ))}
-  </div>
-);
 
 const ComingSoon = () => {
-  const logoSrc = useSafariImageFallback(
-    "/FigmaFiles/ccubed-icon.svg",
-    "/FigmaFiles/ccubed-icon.png",
-  );
 
   return (
     <div className="h-screen w-full overflow-y-auto flex flex-col bg-gradient-to-b from-[#0D1C26] to-[#1A384C]">
