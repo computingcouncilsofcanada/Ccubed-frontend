@@ -83,7 +83,7 @@ const LoginForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         action=""
         noValidate
-        className="bg-transparent flex justify-center flex-col gap-4 w-1/2 py-8 px-20 rounded-md"
+        className="bg-transparent flex justify-center flex-col gap-4 w-full min-[800px]:w-1/2 py-8 px-20 rounded-md"
       >
         {/* Form Header */}
         <div className="mb-4">

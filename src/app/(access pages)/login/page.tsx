@@ -30,7 +30,7 @@ const Login = () => {
             <h1 className="text-white font-bold">CCUBED</h1>
           </Link>
           <div className="flex-1 h-full flex">
-            <div className=" bg-gray-200/10 backdrop-blur-sm w-1/2 rounded-4xl shadow-2xl flex flex-col items-center justify-center gap-4 px-10">
+            <div className="hidden bg-gray-200/10 backdrop-blur-sm min-[800px]:w-1/2 rounded-4xl shadow-2xl min-[800px]:flex flex-col items-center justify-center gap-4 px-10">
               <Image
                 src={logoSrc}
                 alt="CCubed Icon"
