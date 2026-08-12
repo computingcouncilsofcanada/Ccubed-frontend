@@ -15,18 +15,26 @@ export function useEventsData() {
       try {
         setIsLoading(true);
         const res = await privateAxios.get("/events");
-        const transformedEvents = transformApiEvents(res.data.data);
+        const transformedEvents = transformApiEvents(res.data.data).filter(
+          (event) => event.status === 1,
+        );
 
-        const { currentEvents: current, pastEvents: past } = separateEventsByTime(transformedEvents);
+        const { currentEvents: current, pastEvents: past } =
+          separateEventsByTime(transformedEvents);
         setCurrentEvents(current);
         setPastEvents(past);
       } catch (error: unknown) {
-        const errorMessage = error instanceof Error && 'response' in error &&
-          typeof error.response === 'object' && error.response &&
-          'data' in error.response && typeof error.response.data === 'object' &&
-          error.response.data && 'message' in error.response.data
-          ? String(error.response.data.message)
-          : "Failed to fetch events";
+        const errorMessage =
+          error instanceof Error &&
+          "response" in error &&
+          typeof error.response === "object" &&
+          error.response &&
+          "data" in error.response &&
+          typeof error.response.data === "object" &&
+          error.response.data &&
+          "message" in error.response.data
+            ? String(error.response.data.message)
+            : "Failed to fetch events";
         setError(errorMessage);
         console.error("Error fetching events:", error);
       } finally {
