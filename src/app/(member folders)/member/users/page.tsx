@@ -428,13 +428,13 @@ function UsersPage() {
                 setShowPassword(false);
                 resetPassword();
               }}
-              className="px-10 py-2 border-2 border-[#FAA336] text-[#FAA336] rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
+              className="px-10 py-2 border-2 border-brand text-brand rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-10 py-2 bg-[#FAA336] text-white rounded-xl hover:shadow-lg font-semibold transition-all duration-200 flex items-center gap-2"
+              className="px-10 py-2 bg-brand text-white rounded-xl hover:shadow-lg font-semibold transition-all duration-200 flex items-center gap-2"
             >
               <IconKey size={18} />
               Change Password
@@ -461,7 +461,7 @@ function UsersPage() {
               <span className="font-bold">
                 {selectedUser?.status === 1 ? "ban" : "unban"}
               </span>{" "}
-              <span className="font-semibold text-[#FAA336]">{selectedUser?.username}</span>?
+              <span className="font-semibold text-brand">{selectedUser?.username}</span>?
             </p>
             {selectedUser?.status === 1 && (
               <p className="text-sm text-red-600 mt-2">
@@ -472,7 +472,7 @@ function UsersPage() {
           <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
             <button
               onClick={() => setIsBanModalOpen(false)}
-              className="px-10 py-2 border-2 border-[#FAA336] text-[#FAA336] rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
+              className="px-10 py-2 border-2 border-brand text-brand rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
             >
               Cancel
             </button>
@@ -531,7 +531,7 @@ function UsersPage() {
             <div className="mt-3 p-3 bg-[#152E3F] rounded-lg">
               <p className="text-xs text-white">
                 <strong>Current Role:</strong>{" "}
-                <span className="font-semibold text-[#FAA336]">
+                <span className="font-semibold text-brand">
                   {selectedUser?.role.replace("_", " ")}
                 </span>
               </p>
@@ -544,13 +544,13 @@ function UsersPage() {
                 setIsRoleModalOpen(false);
                 resetRole();
               }}
-              className="px-10 py-2 border-2 border-[#FAA336] text-[#FAA336] rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
+              className="px-10 py-2 border-2 border-brand text-brand rounded-xl hover:bg-gray-50 font-semibold transition-all duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-10 py-2 bg-[#FAA336] text-white rounded-xl hover:shadow-lg font-semibold transition-all duration-200 flex items-center gap-2"
+              className="px-10 py-2 bg-brand text-white rounded-xl hover:shadow-lg font-semibold transition-all duration-200 flex items-center gap-2"
             >
               <IconShield size={18} />
               Change Role

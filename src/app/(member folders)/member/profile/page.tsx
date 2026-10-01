@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import UpdateUserForm from "./components/UpdateUserForm";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
+import { getErrMsg } from "@/utils/errorMessage";
+import { AxiosErrLike } from "@/types/error";
 
 type UserData = {
   school_id: string | null;
@@ -40,19 +42,6 @@ type UserData = {
 type ChangePasswordForm = {
   oldPassword: string;
   newPassword: string;
-};
-
-// ---- helpers to avoid `any` while preserving messages ----
-type ErrWithMessage = { message?: string };
-type AxiosErrLike = { response?: { data?: { message?: string } } };
-const getErrMsg = (err: unknown): string => {
-  if (typeof err === "object" && err !== null) {
-    const ax = err as AxiosErrLike;
-    if (ax.response?.data?.message) return String(ax.response.data.message);
-    const m = err as ErrWithMessage;
-    if (m.message) return String(m.message);
-  }
-  return "Something went wrong";
 };
 
 const Page = () => {
@@ -184,7 +173,7 @@ const Page = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#FAA336] transition-colors"
+                className="w-5 h-5 text-gray-400 cursor-pointer hover:text-brand transition-colors"
                 onClick={() => setShowUpdateProfile((prev) => !prev)}
               >
                 <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
@@ -192,7 +181,7 @@ const Page = () => {
             </h1>
             <button
               onClick={() => setIsPasswordModalOpen(true)}
-              className="bg-[#FAA336] text-white px-4 py-2 rounded-lg hover:bg-[#e8922a] transition-colors font-medium"
+              className="bg-brand text-white px-4 py-2 rounded-lg hover:bg-brand-hover transition-colors font-medium"
             >
               Change Password
             </button>
@@ -333,7 +322,7 @@ const Page = () => {
                       message: "Password must be at least 8 characters",
                     },
                   })}
-                  className="block w-full rounded-lg border border-gray-600 bg-neutral-800 px-3 py-2 text-white placeholder-gray-500 focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]"
+                  className="block w-full rounded-lg border border-gray-600 bg-neutral-800 px-3 py-2 text-white placeholder-gray-500 focus:border-brand focus:ring-1 focus:ring-brand"
                 />
                 {errors.oldPassword && (
                   <p className="mt-1 text-sm text-red-400">
@@ -356,7 +345,7 @@ const Page = () => {
                       message: "Password must be at least 8 characters",
                     },
                   })}
-                  className="block w-full rounded-lg border border-gray-600 bg-neutral-800 px-3 py-2 text-white placeholder-gray-500 focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]"
+                  className="block w-full rounded-lg border border-gray-600 bg-neutral-800 px-3 py-2 text-white placeholder-gray-500 focus:border-brand focus:ring-1 focus:ring-brand"
                 />
                 {errors.newPassword && (
                   <p className="mt-1 text-sm text-red-400">
@@ -370,13 +359,13 @@ const Page = () => {
                 <button
                   type="button"
                   onClick={() => setIsPasswordModalOpen(false)}
-                  className="px-4 py-2 border border-[#FAA336] text-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 transition-colors"
+                  className="px-4 py-2 border border-brand text-brand rounded-lg hover:bg-brand/10 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#FAA336] text-white rounded-lg hover:bg-[#e8922a] transition-colors font-medium"
+                  className="px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand-hover transition-colors font-medium"
                 >
                   Change Password
                 </button>

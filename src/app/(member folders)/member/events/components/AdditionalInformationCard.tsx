@@ -32,8 +32,8 @@ export default function AdditionalInformationCard({
                 key={type}
                 className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 cursor-pointer transition-all ${
                   selectedTypes.includes(type)
-                    ? "border-[#FAA336] bg-[#FAA336] text-black"
-                    : "border-[#FAA336] bg-transparent text-[#FAA336] hover:bg-[#FAA336]/10"
+                    ? "border-brand bg-brand text-black"
+                    : "border-brand bg-transparent text-brand hover:bg-brand/10"
                 }`}
               >
                 <input

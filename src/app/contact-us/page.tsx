@@ -74,7 +74,7 @@ export default function ContactUs() {
                 })}
                 type="text"
                 className={`bg-white mb-2 mt-2 w-full h-[48px] p-3 rounded-4xl border transition-all duration-300 ease-in-out
-                          focus:border-2 focus:border-[#FAA336] focus:shadow-md focus:outline-none
+                          focus:border-2 focus:border-brand focus:shadow-md focus:outline-none
                           ${errors.firstName ? "border-red-500" : "border-transparent"}`}
                 placeholder="Enter Your Full Name"
               />
@@ -101,7 +101,7 @@ export default function ContactUs() {
                 })}
                 type="email"
                 className={`bg-white mb-2 mt-2 w-full h-[48px] p-3 rounded-4xl border transition-all duration-300 ease-in-out
-                          focus:border-2 focus:border-[#FAA336] focus:shadow-md focus:outline-none
+                          focus:border-2 focus:border-brand focus:shadow-md focus:outline-none
                           ${errors.email ? "border-red-500" : "border-transparent"}`}
                 placeholder="Yourmail@gmail.com"
               />
@@ -138,7 +138,7 @@ export default function ContactUs() {
                 })}
                 className={`bg-white w-full box-border h-[100px] rounded-[20px] p-3 mt-2
                           transition-all duration-300 ease-in-out
-                          focus:border-2 focus:border-[#FAA336] focus:shadow-md
+                          focus:border-2 focus:border-brand focus:shadow-md
                           focus:outline-none ${errors.message ? "border border-red-500" : ""}`}
                 placeholder="Your text"
               />
@@ -150,7 +150,7 @@ export default function ContactUs() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-[#FAA336] text-white text-center px-5 py-3 mt-4 mb-5 rounded-[30px] w-full disabled:opacity-50"
+              className="bg-brand text-white text-center px-5 py-3 mt-4 mb-5 rounded-[30px] w-full disabled:opacity-50"
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </button>

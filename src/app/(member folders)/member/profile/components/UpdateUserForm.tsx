@@ -125,7 +125,7 @@ export default function UpdateUserForm({
   };
 
   const inputClass =
-    "w-full px-3 py-2 border border-gray-600 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-500 focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]";
+    "w-full px-3 py-2 border border-gray-600 rounded-lg bg-[#D9D9D9] text-black placeholder-gray-500 focus:border-brand focus:ring-1 focus:ring-brand";
   const labelClass = "block text-sm font-medium text-gray-400 mb-1";
 
   return (
@@ -229,7 +229,7 @@ export default function UpdateUserForm({
               type="file"
               accept="image/*"
               {...register("file")}
-              className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-neutral-800 text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-[#FAA336] file:text-white file:font-medium focus:border-[#FAA336] focus:ring-1 focus:ring-[#FAA336]"
+              className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-neutral-800 text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-brand file:text-white file:font-medium focus:border-brand focus:ring-1 focus:ring-brand"
             />
           </div>
           <div>
@@ -294,7 +294,7 @@ export default function UpdateUserForm({
           <button
             type="button"
             onClick={() => appendDomain("")}
-            className="inline-flex items-center gap-1 text-sm text-[#FAA336] hover:text-[#e8922a] font-medium transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-brand hover:text-brand-hover font-medium transition-colors"
           >
             <IconPlus size={16} />
             Add domain
@@ -332,7 +332,7 @@ export default function UpdateUserForm({
           <button
             type="button"
             onClick={() => appendHobby("")}
-            className="inline-flex items-center gap-1 text-sm text-[#FAA336] hover:text-[#e8922a] font-medium transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-brand hover:text-brand-hover font-medium transition-colors"
           >
             <IconPlus size={16} />
             Add hobby
@@ -367,14 +367,14 @@ export default function UpdateUserForm({
         <button
           type="button"
           onClick={() => reset(initialData ? { ...defaultValues, ...initialData, domains: initialData.domains ?? [], hobbies: initialData.hobbies ?? [] } : defaultValues)}
-          className="px-6 py-2.5 border border-[#FAA336] text-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 font-medium transition-colors"
+          className="px-6 py-2.5 border border-brand text-brand rounded-lg hover:bg-brand/10 font-medium transition-colors"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={hasNoData || isSubmitting}
-          className="px-6 py-2.5 bg-[#FAA336] text-white rounded-lg hover:bg-[#e8922a] font-medium disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-2.5 bg-brand text-white rounded-lg hover:bg-brand-hover font-medium disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
         >
           {isSubmitting ? "Saving..." : "Save profile"}
         </button>

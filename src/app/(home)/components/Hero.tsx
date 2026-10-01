@@ -46,7 +46,7 @@ export default function Hero() {
               width: "125px",
               height: "44px",
               borderRadius: "8px",
-              background: "#FAA336"
+              background: "var(--color-brand)"
             }}
           >
             {/* Hover gradient border effect */}
@@ -61,7 +61,7 @@ export default function Hero() {
               <div 
                 className="w-full h-full rounded-lg"
                 style={{
-              backgroundColor: "#FAA336",
+              backgroundColor: "var(--color-brand)",
                   borderRadius: "6px"
                 }}
               />

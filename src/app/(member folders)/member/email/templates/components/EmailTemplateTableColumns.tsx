@@ -55,7 +55,7 @@ export function createEmailTemplateTableColumns({
             {placeholders.slice(0, 4).map((p) => (
               <span
                 key={p}
-                className="px-2 py-0.5 rounded-full bg-[#FAA336]/15 text-[#FAA336] text-xs font-mono"
+                className="px-2 py-0.5 rounded-full bg-brand/15 text-brand text-xs font-mono"
               >
                 {`{{${p}}}`}
               </span>

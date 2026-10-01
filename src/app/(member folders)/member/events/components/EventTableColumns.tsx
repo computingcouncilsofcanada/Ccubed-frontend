@@ -98,7 +98,7 @@ export function createEventTableColumns(
             {event.types.slice(0, 2).map((type) => (
               <span
                 key={type}
-                className="px-2 py-0.5 bg-[#FAA336] text-black text-xs font-medium rounded-full border border-slate-600"
+                className="px-2 py-0.5 bg-brand text-black text-xs font-medium rounded-full border border-slate-600"
               >
                 {type}
               </span>
@@ -119,7 +119,7 @@ export function createEventTableColumns(
         const isPending = event.pending_action && event.pending_action !== "";
         if (isPending) {
           return (
-            <span className="px-2.5 py-1 bg-[#FAA336] text-black text-xs font-semibold rounded-full ">
+            <span className="px-2.5 py-1 bg-brand text-black text-xs font-semibold rounded-full ">
               Pending {event.pending_action}
             </span>
           );

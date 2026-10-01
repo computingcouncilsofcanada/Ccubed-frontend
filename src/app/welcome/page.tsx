@@ -89,7 +89,7 @@ const ComingSoon = () => {
           {/* Notify button */}
           <Link
             href="/login"
-            className="w-fit bg-[#FAA336] px-6 sm:px-8 md:px-10 py-2 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium"
+            className="w-fit bg-brand px-6 sm:px-8 md:px-10 py-2 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium"
           >
             Go to Login Page
           </Link>

@@ -37,7 +37,7 @@ export default function UpdateRoleModal({
               type="text"
               defaultValue={selectedRole?.name}
               {...register("name", { required: "Name is required" })}
-              className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50 focus:border-[#FAA336]/50 transition-all bg-gray-700 text-white placeholder-gray-400"
+              className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/50 transition-all bg-gray-700 text-white placeholder-gray-400"
               placeholder="Enter role name"
             />
             {errors.name && (
@@ -52,13 +52,13 @@ export default function UpdateRoleModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 border-2 border-[#FAA336] text-[#FAA336] rounded-xl hover:bg-gray-700 transition-all duration-200 font-medium"
+              className="px-6 py-2.5 border-2 border-brand text-brand rounded-xl hover:bg-gray-700 transition-all duration-200 font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-[#FAA336] text-white rounded-xl hover:shadow-lg transition-all duration-200 font-semibold"
+              className="px-6 py-2.5 bg-brand text-white rounded-xl hover:shadow-lg transition-all duration-200 font-semibold"
             >
               Update Role
             </button>

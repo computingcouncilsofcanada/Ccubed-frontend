@@ -17,7 +17,7 @@ export function createEmailGroupTableColumns(
           <div className="max-w-xs">
             <Link
               href={`/member/email-group/${group.id}`}
-              className="font-semibold text-white truncate hover:text-[#FAA336] transition-colors block"
+              className="font-semibold text-white truncate hover:text-brand transition-colors block"
             >
               {group.name}
             </Link>

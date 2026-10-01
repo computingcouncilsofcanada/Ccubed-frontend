@@ -215,7 +215,7 @@ export function ArticleUpsertLeftColumn({
                 type="file"
                 accept="image/*"
                 {...register("thumbnail")}
-                className="w-full text-sm text-slate-300 file:mr-3 file:rounded-lg file:border-0 file:bg-[#FAA336] file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-black"
+                className="w-full text-sm text-slate-300 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-black"
               />
               <p className="mt-2 text-xs text-slate-500">
                 {isUpdate
@@ -295,7 +295,7 @@ export function ArticleUpsertLeftColumn({
             <button
               type="button"
               onClick={() => appendAuthor({ value: "" })}
-              className="text-sm text-[#FAA336] hover:underline"
+              className="text-sm text-brand hover:underline"
             >
               Add author
             </button>
@@ -327,7 +327,7 @@ export function ArticleUpsertLeftColumn({
             <button
               type="button"
               onClick={() => appendTag({ value: "" })}
-              className="text-sm text-[#FAA336] hover:underline"
+              className="text-sm text-brand hover:underline"
             >
               Add tag
             </button>
@@ -360,7 +360,7 @@ export function ArticleUpsertLeftColumn({
           <button
             type="button"
             onClick={() => appendShareLink({ icon: "", url: "" })}
-            className="text-sm text-[#FAA336] hover:underline"
+            className="text-sm text-brand hover:underline"
           >
             Add link
           </button>
@@ -397,14 +397,14 @@ export function ArticleUpsertLeftColumn({
       <div className="flex flex-col gap-3 pt-1 sm:flex-row">
         <Link
           href="/member/article"
-          className="flex items-center justify-center rounded-lg border-2 border-[#FAA336] px-6 py-3 text-center font-medium text-[#FAA336] hover:bg-[#FAA336]/10 sm:flex-1"
+          className="flex items-center justify-center rounded-lg border-2 border-brand px-6 py-3 text-center font-medium text-brand hover:bg-brand/10 sm:flex-1"
         >
           Cancel
         </Link>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-lg bg-[#FAA336] px-6 py-3 font-semibold text-white shadow-lg transition-all hover:bg-[#F59527] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 sm:flex-[1.4]"
+          className="rounded-lg bg-brand px-6 py-3 font-semibold text-white shadow-lg transition-all hover:bg-brand-hover hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 sm:flex-[1.4]"
         >
           {isSubmitting ? "Saving…" : isUpdate ? "Update article" : "Create article"}
         </button>

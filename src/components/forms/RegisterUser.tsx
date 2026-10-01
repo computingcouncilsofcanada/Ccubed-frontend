@@ -470,7 +470,7 @@ export const RegisterUserForm = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-[#FAA336] text-white px-4 py-3 rounded-full hover:bg-[#f39522] disabled:opacity-50 font-semibold text-lg mt-4"
+          className="bg-brand text-white px-4 py-3 rounded-full hover:bg-[#f39522] disabled:opacity-50 font-semibold text-lg mt-4"
         >
           {isSubmitting ? "Registering..." : "Register"}
         </button>

@@ -7,7 +7,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { useApiBulkEmail } from "@/services/useApiBulkEmail";
+import { getBulkEmail, confirmBulkEmail, cancelBulkEmail } from "@/services/useApiBulkEmail";
 import {
   BulkEmailWithPreview,
 } from "@/types/email.interface";
@@ -18,8 +18,6 @@ export default function BulkEmailReviewPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const bulkEmailId = params?.id;
-
-  const { getBulkEmail, confirmBulkEmail, cancelBulkEmail } = useApiBulkEmail();
 
   const [data, setData] = useState<BulkEmailWithPreview | null>(null);
   const [loading, setLoading] = useState(true);
@@ -42,7 +40,7 @@ export default function BulkEmailReviewPage() {
     } finally {
       setLoading(false);
     }
-  }, [getBulkEmail, bulkEmailId]);
+  }, [bulkEmailId]);
 
   useEffect(() => {
     fetchBulkEmail();
@@ -93,7 +91,7 @@ export default function BulkEmailReviewPage() {
         <div className="mb-8">
           <Link
             href="/member/email/bulk-emails"
-            className="group mb-4 inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-[#FAA336]"
+            className="group mb-4 inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-brand"
           >
             <IconArrowLeft
               size={20}
@@ -179,7 +177,7 @@ function BulkEmailReviewBody({
                 type="button"
                 onClick={() => onConfirm(true)}
                 disabled={acting}
-                className="rounded-xl border border-[#FAA336]/50 px-4 py-2 text-sm font-semibold text-[#FAA336] hover:bg-[#FAA336]/10 disabled:opacity-40"
+                className="rounded-xl border border-brand/50 px-4 py-2 text-sm font-semibold text-brand hover:bg-brand/10 disabled:opacity-40"
               >
                 Dry run (no send)
               </button>
@@ -187,8 +185,7 @@ function BulkEmailReviewBody({
                 type="button"
                 onClick={() => onConfirm(false)}
                 disabled={acting}
-                style={{ backgroundColor: "#FAA336" }}
-                className="rounded-xl px-5 py-2 text-sm font-semibold text-black shadow-lg hover:opacity-90 disabled:opacity-60"
+                className="rounded-xl px-5 py-2 text-sm font-semibold text-black shadow-lg hover:opacity-90 disabled:opacity-60 bg-brand"
               >
                 {acting ? "Working…" : "Confirm & send"}
               </button>
@@ -217,7 +214,7 @@ function BulkEmailReviewBody({
                   {p.subject}
                 </p>
                 <div
-                  className="mt-3 text-sm text-slate-200 [&_a]:text-[#FAA336] [&_a]:underline [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6"
+                  className="mt-3 text-sm text-slate-200 [&_a]:text-brand [&_a]:underline [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6"
                   dangerouslySetInnerHTML={{ __html: p.body }}
                 />
               </div>

@@ -29,7 +29,7 @@ export const defaultArticleUpsertFormValues: ArticleUpsertFormValues = {
 };
 
 export const articleUpsertInputClass =
-  "w-full px-4 py-3 rounded-lg border border-white/15 bg-black/25 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50";
+  "w-full px-4 py-3 rounded-lg border border-white/15 bg-black/25 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand/50";
 
 export const articleUpsertSelectTriggerClass = cn(
   articleUpsertInputClass,

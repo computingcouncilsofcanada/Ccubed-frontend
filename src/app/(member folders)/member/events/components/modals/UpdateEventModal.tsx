@@ -294,7 +294,7 @@ export default function UpdateEventModal({
           {/* ── Basic Information ─────────────────────────────────────────── */}
           <div className="bg-white/5 rounded-xl p-5 border border-white/10">
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <IconFileText size={20} className="text-[#FAA336]" />
+              <IconFileText size={20} className="text-brand" />
               Basic Information
             </h3>
 
@@ -305,7 +305,7 @@ export default function UpdateEventModal({
               <input
                 type="text"
                 {...register("name", { required: "Name is required" })}
-                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter event name"
               />
               {errors.name && (
@@ -325,7 +325,7 @@ export default function UpdateEventModal({
                   required: "Description is required",
                 })}
                 rows={4}
-                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all resize-none bg-gray-700 text-white placeholder-gray-400"
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all resize-none bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter event description"
               />
               {errors.description && (
@@ -448,7 +448,7 @@ export default function UpdateEventModal({
                     multiple
                     ref={fileInputRef}
                     onChange={handleFileChange}
-                    className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#FAA336] file:text-white hover:file:bg-[#F59527]"
+                    className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand file:text-white hover:file:bg-brand-hover"
                   />
                   <p className="text-xs text-gray-500 mt-1">
                     {previews.length > 0
@@ -463,7 +463,7 @@ export default function UpdateEventModal({
           {/* ── Schedule & Recurrence ─────────────────────────────────────── */}
           <div className="bg-white/5 rounded-xl p-5 border border-white/10">
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <IconCalendar size={20} className="text-[#FAA336]" />
+              <IconCalendar size={20} className="text-brand" />
               Schedule &amp; Recurrence
             </h3>
 
@@ -481,7 +481,7 @@ export default function UpdateEventModal({
                     onClick={() => setValue("eventType", type)}
                     className={`px-4 py-2 rounded-lg border-2 transition-all font-medium ${
                       eventType === type
-                        ? "border-[#FAA336] bg-[#FAA336]/20 text-[#FAA336]"
+                        ? "border-brand bg-brand/20 text-brand"
                         : "border-gray-600 text-gray-400 hover:border-gray-500"
                     }`}
                   >
@@ -505,7 +505,7 @@ export default function UpdateEventModal({
                   {...register("start_at", {
                     required: "Start time is required",
                   })}
-                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white"
                 />
                 {errors.start_at && (
                   <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
@@ -523,7 +523,7 @@ export default function UpdateEventModal({
                 <input
                   type="datetime-local"
                   {...register("end_at", { required: "End time is required" })}
-                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white"
                 />
                 {errors.end_at && (
                   <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
@@ -541,7 +541,7 @@ export default function UpdateEventModal({
                 </label>
                 <select
                   {...register("selectedDayOfWeek")}
-                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white"
                 >
                   <option value="">Select a day</option>
                   {[
@@ -569,7 +569,7 @@ export default function UpdateEventModal({
                 <input
                   type="date"
                   {...register("monthlyDate")}
-                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white"
                 />
               </div>
             )}
@@ -584,7 +584,7 @@ export default function UpdateEventModal({
                   {...register("multipleDays" as any)}
                   rows={4}
                   placeholder={"2025-06-20\n2025-06-21\n2025-06-27"}
-                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 />
               </div>
             )}
@@ -593,7 +593,7 @@ export default function UpdateEventModal({
           {/* ── Location & Links ──────────────────────────────────────────── */}
           <div className="bg-white/5 rounded-xl p-5 border border-white/10">
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <IconMapPin size={20} className="text-[#FAA336]" />
+              <IconMapPin size={20} className="text-brand" />
               Location &amp; Links
             </h3>
 
@@ -604,7 +604,7 @@ export default function UpdateEventModal({
               <input
                 type="text"
                 {...register("location", { required: "Location is required" })}
-                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter event location"
               />
               {errors.location && (
@@ -623,7 +623,7 @@ export default function UpdateEventModal({
               <input
                 type="text"
                 {...register("registration_link")}
-                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter registration link"
               />
             </div>
@@ -636,7 +636,7 @@ export default function UpdateEventModal({
               <input
                 type="text"
                 {...register("url")}
-                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="https://example.com/event"
               />
             </div>
@@ -656,7 +656,7 @@ export default function UpdateEventModal({
                 <div key={field.id} className="flex gap-2 mb-2">
                   <input
                     {...register(`learning_outcomes.${index}.value` as const)}
-                    className="flex-1 px-4 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                    className="flex-1 px-4 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                     placeholder={`Learning outcome ${index + 1}`}
                   />
                   <button
@@ -671,7 +671,7 @@ export default function UpdateEventModal({
               <button
                 type="button"
                 onClick={() => appendLearningOutcome({ value: "" })}
-                className="text-[#FAA336] text-sm font-medium hover:text-[#F59527] flex items-center gap-1"
+                className="text-brand text-sm font-medium hover:text-brand-hover flex items-center gap-1"
               >
                 <IconPlus size={16} /> Add Learning Outcome
               </button>
@@ -685,7 +685,7 @@ export default function UpdateEventModal({
                 <div key={field.id} className="flex gap-2 mb-2">
                   <input
                     {...register(`what_you_need.${index}.value` as const)}
-                    className="flex-1 px-4 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                    className="flex-1 px-4 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                     placeholder={`Requirement ${index + 1}`}
                   />
                   <button
@@ -700,7 +700,7 @@ export default function UpdateEventModal({
               <button
                 type="button"
                 onClick={() => appendWhatYouNeed({ value: "" })}
-                className="text-[#FAA336] text-sm font-medium hover:text-[#F59527] flex items-center gap-1"
+                className="text-brand text-sm font-medium hover:text-brand-hover flex items-center gap-1"
               >
                 <IconPlus size={16} /> Add Requirement
               </button>
@@ -714,7 +714,7 @@ export default function UpdateEventModal({
                 <div key={field.id} className="flex gap-2 mb-2">
                   <input
                     {...register(`instructors.${index}.value` as const)}
-                    className="flex-1 px-4 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                    className="flex-1 px-4 py-2 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                     placeholder={`Instructor ${index + 1}`}
                   />
                   <button
@@ -729,7 +729,7 @@ export default function UpdateEventModal({
               <button
                 type="button"
                 onClick={() => appendInstructor({ value: "" })}
-                className="text-[#FAA336] text-sm font-medium hover:text-[#F59527] flex items-center gap-1"
+                className="text-brand text-sm font-medium hover:text-brand-hover flex items-center gap-1"
               >
                 <IconPlus size={16} /> Add Instructor
               </button>
@@ -742,7 +742,7 @@ export default function UpdateEventModal({
               <textarea
                 {...register("content")}
                 rows={10}
-                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Optional: session structure, agenda, or any extra details"
               />
             </div>
@@ -766,7 +766,7 @@ export default function UpdateEventModal({
                     onClick={() => handleTypeToggle(type)}
                     className={`px-4 py-2 rounded-lg border-2 transition-all font-medium ${
                       selectedTypes.includes(type)
-                        ? "border-[#FAA336] bg-[#FAA336]/20 text-[#FAA336]"
+                        ? "border-brand bg-brand/20 text-brand"
                         : "border-gray-600 text-gray-400 hover:border-gray-500"
                     }`}
                   >
@@ -789,7 +789,7 @@ export default function UpdateEventModal({
               <input
                 type="text"
                 {...register("ownership" as any)}
-                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter ownership (comma separated)"
               />
             </div>
@@ -801,7 +801,7 @@ export default function UpdateEventModal({
               <input
                 type="text"
                 {...register("domains" as any)}
-                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FAA336] focus:border-[#FAA336] transition-all bg-gray-700 text-white placeholder-gray-400"
+                className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter domains (comma separated)"
               />
             </div>
@@ -819,7 +819,7 @@ export default function UpdateEventModal({
             <button
               type="submit"
               disabled={isSubmitting || selectedTypes.length === 0}
-              className="basis-[70%] px-6 py-3 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+              className="basis-[70%] px-6 py-3 bg-brand hover:bg-brand-hover text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">

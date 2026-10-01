@@ -330,7 +330,7 @@ export default function CreateOrUpdateEmailGroupForm({
         <p>{pageError || "Email group not found."}</p>
         <Link
           href="/member/email-group"
-          className="text-[#FAA336] hover:underline flex items-center gap-2"
+          className="text-brand hover:underline flex items-center gap-2"
         >
           <IconArrowLeft size={18} />
           Back to Email Groups
@@ -379,7 +379,7 @@ export default function CreateOrUpdateEmailGroupForm({
             <div className="space-y-6">
               <div className={CARD_CLASS}>
                 <h2 className="text-xl font-semibold text-white mb-1 flex items-center gap-2">
-                  <IconMail size={22} className="text-[#FAA336]" />
+                  <IconMail size={22} className="text-brand" />
                   Group Details
                 </h2>
                 <p className="text-sm text-gray-400 mb-5">
@@ -401,7 +401,7 @@ export default function CreateOrUpdateEmailGroupForm({
                       })}
                       type="text"
                       placeholder="e.g. Newsletter Subscribers"
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50 focus:border-[#FAA336]"
+                      className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand"
                     />
                     {errors.name && (
                       <p className="text-red-400 text-sm mt-1">
@@ -422,7 +422,7 @@ export default function CreateOrUpdateEmailGroupForm({
                       {...register("description")}
                       rows={6}
                       placeholder="Optional description for this group"
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50 focus:border-[#FAA336] resize-none"
+                      className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand resize-none"
                     />
                   </div>
                 </div>
@@ -477,7 +477,7 @@ export default function CreateOrUpdateEmailGroupForm({
               {isUpdate && (
                 <div className="mb-5 pb-5 border-b border-white/10">
                   <h3 className="text-sm font-medium text-gray-300 mb-3 flex items-center gap-2">
-                    <IconUsers size={16} className="text-[#FAA336]" />
+                    <IconUsers size={16} className="text-brand" />
                     Current members ({members.length})
                   </h3>
                   {members.length === 0 ? (
@@ -512,7 +512,7 @@ export default function CreateOrUpdateEmailGroupForm({
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-                    <IconUsers size={22} className="text-[#FAA336]" />
+                    <IconUsers size={22} className="text-brand" />
                     Add Members
                   </h2>
                   <p className="text-sm text-gray-400 mt-1">
@@ -528,7 +528,7 @@ export default function CreateOrUpdateEmailGroupForm({
                   onClick={() => setMemberMode("list")}
                   className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     memberMode === "list"
-                      ? "bg-[#FAA336] text-white"
+                      ? "bg-brand text-white"
                       : "bg-white/10 text-gray-300 hover:bg-white/15"
                   }`}
                 >
@@ -539,7 +539,7 @@ export default function CreateOrUpdateEmailGroupForm({
                   onClick={() => setMemberMode("manual")}
                   className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     memberMode === "manual"
-                      ? "bg-[#FAA336] text-white"
+                      ? "bg-brand text-white"
                       : "bg-white/10 text-gray-300 hover:bg-white/15"
                   }`}
                 >
@@ -559,7 +559,7 @@ export default function CreateOrUpdateEmailGroupForm({
                       value={emailSearch}
                       onChange={(e) => setEmailSearch(e.target.value)}
                       placeholder="Search by email..."
-                      className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/50"
                     />
                   </div>
 
@@ -585,7 +585,7 @@ export default function CreateOrUpdateEmailGroupForm({
                                 type="checkbox"
                                 checked={selectedEmails.has(normalized)}
                                 onChange={() => toggleEmailSelection(email)}
-                                className="w-4 h-4 rounded border-white/30 bg-white/10 text-[#FAA336] focus:ring-[#FAA336]/50"
+                                className="w-4 h-4 rounded border-white/30 bg-white/10 text-brand focus:ring-brand/50"
                               />
                               <p className="text-white text-sm truncate">
                                 {email}
@@ -614,12 +614,12 @@ export default function CreateOrUpdateEmailGroupForm({
                         }
                       }}
                       placeholder="Enter email address"
-                      className="flex-1 px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50"
+                      className="flex-1 px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/50"
                     />
                     <button
                       type="button"
                       onClick={handleAddManualEmail}
-                      className="px-4 py-2.5 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg transition-colors flex items-center gap-1 shrink-0"
+                      className="px-4 py-2.5 bg-brand hover:bg-brand-hover text-white rounded-lg transition-colors flex items-center gap-1 shrink-0"
                     >
                       <IconPlus size={18} />
                       Add
@@ -710,7 +710,7 @@ export default function CreateOrUpdateEmailGroupForm({
                     type="button"
                     onClick={handleAddPendingMembers}
                     disabled={isAddingMembers}
-                    className="w-full mt-4 px-6 py-2.5 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg disabled:opacity-50 transition-all font-semibold"
+                    className="w-full mt-4 px-6 py-2.5 bg-brand hover:bg-brand-hover text-white rounded-lg disabled:opacity-50 transition-all font-semibold"
                   >
                     {isAddingMembers
                       ? "Adding Members..."
@@ -724,7 +724,7 @@ export default function CreateOrUpdateEmailGroupForm({
           <div className="flex flex-col sm:flex-row gap-4 pt-2">
             <Link
               href="/member/email-group"
-              className="sm:basis-[30%] px-6 py-3 border-2 border-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 transition-colors font-medium text-[#FAA336] flex items-center justify-center"
+              className="sm:basis-[30%] px-6 py-3 border-2 border-brand rounded-lg hover:bg-brand/10 transition-colors font-medium text-brand flex items-center justify-center"
             >
               Cancel
             </Link>
@@ -733,7 +733,7 @@ export default function CreateOrUpdateEmailGroupForm({
               disabled={
                 isSubmitting || (!isUpdate && pendingMemberCount === 0)
               }
-              className="sm:basis-[70%] px-6 py-3 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+              className="sm:basis-[70%] px-6 py-3 bg-brand hover:bg-brand-hover text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
             >
               {isSubmitting
                 ? isUpdate

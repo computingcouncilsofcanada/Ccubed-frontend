@@ -1,12 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useApiEvent } from "@/services/useApiEvent";
+import { getEventStats } from "@/services/useApiEvent";
 import { EventStats } from "@/types/events";
 import { IconCalendar, IconCheck, IconX, IconClock } from "@tabler/icons-react";
 
 export default function StatCardRow() {
-  const { getEventStats } = useApiEvent();
   const [stats, setStats] = useState<EventStats | null>(null);
 
   const fetchStats = useCallback(async () => {
@@ -16,7 +15,7 @@ export default function StatCardRow() {
     } catch (error) {
       console.error("Error fetching event stats:", error);
     }
-  }, [getEventStats]);
+  }, []);
 
   useEffect(() => {
     fetchStats();

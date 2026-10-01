@@ -353,7 +353,7 @@ export function EventCard({
                               : windowWidth < 1024
                               ? "40px"
                               : "44px",
-                          backgroundColor: "#FAA336",
+                          backgroundColor: "var(--color-brand)",
                           borderRadius: "8px",
                           opacity: "100%",
                           fontFamily: "Roboto, sans-serif",

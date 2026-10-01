@@ -11,6 +11,7 @@ import {
 } from "@/services/useApiAuth";
 import Modal from "@/components/modals/Modal";
 import { useForm } from "react-hook-form";
+import { getErrMsg } from "@/utils/errorMessage";
 
 type Department = {
   id: string;
@@ -23,20 +24,6 @@ type Department = {
 
 type DepartmentForm = {
   name: string;
-};
-
-// ---- helpers to avoid `any` while preserving messages ----
-type ErrWithMessage = { message?: string };
-type AxiosErrLike = { response?: { data?: { message?: string } } };
-
-const getErrMsg = (err: unknown): string => {
-  if (typeof err === "object" && err !== null) {
-    const ax = err as AxiosErrLike;
-    if (ax.response?.data?.message) return String(ax.response.data.message);
-    const m = err as ErrWithMessage;
-    if (m.message) return String(m.message);
-  }
-  return "Something went wrong";
 };
 
 function DepartmentsPage() {

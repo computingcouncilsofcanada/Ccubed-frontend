@@ -33,7 +33,7 @@ type ArticleRichTextEditorProps = {
 
 const btn =
   "p-2 rounded-md text-slate-200 hover:bg-white/10 disabled:opacity-40 disabled:pointer-events-none transition-colors";
-const btnActive = "bg-[#FAA336]/25 text-[#FAA336]";
+const btnActive = "bg-brand/25 text-brand";
 
 export function ArticleRichTextEditor({
   value,
@@ -54,7 +54,7 @@ export function ArticleRichTextEditor({
         Link.configure({
           openOnClick: false,
           HTMLAttributes: {
-            class: "text-[#FAA336] underline underline-offset-2",
+            class: "text-brand underline underline-offset-2",
           },
         }),
       ],
@@ -194,7 +194,7 @@ export function ArticleRichTextEditor({
       <EditorContent
         editor={editor}
         className={cn(
-          "article-editor flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-3 text-slate-100 [&_.ProseMirror]:min-h-full [&_.ProseMirror]:outline-none [&_.ProseMirror]:prose-headings:text-[#FAA336] [&_h2]:text-xl [&_h2]:font-bold [&_h3]:text-lg [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_blockquote]:border-l-4 [&_blockquote]:border-[#FAA336]/60 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-300",
+          "article-editor flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-3 text-slate-100 [&_.ProseMirror]:min-h-full [&_.ProseMirror]:outline-none [&_.ProseMirror]:prose-headings:text-brand [&_h2]:text-xl [&_h2]:font-bold [&_h3]:text-lg [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_blockquote]:border-l-4 [&_blockquote]:border-brand/60 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-300",
           editorContentClassName
         )}
       />

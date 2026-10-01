@@ -92,7 +92,7 @@ export function Pagination({
       "min-w-[2.5rem] px-3 py-2 rounded-lg text-sm font-semibold transition-colors border",
       isActive
         ? activePageClassName ??
-          "border-[#FAA336] bg-[#FAA336] text-black"
+          "border-brand bg-brand text-black"
         : inactivePageClassName ??
           "border-slate-600 bg-slate-800/80 text-slate-200 hover:bg-slate-700 hover:border-slate-500"
     );

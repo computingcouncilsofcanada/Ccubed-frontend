@@ -16,10 +16,10 @@ const VERIFIED_OPTIONS = [
 ] as const;
 
 const selectClassName =
-  "px-3 py-2 rounded-lg bg-slate-800/80 border border-slate-600 text-slate-100 text-sm min-w-[130px] focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50 focus:border-[#FAA336]/50";
+  "px-3 py-2 rounded-lg bg-slate-800/80 border border-slate-600 text-slate-100 text-sm min-w-[130px] focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/50";
 
 const searchClassName =
-  "w-full min-w-[180px] flex-1 pl-9 pr-3 py-2 rounded-lg bg-slate-800/80 border border-slate-600 text-slate-100 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#FAA336]/50 focus:border-[#FAA336]/50";
+  "w-full min-w-[180px] flex-1 pl-9 pr-3 py-2 rounded-lg bg-slate-800/80 border border-slate-600 text-slate-100 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/50";
 
 export type UserFiltersState = {
   role: string;
