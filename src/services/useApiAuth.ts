@@ -1,3 +1,4 @@
+// Auth endpoints, plus misc CRUD for schools, departments, events, permissions, and roles
 import { privateAxios, publicAxios } from "@/lib/axios";
 
 export const registerUser = async (

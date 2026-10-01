@@ -1,3 +1,4 @@
+// Axios instances plus the CSRF-token and access-token-refresh interceptor wiring used by every API call
 import axios, { type InternalAxiosRequestConfig } from "axios";
 
 const API_BASE = process.env.NEXT_PUBLIC_BACKEND_BASE;
