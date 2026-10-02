@@ -26,7 +26,7 @@ export default function AdminLayout({
       try {
         const response = await fetchMyPermissions();
         handleSetPermissions(response.data);
-      } catch (error) {}
+      } catch {}
     };
     fetchPermissions();
   }, [pathname]);

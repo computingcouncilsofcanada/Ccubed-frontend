@@ -125,12 +125,12 @@ export default function UpdateEventModal({
           ? selectedEvent.instructors.map((v) => ({ value: v }))
           : [{ value: "" }],
 
-      ownership: (selectedEvent.ownership?.join(", ") || "") as any,
-      domains: (selectedEvent.domains?.join(", ") || "") as any,
+      ownership: selectedEvent.ownership?.join(", ") || "",
+      domains: selectedEvent.domains?.join(", ") || "",
 
       eventType: "one-day",
       types: selectedEvent.types || [],
-    } as any);
+    });
 
     // Types
     const types = selectedEvent.types || [];
@@ -157,10 +157,7 @@ export default function UpdateEventModal({
         );
       } else if (recType === "custom") {
         setValue("eventType", "multiple-day");
-        setValue(
-          "multipleDays",
-          selectedEvent.recurrence.custom_dates || ([] as any),
-        );
+        setValue("multipleDays", selectedEvent.recurrence.custom_dates || []);
       }
     } else {
       setValue("eventType", "one-day");
@@ -581,7 +578,7 @@ export default function UpdateEventModal({
                   <span className="text-red-400">*</span>
                 </label>
                 <textarea
-                  {...register("multipleDays" as any)}
+                  {...register("multipleDays")}
                   rows={4}
                   placeholder={"2025-06-20\n2025-06-21\n2025-06-27"}
                   className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
@@ -788,7 +785,7 @@ export default function UpdateEventModal({
               </label>
               <input
                 type="text"
-                {...register("ownership" as any)}
+                {...register("ownership")}
                 className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter ownership (comma separated)"
               />
@@ -800,7 +797,7 @@ export default function UpdateEventModal({
               </label>
               <input
                 type="text"
-                {...register("domains" as any)}
+                {...register("domains")}
                 className="w-full px-4 py-3 border-2 border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-all bg-gray-700 text-white placeholder-gray-400"
                 placeholder="Enter domains (comma separated)"
               />

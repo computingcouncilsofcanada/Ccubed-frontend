@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import UpdateUserForm from "./components/UpdateUserForm";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import { getErrMsg } from "@/utils/errorMessage";
@@ -46,8 +45,7 @@ type ChangePasswordForm = {
 
 const Page = () => {
   // User context and state management
-  const { user, setUser, isLoading } = useUser();
-  const router = useRouter();
+  const { user, setUser } = useUser();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [error, setError] = useState<string>("");
@@ -82,18 +80,6 @@ const Page = () => {
   if (!user ) {
     return null;
   }
-
-  const formatDate = (timestamp: string | null | undefined) => {
-    if (!timestamp) return "Not available";
-    const date = new Date(parseInt(timestamp));
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   const handleChangePassword = async (data: ChangePasswordForm) => {
     try {

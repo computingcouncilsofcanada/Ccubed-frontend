@@ -1,8 +1,6 @@
 "use client";
 
-import { useUser } from "@/context/UserContext";
 import { privateAxios } from "@/lib/axios";
-import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { isAxiosError } from "axios";
@@ -34,8 +32,6 @@ type RolePermission = {
 };
 
 function RolesPage() {
-  const { user, isLoading: isUserLoading } = useUser();
-  const router = useRouter();
 
   // State
   const [roles, setRoles] = useState<Role[]>([]);

@@ -6,15 +6,13 @@ import { getErrMsg } from "@/utils/errorMessage";
 import { IconArrowLeft, IconUpload, IconTable } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getEmailTemplates } from "@/services/useApiEmailTemplate";
-import { parseUpload, parseSheet, createBulkEmail } from "@/services/useApiBulkEmail";
+import {
+  parseUpload,
+  parseSheet,
+  createBulkEmail,
+} from "@/services/useApiBulkEmail";
 import { getAllEvents, getEventById } from "@/services/useApiAuth";
 import {
   BulkEmailSource,
@@ -45,10 +43,7 @@ const STEP_LABELS: Record<Step, string> = {
   4: "Review",
 };
 
-function renderPreview(
-  source: string,
-  values: Record<string, string>,
-): string {
+function renderPreview(source: string, values: Record<string, string>): string {
   return source.replace(
     /\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g,
     (_, key: string) => values[key] ?? "",
@@ -69,7 +64,9 @@ export default function NewBulkEmailWizard() {
 
   // step 2
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [parsedFile, setParsedFile] = useState<ParsedUploadResponse | null>(null);
+  const [parsedFile, setParsedFile] = useState<ParsedUploadResponse | null>(
+    null,
+  );
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [sourceMode, setSourceMode] = useState<BulkEmailSource>("upload");
@@ -137,7 +134,11 @@ export default function NewBulkEmailWizard() {
       try {
         const response = await getAllEvents(100, 0);
         if (cancelled) return;
-        const list = (response?.data ?? []) as { id?: string; _id?: string; name: string }[];
+        const list = (response?.data ?? []) as {
+          id?: string;
+          _id?: string;
+          name: string;
+        }[];
         setEvents(
           list.map((e) => ({
             id: e.id ?? e._id ?? "",
@@ -249,7 +250,13 @@ export default function NewBulkEmailWizard() {
       try {
         const response = await getEventById(eventId);
         if (cancelled) return;
-        const event = (response?.data ?? response) as any;
+        const event = (response?.data ?? response) as {
+          name?: string;
+          description?: string;
+          location?: string;
+          registration_link?: string;
+          start_at?: string | number;
+        } | null;
         if (!event) {
           setEventPlaceholders({});
           return;
@@ -322,9 +329,9 @@ export default function NewBulkEmailWizard() {
       alert(err);
       return;
     }
-    setStep((s) => (Math.min(4, s + 1) as Step));
+    setStep((s) => Math.min(4, s + 1) as Step);
   };
-  const back = () => setStep((s) => (Math.max(1, s - 1) as Step));
+  const back = () => setStep((s) => Math.max(1, s - 1) as Step);
 
   const onSubmit = async () => {
     if (!selectedTemplate || !parsedFile || !emailColumn) return;
@@ -385,7 +392,8 @@ export default function NewBulkEmailWizard() {
             New bulk email
           </h1>
           <p className="text-lg text-slate-300">
-            Pick a template, upload your registrant list, map merge fields, and save as pending.
+            Pick a template, upload your registrant list, map merge fields, and
+            save as pending.
           </p>
         </div>
 
@@ -405,16 +413,12 @@ export default function NewBulkEmailWizard() {
               </div>
               <span
                 className={
-                  s === step
-                    ? "font-semibold text-white"
-                    : "text-slate-400"
+                  s === step ? "font-semibold text-white" : "text-slate-400"
                 }
               >
                 {STEP_LABELS[s]}
               </span>
-              {i < 3 && (
-                <div className="mx-2 h-px w-8 bg-white/10" />
-              )}
+              {i < 3 && <div className="mx-2 h-px w-8 bg-white/10" />}
             </div>
           ))}
         </div>
@@ -457,9 +461,7 @@ export default function NewBulkEmailWizard() {
               eventsLoading={eventsLoading}
               eventId={eventId}
               onEventIdChange={setEventId}
-              templatePlaceholdersFull={
-                selectedTemplate?.placeholders ?? []
-              }
+              templatePlaceholdersFull={selectedTemplate?.placeholders ?? []}
             />
           )}
           {step === 4 && selectedTemplate && parsedFile && (
@@ -668,11 +670,13 @@ function Step2Upload({
       ) : (
         <div className="rounded-xl border border-white/15 bg-black/20 p-6">
           <p className="mb-4 text-xs text-slate-400">
-            Share the sheet with your service-account email as Viewer before parsing.
-            The first row must be the header.
+            Share the sheet with your service-account email as Viewer before
+            parsing. The first row must be the header.
           </p>
           <label className="flex flex-col gap-1.5 mb-3">
-            <span className="text-sm font-medium text-slate-200">Sheet URL or ID</span>
+            <span className="text-sm font-medium text-slate-200">
+              Sheet URL or ID
+            </span>
             <input
               type="text"
               value={sheetUrl}
@@ -683,7 +687,8 @@ function Step2Upload({
           </label>
           <label className="flex flex-col gap-1.5 mb-4">
             <span className="text-sm font-medium text-slate-200">
-              Range <span className="text-slate-400 font-normal">(optional)</span>
+              Range{" "}
+              <span className="text-slate-400 font-normal">(optional)</span>
             </span>
             <input
               type="text"
@@ -736,10 +741,7 @@ function Step2Upload({
               {parsed.rows.slice(0, 3).map((row, i) => (
                 <tr key={i}>
                   {parsed.columns.map((c) => (
-                    <td
-                      key={c}
-                      className="border-b border-white/5 px-3 py-2"
-                    >
+                    <td key={c} className="border-b border-white/5 px-3 py-2">
                       {row[c] ?? ""}
                     </td>
                   ))}
@@ -769,9 +771,7 @@ function SourceModeTab({
       type="button"
       onClick={onClick}
       className={`inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
-        active
-          ? "bg-brand text-black"
-          : "text-slate-300 hover:bg-white/5"
+        active ? "bg-brand text-black" : "text-slate-300 hover:bg-white/5"
       }`}
     >
       {icon}
@@ -869,10 +869,7 @@ function Step3Map({
         <div>
           <p className="text-sm font-medium text-slate-200 mb-2">
             Link an event (fills{" "}
-            {eventPlaceholdersUsed
-              .map((p) => `{{${p}}}`)
-              .join(", ")}
-            )
+            {eventPlaceholdersUsed.map((p) => `{{${p}}}`).join(", ")})
           </p>
           <select
             value={eventId}
@@ -926,16 +923,15 @@ function Step4Review({
           value={
             unmappedPlaceholders.length === 0
               ? "All mapped or event-derived"
-              : unmappedPlaceholders
-                  .map((p) => `{{${p}}}`)
-                  .join(", ")
+              : unmappedPlaceholders.map((p) => `{{${p}}}`).join(", ")
           }
         />
       </div>
 
       {unmappedPlaceholders.length > 0 && (
         <div className="rounded-xl border border-amber-500/40 bg-amber-950/30 px-4 py-3 text-sm text-amber-200">
-          Unmapped fields will be rendered as empty text in the email. Go back to map them, or proceed if intended.
+          Unmapped fields will be rendered as empty text in the email. Go back
+          to map them, or proceed if intended.
         </div>
       )}
 
@@ -950,9 +946,7 @@ function Step4Review({
               className="rounded-xl border border-white/10 bg-black/20 p-4"
             >
               <p className="text-xs text-slate-400">To: {p.email}</p>
-              <p className="mt-1 font-semibold text-white">
-                {p.subject}
-              </p>
+              <p className="mt-1 font-semibold text-white">{p.subject}</p>
               <div
                 className="mt-3 text-sm text-slate-200 [&_a]:text-brand [&_a]:underline [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6"
                 dangerouslySetInnerHTML={{ __html: p.body }}
@@ -969,7 +963,8 @@ function Step4Review({
       )}
 
       <p className="text-xs text-slate-400">
-        Saving creates a pending bulk email. No emails are sent until you confirm it on the review screen.
+        Saving creates a pending bulk email. No emails are sent until you
+        confirm it on the review screen.
       </p>
     </div>
   );

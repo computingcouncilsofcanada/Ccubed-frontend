@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
 import { EventForm } from "@/types/events";
-import { IconTag, IconChecklist, IconUpload, IconX, IconCheck } from "@tabler/icons-react";
+import { IconUpload, IconX, IconCheck } from "@tabler/icons-react";
 import { typeOptions } from "../create/constants";
 
 interface AdditionalInformationCardProps {

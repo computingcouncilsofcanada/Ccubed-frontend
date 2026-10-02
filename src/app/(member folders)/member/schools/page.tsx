@@ -3,7 +3,6 @@
 // This is the schools Page
 
 import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
   getAllSchools,
@@ -39,7 +38,7 @@ type SchoolForm = {
 };
 
 function SchoolsPage() {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const [schools, setSchools] = useState<School[]>([]);
 
   // Modal state management

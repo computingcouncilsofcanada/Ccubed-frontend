@@ -1,7 +1,6 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
   getAllDepartments,
@@ -27,7 +26,7 @@ type DepartmentForm = {
 };
 
 function DepartmentsPage() {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const [departments, setDepartments] = useState<Department[]>([]);
   const [, setError] = useState<string>(""); // setter-only to avoid unused var error
 

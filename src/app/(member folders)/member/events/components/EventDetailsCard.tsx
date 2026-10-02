@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormRegister, UseFieldArrayReturn } from "react-hook-form";
 import { EventForm } from "@/types/events";
-import { IconBook, IconUsers, IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
 
 interface EventDetailsCardProps {
   register: UseFormRegister<EventForm>;

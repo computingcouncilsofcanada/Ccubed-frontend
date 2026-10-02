@@ -4,13 +4,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getEventStats } from "@/services/useApiEvent";
 import { EventStats as EventStatsType } from "@/types/events";
 import {
-  IconCalendar,
-  IconCheck,
-  IconX,
-  IconClock,
   IconTag,
   IconCategory,
-  IconTrendingUp,
   IconMapPin,
   IconUsersGroup,
   IconList,
@@ -95,53 +90,6 @@ export default function EventStats() {
   const topLocations = Object.entries(stats.locations_count)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 5);
-
-  const mainStats = [
-    {
-      label: "Total Events",
-      value: stats.total_events,
-      icon: IconCalendar,
-      gradient: "from-brand to-brand-hover",
-      bgGradient: "from-brand to-brand-hover",
-      iconBg: "bg-brand",
-      textColor: "text-brand",
-      cardBg: "bg-slate-800",
-      borderColor: "border-slate-700",
-    },
-    {
-      label: "Approved",
-      value: stats.total_approved_events,
-      icon: IconCheck,
-      gradient: "from-brand to-brand-hover",
-      bgGradient: "from-brand to-brand-hover",
-      iconBg: "bg-brand",
-      textColor: "text-brand",
-      cardBg: "bg-slate-800",
-      borderColor: "border-slate-700",
-    },
-    {
-      label: "Rejected",
-      value: stats.total_rejected_events,
-      icon: IconX,
-      gradient: "from-brand to-brand-hover",
-      bgGradient: "from-brand to-brand-hover",
-      iconBg: "bg-brand",
-      textColor: "text-brand",
-      cardBg: "bg-slate-800",
-      borderColor: "border-slate-700",
-    },
-    {
-      label: "Pending",
-      value: stats.total_pending_events,
-      icon: IconClock,
-      gradient: "from-brand to-brand-hover",
-      bgGradient: "from-brand to-brand-hover",
-      iconBg: "bg-brand",
-      textColor: "text-brand",
-      cardBg: "bg-slate-800",
-      borderColor: "border-slate-700",
-    },
-  ];
 
   return (
     <div className="space-y-6 mb-8">

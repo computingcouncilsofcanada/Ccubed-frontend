@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { EventForm } from "@/types/events";
-import { IconMapPin, IconLink, IconX } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 
 interface LocationLinksCardProps {
   register: UseFormRegister<EventForm>;

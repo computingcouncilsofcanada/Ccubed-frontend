@@ -160,12 +160,14 @@ export default function CreateEventPage() {
         formData.append("types", type);
       });
 
-      if (data.ownership && data.ownership.length > 0) {
-        formData.append("ownership", data.ownership.join(","));
+      const ownership = Array.isArray(data.ownership) ? data.ownership : [];
+      if (ownership.length > 0) {
+        formData.append("ownership", ownership.join(","));
       }
 
-      if (data.domains && data.domains.length > 0) {
-        formData.append("domains", data.domains.join(","));
+      const domains = Array.isArray(data.domains) ? data.domains : [];
+      if (domains.length > 0) {
+        formData.append("domains", domains.join(","));
       }
 
       // Files
