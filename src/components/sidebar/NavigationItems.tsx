@@ -75,7 +75,7 @@ export default function NavigationItems({
                       showLabels ? "gap-3 px-4" : "justify-center"
                     } py-3 rounded-xl transition-all duration-200 group border border-transparent ${
                       item.active
-                        ? "bg-[#FAA336] text-white shadow-lg scale-[1.02] border-blue-400/30 font-semibold"
+                        ? "bg-brand text-white shadow-lg scale-[1.02] border-blue-400/30 font-semibold"
                         : "text-slate-300 hover:bg-slate-700 hover:text-white hover:scale-[1.01] hover:border-slate-500"
                     }`}
                     title={!showLabels ? item.label : undefined}
@@ -115,7 +115,7 @@ export default function NavigationItems({
               showLabels ? "gap-3 px-4" : "justify-center"
             } py-3 rounded-xl transition-all duration-200 group border border-transparent ${
               item.active
-                ? "bg-[#FAA336] text-white shadow-lg scale-[1.02] border-blue-400/30 font-semibold"
+                ? "bg-brand text-white shadow-lg scale-[1.02] border-blue-400/30 font-semibold"
                 : "text-slate-300 hover:bg-slate-700 hover:text-white hover:scale-[1.01] hover:border-slate-500"
             }`}
             title={!showLabels ? item.label : undefined}

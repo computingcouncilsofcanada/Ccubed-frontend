@@ -1,23 +1,17 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useApiEvent } from "@/services/useApiEvent";
+import { getEventStats } from "@/services/useApiEvent";
 import { EventStats as EventStatsType } from "@/types/events";
 import {
-  IconCalendar,
-  IconCheck,
-  IconX,
-  IconClock,
   IconTag,
   IconCategory,
-  IconTrendingUp,
   IconMapPin,
   IconUsersGroup,
   IconList,
 } from "@tabler/icons-react";
 
 export default function EventStats() {
-  const { getEventStats } = useApiEvent();
   const [stats, setStats] = useState<EventStatsType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,7 +25,7 @@ export default function EventStats() {
     } finally {
       setIsLoading(false);
     }
-  }, [getEventStats]);
+  }, []);
 
   useEffect(() => {
     fetchStats();
@@ -97,53 +91,6 @@ export default function EventStats() {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 5);
 
-  const mainStats = [
-    {
-      label: "Total Events",
-      value: stats.total_events,
-      icon: IconCalendar,
-      gradient: "from-[#FAA336] to-[#F59725]",
-      bgGradient: "from-[#FAA336] to-[#F59725]",
-      iconBg: "bg-[#FAA336]",
-      textColor: "text-[#FAA336]",
-      cardBg: "bg-slate-800",
-      borderColor: "border-slate-700",
-    },
-    {
-      label: "Approved",
-      value: stats.total_approved_events,
-      icon: IconCheck,
-      gradient: "from-[#FAA336] to-[#F59725]",
-      bgGradient: "from-[#FAA336] to-[#F59725]",
-      iconBg: "bg-[#FAA336]",
-      textColor: "text-[#FAA336]",
-      cardBg: "bg-slate-800",
-      borderColor: "border-slate-700",
-    },
-    {
-      label: "Rejected",
-      value: stats.total_rejected_events,
-      icon: IconX,
-      gradient: "from-[#FAA336] to-[#F59725]",
-      bgGradient: "from-[#FAA336] to-[#F59725]",
-      iconBg: "bg-[#FAA336]",
-      textColor: "text-[#FAA336]",
-      cardBg: "bg-slate-800",
-      borderColor: "border-slate-700",
-    },
-    {
-      label: "Pending",
-      value: stats.total_pending_events,
-      icon: IconClock,
-      gradient: "from-[#FAA336] to-[#F59725]",
-      bgGradient: "from-[#FAA336] to-[#F59725]",
-      iconBg: "bg-[#FAA336]",
-      textColor: "text-[#FAA336]",
-      cardBg: "bg-slate-800",
-      borderColor: "border-slate-700",
-    },
-  ];
-
   return (
     <div className="space-y-6 mb-8">
       {/* Main Statistics Cards */}
@@ -198,7 +145,7 @@ export default function EventStats() {
                     </div>
                     <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-[#FAA336] h-full rounded-full transition-all duration-500"
+                        className="bg-brand h-full rounded-full transition-all duration-500"
                         style={{ width: `${percentage}%` }}
                       ></div>
                     </div>
@@ -260,7 +207,7 @@ export default function EventStats() {
                     </div>
                     <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-[#FAA336] h-full rounded-full transition-all duration-500"
+                        className="bg-brand h-full rounded-full transition-all duration-500"
                         style={{ width: `${percentage}%` }}
                       ></div>
                     </div>
@@ -323,7 +270,7 @@ export default function EventStats() {
                     </div>
                     <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                       <div
-                        className="bg-[#FAA336] h-full rounded-full transition-all duration-500"
+                        className="bg-brand h-full rounded-full transition-all duration-500"
                         style={{ width: `${percentage}%` }}
                       ></div>
                     </div>

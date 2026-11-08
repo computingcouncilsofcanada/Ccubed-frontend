@@ -5,21 +5,20 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { IconArrowLeft } from "@tabler/icons-react";
-import { useApiArticle } from "@/services/useApiArticle";
+import { getArticle } from "@/services/useApiArticle";
 import { Article } from "@/types/article.interface";
 import { getErrMsg } from "@/utils/errorMessage";
 import { ArticleHtmlContent } from "../components/ArticleHtmlContent";
 import Image from "next/image";
 
 const contentProseClass =
-  "max-w-none text-slate-200 leading-relaxed [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-[#FAA336] [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-[#FAA336] [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_li]:my-1 [&_a]:text-[#FAA336] [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-[#FAA336]/60 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-300 [&_strong]:text-slate-100";
+  "max-w-none text-slate-200 leading-relaxed [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-brand [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-brand [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-4 [&_li]:my-1 [&_a]:text-brand [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-brand/60 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-300 [&_strong]:text-slate-100";
 
 export default function MemberArticleDetailPage() {
   const { user } = useUser();
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string | undefined;
-  const { getArticle } = useApiArticle();
 
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,7 +38,7 @@ export default function MemberArticleDetailPage() {
     } finally {
       setLoading(false);
     }
-  }, [getArticle, id]);
+  }, [id]);
 
   useEffect(() => {
     load();
@@ -53,7 +52,7 @@ export default function MemberArticleDetailPage() {
     return (
       <div className="p-6 text-slate-300">
         <p>Missing article id.</p>
-        <Link href="/member/articles" className="mt-4 inline-block text-[#FAA336] hover:underline">
+        <Link href="/member/articles" className="mt-4 inline-block text-brand hover:underline">
           Back to articles
         </Link>
       </div>
@@ -79,7 +78,7 @@ export default function MemberArticleDetailPage() {
         <button
           type="button"
           onClick={() => router.push("/member/articles")}
-          className="inline-flex items-center gap-2 text-slate-300 hover:text-[#FAA336] transition-colors mb-6"
+          className="inline-flex items-center gap-2 text-slate-300 hover:text-brand transition-colors mb-6"
         >
           <IconArrowLeft size={20} />
           <span className="font-medium">Back to articles</span>
@@ -111,7 +110,7 @@ export default function MemberArticleDetailPage() {
                   {article.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#FAA336]/20 text-[#FAA336] border border-[#FAA336]/40"
+                      className="px-2.5 py-1 rounded-full text-xs font-medium bg-brand/20 text-brand border border-brand/40"
                     >
                       {tag}
                     </span>

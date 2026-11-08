@@ -223,7 +223,7 @@ const LoginForm = () => {
         <button
           disabled={isSubmitting}
           type="submit"
-          className="bg-[#FAA336] text-white rounded-full z-20 px-2 py-4 cursor-pointer"
+          className="bg-brand text-white rounded-full z-20 px-2 py-4 cursor-pointer"
         >
           {isSubmitting ? "Login in..." : "Login"}
         </button>

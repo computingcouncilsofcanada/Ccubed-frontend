@@ -1,8 +1,8 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
-import { useApiArticle } from "@/services/useApiArticle";
-import { useApiCouncil } from "@/services/useApiCouncil";
+import { getArticle, createArticle, updateArticle } from "@/services/useApiArticle";
+import { getCouncil, getCouncils } from "@/services/useApiCouncil";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import { Article, CreateArticleDTO } from "@/types/article.interface";
 import { Council } from "@/types/council.interface";
@@ -34,8 +34,6 @@ export default function ArticleUpsertContent() {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { getArticle, createArticle, updateArticle } = useApiArticle();
-  const { getCouncil, getCouncils } = useApiCouncil();
 
   const [councils, setCouncils] = useState<Council[]>([]);
   const [councilsLoading, setCouncilsLoading] = useState(true);
@@ -133,7 +131,7 @@ export default function ArticleUpsertContent() {
     return () => {
       cancelled = true;
     };
-  }, [getCouncils]);
+  }, []);
 
   useEffect(() => {
     if (!councilIdValue) return;
@@ -153,7 +151,7 @@ export default function ArticleUpsertContent() {
     return () => {
       cancelled = true;
     };
-  }, [councilIdValue, councils, getCouncil]);
+  }, [councilIdValue, councils]);
 
   useEffect(() => {
     if (thumbnailFiles?.length) {
@@ -206,7 +204,7 @@ export default function ArticleUpsertContent() {
     return () => {
       cancelled = true;
     };
-  }, [isUpdate, articleId, getArticle, applyArticleToForm]);
+  }, [isUpdate, articleId, applyArticleToForm]);
 
   const onSubmit = async (data: ArticleUpsertFormValues) => {
     const thumbFile = data.thumbnail?.[0];
@@ -281,7 +279,7 @@ export default function ArticleUpsertContent() {
         <BgBoxMainPage maxHeight={400} enableGlow />
         <div className="relative z-10 mx-auto max-w-3xl p-6 text-slate-200">
           <p className="mb-4 text-red-400">{loadError}</p>
-          <Link href="/member/articles" className="text-[#FAA336] hover:underline">
+          <Link href="/member/articles" className="text-brand hover:underline">
             Back to articles
           </Link>
         </div>
@@ -297,7 +295,7 @@ export default function ArticleUpsertContent() {
         <div className="mb-8">
           <Link
             href="/member/articles"
-            className="group mb-4 inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-[#FAA336]"
+            className="group mb-4 inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-brand"
           >
             <IconArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" />
             <span className="font-medium">Back to Articles</span>

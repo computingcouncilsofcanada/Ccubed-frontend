@@ -1,7 +1,7 @@
 import React from "react";
-import { UseFormRegister, FieldErrors, UseFormWatch } from "react-hook-form";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { EventForm } from "@/types/events";
-import { IconCalendar, IconClock, IconX } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 import { daysOfWeek } from "../create/constants";
 
 interface ScheduleRecurrenceCardProps {

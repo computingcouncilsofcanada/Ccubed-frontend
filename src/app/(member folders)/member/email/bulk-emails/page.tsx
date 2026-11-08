@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
-import { useApiBulkEmail } from "@/services/useApiBulkEmail";
+import { listBulkEmails, deleteBulkEmail } from "@/services/useApiBulkEmail";
 import { BulkEmail } from "@/types/email.interface";
 import EmptyBulkEmailsState from "./components/EmptyBulkEmailsState";
 import { Pagination } from "@/components/shared/Pagination";
@@ -19,7 +19,6 @@ const PAGE_SIZE = 10;
 export default function MemberBulkEmailsPage() {
   const { user } = useUser();
   const router = useRouter();
-  const { listBulkEmails, deleteBulkEmail } = useApiBulkEmail();
 
   const [bulkEmails, setBulkEmails] = useState<BulkEmail[]>([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -42,7 +41,7 @@ export default function MemberBulkEmailsPage() {
     } finally {
       setLoading(false);
     }
-  }, [listBulkEmails, page]);
+  }, [page]);
 
   useEffect(() => {
     fetchBulkEmails();
@@ -61,7 +60,7 @@ export default function MemberBulkEmailsPage() {
         alert(getErrMsg(err));
       }
     },
-    [deleteBulkEmail, fetchBulkEmails],
+    [fetchBulkEmails],
   );
 
   const columns = useMemo(
@@ -125,8 +124,7 @@ export default function MemberBulkEmailsPage() {
           </div>
           <Link
             href="/member/email/bulk-emails/new"
-            style={{ backgroundColor: "#FAA336" }}
-            className="inline-flex justify-center px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 items-center gap-2"
+            className="inline-flex justify-center px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 items-center gap-2 bg-brand"
           >
             <IconPlus size={20} />
             Send New Email

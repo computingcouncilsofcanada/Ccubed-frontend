@@ -112,8 +112,8 @@ export interface EventForm {
   what_you_need: { value: string }[];
   instructors: { value: string }[];
   types: string[];
-  ownership?: string[];
-  domains?: string[];
+  ownership?: string[] | string;
+  domains?: string[] | string;
   files?: FileList;
   existingFileIds?: string[];
   removeExistingFiles?: boolean;

@@ -1,7 +1,9 @@
 export interface ErrWithMessage {
-    message?: string;
+  message?: string;
 }
 
 export interface AxiosErrLike {
-    response?: { data?: { message?: string } };
+  response?: {
+    data?: { message?: string; error?: string; errors?: unknown };
+  };
 }

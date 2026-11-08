@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { ChevronsRight } from "lucide-react";
 import Sidebar from "@/components/sidebar/Sidebar";
-import { useApiPermission } from "@/services/useApiPermission";
+import { fetchMyPermissions } from "@/services/useApiPermission";
 import { useUser } from "@/context/UserContext";
 
 export default function AdminLayout({
@@ -19,7 +19,6 @@ export default function AdminLayout({
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
-  const { fetchMyPermissions } = useApiPermission();
   const { handleSetPermissions } = useUser();
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export default function AdminLayout({
       try {
         const response = await fetchMyPermissions();
         handleSetPermissions(response.data);
-      } catch (error) {}
+      } catch {}
     };
     fetchPermissions();
   }, [pathname]);

@@ -33,8 +33,7 @@ export interface Article {
 }
 
 
-export interface UpdateArticleDTO extends CreateArticleDTO {
-}
+export type UpdateArticleDTO = CreateArticleDTO;
 
 export interface ArticleShareLink {
     icon: string;

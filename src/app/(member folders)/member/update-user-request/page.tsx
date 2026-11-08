@@ -1,6 +1,5 @@
 "use client";
 
-import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -24,7 +23,6 @@ const STATUS_OPTIONS: { label: string; value: "" | UpdateUserRequestStatus }[] =
 ];
 
 export default function UpdateUserRequestPage() {
-  const { user, isLoading } = useUser();
   const router = useRouter();
   const [requests, setRequests] = useState<UpdateUserRequest[]>([]);
   const [error, setError] = useState<string>("");

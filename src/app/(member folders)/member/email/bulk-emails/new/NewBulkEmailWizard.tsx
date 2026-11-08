@@ -6,15 +6,13 @@ import { getErrMsg } from "@/utils/errorMessage";
 import { IconArrowLeft, IconUpload, IconTable } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { getEmailTemplates } from "@/services/useApiEmailTemplate";
 import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { useApiEmailTemplate } from "@/services/useApiEmailTemplate";
-import { useApiBulkEmail } from "@/services/useApiBulkEmail";
+  parseUpload,
+  parseSheet,
+  createBulkEmail,
+} from "@/services/useApiBulkEmail";
 import { getAllEvents, getEventById } from "@/services/useApiAuth";
 import {
   BulkEmailSource,
@@ -45,10 +43,7 @@ const STEP_LABELS: Record<Step, string> = {
   4: "Review",
 };
 
-function renderPreview(
-  source: string,
-  values: Record<string, string>,
-): string {
+function renderPreview(source: string, values: Record<string, string>): string {
   return source.replace(
     /\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g,
     (_, key: string) => values[key] ?? "",
@@ -58,8 +53,6 @@ function renderPreview(
 export default function NewBulkEmailWizard() {
   const { user, isLoading } = useUser();
   const router = useRouter();
-  const { getEmailTemplates } = useApiEmailTemplate();
-  const { parseUpload, parseSheet, createBulkEmail } = useApiBulkEmail();
 
   const [step, setStep] = useState<Step>(1);
 
@@ -71,7 +64,9 @@ export default function NewBulkEmailWizard() {
 
   // step 2
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [parsedFile, setParsedFile] = useState<ParsedUploadResponse | null>(null);
+  const [parsedFile, setParsedFile] = useState<ParsedUploadResponse | null>(
+    null,
+  );
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [sourceMode, setSourceMode] = useState<BulkEmailSource>("upload");
@@ -129,7 +124,7 @@ export default function NewBulkEmailWizard() {
     return () => {
       cancelled = true;
     };
-  }, [getEmailTemplates]);
+  }, []);
 
   useEffect(() => {
     if (step !== 3 || events.length > 0) return;
@@ -139,7 +134,11 @@ export default function NewBulkEmailWizard() {
       try {
         const response = await getAllEvents(100, 0);
         if (cancelled) return;
-        const list = (response?.data ?? []) as { id?: string; _id?: string; name: string }[];
+        const list = (response?.data ?? []) as {
+          id?: string;
+          _id?: string;
+          name: string;
+        }[];
         setEvents(
           list.map((e) => ({
             id: e.id ?? e._id ?? "",
@@ -196,7 +195,7 @@ export default function NewBulkEmailWizard() {
         setUploading(false);
       }
     },
-    [parseUpload, applyParsedData],
+    [applyParsedData],
   );
 
   const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -229,7 +228,7 @@ export default function NewBulkEmailWizard() {
     } finally {
       setUploading(false);
     }
-  }, [parseSheet, sheetUrl, sheetRange, applyParsedData]);
+  }, [sheetUrl, sheetRange, applyParsedData]);
 
   const onSourceModeChange = (mode: BulkEmailSource) => {
     if (mode === sourceMode) return;
@@ -251,7 +250,13 @@ export default function NewBulkEmailWizard() {
       try {
         const response = await getEventById(eventId);
         if (cancelled) return;
-        const event = (response?.data ?? response) as any;
+        const event = (response?.data ?? response) as {
+          name?: string;
+          description?: string;
+          location?: string;
+          registration_link?: string;
+          start_at?: string | number;
+        } | null;
         if (!event) {
           setEventPlaceholders({});
           return;
@@ -324,9 +329,9 @@ export default function NewBulkEmailWizard() {
       alert(err);
       return;
     }
-    setStep((s) => (Math.min(4, s + 1) as Step));
+    setStep((s) => Math.min(4, s + 1) as Step);
   };
-  const back = () => setStep((s) => (Math.max(1, s - 1) as Step));
+  const back = () => setStep((s) => Math.max(1, s - 1) as Step);
 
   const onSubmit = async () => {
     if (!selectedTemplate || !parsedFile || !emailColumn) return;
@@ -375,7 +380,7 @@ export default function NewBulkEmailWizard() {
         <div className="mb-8">
           <Link
             href="/member/email/bulk-emails"
-            className="group mb-4 inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-[#FAA336]"
+            className="group mb-4 inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-brand"
           >
             <IconArrowLeft
               size={20}
@@ -387,7 +392,8 @@ export default function NewBulkEmailWizard() {
             New bulk email
           </h1>
           <p className="text-lg text-slate-300">
-            Pick a template, upload your registrant list, map merge fields, and save as pending.
+            Pick a template, upload your registrant list, map merge fields, and
+            save as pending.
           </p>
         </div>
 
@@ -397,9 +403,9 @@ export default function NewBulkEmailWizard() {
               <div
                 className={`flex h-7 w-7 items-center justify-center rounded-full border text-xs font-semibold ${
                   s === step
-                    ? "border-[#FAA336] bg-[#FAA336] text-black"
+                    ? "border-brand bg-brand text-black"
                     : s < step
-                      ? "border-[#FAA336]/60 bg-[#FAA336]/20 text-[#FAA336]"
+                      ? "border-brand/60 bg-brand/20 text-brand"
                       : "border-white/20 bg-white/5 text-slate-400"
                 }`}
               >
@@ -407,16 +413,12 @@ export default function NewBulkEmailWizard() {
               </div>
               <span
                 className={
-                  s === step
-                    ? "font-semibold text-white"
-                    : "text-slate-400"
+                  s === step ? "font-semibold text-white" : "text-slate-400"
                 }
               >
                 {STEP_LABELS[s]}
               </span>
-              {i < 3 && (
-                <div className="mx-2 h-px w-8 bg-white/10" />
-              )}
+              {i < 3 && <div className="mx-2 h-px w-8 bg-white/10" />}
             </div>
           ))}
         </div>
@@ -459,9 +461,7 @@ export default function NewBulkEmailWizard() {
               eventsLoading={eventsLoading}
               eventId={eventId}
               onEventIdChange={setEventId}
-              templatePlaceholdersFull={
-                selectedTemplate?.placeholders ?? []
-              }
+              templatePlaceholdersFull={selectedTemplate?.placeholders ?? []}
             />
           )}
           {step === 4 && selectedTemplate && parsedFile && (
@@ -494,8 +494,7 @@ export default function NewBulkEmailWizard() {
             <button
               type="button"
               onClick={next}
-              style={{ backgroundColor: "#FAA336" }}
-              className="rounded-xl px-6 py-2.5 text-sm font-semibold text-black shadow-lg hover:opacity-90"
+              className="rounded-xl px-6 py-2.5 text-sm font-semibold text-black shadow-lg hover:opacity-90 bg-brand"
             >
               Continue
             </button>
@@ -504,8 +503,7 @@ export default function NewBulkEmailWizard() {
               type="button"
               onClick={onSubmit}
               disabled={submitting}
-              style={{ backgroundColor: "#FAA336" }}
-              className="rounded-xl px-6 py-2.5 text-sm font-semibold text-black shadow-lg hover:opacity-90 disabled:opacity-60"
+              className="rounded-xl px-6 py-2.5 text-sm font-semibold text-black shadow-lg hover:opacity-90 disabled:opacity-60 bg-brand"
             >
               {submitting ? "Saving…" : "Save as pending bulk email"}
             </button>
@@ -543,8 +541,7 @@ function Step1Pick({
         </p>
         <Link
           href="/member/email/templates/upsert?mode=create"
-          style={{ backgroundColor: "#FAA336" }}
-          className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-black"
+          className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-black bg-brand"
         >
           Create your first template
         </Link>
@@ -559,7 +556,7 @@ function Step1Pick({
         <select
           value={selectedId}
           onChange={(e) => onSelect(e.target.value)}
-          className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-[#FAA336] focus:outline-none"
+          className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-brand focus:outline-none"
         >
           <option value="">— pick a template —</option>
           {templates.map((t) => (
@@ -583,7 +580,7 @@ function Step1Pick({
               {selected.placeholders.map((p) => (
                 <span
                   key={p}
-                  className="rounded-full bg-[#FAA336]/15 px-2.5 py-1 font-mono text-xs text-[#FAA336]"
+                  className="rounded-full bg-brand/15 px-2.5 py-1 font-mono text-xs text-brand"
                 >
                   {`{{${p}}}`}
                 </span>
@@ -659,8 +656,7 @@ function Step2Upload({
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-            style={{ backgroundColor: "#FAA336" }}
-            className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-60"
+            className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-60 bg-brand"
           >
             {uploading ? "Parsing…" : parsed ? "Replace file" : "Choose file"}
           </button>
@@ -674,37 +670,39 @@ function Step2Upload({
       ) : (
         <div className="rounded-xl border border-white/15 bg-black/20 p-6">
           <p className="mb-4 text-xs text-slate-400">
-            Share the sheet with your service-account email as Viewer before parsing.
-            The first row must be the header.
+            Share the sheet with your service-account email as Viewer before
+            parsing. The first row must be the header.
           </p>
           <label className="flex flex-col gap-1.5 mb-3">
-            <span className="text-sm font-medium text-slate-200">Sheet URL or ID</span>
+            <span className="text-sm font-medium text-slate-200">
+              Sheet URL or ID
+            </span>
             <input
               type="text"
               value={sheetUrl}
               onChange={(e) => onSheetUrlChange(e.target.value)}
               placeholder="https://docs.google.com/spreadsheets/d/.../edit"
-              className="rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#FAA336] focus:outline-none"
+              className="rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-brand focus:outline-none"
             />
           </label>
           <label className="flex flex-col gap-1.5 mb-4">
             <span className="text-sm font-medium text-slate-200">
-              Range <span className="text-slate-400 font-normal">(optional)</span>
+              Range{" "}
+              <span className="text-slate-400 font-normal">(optional)</span>
             </span>
             <input
               type="text"
               value={sheetRange}
               onChange={(e) => onSheetRangeChange(e.target.value)}
               placeholder="Leave blank to use first tab"
-              className="rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#FAA336] focus:outline-none"
+              className="rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-brand focus:outline-none"
             />
           </label>
           <button
             type="button"
             onClick={onParseSheet}
             disabled={uploading}
-            style={{ backgroundColor: "#FAA336" }}
-            className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-60"
+            className="rounded-xl px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-60 bg-brand"
           >
             {uploading ? "Parsing…" : parsed ? "Re-parse sheet" : "Parse sheet"}
           </button>
@@ -743,10 +741,7 @@ function Step2Upload({
               {parsed.rows.slice(0, 3).map((row, i) => (
                 <tr key={i}>
                   {parsed.columns.map((c) => (
-                    <td
-                      key={c}
-                      className="border-b border-white/5 px-3 py-2"
-                    >
+                    <td key={c} className="border-b border-white/5 px-3 py-2">
                       {row[c] ?? ""}
                     </td>
                   ))}
@@ -776,9 +771,7 @@ function SourceModeTab({
       type="button"
       onClick={onClick}
       className={`inline-flex items-center gap-2 rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
-        active
-          ? "bg-[#FAA336] text-black"
-          : "text-slate-300 hover:bg-white/5"
+        active ? "bg-brand text-black" : "text-slate-300 hover:bg-white/5"
       }`}
     >
       {icon}
@@ -825,7 +818,7 @@ function Step3Map({
         <select
           value={emailColumn}
           onChange={(e) => onEmailColumnChange(e.target.value)}
-          className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-[#FAA336] focus:outline-none"
+          className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-brand focus:outline-none"
         >
           <option value="">— pick the column holding recipient emails —</option>
           {parsed.columns.map((c) => (
@@ -845,7 +838,7 @@ function Step3Map({
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {placeholders.map((p) => (
                 <label key={p} className="flex flex-col gap-1.5">
-                  <span className="font-mono text-xs text-[#FAA336]">
+                  <span className="font-mono text-xs text-brand">
                     {`{{${p}}}`}
                   </span>
                   <select
@@ -856,7 +849,7 @@ function Step3Map({
                         [p]: e.target.value,
                       })
                     }
-                    className="rounded-lg border border-white/10 bg-black/40 px-2.5 py-1.5 text-sm text-white focus:border-[#FAA336] focus:outline-none"
+                    className="rounded-lg border border-white/10 bg-black/40 px-2.5 py-1.5 text-sm text-white focus:border-brand focus:outline-none"
                   >
                     <option value="">— skip —</option>
                     {parsed.columns.map((c) => (
@@ -876,15 +869,12 @@ function Step3Map({
         <div>
           <p className="text-sm font-medium text-slate-200 mb-2">
             Link an event (fills{" "}
-            {eventPlaceholdersUsed
-              .map((p) => `{{${p}}}`)
-              .join(", ")}
-            )
+            {eventPlaceholdersUsed.map((p) => `{{${p}}}`).join(", ")})
           </p>
           <select
             value={eventId}
             onChange={(e) => onEventIdChange(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-[#FAA336] focus:outline-none"
+            className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-brand focus:outline-none"
             disabled={eventsLoading}
           >
             <option value="">
@@ -933,16 +923,15 @@ function Step4Review({
           value={
             unmappedPlaceholders.length === 0
               ? "All mapped or event-derived"
-              : unmappedPlaceholders
-                  .map((p) => `{{${p}}}`)
-                  .join(", ")
+              : unmappedPlaceholders.map((p) => `{{${p}}}`).join(", ")
           }
         />
       </div>
 
       {unmappedPlaceholders.length > 0 && (
         <div className="rounded-xl border border-amber-500/40 bg-amber-950/30 px-4 py-3 text-sm text-amber-200">
-          Unmapped fields will be rendered as empty text in the email. Go back to map them, or proceed if intended.
+          Unmapped fields will be rendered as empty text in the email. Go back
+          to map them, or proceed if intended.
         </div>
       )}
 
@@ -957,11 +946,9 @@ function Step4Review({
               className="rounded-xl border border-white/10 bg-black/20 p-4"
             >
               <p className="text-xs text-slate-400">To: {p.email}</p>
-              <p className="mt-1 font-semibold text-white">
-                {p.subject}
-              </p>
+              <p className="mt-1 font-semibold text-white">{p.subject}</p>
               <div
-                className="mt-3 text-sm text-slate-200 [&_a]:text-[#FAA336] [&_a]:underline [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6"
+                className="mt-3 text-sm text-slate-200 [&_a]:text-brand [&_a]:underline [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6"
                 dangerouslySetInnerHTML={{ __html: p.body }}
               />
             </div>
@@ -976,7 +963,8 @@ function Step4Review({
       )}
 
       <p className="text-xs text-slate-400">
-        Saving creates a pending bulk email. No emails are sent until you confirm it on the review screen.
+        Saving creates a pending bulk email. No emails are sent until you
+        confirm it on the review screen.
       </p>
     </div>
   );

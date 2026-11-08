@@ -1,7 +1,11 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
-import { useApiEmailTemplate } from "@/services/useApiEmailTemplate";
+import {
+  getEmailTemplate,
+  createEmailTemplate,
+  updateEmailTemplate,
+} from "@/services/useApiEmailTemplate";
 import BgBoxMainPage from "@/components/essentials/BgBoxMainPage";
 import {
   CreateEmailTemplateDTO,
@@ -40,11 +44,6 @@ export default function EmailTemplateUpsertContent() {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const {
-    getEmailTemplate,
-    createEmailTemplate,
-    updateEmailTemplate,
-  } = useApiEmailTemplate();
 
   const modeParam = searchParams.get("mode");
   const templateId = searchParams.get("id");
@@ -99,7 +98,7 @@ export default function EmailTemplateUpsertContent() {
     return () => {
       cancelled = true;
     };
-  }, [isUpdate, templateId, getEmailTemplate, applyTemplateToForm]);
+  }, [isUpdate, templateId, applyTemplateToForm]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,7 +158,7 @@ export default function EmailTemplateUpsertContent() {
           <p className="mb-4 text-red-400">{loadError}</p>
           <Link
             href="/member/email/templates"
-            className="text-[#FAA336] hover:underline"
+            className="text-brand hover:underline"
           >
             Back to templates
           </Link>
@@ -176,7 +175,7 @@ export default function EmailTemplateUpsertContent() {
         <div className="mb-8">
           <Link
             href="/member/email/templates"
-            className="group mb-4 inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-[#FAA336]"
+            className="group mb-4 inline-flex items-center gap-2 text-gray-300 transition-colors hover:text-brand"
           >
             <IconArrowLeft
               size={20}
@@ -214,7 +213,7 @@ export default function EmailTemplateUpsertContent() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g. Event reminder (24h before)"
-                      className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-slate-500 focus:border-[#FAA336] focus:outline-none"
+                      className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-slate-500 focus:border-brand focus:outline-none"
                       disabled={isSubmitting}
                     />
                   </label>
@@ -227,7 +226,7 @@ export default function EmailTemplateUpsertContent() {
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="Optional notes about when to use this template"
                       rows={2}
-                      className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-slate-500 focus:border-[#FAA336] focus:outline-none"
+                      className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-slate-500 focus:border-brand focus:outline-none"
                       disabled={isSubmitting}
                     />
                   </label>
@@ -240,7 +239,7 @@ export default function EmailTemplateUpsertContent() {
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
                       placeholder="e.g. Reminder: {{event_name}} tomorrow"
-                      className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-slate-500 focus:border-[#FAA336] focus:outline-none"
+                      className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-slate-500 focus:border-brand focus:outline-none"
                       disabled={isSubmitting}
                     />
                   </label>
@@ -253,7 +252,7 @@ export default function EmailTemplateUpsertContent() {
                 </h2>
                 <p className="mt-3 text-sm text-slate-400">
                   Use{" "}
-                  <code className="rounded bg-black/40 px-1.5 py-0.5 text-[#FAA336]">
+                  <code className="rounded bg-black/40 px-1.5 py-0.5 text-brand">
                     {"{{field_name}}"}
                   </code>{" "}
                   anywhere in subject or body. They get filled per-recipient when you send.
@@ -272,7 +271,7 @@ export default function EmailTemplateUpsertContent() {
                       {detectedPlaceholders.map((p) => (
                         <span
                           key={p}
-                          className="rounded-full bg-[#FAA336]/15 px-2.5 py-1 font-mono text-xs text-[#FAA336]"
+                          className="rounded-full bg-brand/15 px-2.5 py-1 font-mono text-xs text-brand"
                         >
                           {`{{${p}}}`}
                         </span>
@@ -301,8 +300,7 @@ export default function EmailTemplateUpsertContent() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                style={{ backgroundColor: "#FAA336" }}
-                className="inline-flex w-full items-center justify-center rounded-xl px-6 py-3 font-semibold text-black shadow-lg transition-all hover:opacity-90 disabled:opacity-60"
+                className="inline-flex w-full items-center justify-center rounded-xl px-6 py-3 font-semibold text-black shadow-lg transition-all hover:opacity-90 disabled:opacity-60 bg-brand"
               >
                 {isSubmitting
                   ? "Saving…"

@@ -177,8 +177,7 @@ function RolesPage() {
             <button
               type="button"
               onClick={openCreateModal}
-              style={{ backgroundColor: "#FAA336" }}
-              className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl flex items-center gap-2"
+              className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl flex items-center gap-2 bg-brand"
             >
               <IconPlus size={20} />
               Create Role

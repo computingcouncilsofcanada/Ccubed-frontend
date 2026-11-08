@@ -14,8 +14,6 @@
  */
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { RegisterUserForm } from "@/components/forms/RegisterUser";
 
@@ -25,8 +23,7 @@ import { RegisterUserForm } from "@/components/forms/RegisterUser";
  */
 const RegisterUser = () => {
   // State management for user context and authentication
-  const { user, isLoading } = useUser();
-  const router = useRouter();
+  const { user } = useUser();
 
 
   if (!user) {

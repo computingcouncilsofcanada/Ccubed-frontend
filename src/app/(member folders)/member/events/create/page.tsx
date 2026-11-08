@@ -160,12 +160,14 @@ export default function CreateEventPage() {
         formData.append("types", type);
       });
 
-      if (data.ownership && data.ownership.length > 0) {
-        formData.append("ownership", data.ownership.join(","));
+      const ownership = Array.isArray(data.ownership) ? data.ownership : [];
+      if (ownership.length > 0) {
+        formData.append("ownership", ownership.join(","));
       }
 
-      if (data.domains && data.domains.length > 0) {
-        formData.append("domains", data.domains.join(","));
+      const domains = Array.isArray(data.domains) ? data.domains : [];
+      if (domains.length > 0) {
+        formData.append("domains", domains.join(","));
       }
 
       // Files
@@ -435,14 +437,14 @@ export default function CreateEventPage() {
           <div className="flex gap-4 pt-4">
             <Link
               href={`/member/events`}
-              className="basis-[30%] px-6 py-3 border-2 border-[#FAA336] rounded-lg hover:bg-[#FAA336]/10 transition-colors font-medium text-[#FAA336] flex items-center justify-center"
+              className="basis-[30%] px-6 py-3 border-2 border-brand rounded-lg hover:bg-brand/10 transition-colors font-medium text-brand flex items-center justify-center"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={isSubmitting || selectedTypes.length === 0}
-              className="basis-[70%] px-6 py-3 bg-[#FAA336] hover:bg-[#F59527] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
+              className="basis-[70%] px-6 py-3 bg-brand hover:bg-brand-hover text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">

@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
-import { useApiEmailTemplate } from "@/services/useApiEmailTemplate";
+import { getEmailTemplates, deleteEmailTemplate } from "@/services/useApiEmailTemplate";
 import { EmailTemplate } from "@/types/email.interface";
 import EmptyEmailTemplatesState from "./components/EmptyEmailTemplatesState";
 import { Pagination } from "@/components/shared/Pagination";
@@ -19,7 +19,6 @@ const PAGE_SIZE = 10;
 export default function MemberEmailTemplatesPage() {
   const { user } = useUser();
   const router = useRouter();
-  const { getEmailTemplates, deleteEmailTemplate } = useApiEmailTemplate();
 
   const [templates, setTemplates] = useState<EmailTemplate[]>([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -42,7 +41,7 @@ export default function MemberEmailTemplatesPage() {
     } finally {
       setLoading(false);
     }
-  }, [getEmailTemplates, page]);
+  }, [page]);
 
   useEffect(() => {
     fetchTemplates();
@@ -61,7 +60,7 @@ export default function MemberEmailTemplatesPage() {
         alert(getErrMsg(err));
       }
     },
-    [deleteEmailTemplate, fetchTemplates],
+    [fetchTemplates],
   );
 
   const columns = useMemo(
@@ -129,8 +128,7 @@ export default function MemberEmailTemplatesPage() {
           </div>
           <Link
             href="/member/email/templates/upsert?mode=create"
-            style={{ backgroundColor: "#FAA336" }}
-            className="inline-flex justify-center px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 items-center gap-2"
+            className="inline-flex justify-center px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 items-center gap-2 bg-brand"
           >
             <IconPlus size={20} />
             New template

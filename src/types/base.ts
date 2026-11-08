@@ -1,3 +1,4 @@
+// Shared API response envelope shape
 export interface ApiResponse<T> {
     data: T;
     message: string;

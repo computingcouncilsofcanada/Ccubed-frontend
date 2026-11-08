@@ -23,7 +23,7 @@ interface DiffRow {
 }
 
 export default function UpdateUserRequestDetailPage() {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string | undefined;
@@ -79,12 +79,14 @@ export default function UpdateUserRequestDetailPage() {
   const diffRows: DiffRow[] = useMemo(() => {
     if (!request) return [];
 
-    
     const { previous_data: prev, details } = request;
 
-    const makeStringRow = (key: keyof typeof details, label: string): DiffRow => {
-      const before = (prev as any)[key] ?? "";
-      const after = (details as any)[key] ?? "";
+    const makeStringRow = (
+      key: keyof typeof details & keyof typeof prev,
+      label: string,
+    ): DiffRow => {
+      const before = prev[key] ?? "";
+      const after = details[key] ?? "";
       const changed = (before ?? "") !== (after ?? "");
       return {
         key: String(key),
@@ -100,12 +102,11 @@ export default function UpdateUserRequestDetailPage() {
 
     const makeArrayRow = (
       key: "domains" | "hobbies",
-      label: string
+      label: string,
     ): DiffRow => {
-      const beforeArr = normalizeArray((prev as any)[key]);
-      const afterArr = normalizeArray((details as any)[key]);
-      const changed =
-        JSON.stringify(beforeArr) !== JSON.stringify(afterArr);
+      const beforeArr = normalizeArray(prev[key]);
+      const afterArr = normalizeArray(details[key]);
+      const changed = JSON.stringify(beforeArr) !== JSON.stringify(afterArr);
       return {
         key,
         label,
@@ -130,14 +131,14 @@ export default function UpdateUserRequestDetailPage() {
       makeStringRow("fun_fact", "Fun fact"),
       makeStringRow("journey_at_ccubed", "Journey at CCubed"),
       makeStringRow("favorite_song", "Favorite song"),
-      makeStringRow("favorite_quote", "Favorite quote")
+      makeStringRow("favorite_quote", "Favorite quote"),
     );
 
     rows.push(
       makeStringRow("instagram_url", "Instagram URL"),
       makeStringRow("twitter_url", "Twitter URL"),
       makeStringRow("linkedin_url", "LinkedIn URL"),
-      makeStringRow("discord_url", "Discord URL")
+      makeStringRow("discord_url", "Discord URL"),
     );
 
     rows.push(makeArrayRow("domains", "Domains"));
@@ -150,7 +151,7 @@ export default function UpdateUserRequestDetailPage() {
       label: "Avatar",
       before: prevAvatar ? "Set" : "—",
       after: nextAvatar ? "Set" : "—",
-      changed: (!!prevAvatar) !== (!!nextAvatar),
+      changed: !!prevAvatar !== !!nextAvatar,
     });
 
     const fileName = details.file ? details.file.name : "";
@@ -189,9 +190,7 @@ export default function UpdateUserRequestDetailPage() {
         </p>
       </div>
 
-      {loading && (
-        <p className="text-gray-600">Loading request details...</p>
-      )}
+      {loading && <p className="text-gray-600">Loading request details...</p>}
 
       {!loading && error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -299,4 +298,3 @@ export default function UpdateUserRequestDetailPage() {
     </div>
   );
 }
-

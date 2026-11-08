@@ -1082,7 +1082,7 @@ export function EventListCard({
         >
           {showInvitationButton && (
             <button
-              className="bg-[#FAA336] text-center flex items-center justify-center"
+              className="bg-brand text-center flex items-center justify-center"
               style={{
                 minWidth:
                   windowWidth < 600

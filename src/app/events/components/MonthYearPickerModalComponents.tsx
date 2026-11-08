@@ -76,7 +76,7 @@ export function FooterButtons({
       <button
         onClick={handleConfirm}
         type="button"
-        className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium text-[#0B1820] bg-[#FAA336] hover:bg-[#e8922a] transition-colors border border-[#FAA336] font-roboto"
+        className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium text-[#0B1820] bg-brand hover:bg-brand-hover transition-colors border border-brand font-roboto"
       >
         Confirm
       </button>
@@ -111,10 +111,10 @@ export function MonthGrid({
                 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 font-roboto
                 ${
                   isSelected
-                    ? "bg-[#FAA336] text-[#0B1820]"
+                    ? "bg-brand text-[#0B1820]"
                     : "bg-white/10 text-white hover:bg-white/15 hover:text-white"
                 }
-                ${isCurrent && !isSelected ? "ring-1 ring-[#FAA336]" : ""}
+                ${isCurrent && !isSelected ? "ring-1 ring-brand" : ""}
               `}
             >
               {month.slice(0, 3)}

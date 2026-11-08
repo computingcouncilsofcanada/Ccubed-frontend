@@ -20,8 +20,6 @@ type EventsSectionProps = {
 export default function Events({ events, onOpenEventDetail }: EventsSectionProps) {
   const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
 

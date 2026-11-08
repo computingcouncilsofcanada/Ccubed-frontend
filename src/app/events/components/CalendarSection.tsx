@@ -273,7 +273,7 @@ export function CalendarSection({
               <button
                 onClick={handleGoToToday}
                 type="button"
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-[#0B1820] bg-[#FAA336] hover:bg-[#e8922a] shadow-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-roboto"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-[#0B1820] bg-brand hover:bg-brand-hover shadow-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-roboto"
               >
                 <svg
                   className="w-4 h-4"

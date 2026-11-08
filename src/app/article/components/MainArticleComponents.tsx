@@ -80,7 +80,7 @@ export const MainArticleGrid = () => {
                   <div key={index} className="space-y-3">
                     <h1
                       id={`heading-${index}`}
-                      className="text-3xl font-bold scroll-mt-24 my-7 text-[#FAA336]"
+                      className="text-3xl font-bold scroll-mt-24 my-7 text-brand"
                     >
                       {section.heading}
                     </h1>

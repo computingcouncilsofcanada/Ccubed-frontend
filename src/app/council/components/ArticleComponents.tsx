@@ -145,7 +145,7 @@ export const ArticleHero = () => {
                 onClick={() => setCurrentIndex(index)}
                 className={`${
                   index === currentIndex
-                    ? "bg-gradient-to-b from-[#FAA336] to-[#FFFFFF]"
+                    ? "bg-gradient-to-b from-brand to-[#FFFFFF]"
                     : "bg-[#D4D4D4]/10"
                 } rounded-full size-2 transition-all cursor-pointer`}
                 aria-label={`Go to article ${index + 1}`}

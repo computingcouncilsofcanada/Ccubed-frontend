@@ -13,11 +13,11 @@ import {
   approveUpdateEvent,
   rejectUpdateEvent,
 } from "@/services/useApiAuth";
-import { useForm } from "react-hook-form";
 import { IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
+import { AxiosErrLike } from "@/types/error";
 import { formatDate } from "@/utils/dateUtils";
 import {
   ApiEvent,
@@ -36,7 +36,6 @@ import DeleteEventModal from "./components/modals/DeleteEventModal";
 import RejectEventModal from "./components/modals/RejectEventModal";
 import ApproveEventModal from "./components/modals/ApproveEventModal";
 import StatsRow from "./components/StatsRow";
-import { useSafariImageFallback } from "@/hooks/useSafariImageFallback";
 import Image from "next/image";
 
 function EventsPage() {
@@ -247,7 +246,7 @@ function EventsPage() {
       alert(res.message || "Event updated successfully!");
     } catch (err: unknown) {
       const errorMsg = getErrMsg(err);
-      const axiosError = err as any;
+      const axiosError = err as AxiosErrLike;
       const responseData = axiosError?.response?.data;
 
       // Try to extract specific validation error from backend
@@ -468,8 +467,7 @@ function EventsPage() {
             <StatsRow />
             <Link
               href="/member/events/create"
-              style={{ backgroundColor: "#FAA336" }}
-              className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+              className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2 bg-brand"
             >
               <IconPlus size={20} />
               Create New Event

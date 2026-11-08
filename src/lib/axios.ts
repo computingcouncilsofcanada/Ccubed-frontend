@@ -1,3 +1,4 @@
+// Axios instances plus the CSRF-token and access-token-refresh interceptor wiring used by every API call
 import axios, { type InternalAxiosRequestConfig } from "axios";
 
 const API_BASE = process.env.NEXT_PUBLIC_BACKEND_BASE;
@@ -63,7 +64,6 @@ privateAxios.interceptors.request.use(async (config: InternalAxiosRequestConfig)
   }
 });
 
-let isRefreshing = false;
 let refreshPromise: Promise<boolean> | null = null;
 
 /** Callback when token refresh fails (e.g. session expired). Set by UserProvider. */
@@ -83,7 +83,6 @@ function doRefresh(): Promise<boolean> {
     } catch (tokenError: unknown) {
       throw typeof tokenError === "string" ? new Error(tokenError) : tokenError;
     } finally {
-      isRefreshing = false;
       refreshPromise = null;
       console.log("Interceptor: Resetting refresh state...");
     }
@@ -98,7 +97,6 @@ privateAxios.interceptors.response.use(
       return Promise.reject(error);
     }
     if (error.response?.status === 401) {
-      isRefreshing = true;
       try {
         await doRefresh();
         error.config.retryAfterRefresh = true;

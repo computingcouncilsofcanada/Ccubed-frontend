@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { DataTable } from "@/components/data-table/data-table";
 import { getErrMsg } from "@/utils/errorMessage";
-import { useApiArticle } from "@/services/useApiArticle";
+import { getArticles } from "@/services/useApiArticle";
 import { Article } from "@/types/article.interface";
 import EmptyArticlesState from "./components/EmptyArticlesState";
 import { Pagination } from "@/components/shared/Pagination";
@@ -19,7 +19,6 @@ const PAGE_SIZE = 10;
 export default function MemberArticlesPage() {
   const { user } = useUser();
   const router = useRouter();
-  const { getArticles } = useApiArticle();
 
   const [articles, setArticles] = useState<Article[]>([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -43,7 +42,7 @@ export default function MemberArticlesPage() {
     } finally {
       setLoading(false);
     }
-  }, [getArticles, page]);
+  }, [page]);
 
   useEffect(() => {
     fetchArticles();
@@ -105,8 +104,7 @@ export default function MemberArticlesPage() {
           </div>
           <Link
             href="/member/articles/upsert?mode=create"
-            style={{ backgroundColor: "#FAA336" }}
-            className="inline-flex justify-center px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 items-center gap-2"
+            className="inline-flex justify-center px-6 py-3 bg-brand text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 items-center gap-2"
           >
             <IconPlus size={20} />
             New article

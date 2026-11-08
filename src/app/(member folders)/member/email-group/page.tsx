@@ -113,8 +113,7 @@ function EmailGroupsPage() {
             </span>
             <Link
               href="/member/email-group/create"
-              style={{ backgroundColor: "#FAA336" }}
-              className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+              className="px-6 py-3 text-black rounded-3xl hover:opacity-90 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2 bg-brand"
             >
               <IconPlus size={20} />
               Create Email Group

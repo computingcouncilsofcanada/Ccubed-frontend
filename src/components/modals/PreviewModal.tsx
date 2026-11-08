@@ -270,7 +270,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                         : null,
                     )
                   }
-                  className="px-4 py-2 text-[#0B1820] bg-[#FAA336] border border-[#FAA336] rounded-md text-center"
+                  className="px-4 py-2 text-[#0B1820] bg-brand border border-brand rounded-md text-center"
                   style={{
                     height: "auto",
                     minHeight: 0,
@@ -418,7 +418,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   <ReactMarkdown
                     components={{
                       strong: ({ children }) => (
-                        <strong className="text-[#FAA336] font-semibold">
+                        <strong className="text-brand font-semibold">
                           {children}
                         </strong>
                       ),
@@ -464,7 +464,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                   <div className="space-y-2">
                     {event.recurrence.type === "daily" && (
                       <div className="flex items-center gap-2">
-                        <span className="text-[#FAA336]">📅</span>
+                        <span className="text-brand">📅</span>
                         <p>
                           This event occurs{" "}
                           <span className="font-semibold">daily</span>
@@ -475,7 +475,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                     {event.recurrence.type === "weekly" && (
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-[#FAA336]">📅</span>
+                          <span className="text-brand">📅</span>
                           <p>
                             This event occurs{" "}
                             <span className="font-semibold">weekly</span>
@@ -492,7 +492,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
 
                     {event.recurrence.type === "monthly" && (
                       <div className="flex items-center gap-2">
-                        <span className="text-[#FAA336]">📅</span>
+                        <span className="text-brand">📅</span>
                         <p>
                           This event occurs{" "}
                           <span className="font-semibold">monthly</span>
@@ -503,7 +503,7 @@ const PreviewModal: React.FC<PreviewModalProps> = ({
                     {event.recurrence.type === "custom" && (
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-[#FAA336]">📅</span>
+                          <span className="text-brand">📅</span>
                           <p>
                             This event occurs on{" "}
                             <span className="font-semibold">

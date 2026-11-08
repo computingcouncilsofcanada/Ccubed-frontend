@@ -4,12 +4,6 @@ import { FileText, Pencil } from "lucide-react";
 import Link from "next/link";
 import { formatDateSmart } from "@/utils/dateUtils";
 
-function formatDate(iso: string | undefined) {
-  if (!iso) return "—";
-  const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? iso : d.toLocaleString();
-}
-
 export function createArticleTableColumns(): ColumnDef<Article>[] {
   return [
     {

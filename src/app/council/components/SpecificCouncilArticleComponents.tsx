@@ -12,7 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 // ARTICLE BIG CARD COMPONENT
 // ============================================================================
 export const ArticleBigcard = ({ council }: { council: string }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
 
